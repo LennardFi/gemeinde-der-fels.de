@@ -1,0 +1,47 @@
+@use "../../../styles/core.module.scss" as core;
+
+.newsList {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: core.getDimensionValue(1);
+    width: min(100%, core.$size-breakpoint-small);
+    margin: core.getDimensionValue(2) 0px;
+    padding: 0;
+
+    .news {
+        background-color: core.$color-default;
+        color: core.$color-default-font;
+        list-style: none;
+        padding: 0.5rem;
+
+        &.fullWidth {
+            align-self: stretch;
+        }
+
+        a {
+            color: core.$color-default-font;
+
+            &:visited {
+                color: core.$color-default-font;
+            }
+
+            &:focus,
+            &:active {
+                color: core.$color-default-font-highlighted;
+            }
+
+            @media (hover: hover) and (pointer: fine) {
+                &:hover {
+                    color: core.$color-default-font-highlighted;
+                }
+            }
+        }
+
+        img {
+            max-width: 100%;
+        }
+    }
+}

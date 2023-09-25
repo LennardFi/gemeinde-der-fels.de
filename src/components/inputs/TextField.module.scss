@@ -1,0 +1,54 @@
+@use "../../styles/core.module.scss" as core;
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    border: core.getDimensionValue(0.2) solid core.$color-accent;
+
+    .label {
+        background-color: core.$color-accent;
+        color: core.$color-accent-font;
+        font-size: core.$size-font-label;
+        font-weight: 600;
+        padding: core.getDimensionValue(0.5);
+
+        &::after {
+            content: ":";
+        }
+    }
+
+    .inputContainer {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        flex: 1 1 auto;
+        height: core.getDimensionValue(4);
+
+        .input {
+            border-radius: 0%;
+            border: none;
+            flex: 1 1 auto;
+            font-size: core.$size-font-default;
+            padding: core.getDimensionValue(0.5);
+
+            &:hover,
+            &:active,
+            &:focus {
+                border: none;
+                outline: none;
+            }
+        }
+
+        .passwordVisibilityToggle {
+            color: core.$color-accent;
+
+            .passwordVisibilityToggleIcon {
+                height: core.getDimensionValue(2);
+                width: core.getDimensionValue(2);
+                object-fit: contain;
+            }
+        }
+    }
+}

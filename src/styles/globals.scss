@@ -1,0 +1,88 @@
+@use "./core.module" as core;
+
+html,
+body {
+    padding: 0;
+    margin: 0;
+    max-height: 100dvh;
+    height: 100dvh;
+    font-size: core.getDimensionValue(2);
+    background-image: url(../media/background.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    overflow: hidden;
+
+    > .wrapper {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        align-items: stretch;
+        overflow: auto;
+        height: 100dvh;
+
+        > main {
+            display: flex;
+            flex-direction: column;
+            flex: 1 1 auto;
+            justify-content: flex-start;
+            align-items: center;
+            max-width: 100%;
+
+            h1,
+            h2,
+            h3,
+            h4,
+            h5,
+            h6,
+            p {
+                margin-left: auto;
+                margin-right: auto;
+                max-width: core.$size-breakpoint-small;
+            }
+        }
+    }
+
+    a {
+        color: core.$color-primary;
+        text-decoration: underline;
+
+        &:visited {
+            color: core.$color-primary;
+        }
+
+        &:focus,
+        &:active {
+            color: core.$color-primary-highlighted;
+        }
+
+        @media (hover: hover) and (pointer: fine) {
+            &:hover {
+                color: core.$color-primary-highlighted;
+            }
+        }
+    }
+
+    fieldset {
+        margin: 0;
+        padding: 0;
+        border: 0;
+    }
+
+    @media (min-width: core.$size-breakpoint-normal) {
+        background-position-y: -200px;
+    }
+}
+
+* {
+    box-sizing: border-box;
+}
+// @media (prefers-color-scheme: dark) {
+//     html {
+//         color-scheme: dark;
+//     }
+//     body {
+//         color: white;
+//         background: black;
+//     }
+// }

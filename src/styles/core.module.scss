@@ -1,0 +1,35 @@
+$color-default: hsl(0, 0%, 98%);
+$color-default-highlighted: hsl(0, 0%, 86%);
+$color-default-font: hsl(0, 0%, 14%);
+$color-default-font-highlighted: hsl(0, 0%, 6%);
+
+$color-accent: hsl(0, 0%, 20%);
+$color-accent-highlighted: hsl(0, 0%, 25%);
+$color-accent-font: hsl(14, 0%, 94%);
+$color-accent-font-highlighted: hsl(14, 0%, 86%);
+
+$color-primary: hsl(180, 100%, 25%);
+$color-primary-highlighted: hsl(180, 100%, 30%);
+$color-primary-font: hsl(14, 100%, 94%);
+$color-primary-font-highlighted: hsl(14, 100%, 94%);
+
+$color-secondary: hsl(17, 70%, 56%);
+$color-secondary-highlighted: hsl(17, 70%, 61%);
+$color-secondary-font: hsl(14, 100%, 94%);
+$color-secondary-font-highlighted: hsl(14, 100%, 94%);
+
+@function getDimensionValue($baseValue) {
+    @return ($baseValue * 8px);
+}
+
+$size-breakpoint-small: 680px;
+$size-breakpoint-normal: 980px;
+$size-breakpoint-large: 1280px;
+
+$size-border-default: 1px;
+
+$size-font-label: 0.8rem;
+$size-font-default: 1rem;
+$size-font-nav: 1.1rem;
+$size-font-header: 1.5rem;
+$size-font-title: 2rem;

@@ -1,0 +1,16 @@
+@use "../../styles/core.module.scss" as core;
+
+.imprint {
+    background-color: core.$color-default;
+    color: core.$color-default-font;
+    padding: core.getDimensionValue(1) core.getDimensionValue(3);
+    margin: core.getDimensionValue(2);
+
+    p {
+        text-align: center;
+    }
+
+    .source {
+        font-size: core.getDimensionValue(1.8);
+    }
+}

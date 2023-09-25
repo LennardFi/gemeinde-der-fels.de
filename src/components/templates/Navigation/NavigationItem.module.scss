@@ -1,0 +1,49 @@
+@use "../../../styles/core.module.scss" as core;
+
+.item {
+    color: core.$color-primary-font;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-family: inherit;
+    font-size: core.$size-font-nav;
+    font-weight: 600;
+    text-decoration: none;
+    padding: core.getDimensionValue(2);
+    cursor: pointer;
+
+    @media (hover: hover) and (pointer: fine) {
+        &:hover {
+            background-color: core.$color-primary-highlighted;
+            color: core.$color-primary-font-highlighted;
+
+            + .subEntries {
+                display: flex;
+            }
+        }
+    }
+
+    &:focus,
+    &:active,
+    &:visited {
+        color: core.$color-primary-font;
+    }
+
+    &.active {
+        color: core.$color-secondary-font;
+        background-color: core.$color-secondary;
+
+        &:focus,
+        &:active,
+        &:visited {
+            color: core.$color-secondary-font;
+        }
+
+        @media (hover: hover) and (pointer: fine) {
+            &:hover {
+                color: core.$color-secondary-font;
+                background-color: core.$color-secondary-highlighted;
+            }
+        }
+    }
+}

@@ -1,0 +1,50 @@
+@use "../../../styles/core.module.scss" as core;
+
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    background-color: core.$color-accent;
+    color: core.$color-accent-font;
+    border-bottom: core.getDimensionValue(0.1) solid core.$color-accent;
+    gap: 0 core.getDimensionValue(2);
+    padding: 0 core.getDimensionValue(2);
+
+    .icon {
+        height: core.getDimensionValue(4);
+        margin: core.getDimensionValue(1) 0;
+
+        svg {
+            height: 100%;
+            width: 100%;
+        }
+    }
+
+    .titleSection {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: flex-start;
+        height: 100%;
+        flex: 1 1 auto;
+        align-self: center;
+        margin: core.getDimensionValue(1) 0;
+
+        .title {
+            font-size: core.$size-font-header;
+            font-weight: 500;
+        }
+
+        .subTitle {
+            font-size: core.$size-font-default;
+        }
+    }
+
+    .action {
+        background-color: core.$color-accent-font;
+        color: core.$color-accent;
+        height: core.getDimensionValue(6);
+        width: core.getDimensionValue(6);
+    }
+}

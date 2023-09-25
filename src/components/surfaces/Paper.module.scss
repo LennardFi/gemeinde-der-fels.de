@@ -1,0 +1,31 @@
+@use "../../styles/core.module.scss" as core;
+
+.paper {
+    background-color: core.$color-default;
+    color: core.$color-default-font;
+    width: 100%;
+
+    &.small {
+        max-width: core.$size-breakpoint-small;
+    }
+
+    &.normal {
+        max-width: core.$size-breakpoint-normal;
+    }
+
+    &.large {
+        max-width: core.$size-breakpoint-large;
+
+        @media (min-width: core.$size-breakpoint-small) {
+            width: core.$size-breakpoint-small;
+        }
+
+        @media (min-width: core.$size-breakpoint-normal) {
+            width: core.$size-breakpoint-normal;
+        }
+
+        @media (min-width: core.$size-breakpoint-large) {
+            width: core.$size-breakpoint-large;
+        }
+    }
+}

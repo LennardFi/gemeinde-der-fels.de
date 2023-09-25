@@ -1,0 +1,16 @@
+@use "../../../styles/core.module.scss" as core;
+
+.container {
+    display: grid;
+    grid-template: auto / auto 1fr;
+    grid-auto-flow: row;
+    gap: core.getDimensionValue(1);
+
+    .date {
+        grid-column: 1 / 2;
+    }
+
+    .label {
+        grid-column: 2 / 3;
+    }
+}

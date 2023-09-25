@@ -1,0 +1,17 @@
+@use "../../../styles/core.module.scss" as core;
+
+.sermonsList {
+    display: grid;
+    gap: core.getDimensionValue(2);
+    grid-template: 1fr 1fr / 100%;
+
+    .speakerSelection {
+        grid-column: 1 / 3;
+        grid-row: 1 / 2;
+    }
+
+    .applyFilter {
+        grid-column: 1 / 3;
+        grid-row: 2 / 3;
+    }
+}

@@ -1,0 +1,87 @@
+datasource db {
+    provider = "mongodb"
+    url      = env("MONGODB_URL")
+}
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+model File {
+    id             String      @id @default(auto()) @map("_id") @db.ObjectId
+    name           String
+    extension      String
+    mimeType       String
+    uploadDateTime DateTime
+    chunks         FileChunk[]
+}
+
+model FileChunk {
+    id      String @id @default(auto()) @map("_id") @db.ObjectId
+    content Bytes
+    file    File   @relation(fields: [fileId], references: [id])
+    fileId  String @db.ObjectId
+}
+
+model ErrorLog {
+    id              String        @id @default(auto()) @map("_id") @db.ObjectId
+    errorId         String
+    timestamp       DateTime
+    cause           String
+    message         String
+    internalMessage String?
+    ResponseLog     ResponseLog[]
+}
+
+model ResponseLog {
+    id              String    @id @default(auto()) @map("_id") @db.ObjectId
+    timestamp       DateTime
+    success         Boolean
+    errorLogEntry   ErrorLog? @relation(fields: [errorLogEntryId], references: [id])
+    errorLogEntryId String?   @db.ObjectId
+    data            Bytes?
+    dataSize        Int?
+}
+
+model NewsPost {
+    id              String   @id @default(auto()) @map("_id") @db.ObjectId
+    publicationDate DateTime
+    title           String
+    description     String
+}
+
+model Sermon {
+    id       String        @id @default(auto()) @map("_id") @db.ObjectId
+    name     String
+    series   SermonSeries? @relation(fields: [seriesId], references: [id])
+    seriesId String?       @db.ObjectId
+}
+
+model SermonSeries {
+    id    String   @id @default(auto()) @map("_id") @db.ObjectId
+    name  String
+    parts Sermon[]
+}
+
+model User {
+    id           String    @id @default(auto()) @map("_id") @db.ObjectId
+    email        String    @unique
+    userName     String    @unique
+    passwordHash String
+    flags        UserFlags
+}
+
+type UserFlags {
+    // Can promote users to admins
+    Admin          Boolean?
+    // Can change calendar
+    ManageCalendar Boolean?
+    // Can change news
+    ManageNews     Boolean?
+    // Can change sermons
+    ManageSermons  Boolean?
+    // Can change rooms
+    ManageRooms    Boolean?
+    // Can create users
+    ManageUser     Boolean?
+}

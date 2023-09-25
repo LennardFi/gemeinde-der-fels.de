@@ -1,0 +1,58 @@
+@use "../../styles/core.module.scss" as core;
+
+.button {
+    display: block;
+    text-decoration: none;
+    border: core.getDimensionValue(0.1) solid core.$color-accent-font;
+    background-color: core.$color-accent-font;
+    color: core.$color-accent;
+    cursor: pointer;
+    font-weight: 600;
+    padding: core.getDimensionValue(1);
+    transition: border 200ms ease-in-out, background-color 200ms ease-in-out,
+        color 200ms ease-in-out;
+
+    &:hover,
+    &:focus {
+        background-color: core.$color-accent-font-highlighted;
+        border-color: core.$color-accent-highlighted;
+        color: core.$color-accent-highlighted;
+    }
+
+    &.outlined {
+        border-color: core.$color-accent;
+
+        &:hover,
+        &:focus {
+            background-color: core.$color-accent-font-highlighted;
+            border-color: core.$color-accent-highlighted;
+            color: core.$color-accent-highlighted;
+        }
+    }
+
+    &.contained {
+        background-color: core.$color-accent;
+        border-color: core.$color-accent;
+        color: core.$color-accent-font;
+
+        &:hover,
+        &:focus {
+            background-color: core.$color-accent-highlighted;
+            border-color: core.$color-accent-highlighted;
+            color: core.$color-accent-font-highlighted;
+        }
+    }
+
+    &[type="submit"] {
+        background-color: core.$color-primary;
+        border-color: core.$color-primary;
+        color: core.$color-primary-font;
+
+        &:hover,
+        &:focus {
+            background-color: core.$color-primary-highlighted;
+            border-color: core.$color-primary-highlighted;
+            color: core.$color-primary-font-highlighted;
+        }
+    }
+}

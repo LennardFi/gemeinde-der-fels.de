@@ -1,2 +1,7 @@
-# gemeinde-der-fels.de
-Website von Gemeinde Der Fels
+# README
+
+## Start development
+
+```
+npm run dev
+```

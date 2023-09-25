@@ -1,0 +1,50 @@
+@use "../../styles/core.module.scss" as core;
+
+.form {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: stretch;
+    // gap: core.getDimensionValue(2);
+    // grid-template: auto auto auto auto auto auto auto auto auto / auto auto auto;
+    width: 100%;
+
+    input,
+    textarea {
+        padding: core.getDimensionValue(0.5);
+        margin-bottom: core.getDimensionValue(2);
+    }
+
+    label {
+        align-self: flex-start;
+        margin-bottom: core.getDimensionValue(0.5);
+    }
+
+    .descriptionInput {
+        font-size: core.getDimensionValue(2);
+        resize: vertical;
+        width: 100%;
+    }
+
+    .send {
+        align-self: center;
+        font-family: "Fira Code", -apple-system, BlinkMacSystemFont, Segoe UI,
+            Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
+            Helvetica Neue, sans-serif;
+        font-size: core.getDimensionValue(2);
+        padding: core.getDimensionValue(0.5);
+    }
+
+    .responseMsg {
+        text-align: center;
+
+        &.success {
+            color: green;
+        }
+
+        &.error {
+            color: red;
+        }
+    }
+}

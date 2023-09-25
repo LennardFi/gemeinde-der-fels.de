@@ -1,0 +1,4 @@
+node_modules
+.next
+mailing-config.json
+*.env

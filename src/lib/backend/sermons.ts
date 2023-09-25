@@ -1,0 +1,116 @@
+import { join, resolve } from "path"
+import { Temporal } from "temporal-polyfill"
+import Website, { Maybe } from "../../typings"
+import { contentPath, listContentFiles, readJsonContent } from "./content"
+
+/**
+ * @deprecated
+ */
+const SPEAKERS_FILE_NAME = "speakers.json"
+/**
+ * @deprecated
+ */
+const SERMON_SERIES_FILE_NAME = "sermon-series.json"
+
+const ENTRIES_PER_PAGE = 25
+
+/**
+ * @deprecated
+ */
+const sermonsBaseDirectory = resolve(__dirname, contentPath, "sermons")
+
+/**
+ * @deprecated
+ */
+export const readSermonsMasterDataFromFilesystem =
+    async (): Promise<Website.Content.Sermons.SermonsMasterData> => {
+        const sermonSeries = await readJsonContent<
+            Record<string, Website.Content.Sermons.SpeakerReference>
+        >(join(sermonsBaseDirectory, SERMON_SERIES_FILE_NAME))
+
+        const speakers = await readJsonContent<Record<string, string>>(
+            join(sermonsBaseDirectory, SPEAKERS_FILE_NAME)
+        )
+
+        return {
+            sermonSeries: sermonSeries.content,
+            speakers: speakers.content,
+        }
+    }
+
+/**
+ * @deprecated
+ */
+export const readSermonsFromFilesystem = async (): Promise<
+    Website.Content.Sermons.SermonContent[]
+> => {
+    const { speakers, sermonSeries } =
+        await readSermonsMasterDataFromFilesystem()
+
+    console.log("Reading sermons...")
+    const jsonPaths = await listContentFiles("sermons", {
+        fileType: "json",
+    })
+    jsonPaths.forEach((sermonPath) => console.log(`\n- "${sermonPath}"`))
+
+    const sermonsContent = await Promise.all(
+        jsonPaths.map((jsonPath) =>
+            readJsonContent<Website.Content.Sermons.SermonJsonFileContent>(
+                jsonPath
+            )
+        )
+    )
+
+    return sermonsContent.map((s) => {
+        const speakerReference: Website.Content.Sermons.SpeakerReference = {
+            name: speakers[s.content.speaker],
+            shortcut: s.content.speaker,
+        }
+
+        const seriesReference: Maybe<Website.Content.Sermons.SeriesReference> =
+            s.content.partOfSeries === undefined
+                ? undefined
+                : {
+                      name: sermonSeries[s.content.partOfSeries.toString()]
+                          .name,
+                      id: s.content.partOfSeries.toString(),
+                  }
+
+        return {
+            audioFilePath: s.content.audioFile,
+            date: Temporal.PlainDate.from(s.content.date),
+            id: s.fileName,
+            speaker: speakerReference,
+            title: s.content.title,
+            type: "sermon",
+            partOfSeries: seriesReference,
+        }
+    })
+}
+
+/**
+ * @deprecated
+ */
+export const readSermonsFromFilesystemWithFilter = async (
+    filter: Website.Content.Sermons.SermonsFilter,
+    pageIndex: number = 0
+): Promise<Website.Content.Sermons.SermonContents> => {
+    let sermons = await readSermonsFromFilesystem()
+
+    if (filter.speakers !== undefined && filter.speakers.length !== 0) {
+        const speakersFilter = filter.speakers
+        sermons = sermons.filter((sermon) =>
+            speakersFilter.includes(sermon.speaker.shortcut)
+        )
+    }
+
+    const sermonSlice = sermons.slice(
+        pageIndex * ENTRIES_PER_PAGE,
+        (pageIndex + 1) * ENTRIES_PER_PAGE
+    )
+
+    return {
+        pages: sermons.length / ENTRIES_PER_PAGE,
+        sermonSlice,
+    }
+}

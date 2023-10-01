@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 import { Temporal } from "temporal-polyfill"
-import { ErrorScope, WebsiteError } from "./lib/errors"
+import { ErrorScope, WebsiteError } from "./lib/shared/errors"
 
 declare namespace Website {
     namespace Api {
@@ -20,10 +20,19 @@ declare namespace Website {
             interface SermonsFilterRequestBody {
                 speakers?: string[]
             }
+
+            interface TestResponseBody {
+                client: boolean
+                database: boolean
+                session: {
+                    jwt: boolean
+                    user: boolean
+                }
+            }
         }
 
         interface ApiError {
-            cause: Exclude<ErrorScope, "database"> | "server-internal"
+            scope: Exclude<ErrorScope, "database"> | "server-internal"
             id: string
             message: string
             internalMessage?: string
@@ -49,9 +58,13 @@ declare namespace Website {
         interface ApiResponse<T> {
             body: ApiResponseBody<T>
             status: number
+            /**
+             * Shortcut to set value of `"Content-Type"`-Header
+             */
+            contentType?: string
             cookies?: Cookie[]
             headers?: HeadersInit
-            jwt?: string
+            jwtPayload?: JWTPayload
             statusText?: string
         }
 
@@ -70,7 +83,16 @@ declare namespace Website {
         }
 
         interface SessionOptions {
-            jwt?: string
+            /**
+             * The decoded content of the JWT. `undefined` if the JWT wasn't
+             * send with the request or failed the validation process.
+             */
+            jwtPayload?: JWTPayload
+            /**
+             * The current state of the user in the database. `undefined` if the
+             * JWT wasn't send with the request or failed the validation
+             * process.
+             */
             user?: Users.User
         }
     }
@@ -101,6 +123,18 @@ declare namespace Website {
     }
 
     namespace Content {
+        namespace Files {
+            interface FileMetaData {
+                name: string
+                extension: string
+                mimeType: string
+                /**
+                 * Upload time in epoch seconds
+                 */
+                uploadDateTime: number
+            }
+        }
+
         namespace Navigation {
             interface NavigationEntry {
                 label: string
@@ -108,8 +142,47 @@ declare namespace Website {
                 needsAuth?: boolean
                 onlyMobile?: boolean
                 path?: string
+                requiresFlag?: keyof Users.UserFlags
                 subEntries?: NavigationEntry[]
             }
+        }
+
+        namespace Sermons {
+            interface Sermon {
+                audioFile: string
+                date: Temporal.PlainDate
+                id: string
+                title: string
+                speaker: Speaker
+                series?: SermonSeries
+            }
+
+            interface NewSermon
+                extends Omit<Sermon, "date" | "id" | "speaker"> {
+                date: Temporal.PlainDate
+                speaker: Speaker | NewSpeaker
+                series?: SermonSeries
+            }
+
+            interface Speaker {
+                id: string
+                initials: string
+                name: string
+            }
+
+            type NewSpeaker = Omit<Speaker, "id">
+
+            interface SermonSeries {
+                id: string
+                parts: Sermon[]
+                title: string
+                speakers: Speaker[]
+            }
+
+            type NewSermonSeries = Omit<
+                SermonSeries,
+                "id" | "parts" | "speakers"
+            >
         }
 
         interface NewsPost {

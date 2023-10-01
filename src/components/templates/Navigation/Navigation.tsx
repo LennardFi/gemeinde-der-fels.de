@@ -10,37 +10,9 @@ import Aufmacher from "../../../media/Aufmacher.jpg"
 import Website from "../../../typings"
 import styles from "./Navigation.module.scss"
 import NavigationItem from "./NavigationItem"
-import NavigationItemGroup from "./NavigationItemGroup"
 
 export interface NavigationProps {}
 
-// const navigationEntries: Website.Content.Navigation.NavigationEntry[] = [
-//     {
-//         label: "Startseite",
-//         path: "/",
-//         mobileOnline: true,
-//     },
-//     {
-//         label: "Lobpreis",
-//         path: "/lobpreis",
-//     },
-//     {
-//         label: "Predigten",
-//         path: "/predigten",
-//     },
-//     {
-//         label: "Werte & Vision",
-//         path: "/werte-und-vision",
-//     },
-//     {
-//         label: "Kontakt",
-//         path: "/kontakt",
-//     },
-//     {
-//         label: "Anmelden",
-//         path: "/anmelden",
-//     },
-// ]
 const navigationEntries: Website.Content.Navigation.NavigationEntry[] = [
     {
         label: "Startseite",
@@ -69,17 +41,32 @@ const navigationEntries: Website.Content.Navigation.NavigationEntry[] = [
         path: "/kontakt",
     },
     {
-        label: "Intern",
+        label: "Mitgliederbereich",
         needsAuth: true,
         path: "/intern",
         subEntries: [
             {
-                label: "Interner Bereich",
-                path: "/intern",
+                label: "Mein Konto",
+                path: "/intern/mein-konto",
             },
             {
-                label: "Mein Konto",
-                path: "/intern/my-account",
+                label: "News",
+                path: "/intern/inhalte/news",
+                requiresFlag: "ManageNews",
+            },
+            {
+                label: "Predigten",
+                path: "/intern/inhalte/predigten",
+                requiresFlag: "ManageSermons",
+            },
+            {
+                label: "Verwaltung",
+                path: "/intern/admin",
+                requiresFlag: "Admin",
+            },
+            {
+                label: "Abmelden",
+                path: "/logout",
             },
         ],
     },
@@ -88,21 +75,26 @@ const navigationEntries: Website.Content.Navigation.NavigationEntry[] = [
 const Navigation = () => {
     const pathName = usePathname()
     const [showMenu, setShowMenu] = useState(false)
-    const { jwt, loadJWTFromCookie } = useAuthZustand((state) => ({
-        jwt: state.jwt,
-        loadJWTFromCookie: state.loadJWTFromCookie,
-    }))
+    const jwt = useAuthZustand((state) => state.jwt)
+    const loadJWTFromCookie = useAuthZustand((state) => state.loadJWTFromCookie)
+    const updateUser = useAuthZustand((state) => state.updateUser)
 
     useEffect(() => {
         loadJWTFromCookie()
     }, [])
 
     useEffect(() => {
+        if (jwt !== undefined) {
+            void updateUser()
+        }
+    }, [jwt])
+
+    useEffect(() => {
         setShowMenu(false)
     }, [pathName])
 
     return (
-        <header className={styles.header}>
+        <header className={`${styles.header} ${showMenu ? styles.show : ""}`}>
             <Link className={styles.logoContainer} href="/">
                 <Image
                     alt="Profile Picture"
@@ -112,7 +104,7 @@ const Navigation = () => {
                 />
             </Link>
 
-            <h1 className={styles.title}>Gemeinde der Fels</h1>
+            <h1 className={styles.title}>Gemeinde Der&nbsp;Fels</h1>
 
             <button
                 className={styles.menuSwitch}
@@ -122,53 +114,35 @@ const Navigation = () => {
                 {showMenu ? <TfiClose /> : <TfiMenu />}
             </button>
 
-            <nav className={`${styles.menu} ${showMenu ? styles.show : ""}`}>
-                {navigationEntries.map(
-                    ({ label, needsAuth, path, subEntries, ...entry }, i) => {
-                        if (needsAuth && jwt === undefined) {
-                            return undefined
-                        }
+            <nav className={`${styles.nav}`}>
+                <ul className={`${styles.menu}`}>
+                    {navigationEntries.map(
+                        (
+                            { label, needsAuth, path, subEntries, ...entry },
+                            i,
+                        ) => {
+                            if (needsAuth && jwt === undefined) {
+                                return undefined
+                            }
 
-                        if (subEntries !== undefined) {
                             return (
-                                <NavigationItemGroup
+                                <NavigationItem
                                     className={
                                         entry.onlyMobile
                                             ? styles.onlyMobile
                                             : ""
                                     }
-                                    currentPage={
-                                        path !== undefined &&
-                                        pathName.startsWith(path)
-                                    }
                                     path={path}
                                     subEntries={subEntries}
-                                    key={i}
+                                    key={`${i}_${path}`}
                                     {...entry}
                                 >
                                     {label}
-                                </NavigationItemGroup>
+                                </NavigationItem>
                             )
-                        }
-
-                        return (
-                            <NavigationItem
-                                className={
-                                    entry.onlyMobile ? styles.onlyMobile : ""
-                                }
-                                currentPage={
-                                    path !== undefined &&
-                                    pathName.startsWith(path)
-                                }
-                                path={path}
-                                key={i}
-                                {...entry}
-                            >
-                                {label}
-                            </NavigationItem>
-                        )
-                    },
-                )}
+                        },
+                    )}
+                </ul>
             </nav>
         </header>
     )

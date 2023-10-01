@@ -1,0 +1,23 @@
+import { readNewsFromDatabase } from "@/lib/backend/news"
+import styles from "./NewsList.module.scss"
+
+const NewsList = async () => {
+    const news = await readNewsFromDatabase()
+
+    return (
+        <ul className={styles.newsList}>
+            {news.map((n) => {
+                return (
+                    <li className={`${styles.news}`} key={n.id}>
+                        <h2>{n.title}</h2>
+                        <div
+                            dangerouslySetInnerHTML={{ __html: n.description }}
+                        />
+                    </li>
+                )
+            })}
+        </ul>
+    )
+}
+
+export default NewsList

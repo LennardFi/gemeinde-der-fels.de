@@ -2,14 +2,14 @@
 
 .header {
     display: grid;
-    grid-template: auto / auto auto 64px;
+    grid-template: auto / auto 1fr 64px;
     gap: core.getDimensionValue(2);
     align-items: center;
     background-color: core.$color-primary;
     color: core.$color-primary-font;
 
     .logoContainer {
-        height: 64px;
+        height: core.getDimensionValue(8);
         // padding: core.getDimensionValue(1);
 
         .logo {
@@ -17,7 +17,7 @@
             grid-row: 1 / 2;
             // border-radius: 50% 50%;
             // border-radius: core.getDimensionValue(0.5);
-            height: 100%;
+            height: core.getDimensionValue(8);
             width: auto;
         }
     }
@@ -28,37 +28,45 @@
         margin: 0px;
     }
 
-    .menu {
+    .nav {
         display: none;
         grid-column: 1 / 4;
         grid-row: 2 / 3;
-        list-style: none;
-        overflow: auto;
         height: 100%;
-        margin: 0px;
-        padding: 0px;
 
-        &.show {
-            height: auto;
-        }
-
-        .languageSwitch {
+        .menu {
             display: flex;
-            justify-content: flex-end;
-            align-items: center;
             flex-direction: row;
+            flex-wrap: nowrap;
+            justify-content: flex-end;
+            align-items: stretch;
+            list-style: none;
+            overflow: visible;
+            margin: 0px;
+            padding: 0px;
 
-            & > button {
-                height: core.getDimensionValue(3);
-                background: transparent;
-                border: none;
-                cursor: pointer;
+            .languageSwitch {
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+                flex-direction: row;
 
-                svg {
-                    height: 100%;
+                & > button {
+                    height: core.getDimensionValue(3);
+                    background: transparent;
+                    border: none;
+                    cursor: pointer;
+
+                    svg {
+                        height: 100%;
+                    }
                 }
             }
         }
+    }
+
+    &.show .menu {
+        height: auto;
     }
 
     .menuSwitch {
@@ -78,7 +86,7 @@
     }
 
     @media (max-width: core.$size-breakpoint-normal) {
-        &:has(.menu.show) {
+        &.show {
             .menuSwitch {
                 grid-column: 3 / 4;
             }
@@ -88,13 +96,19 @@
                 display: none;
             }
 
-            nav.menu {
+            .nav {
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
                 align-items: center;
-                grid-template: auto 1fr / auto 1fr auto;
-                height: 100vh;
+
+                .menu {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    height: 100vh;
+                }
             }
 
             & ~ * {
@@ -105,15 +119,17 @@
 
     // Changes for wide displays
     @media only screen and (min-width: core.$size-breakpoint-normal) {
-        grid-template: auto / auto auto 1fr;
+        grid-template: auto / auto 1fr auto;
 
         .logoContainer {
+            height: core.getDimensionValue(8);
+
             .logo {
-                height: core.getDimensionValue(8);
+                height: 100%;
             }
         }
 
-        .menu {
+        .nav {
             display: flex;
             flex-direction: row;
             flex-wrap: nowrap;
@@ -122,14 +138,16 @@
             grid-column: 3 / 4;
             grid-row: 1 / 2;
 
-            .onlyMobile {
-                display: none;
-            }
+            .menu {
+                .onlyMobile {
+                    display: none;
+                }
 
-            .languageSwitch {
-                margin-left: auto;
-                margin-right: core.getDimensionValue(6);
-                height: 100%;
+                .languageSwitch {
+                    margin-left: auto;
+                    margin-right: core.getDimensionValue(6);
+                    height: 100%;
+                }
             }
         }
 

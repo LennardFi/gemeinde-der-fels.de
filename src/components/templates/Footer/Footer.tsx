@@ -1,7 +1,12 @@
+"use client"
+
+import useAuthZustand from "@/zustand/useAuthZustand"
 import Link from "next/link"
 import styles from "./Footer.module.scss"
 
 const Footer = () => {
+    const jwt = useAuthZustand((state) => state.jwt)
+
     return (
         <footer className={styles.footer}>
             <div className={styles.container}>
@@ -18,7 +23,11 @@ const Footer = () => {
                         <h3>Für Mitglieder:</h3>
                     </li>
                     <li>
-                        <Link href="/login">Anmelden</Link>
+                        {jwt === undefined ? (
+                            <Link href="/login">Anmelden</Link>
+                        ) : (
+                            <Link href="/intern">Mitgliederbereich</Link>
+                        )}
                     </li>
                 </ul>
             </div>

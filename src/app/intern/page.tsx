@@ -12,19 +12,18 @@ import styles from "./page.module.scss"
 
 export default function Page() {
     const router = useRouter()
-    const { logout } = useAuthZustand((state) => ({ logout: state.logout }))
+    const logout = useAuthZustand((state) => state.logout)
+    const user = useAuthZustand((state) => state.user)
 
     const logoutAndReload = async () => {
-        console.log("logging out")
         await logout()
-        console.log("logged out")
         router.refresh()
-        console.log("refreshing page completed")
     }
 
     return (
         <div className={styles.container}>
             <h2>Mitgliederbereich</h2>
+            {user !== undefined ? <p>Hallo {user.userName}.</p> : null}
             <Card breakpoint="normal" className={styles.card}>
                 <CardHeader title="Mitgliederbereich" />
                 <CardContent className={styles.container}>

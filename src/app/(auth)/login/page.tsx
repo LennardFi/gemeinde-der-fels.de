@@ -17,10 +17,8 @@ export default function Page() {
     const searchParams = useSearchParams()
     const returnToParam = searchParams.get(returnToPathParamName)
 
-    const { jwt, login } = useAuthZustand((state) => ({
-        jwt: state.jwt,
-        login: state.login,
-    }))
+    const jwt = useAuthZustand((state) => state.jwt)
+    const login = useAuthZustand((state) => state.login)
     const router = useRouter()
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")

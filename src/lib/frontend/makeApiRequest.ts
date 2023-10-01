@@ -1,12 +1,12 @@
 import Website, { Maybe } from "@/typings"
 import useAuthZustand from "@/zustand/useAuthZustand"
 import { JWT_Cookie_Name } from "../backend/auth"
-import { WebsiteError } from "../errors"
+import { WebsiteError } from "../shared/errors"
 import getCookieValue from "./cookies"
 
 interface MakeApiRequestInit extends RequestInit {
     /**
-     * contentType Value for the `Content-Header`
+     * Shortcut to set value of `"Content-Type"`-Header
      */
     contentType?: string
     /**
@@ -64,9 +64,7 @@ export default async function makeApiRequest<T>(
         let newJWT: Maybe<string> = undefined
         if (match !== null && match !== undefined) {
             newJWT = match[1]
-            console.log("Adding new JWT")
         } else {
-            console.log("Adding new JWT")
             newJWT = getCookieValue(JWT_Cookie_Name)
         }
 
@@ -74,7 +72,7 @@ export default async function makeApiRequest<T>(
             jwt: newJWT,
         })
 
-        if (res.headers.get("ContentType") !== "application/json") {
+        if (res.headers.get("Content-Type") !== "application/json") {
             return {
                 jwt: newJWT,
                 response: (await res.blob()) as T,

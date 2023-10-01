@@ -1,67 +1,84 @@
 "use client"
 
 import Website from "@/typings"
+import useAuthZustand from "@/zustand/useAuthZustand"
 import Link, { LinkProps } from "next/link"
+import { usePathname, useRouter } from "next/navigation"
 import React from "react"
+import { FaAngleDown } from "react-icons/fa"
 import styles from "./NavigationItem.module.scss"
-import NavigationItemGroup from "./NavigationItemGroup"
 
 export type NextLinkProps = React.AnchorHTMLAttributes<HTMLAnchorElement> &
     LinkProps
 
 interface NavigationItemProps
-    extends Omit<NextLinkProps, "href">,
-        Omit<Website.Content.Navigation.NavigationEntry, "label"> {
-    currentPage?: boolean
-}
+    extends React.HTMLAttributes<HTMLLIElement>,
+        Omit<Website.Content.Navigation.NavigationEntry, "label"> {}
 
 export default function NavigationItem({
-    currentPage,
     icon,
     onlyMobile,
     path,
+    requiresFlag,
     subEntries,
     className,
     children,
     ...rest
 }: NavigationItemProps) {
-    if (subEntries !== undefined) {
-        return (
-            <NavigationItemGroup
-                icon={icon}
-                onlyMobile={onlyMobile}
-                path={path}
-                subEntries={subEntries}
-                currentPage={currentPage}
-                className={className}
-                {...rest}
-            />
-        )
+    const router = useRouter()
+    const pathName = usePathname()
+    const user = useAuthZustand((state) => state.user)
+
+    if (requiresFlag !== undefined && !user?.flags?.[requiresFlag]) {
+        return null
     }
 
-    if (path === undefined) {
-        return (
-            <span
-                className={`${styles.item} ${
-                    currentPage ? styles.active : ""
-                } ${className ?? ""}`}
-                tabIndex={0}
-                {...rest}
-            >
-                {children}
-            </span>
-        )
-    }
+    const isLink = path !== undefined
+
+    const currentPage =
+        path !== undefined &&
+        (path === "/" ? pathName === path : pathName.startsWith(path))
 
     return (
-        <Link
-            className={`${styles.item} ${currentPage ? styles.active : ""} ${
-                className ?? ""
-            }`}
-            href={path}
+        <li
+            className={`${styles.item} ${isLink ? styles.isLink : ""} ${
+                currentPage ? styles.active : ""
+            } ${onlyMobile ? styles.onlyMobile : ""} ${className ?? ""}`}
+            onClick={(e) => {
+                e.preventDefault()
+                e.stopPropagation()
+
+                if (path !== undefined) {
+                    router.push(path)
+                }
+            }}
             {...rest}
         >
-            {children}
-        </Link>
+            {isLink ? (
+                <Link className={styles.label} href={path}>
+                    {children}
+                </Link>
+            ) : (
+                <span className={styles.label} tabIndex={0}>
+                    {children}
+                </span>
+            )}
+            {subEntries !== undefined ? (
+                <>
+                    <FaAngleDown className={`${styles.arrow}`} />
+                    <ul className={styles.subEntries}>
+                        {subEntries.map(({ label, path, ...rest }, i) => (
+                            <NavigationItem
+                                key={`${i}_${path}`}
+                                path={path}
+                                {...rest}
+                            >
+                                {label}
+                            </NavigationItem>
+                        ))}
+                    </ul>
+                </>
+            ) : null}
+        </li>
     )
 }

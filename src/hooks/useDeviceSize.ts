@@ -3,7 +3,7 @@ import {
     SIZE_BREAKPOINT_LARGE_STRING,
     SIZE_BREAKPOINT_NORMAL_STRING,
     SIZE_BREAKPOINT_SMALL_STRING,
-} from "../lib/helpers"
+} from "../lib/shared/helpers"
 import Website from "../typings"
 
 const getDeviceSize = (): Website.Base.DeviceSize => {

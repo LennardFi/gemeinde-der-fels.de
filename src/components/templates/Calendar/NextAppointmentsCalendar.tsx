@@ -2,7 +2,7 @@ import styles from "./NextAppointmentsCalendar.module.scss"
 
 export interface NextAppointmentsCalendarProps {}
 
-export default function NextAppointmentsCalendar({}: NextAppointmentsCalendarProps) {
+export default function NextAppointmentsCalendar() {
     return (
         <div className={styles.container}>
             <div className={styles.date}>Mittwoch</div>

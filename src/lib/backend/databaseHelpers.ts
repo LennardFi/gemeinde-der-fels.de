@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client"
-import { WebsiteError } from "../errors"
+import { WebsiteError } from "../shared/errors"
 
 export const withDatabase = async <R = void>(
     handler: (client: PrismaClient) => Promise<R>,

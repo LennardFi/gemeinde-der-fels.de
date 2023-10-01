@@ -12,11 +12,10 @@ interface InternalLayoutProps extends React.HTMLProps<HTMLDivElement> {
 
 export default function Layout({ children }: InternalLayoutProps) {
     const pathName = usePathname()
-    const { jwt } = useAuthZustand((state) => ({ jwt: state.jwt }))
+    const jwt = useAuthZustand((state) => state.jwt)
+    const user = useAuthZustand((state) => state.user)
 
     if (jwt === undefined) {
-        console.log("Not logged in. Redirect to login page")
-
         redirect(
             `/login?returnTo=${encodeURIComponent(pathName)}`,
             RedirectType.replace,
@@ -36,16 +35,23 @@ export default function Layout({ children }: InternalLayoutProps) {
                         Mein Konto
                     </ButtonLink>
                 </li>
-                <li>
-                    <ButtonLink href="/internals/admin" variant="contained">
-                        Inhalte
-                    </ButtonLink>
-                </li>
-                <li>
-                    <ButtonLink href="/internals/admin" variant="contained">
-                        Inhalte
-                    </ButtonLink>
-                </li>
+                {user?.flags.Admin ? (
+                    <li>
+                        <ButtonLink href="/internals/admin" variant="contained">
+                            Admin
+                        </ButtonLink>
+                    </li>
+                ) : null}
+                {user?.flags.Admin ? (
+                    <li>
+                        <ButtonLink
+                            href="/internals/inhalte/medien"
+                            variant="contained"
+                        >
+                            Medien
+                        </ButtonLink>
+                    </li>
+                ) : null}
             </ul>
 
             <div className={styles.content}>{children}</div>

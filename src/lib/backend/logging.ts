@@ -1,7 +1,8 @@
 import Website, { Maybe } from "@/typings"
-import { PrismaClient, ResponseLog } from "@prisma/client"
+import { PrismaClient } from "@prisma/client"
 import { Temporal } from "temporal-polyfill"
-import { WebsiteError } from "../errors"
+import { WebsiteError } from "../shared/errors"
+import { temporalInstanceToDate } from "../shared/helpers"
 
 // export async function logErrorOnServer (error: WebsiteError): Promise<void> {
 //     const client = new PrismaClient()
@@ -19,7 +20,8 @@ export async function logResponseOnServer<T>(
     res: Website.Api.ApiResponse<T>,
     client?: PrismaClient,
 ): Promise<void> {
-    const newClient = new PrismaClient()
+    const newClient = client ?? new PrismaClient()
+    newClient.$connect()
 
     const [responseBody, responseBodyLength, internalError]: [
         Buffer,
@@ -37,43 +39,41 @@ export async function logResponseOnServer<T>(
               res.body.internalError,
           ]
 
-    const responseLogEntry: Omit<ResponseLog, "id" | "errorLogEntryId"> = {
-        timestamp: new Date(Temporal.Now.plainDateTimeISO("UTC").toString()),
-        success: res.body.success,
-        data: responseBody,
-        dataSize: responseBodyLength,
-    }
+    console.log({ internalError })
 
     try {
-        if (client === undefined) {
-            await newClient.$connect()
-        }
-
-        await (client ?? newClient).responseLog.create({
+        const timeStamp = Temporal.Now.zonedDateTimeISO("UTC")
+        const responseLogEntry = await newClient.responseLog.create({
             data: {
-                ...responseLogEntry,
+                data: responseBody,
+                dataSize: responseBodyLength,
+                success: res.body.success,
+                timestamp: temporalInstanceToDate(timeStamp, new Date()),
                 errorLogEntry: {
                     create:
-                        internalError === undefined
-                            ? undefined
-                            : {
-                                  cause: internalError.cause,
+                        internalError !== undefined
+                            ? {
+                                  cause: internalError.scope,
                                   errorId: internalError.errorId,
                                   message: internalError.message,
-                                  timestamp:
-                                      internalError.options.timestamp?.toString() ??
+                                  timestamp: temporalInstanceToDate(
+                                      internalError.options.timestamp ??
+                                          timeStamp,
                                       new Date(),
+                                  ),
                                   internalMessage:
                                       internalError.options.internalMessage,
-                              },
+                              }
+                            : undefined,
                 },
-                errorLogEntryId: undefined,
+            },
+            include: {
+                errorLogEntry: true,
             },
         })
     } catch (err: unknown) {
-        console.log({
-            ...responseLogEntry,
-        })
+        console.log("Failed pushing log to database")
+        console.log({ err })
     } finally {
         if (client === undefined) {
             await newClient.$disconnect()

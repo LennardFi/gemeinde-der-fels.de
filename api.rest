@@ -1,7 +1,39 @@
-POST http://localhost:3000/api/auth/login
+@protocol = http
+@hostname = localhost
+@port = 3000
+@baseUrl = {{protocol}}://{{hostname}}:{{port}}
+###
+GET {{baseUrl}}/api/test
+###
+POST {{baseUrl}}/api/auth/login
 Content-Type: application/json
 
 {
     "email": "test@foo.com",
     "password": "Pas2w0rd"
 }
+### File upload - Change path, filename and filetype to upload different file.
+POST {{baseUrl}}/api/files?fileName=Testpredigt.mp3
+Content-Type: audio/mpeg
+
+< ./test-files/Testpredigt.mp3
+###
+GET {{baseUrl}}/api/files/6518b149c7dceb18ca4dfc38
+###
+POST {{baseUrl}}/api/sermons/
+Content-Type: application/json
+
+{
+    "title": "Testpredigt",
+    "speaker": {
+        "name": "Foo",
+    },
+    "series": {
+        title: "Test"
+    }
+}
+###
+POST {{baseUrl}}/api/sermons/audioFile
+Content-Type: audio/mpeg
+
+< ./test-files/Testpredigt.mp3

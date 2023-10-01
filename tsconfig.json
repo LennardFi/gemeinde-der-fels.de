@@ -23,6 +23,16 @@
             }
         ]
     },
-    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+    "include": [
+        "next-env.d.ts",
+        "**/*.ts",
+        "**/*.tsx",
+        ".next/types/**/*.ts",
+        "src/app/kontakt/page.tsx_old",
+        "src/app/predigten/page.tsx_old",
+        "src/components/templates/SermonsList/SermonsFilter.tsx_old",
+        "src/components/templates/SermonsList/SermonsList.tsx_old",
+        "src/lib/backend/content.ts_old"
+    ],
     "exclude": ["node_modules"]
 }

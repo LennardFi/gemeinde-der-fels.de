@@ -2,27 +2,59 @@ import Website, { Maybe } from "@/typings"
 import { PrismaClient } from "@prisma/client"
 import { randomUUID } from "crypto"
 import { NextRequest, NextResponse } from "next/server"
-import { ErrorScope, WebsiteError } from "../errors"
+import { ErrorScope, WebsiteError, WebsiteErrorOptions } from "../shared/errors"
 import { getCookieHeaderValueString } from "./apiHelpers"
-import { getJWTFromRequest, JWT_Cookie_Name, validateJWT } from "./auth"
+import {
+    getJWTForPayload,
+    getJWTFromRequest,
+    JWT_Cookie_Name,
+    validateJWT,
+} from "./auth"
 import { logResponseOnServer } from "./logging"
 
 const forbiddenErrorCauses: ErrorScope[] = ["database"]
+
+let _client: Maybe<PrismaClient>
+
+const getClient = (): PrismaClient => {
+    if (_client === undefined) {
+        try {
+            _client = new PrismaClient()
+            _client.$connect()
+            console.log("Connecting to database")
+            return _client
+        } catch (err) {
+            throw new WebsiteError(
+                "database",
+                "Could not establish a database connection",
+                {
+                    databaseConnectionError: true,
+                    statusCode: 500,
+                },
+                {
+                    err,
+                },
+            )
+        }
+    }
+
+    return _client
+}
 
 /**
  * Builds a NEXT.js route which wraps the database handling away from the given
  * handler.
  *
- * Generics `<O, T>`:
+ * Generics `<T, O>`:
+ * - `T`: The success return value of this API route.
  * - `O`: Next.js may provide additional options for a route
  *   (parameters from dynamic routes, etc.).
  *   This options object can be defined with `O`.
- * - `T`: The success return value of this API route.
  * @param handler The route handler to process the API request with the database
  * client.
  */
 export const buildApiRouteWithDatabase =
-    <O = undefined, T = unknown>(
+    <T = unknown, O = undefined>(
         handler: (
             req: NextRequest,
             client: PrismaClient,
@@ -31,35 +63,52 @@ export const buildApiRouteWithDatabase =
         ) => Promise<Website.Api.ApiResponse<T>>,
     ): ((req: NextRequest, options: O) => Promise<NextResponse>) =>
     async (req: NextRequest, options: O): Promise<NextResponse> => {
-        const client = new PrismaClient()
-
         let apiResponse: Maybe<Website.Api.ApiResponse<T>>
         try {
-            await client.$connect()
-
             const jwt = getJWTFromRequest(req)
-            const sessionOptions: Website.Api.SessionOptions = {
-                jwt,
-            }
+            const sessionOptions: Website.Api.SessionOptions = {}
 
             if (jwt !== undefined) {
-                const user = await client.user.findUnique({
-                    where: {
-                        id: (await validateJWT(jwt)).id,
-                    },
-                })
+                try {
+                    sessionOptions.jwtPayload = await validateJWT(jwt)
+                } catch (err) {
+                    if (
+                        !(err instanceof WebsiteError) ||
+                        err.options.statusCode !== 401
+                    )
+                        throw err
+                }
 
-                if (user !== null) {
-                    sessionOptions.user = {
-                        id: user.id,
-                        email: user.email,
-                        flags: user.flags,
-                        userName: user.userName,
+                if (sessionOptions.jwtPayload !== undefined) {
+                    const user = await getClient().user.findUnique({
+                        where: {
+                            id: sessionOptions.jwtPayload.userId,
+                        },
+                    })
+
+                    if (user !== null) {
+                        sessionOptions.jwtPayload = {
+                            email: user.email,
+                            flags: user.flags,
+                            userId: user.id,
+                            userName: user.userName,
+                        }
+                        sessionOptions.user = {
+                            id: user.id,
+                            email: user.email,
+                            flags: user.flags,
+                            userName: user.userName,
+                        }
                     }
                 }
             }
 
-            apiResponse = await handler(req, client, sessionOptions, options)
+            apiResponse = await handler(
+                req,
+                getClient(),
+                sessionOptions,
+                options,
+            )
 
             return new NextResponse(
                 apiResponse.body.success &&
@@ -72,11 +121,14 @@ export const buildApiRouteWithDatabase =
                     headers: [
                         {
                             name: JWT_Cookie_Name,
-                            value: apiResponse.jwt ?? "-",
+                            value:
+                                apiResponse.jwtPayload !== undefined
+                                    ? getJWTForPayload(apiResponse.jwtPayload)
+                                    : "-",
                             expires:
-                                apiResponse.jwt === undefined
-                                    ? -1
-                                    : 60 * 60 * 12, // 12 hours
+                                apiResponse.jwtPayload !== undefined
+                                    ? 60 * 60 * 12 // 12 hours
+                                    : -1,
                         },
                         ...(apiResponse.cookies ?? []),
                     ].reduce(
@@ -88,6 +140,11 @@ export const buildApiRouteWithDatabase =
                             return headers
                         },
                         new Headers({
+                            ...(apiResponse.contentType === undefined
+                                ? {}
+                                : {
+                                      "Content-Type": apiResponse.contentType,
+                                  }),
                             ...apiResponse.headers,
                         }),
                     ),
@@ -95,12 +152,12 @@ export const buildApiRouteWithDatabase =
             )
         } catch (e) {
             if (e instanceof WebsiteError) {
-                if (forbiddenErrorCauses.includes(e.cause)) {
+                if (forbiddenErrorCauses.includes(e.scope)) {
                     apiResponse = {
                         body: {
                             success: false,
                             error: {
-                                cause: "server-internal",
+                                scope: "server-internal",
                                 id: e.errorId,
                                 message:
                                     "An error occurred in the server while processing the request. Try again later.",
@@ -115,7 +172,7 @@ export const buildApiRouteWithDatabase =
                         body: {
                             success: false,
                             error: {
-                                cause: e.cause as Website.Api.ApiError["cause"],
+                                scope: e.scope as Website.Api.ApiError["scope"],
                                 id: e.errorId,
                                 internalMessage: e.options.internalMessage,
                                 message: e.message,
@@ -124,6 +181,17 @@ export const buildApiRouteWithDatabase =
                         },
                         status: e.options.statusCode ?? 500,
                         statusText: e.options.statusText,
+                        cookies: [
+                            ...(e.options.statusCode === 401
+                                ? [
+                                      {
+                                          name: JWT_Cookie_Name,
+                                          value: "",
+                                          expires: -1,
+                                      },
+                                  ]
+                                : []),
+                        ],
                     }
                 }
             } else {
@@ -131,7 +199,7 @@ export const buildApiRouteWithDatabase =
                     body: {
                         success: false,
                         error: {
-                            cause: "server-internal",
+                            scope: "server-internal",
                             id: randomUUID(),
                             message:
                                 "An error occurred in the server while processing the request. Try again later.",
@@ -149,6 +217,16 @@ export const buildApiRouteWithDatabase =
                     },
                     status: 500,
                 }
+            }
+
+            if (
+                !apiResponse.body.success &&
+                apiResponse.body.internalError !== undefined &&
+                apiResponse.body.internalError.options.endpoint === undefined
+            ) {
+                const options = apiResponse.body.internalError
+                    .options as WebsiteErrorOptions
+                options.endpoint = req.nextUrl.pathname
             }
 
             return new NextResponse(JSON.stringify(apiResponse.body), {
@@ -169,20 +247,18 @@ export const buildApiRouteWithDatabase =
             })
         } finally {
             if (
-                apiResponse?.body.success === false &&
-                (apiResponse.body.internalError instanceof WebsiteError
-                    ? !apiResponse?.body.internalError.options
+                apiResponse !== undefined &&
+                !apiResponse.body.success &&
+                (apiResponse.body.internalError !== undefined
+                    ? !apiResponse.body.internalError.options
                           .databaseConnectionError
                     : true)
             ) {
-                if (apiResponse !== undefined) {
-                    try {
-                        logResponseOnServer(apiResponse)
-                    } catch (error: unknown) {
-                        console.log("Failed to log response")
-                    }
+                try {
+                    logResponseOnServer(apiResponse, _client)
+                } catch (error: unknown) {
+                    console.log("Failed to log response")
                 }
             }
-            await client.$disconnect()
         }
     }

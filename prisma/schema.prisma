@@ -14,6 +14,7 @@ model File {
     mimeType       String
     uploadDateTime DateTime
     chunks         FileChunk[]
+    Sermon         Sermon[]
 }
 
 model FileChunk {
@@ -51,10 +52,22 @@ model NewsPost {
 }
 
 model Sermon {
-    id       String        @id @default(auto()) @map("_id") @db.ObjectId
+    id          String        @id @default(auto()) @map("_id") @db.ObjectId
+    title       String
+    date        DateTime
+    audioFile   File?         @relation(fields: [audioFileId], references: [id])
+    audioFileId String?       @db.ObjectId
+    series      SermonSeries? @relation(fields: [seriesId], references: [id])
+    seriesId    String?       @db.ObjectId
+    speaker     Speaker?      @relation(fields: [speakerId], references: [id])
+    speakerId   String?       @db.ObjectId
+}
+
+model Speaker {
+    id       String   @id @default(auto()) @map("_id") @db.ObjectId
     name     String
-    series   SermonSeries? @relation(fields: [seriesId], references: [id])
-    seriesId String?       @db.ObjectId
+    initials String
+    Sermon   Sermon[]
 }
 
 model SermonSeries {

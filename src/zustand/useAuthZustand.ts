@@ -10,23 +10,19 @@ export interface AuthZustand {
     loadJWTFromCookie(): void
     login(email: string, password: string): Promise<true | "invalidAuth">
     logout(): Promise<void>
+    updateUser(): Promise<void>
     // updateJwt(jwt: string): void
     // revokeJWT(): void
     jwt?: string
     user?: Website.Users.User
 }
 
-const useAuthZustand = create<AuthZustand>()((set) => {
-    if (typeof document === "undefined") {
-        console.log("useAuthZustand on server")
-    } else {
-        console.log("useAuthZustand on %cclient", "color: green")
-    }
-
+const useAuthZustand = create<AuthZustand>()((set, get) => {
     return {
         loadJWTFromCookie: () => {
-            console.debug("Set JWT from browser cookie")
-            set({ jwt: getCookieValue(JWT_Cookie_Name) })
+            const jwt = getCookieValue(JWT_Cookie_Name)
+
+            set({ jwt })
         },
         login: async (email, password) => {
             const { response: user } = await makeApiRequest<Website.Users.User>(
@@ -55,6 +51,18 @@ const useAuthZustand = create<AuthZustand>()((set) => {
 
             set({
                 user: undefined,
+            })
+        },
+        updateUser: async () => {
+            const { response: user } = await makeApiRequest<Website.Users.User>(
+                "/api/users/me",
+                {
+                    method: "GET",
+                },
+            )
+
+            set({
+                user: user,
             })
         },
     }

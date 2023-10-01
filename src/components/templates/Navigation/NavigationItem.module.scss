@@ -3,21 +3,37 @@
 .item {
     color: core.$color-primary-font;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
-    font-family: inherit;
-    font-size: core.$size-font-nav;
-    font-weight: 600;
-    text-decoration: none;
+    align-items: center;
+    background-color: core.$color-primary;
+    color: core.$color-primary-font;
     padding: core.getDimensionValue(2);
-    cursor: pointer;
+    position: relative;
+    user-select: none;
+
+    &.isLink {
+        cursor: pointer;
+    }
+
+    .label {
+        color: inherit;
+        font-family: inherit;
+        font-size: core.$size-font-nav;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+    .arrow {
+        margin: auto 0 auto core.getDimensionValue(1);
+    }
 
     @media (hover: hover) and (pointer: fine) {
         &:hover {
             background-color: core.$color-primary-highlighted;
             color: core.$color-primary-font-highlighted;
 
-            + .subEntries {
+            .subEntries {
                 display: flex;
             }
         }
@@ -45,5 +61,21 @@
                 background-color: core.$color-secondary-highlighted;
             }
         }
+    }
+
+    .subEntries {
+        display: none;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: stretch;
+        background-color: core.$color-primary;
+        color: core.$color-primary-font;
+        margin: 0;
+        padding: 0;
+        position: absolute;
+        top: 100%;
+        right: 0;
+        min-width: core.getDimensionValue(30);
+        z-index: 1000;
     }
 }

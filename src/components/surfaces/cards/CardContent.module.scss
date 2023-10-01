@@ -1,5 +1,5 @@
 @use "../../../styles/core.module.scss" as core;
 
 .cardContent {
-    padding: core.getDimensionValue(1);
+    padding: core.getDimensionValue(1.5);
 }

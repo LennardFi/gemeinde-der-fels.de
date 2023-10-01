@@ -31,7 +31,7 @@
         "src/app/kontakt/page.tsx_old",
         "src/app/predigten/page.tsx_old",
         "src/components/templates/SermonsList/SermonsFilter.tsx_old",
-        "src/components/templates/SermonsList/SermonsList.tsx_old",
+        "src/components/templates/SermonsList/SermonsList.tsx",
         "src/lib/backend/content.ts_old"
     ],
     "exclude": ["node_modules"]

@@ -8,11 +8,9 @@ import styles from "./page.module.scss"
 export default function Page() {
     return (
         <Card breakpoint="normal" className={styles.card}>
-            <CardHeader title="Mitgliederbereich" />
+            <CardHeader title="Verwaltung" />
             <CardContent className={styles.container}>
-                <div>
-                    <h2>Termine</h2>
-                </div>
+                <h2>Benutzer</h2>
             </CardContent>
         </Card>
     )

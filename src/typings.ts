@@ -140,9 +140,10 @@ declare namespace Website {
                 label: string
                 icon?: string
                 needsAuth?: boolean
+                noLink?: boolean
                 onlyMobile?: boolean
                 path?: string
-                requiresFlag?: keyof Users.UserFlags
+                requiresFlag?: (keyof Users.UserFlags)[]
                 subEntries?: NavigationEntry[]
             }
         }
@@ -162,6 +163,12 @@ declare namespace Website {
                 date: Temporal.PlainDate
                 speaker: Speaker | NewSpeaker
                 series?: SermonSeries
+            }
+
+            interface SermonsFilter {
+                fullText?: string
+                seriesId?: string
+                speaker?: Speaker[]
             }
 
             interface Speaker {

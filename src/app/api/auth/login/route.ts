@@ -64,16 +64,15 @@ export const POST = buildApiRouteWithDatabase<Website.Users.User>(
             },
         })
 
-        if (user === null || user.passwordHash !== passwordHash) {
-            throw new WebsiteError(
-                "request",
-                "E-mail or password not correct",
-                {
-                    endpoint: req.url,
-                    statusCode: 401,
-                    statusText: "E-mail or password incorrect",
-                },
-            )
+        if (
+            user === null ||
+            user.disabled ||
+            user.passwordHash !== passwordHash
+        ) {
+            throw new WebsiteError("request", "Credentials incorrect", {
+                endpoint: req.url,
+                statusCode: 401,
+            })
         }
 
         return {

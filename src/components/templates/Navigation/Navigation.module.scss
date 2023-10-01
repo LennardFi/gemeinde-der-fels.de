@@ -6,6 +6,7 @@
     gap: core.getDimensionValue(2);
     align-items: center;
     background-color: core.$color-primary;
+    border-bottom: core.getDimensionValue(0.125) solid core.$color-accent;
     color: core.$color-primary-font;
 
     .logoContainer {

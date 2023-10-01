@@ -43,10 +43,12 @@ export async function logResponseOnServer<T>(
 
     try {
         const timeStamp = Temporal.Now.zonedDateTimeISO("UTC")
-        const responseLogEntry = await newClient.responseLog.create({
+        await newClient.responseLog.create({
             data: {
                 data: responseBody,
                 dataSize: responseBodyLength,
+                status: res.status.toString(),
+                statusText: res.statusText,
                 success: res.body.success,
                 timestamp: temporalInstanceToDate(timeStamp, new Date()),
                 errorLogEntry: {

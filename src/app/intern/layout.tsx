@@ -1,6 +1,5 @@
 "use client"
 
-import ButtonLink from "@/components/inputs/ButtonLink"
 import useAuthZustand from "@/zustand/useAuthZustand"
 import { RedirectType } from "next/dist/client/components/redirect"
 import { redirect, usePathname } from "next/navigation"
@@ -24,9 +23,7 @@ export default function Layout({ children }: InternalLayoutProps) {
 
     return (
         <div className={styles.container}>
-            <div className={styles.header}>{}</div>
-
-            <ul className={styles.quickLinks}>
+            {/* <ul className={styles.quickLinks}>
                 <li>
                     <ButtonLink
                         href="/internals/mein-konto"
@@ -52,7 +49,7 @@ export default function Layout({ children }: InternalLayoutProps) {
                         </ButtonLink>
                     </li>
                 ) : null}
-            </ul>
+            </ul> */}
 
             <div className={styles.content}>{children}</div>
         </div>

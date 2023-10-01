@@ -86,7 +86,10 @@ export const buildApiRouteWithDatabase =
                         },
                     })
 
-                    if (user !== null) {
+                    if (user?.disabled) {
+                        sessionOptions.jwtPayload = undefined
+                        sessionOptions.user = undefined
+                    } else if (user !== null) {
                         sessionOptions.jwtPayload = {
                             email: user.email,
                             flags: user.flags,
@@ -164,6 +167,18 @@ export const buildApiRouteWithDatabase =
                             },
                             internalError: e,
                         },
+                        contentType: "application/json",
+                        cookies: [
+                            ...(e.options.statusCode === 401
+                                ? [
+                                      {
+                                          name: JWT_Cookie_Name,
+                                          value: "",
+                                          expires: -1,
+                                      },
+                                  ]
+                                : []),
+                        ],
                         status: e.options.statusCode ?? 500,
                         statusText: e.options.statusText,
                     }
@@ -179,8 +194,7 @@ export const buildApiRouteWithDatabase =
                             },
                             internalError: e,
                         },
-                        status: e.options.statusCode ?? 500,
-                        statusText: e.options.statusText,
+                        contentType: "application/json",
                         cookies: [
                             ...(e.options.statusCode === 401
                                 ? [
@@ -192,6 +206,8 @@ export const buildApiRouteWithDatabase =
                                   ]
                                 : []),
                         ],
+                        status: e.options.statusCode ?? 500,
+                        statusText: e.options.statusText,
                     }
                 }
             } else {
@@ -215,6 +231,7 @@ export const buildApiRouteWithDatabase =
                             },
                         ),
                     },
+                    contentType: "application/json",
                     status: 500,
                 }
             }
@@ -241,6 +258,11 @@ export const buildApiRouteWithDatabase =
                         return headers
                     },
                     new Headers({
+                        ...(apiResponse.contentType !== undefined
+                            ? {
+                                  "Content-Type": apiResponse.contentType,
+                              }
+                            : undefined),
                         ...apiResponse.headers,
                     }),
                 ),

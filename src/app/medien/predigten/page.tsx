@@ -1,3 +1,3 @@
 export default function Page() {
-    return <h2>Media</h2>
+    return <h2>Predigten</h2>
 }

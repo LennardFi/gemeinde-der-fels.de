@@ -18,6 +18,7 @@ interface NavigationItemProps
 export default function NavigationItem({
     icon,
     onlyMobile,
+    noLink,
     path,
     requiresFlag,
     subEntries,
@@ -29,11 +30,14 @@ export default function NavigationItem({
     const pathName = usePathname()
     const user = useAuthZustand((state) => state.user)
 
-    if (requiresFlag !== undefined && !user?.flags?.[requiresFlag]) {
+    if (
+        requiresFlag !== undefined &&
+        requiresFlag.every((flag) => !user?.flags?.[flag])
+    ) {
         return null
     }
 
-    const isLink = path !== undefined
+    const isLink = path !== undefined && !noLink
 
     const currentPage =
         path !== undefined &&

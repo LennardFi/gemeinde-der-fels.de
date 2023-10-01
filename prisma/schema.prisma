@@ -37,11 +37,13 @@ model ErrorLog {
 model ResponseLog {
     id              String    @id @default(auto()) @map("_id") @db.ObjectId
     timestamp       DateTime
+    status          String
     success         Boolean
     errorLogEntry   ErrorLog? @relation(fields: [errorLogEntryId], references: [id])
     errorLogEntryId String?   @db.ObjectId
     data            Bytes?
     dataSize        Int?
+    statusText      String?
 }
 
 model NewsPost {
@@ -81,6 +83,7 @@ model User {
     email        String    @unique
     userName     String    @unique
     passwordHash String
+    disabled     Boolean   @default(false)
     flags        UserFlags
 }
 

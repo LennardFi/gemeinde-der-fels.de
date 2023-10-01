@@ -35,6 +35,8 @@
 
             .subEntries {
                 display: flex;
+                border: core.getDimensionValue(0.125) solid core.$color-accent;
+                border-top: none;
             }
         }
     }

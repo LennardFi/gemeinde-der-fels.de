@@ -20,19 +20,67 @@ const navigationEntries: Website.Content.Navigation.NavigationEntry[] = [
         onlyMobile: true,
     },
     {
-        label: "Medien",
+        label: "Audio",
         path: "/medien",
+        subEntries: [
+            {
+                label: "Lobpreis",
+                path: "/medien/lobpreis",
+            },
+            {
+                label: "Hopful auf YouTube",
+                path: "/medien/hopeful-yt",
+            },
+            {
+                label: "Predigten",
+                path: "/medien/predigten",
+            },
+        ],
+    },
+    {
+        label: "Veranstaltungen",
+        path: "/veranstaltungen",
+        subEntries: [
+            {
+                label: "Termine",
+                path: "/veranstaltungen/termine",
+            },
+        ],
     },
     {
         label: "Über uns",
         path: "/ueber-uns",
+        subEntries: [
+            {
+                label: "Werte & Vision",
+                path: "/ueber-uns/werte-und-vision",
+            },
+            {
+                label: "Gemeindeleitung",
+                path: "/ueber-uns/gemeindeleitung",
+            },
+            {
+                label: "Gemeindeleben",
+                path: "/ueber-uns/gemeindeleben",
+            },
+        ],
     },
     {
         label: "Gruppen",
+        noLink: true,
+        path: "/gruppen",
         subEntries: [
             {
+                label: "Kindergottesdienst",
+                path: "/gruppen/kigo",
+            },
+            {
                 label: "Young Generation",
-                path: "/group/young-generation",
+                path: "/gruppen/young-generation",
+            },
+            {
+                label: "Männer-/Frauen-Abend",
+                path: "/gruppen/maenner-frauen-abend",
             },
         ],
     },
@@ -41,28 +89,43 @@ const navigationEntries: Website.Content.Navigation.NavigationEntry[] = [
         path: "/kontakt",
     },
     {
-        label: "Mitgliederbereich",
+        label: "Verwaltung",
+        needsAuth: true,
+        path: "/admin",
+        requiresFlag: [
+            "Admin",
+            "ManageCalendar",
+            "ManageNews",
+            "ManageRooms",
+            "ManageSermons",
+            "ManageUser",
+        ],
+        subEntries: [
+            {
+                label: "News",
+                path: "/admin/inhalte/news",
+                requiresFlag: ["ManageNews"],
+            },
+            {
+                label: "Predigten",
+                path: "/admin/inhalte/predigten",
+                requiresFlag: ["ManageSermons"],
+            },
+            {
+                label: "Benutzerverwaltung",
+                path: "/admin/einstellungen/benutzer",
+                requiresFlag: ["ManageUser"],
+            },
+        ],
+    },
+    {
+        label: "Mitglieder",
         needsAuth: true,
         path: "/intern",
         subEntries: [
             {
                 label: "Mein Konto",
                 path: "/intern/mein-konto",
-            },
-            {
-                label: "News",
-                path: "/intern/inhalte/news",
-                requiresFlag: "ManageNews",
-            },
-            {
-                label: "Predigten",
-                path: "/intern/inhalte/predigten",
-                requiresFlag: "ManageSermons",
-            },
-            {
-                label: "Verwaltung",
-                path: "/intern/admin",
-                requiresFlag: "Admin",
             },
             {
                 label: "Abmelden",

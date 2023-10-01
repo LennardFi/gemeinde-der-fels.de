@@ -10,7 +10,7 @@ export default function Page() {
         <Card breakpoint="normal" className={styles.card}>
             <CardHeader title="Mitglieder" />
             <CardContent className={styles.container}>
-                <h2>Mein Konto</h2>
+                <h2>Predigten</h2>
             </CardContent>
         </Card>
     )

@@ -18,6 +18,7 @@ interface NavigationItemProps
 export default function NavigationItem({
     icon,
     onlyMobile,
+    needsAuth,
     noLink,
     path,
     requiresFlag,
@@ -46,8 +47,10 @@ export default function NavigationItem({
     return (
         <li
             className={`${styles.item} ${isLink ? styles.isLink : ""} ${
-                currentPage ? styles.active : ""
-            } ${onlyMobile ? styles.onlyMobile : ""} ${className ?? ""}`}
+                needsAuth ? styles.needsAuth : ""
+            } ${currentPage ? styles.active : ""} ${
+                onlyMobile ? styles.onlyMobile : ""
+            } ${className ?? ""}`}
             onClick={(e) => {
                 e.preventDefault()
                 e.stopPropagation()
@@ -74,6 +77,7 @@ export default function NavigationItem({
                         {subEntries.map(({ label, path, ...rest }, i) => (
                             <NavigationItem
                                 key={`${i}_${path}`}
+                                needsAuth={needsAuth}
                                 path={path}
                                 {...rest}
                             >

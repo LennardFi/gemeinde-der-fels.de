@@ -8,12 +8,22 @@
     align-items: center;
     background-color: core.$color-primary;
     color: core.$color-primary-font;
-    padding: core.getDimensionValue(2);
+    padding: core.getDimensionValue(2) core.getDimensionValue(1.5);
     position: relative;
     user-select: none;
 
     &.isLink {
         cursor: pointer;
+    }
+
+    &.needsAuth {
+        background-color: core.$color-accent;
+        color: core.$color-accent-font;
+
+        &:hover {
+            background-color: core.$color-accent-highlighted;
+            color: core.$color-accent-font-highlighted;
+        }
     }
 
     .label {

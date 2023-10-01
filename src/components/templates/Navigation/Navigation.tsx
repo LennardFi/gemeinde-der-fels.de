@@ -11,8 +11,6 @@ import Website from "../../../typings"
 import styles from "./Navigation.module.scss"
 import NavigationItem from "./NavigationItem"
 
-export interface NavigationProps {}
-
 const navigationEntries: Website.Content.Navigation.NavigationEntry[] = [
     {
         label: "Startseite",
@@ -112,7 +110,7 @@ const navigationEntries: Website.Content.Navigation.NavigationEntry[] = [
                 requiresFlag: ["ManageSermons"],
             },
             {
-                label: "Benutzerverwaltung",
+                label: "Benutzereinstellungen",
                 path: "/admin/einstellungen/benutzer",
                 requiresFlag: ["ManageUser"],
             },
@@ -195,6 +193,7 @@ const Navigation = () => {
                                             ? styles.onlyMobile
                                             : ""
                                     }
+                                    needsAuth={needsAuth}
                                     path={path}
                                     subEntries={subEntries}
                                     key={`${i}_${path}`}

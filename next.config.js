@@ -3,6 +3,7 @@ const nextConfig = {
     reactStrictMode: true,
     swcMinify: true,
     transpilePackages: [],
+    poweredByHeader: false,
 }
 
 module.exports = nextConfig

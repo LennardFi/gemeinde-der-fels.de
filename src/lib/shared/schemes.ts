@@ -6,9 +6,14 @@ export const postLoginApiRequestBodySchema = z.object({
 })
 
 export const postSermonsApiRequestBodySchema = z.object({
-    audioFile: z.string(),
+    audioFileId: z.string(),
     date: z.number(),
     series: z.optional(z.string()),
     speaker: z.string(),
     title: z.string(),
+})
+
+export const postSermonsSpeakerApiRequestBodySchema = z.object({
+    initials: z.string(),
+    name: z.string(),
 })

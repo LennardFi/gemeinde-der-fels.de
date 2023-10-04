@@ -7,7 +7,7 @@ import path from "path"
 import { Temporal } from "temporal-polyfill"
 
 export const POST =
-    buildApiRouteWithDatabase<Website.Content.Files.FileMetaData>(
+    buildApiRouteWithDatabase<Website.Content.Files.FileDetails>(
         async (req, client, session) => {
             const { searchParams } = new URL(req.url)
             const fileName = searchParams.get("fileName")
@@ -54,12 +54,6 @@ export const POST =
 
             const fileUploadTime = Temporal.Now.zonedDateTimeISO("UTC")
 
-            // client.fileChunk.create({
-            //     data: {
-
-            //     }
-            // })
-
             try {
                 const newFile = await client.file.create({
                     data: {
@@ -88,6 +82,7 @@ export const POST =
                         success: true,
                         data: {
                             extension: newFile.extension,
+                            id: newFile.id,
                             mimeType: newFile.mimeType,
                             name: newFile.name,
                             uploadDateTime: fileUploadTime.epochMilliseconds,

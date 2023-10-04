@@ -133,6 +133,10 @@ declare namespace Website {
                  */
                 uploadDateTime: number
             }
+
+            interface FileDetails extends FileMetaData {
+                id: string
+            }
         }
 
         namespace Navigation {
@@ -150,19 +154,18 @@ declare namespace Website {
 
         namespace Sermons {
             interface Sermon {
-                audioFile: string
+                audioFileId: string
                 date: Temporal.PlainDate
                 id: string
                 title: string
                 speaker: Speaker
-                series?: SermonSeries
+                series?: Omit<SermonSeries, "parts" | "speakers">
             }
 
             interface NewSermon
-                extends Omit<Sermon, "date" | "id" | "speaker"> {
-                date: Temporal.PlainDate
-                speaker: Speaker | NewSpeaker
-                series?: SermonSeries
+                extends Omit<Sermon, "id" | "speaker" | "series"> {
+                speaker: string
+                series?: string
             }
 
             interface SermonsFilter {

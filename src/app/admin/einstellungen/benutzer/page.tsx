@@ -1,5 +1,3 @@
-"use client"
-
 import Card from "@/components/surfaces/cards/Card"
 import CardContent from "@/components/surfaces/cards/CardContent"
 import CardHeader from "@/components/surfaces/cards/CardHeader"

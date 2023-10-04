@@ -57,24 +57,24 @@ model Sermon {
     id          String        @id @default(auto()) @map("_id") @db.ObjectId
     title       String
     date        DateTime
-    audioFile   File?         @relation(fields: [audioFileId], references: [id])
-    audioFileId String?       @db.ObjectId
+    audioFile   File          @relation(fields: [audioFileId], references: [id])
+    audioFileId String        @db.ObjectId
     series      SermonSeries? @relation(fields: [seriesId], references: [id])
     seriesId    String?       @db.ObjectId
-    speaker     Speaker?      @relation(fields: [speakerId], references: [id])
-    speakerId   String?       @db.ObjectId
+    speaker     SermonSpeaker @relation(fields: [speakerId], references: [id])
+    speakerId   String        @db.ObjectId
 }
 
-model Speaker {
+model SermonSpeaker {
     id       String   @id @default(auto()) @map("_id") @db.ObjectId
-    name     String
-    initials String
-    Sermon   Sermon[]
+    name     String   @unique
+    initials String   @unique
+    sermon   Sermon[]
 }
 
 model SermonSeries {
     id    String   @id @default(auto()) @map("_id") @db.ObjectId
-    name  String
+    title String
     parts Sermon[]
 }
 

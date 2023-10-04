@@ -19,6 +19,19 @@ export function getDimensionValue(...values: number[]): string {
     return values.map((x) => `${x * DIMENSION_BASE}px`).join(" ")
 }
 
+export function dateToTemporalInstance(
+    date: Date,
+    timeZone: string,
+): Maybe<Temporal.ZonedDateTime> {
+    try {
+        return Temporal.Instant.fromEpochMilliseconds(
+            date.getTime(),
+        ).toZonedDateTimeISO(timeZone)
+    } catch (err) {
+        console.error(err)
+    }
+}
+
 export function temporalInstanceToDate(
     temporalInstance: Temporal.PlainDateTime | Temporal.ZonedDateTime,
     fallBack: Date,

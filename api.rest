@@ -5,6 +5,10 @@
 ###
 GET {{baseUrl}}/api/test
 ###
+###
+###   AUTH
+###
+###
 POST {{baseUrl}}/api/auth/login
 Content-Type: application/json
 
@@ -12,28 +16,46 @@ Content-Type: application/json
     "email": "test@foo.com",
     "password": "Pas2w0rd"
 }
+###
+###
+###   PREPARATION
+###
+###
+###
+POST {{baseUrl}}/api/sermons/speaker
+Content-Type: application/json
+
+{
+    "initials": "MM",
+    "name": "Max Mustermann"
+}
+###
+###
+###   SERMONS UPLOAD
+###
+###
+@fileName = tvari-tokyo-cafe-159065.mp3
+@audioFileId = 651de1a14e278e8f1b8dd210
+@sermonTitle = Tvari Tokyo Cafe
 ### File upload - Change path, filename and filetype to upload different file.
-POST {{baseUrl}}/api/files?fileName=Testpredigt.mp3
+POST {{baseUrl}}/api/files?fileName={{fileName}}
 Content-Type: audio/mpeg
 
-< ./test-files/Testpredigt.mp3
-###
-GET {{baseUrl}}/api/files/6518b149c7dceb18ca4dfc38
+< ./test-files/{{fileName}}
 ###
 POST {{baseUrl}}/api/sermons/
 Content-Type: application/json
 
 {
-    "title": "Testpredigt",
-    "speaker": {
-        "name": "Foo",
-    },
-    "series": {
-        title: "Test"
-    }
+    "audioFileId": "{{audioFileId}}",
+    "date": 1696364323231,
+    "speaker": "651c8a11d6cc86b3e3bf8e4e",
+    "title": "{{sermonTitle}}"
 }
 ###
-POST {{baseUrl}}/api/sermons/audioFile
-Content-Type: audio/mpeg
-
-< ./test-files/Testpredigt.mp3
+###
+###   LIST STUFF
+###
+###
+### Get sermons list
+GET {{baseUrl}}/api/sermons

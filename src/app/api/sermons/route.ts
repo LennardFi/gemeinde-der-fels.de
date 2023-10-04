@@ -1,27 +1,45 @@
 import { buildApiRouteWithDatabase } from "@/lib/backend/apiRouteBuilders"
 import { WebsiteError } from "@/lib/shared/errors"
+import { dateToTemporalInstance } from "@/lib/shared/helpers"
 import { postSermonsApiRequestBodySchema } from "@/lib/shared/schemes"
 import Website from "@/typings"
+import { Temporal } from "temporal-polyfill"
 
-export const GET = buildApiRouteWithDatabase<Website.Users.User>(
-    async (req, _client, session) => {
-        if (session.user === undefined) {
-            throw new WebsiteError("request", "User not found", {
-                endpoint: req.url,
-                statusCode: 401,
-                statusText: "User not found",
-            })
-        }
+export const GET = buildApiRouteWithDatabase<Website.Content.Sermons.Sermon[]>(
+    async (req, client, session) => {
+        const sermons = await client.sermon.findMany({
+            include: {
+                series: true,
+                speaker: true,
+            },
+        })
 
         return {
             body: {
                 success: true,
-                data: {
-                    id: session.user.id,
-                    flags: session.user.flags,
-                    userName: session.user.userName,
-                    email: session.user.email,
-                },
+                data: sermons.map<Website.Content.Sermons.Sermon>((sermon) => ({
+                    audioFileId: sermon.audioFileId,
+                    date: (
+                        dateToTemporalInstance(sermon.date, "UTC") ??
+                        Temporal.Instant.fromEpochMilliseconds(
+                            1_000_000,
+                        ).toZonedDateTimeISO("UTC")
+                    ).toPlainDate(),
+                    id: sermon.id,
+                    title: sermon.title,
+                    speaker: {
+                        id: sermon.speaker.id,
+                        initials: sermon.speaker.initials,
+                        name: sermon.speaker.name,
+                    },
+                    series:
+                        sermon.series === null
+                            ? undefined
+                            : {
+                                  id: sermon.series.id,
+                                  title: sermon.series.title,
+                              },
+                })),
             },
             contentType: "application/json",
             jwtPayload: session.jwtPayload,
@@ -62,6 +80,8 @@ export const POST = buildApiRouteWithDatabase<string>(
         const parsedResult = postSermonsApiRequestBodySchema.safeParse(body)
 
         if (!parsedResult.success) {
+            console.log({ error: parsedResult.error })
+
             throw new WebsiteError("request", "Invalid request body", {
                 statusCode: 400,
                 statusText: "Invalid request body",
@@ -80,12 +100,52 @@ export const POST = buildApiRouteWithDatabase<string>(
                   })
                 : null
 
+        const sermonSpeaker = client.sermonSpeaker.findUnique({
+            where: {
+                id: parsedResult.data.speaker,
+            },
+        })
+
+        if (sermonSpeaker === null) {
+            throw new WebsiteError(
+                "request",
+                "Speaker does not exist",
+                {
+                    statusCode: 404,
+                    statusText: "Speaker not found",
+                },
+                {
+                    sermonSpeakerId: parsedResult.data.speaker,
+                },
+            )
+        }
+
+        const file = client.file.findUnique({
+            where: {
+                id: parsedResult.data.audioFileId,
+            },
+        })
+
+        if (file === null) {
+            throw new WebsiteError(
+                "request",
+                "Audio file does not exist",
+                {
+                    statusCode: 404,
+                    statusText: "Audio file not found",
+                },
+                {
+                    audioFileId: parsedResult.data.audioFileId,
+                },
+            )
+        }
+
         const sermon = await client.sermon.create({
             data: {
                 date: new Date(parsedResult.data.date),
                 audioFile: {
                     connect: {
-                        id: parsedResult.data.audioFile,
+                        id: parsedResult.data.audioFileId,
                     },
                 },
                 title: parsedResult.data.title,
@@ -116,7 +176,7 @@ export const POST = buildApiRouteWithDatabase<string>(
             },
             contentType: "application/json",
             jwtPayload: session.jwtPayload,
-            status: 200,
+            status: 201,
         }
     },
 )

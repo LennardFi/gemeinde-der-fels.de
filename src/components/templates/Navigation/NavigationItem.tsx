@@ -17,9 +17,9 @@ interface NavigationItemProps
 
 export default function NavigationItem({
     icon,
-    onlyMobile,
     needsAuth,
     noLink,
+    onlyMobile,
     path,
     requiresFlag,
     subEntries,
@@ -30,6 +30,7 @@ export default function NavigationItem({
     const router = useRouter()
     const pathName = usePathname()
     const user = useAuthZustand((state) => state.user)
+    const jwt = useAuthZustand((state) => state.jwt)
 
     if (
         requiresFlag !== undefined &&
@@ -44,21 +45,31 @@ export default function NavigationItem({
         path !== undefined &&
         (path === "/" ? pathName === path : pathName.startsWith(path))
 
+    if (needsAuth && jwt === undefined) {
+        return null
+    }
+
+    if (onlyMobile) {
+        return null
+    }
+
     return (
         <li
             className={`${styles.item} ${isLink ? styles.isLink : ""} ${
                 needsAuth ? styles.needsAuth : ""
-            } ${currentPage ? styles.active : ""} ${
-                onlyMobile ? styles.onlyMobile : ""
-            } ${className ?? ""}`}
-            onClick={(e) => {
-                e.preventDefault()
-                e.stopPropagation()
+            } ${currentPage ? styles.active : ""} ${className ?? ""}`}
+            onClick={
+                isLink
+                    ? (e) => {
+                          e.preventDefault()
+                          e.stopPropagation()
 
-                if (path !== undefined) {
-                    router.push(path)
-                }
-            }}
+                          if (path !== undefined) {
+                              router.push(path)
+                          }
+                      }
+                    : undefined
+            }
             {...rest}
         >
             {isLink ? (

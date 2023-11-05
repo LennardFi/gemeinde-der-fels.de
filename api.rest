@@ -9,6 +9,7 @@ GET {{baseUrl}}/api/test
 ###   AUTH
 ###
 ###
+# Login
 POST {{baseUrl}}/api/auth/login
 Content-Type: application/json
 
@@ -21,7 +22,7 @@ Content-Type: application/json
 ###   PREPARATION
 ###
 ###
-###
+# Upload sermon speaker
 POST {{baseUrl}}/api/sermons/speaker
 Content-Type: application/json
 
@@ -37,7 +38,7 @@ Content-Type: application/json
 @fileName = tvari-tokyo-cafe-159065.mp3
 @audioFileId = 651de1a14e278e8f1b8dd210
 @sermonTitle = Tvari Tokyo Cafe
-### File upload - Change path, filename and filetype to upload different file.
+# File upload - Change path, filename and filetype to upload different file.
 POST {{baseUrl}}/api/files?fileName={{fileName}}
 Content-Type: audio/mpeg
 
@@ -57,5 +58,5 @@ Content-Type: application/json
 ###   LIST STUFF
 ###
 ###
-### Get sermons list
+# Get sermons list
 GET {{baseUrl}}/api/sermons

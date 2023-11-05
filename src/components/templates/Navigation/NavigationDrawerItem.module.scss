@@ -1,0 +1,152 @@
+@use "../../../styles/core.module.scss" as core;
+
+.item {
+    color: core.$color-primary-font;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    user-select: none;
+    border-top: core.$size-border-default solid core.$color-primary-highlighted;
+
+    .label {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        background-color: core.$color-primary;
+        color: core.$color-primary-font;
+        font-family: inherit;
+        font-size: core.$size-font-subheader;
+        font-weight: 600;
+        padding: core.getDimensionValue(2);
+        text-decoration: none;
+        flex: 1 1 auto;
+        height: 100%;
+        transition: transform 100ms ease-in-out;
+        outline: none;
+
+        &:focus,
+        &:active {
+            color: core.$color-primary-font-highlighted;
+            background-color: core.$color-primary-highlighted;
+        }
+
+        &:active {
+            transform: translateY(core.getDimensionValue(0.125));
+        }
+    }
+
+    .arrow {
+        height: core.getDimensionValue(8);
+        width: core.getDimensionValue(8);
+        outline: none;
+
+        svg {
+            height: core.getDimensionValue(4);
+            width: core.getDimensionValue(4);
+        }
+    }
+
+    &.isButton {
+        cursor: pointer;
+
+        &:hover {
+            background-color: core.$color-primary-highlighted;
+            color: core.$color-primary-font-highlighted;
+
+            .label:hover {
+                background-color: core.$color-primary-highlighted;
+                color: core.$color-primary-font-highlighted;
+            }
+
+            // &.subEntriesItem {
+            //     background-color: core.$color-primary;
+            //     color: core.$color-primary-font;
+            // }
+        }
+    }
+
+    &.noSubEntries {
+        min-height: calc(core.getDimensionValue(8) + 1px);
+    }
+
+    &.needsAuth {
+        background-color: core.$color-accent;
+        color: core.$color-accent-font;
+        border-top: core.$size-border-default solid
+            core.$color-accent-highlighted;
+
+        > .label {
+            background-color: core.$color-accent;
+            color: core.$color-accent-font;
+
+            &:focus,
+            &:active,
+            &:visited {
+                color: core.$color-accent-font;
+            }
+        }
+
+        &.isButton > .label:hover {
+            background-color: core.$color-accent-highlighted;
+            color: core.$color-accent-font-highlighted;
+        }
+    }
+
+    &.active {
+        color: core.$color-secondary-font;
+        background-color: core.$color-secondary;
+        border-top: core.$size-border-default solid
+            core.$color-secondary-highlighted;
+
+        > .label {
+            color: core.$color-secondary-font;
+            background-color: core.$color-secondary;
+
+            &:focus,
+            &:active,
+            &:visited {
+                color: core.$color-secondary-font;
+            }
+        }
+
+        &.isButton > .label:hover {
+            color: core.$color-secondary-font-highlighted;
+            background-color: core.$color-secondary-highlighted;
+        }
+    }
+
+    &.subEntriesItem {
+        flex-direction: column;
+        align-items: stretch;
+        border-top: none;
+        padding: 0;
+
+        .subEntries {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: stretch;
+            margin: 0;
+            padding: 0;
+            padding-left: core.getDimensionValue(4);
+            overflow: hidden;
+        }
+
+        &.active:hover {
+            background-color: core.$color-secondary;
+            color: core.$color-secondary-font;
+        }
+
+        &.needsAuth:hover {
+            background-color: core.$color-accent;
+            color: core.$color-accent-font;
+        }
+
+        &.isButton:hover {
+            background-color: core.$color-primary;
+            color: core.$color-primary-font;
+        }
+    }
+}

@@ -1,4 +1,4 @@
-import React, { useId, useState } from "react"
+import React, { useId, useRef, useState } from "react"
 import { FaEye, FaEyeSlash } from "react-icons/fa"
 import IconButton from "./IconButton"
 import styles from "./TextField.module.scss"
@@ -11,16 +11,22 @@ interface TextFieldProps
 
 export default function TextField({
     defaultValue,
+    error,
     name,
     password,
+    placeholder,
     ...rest
 }: TextFieldProps) {
+    const containerRef = useRef<HTMLDivElement | null>(null)
     const id = useId()
     const [value, setValue] = useState(defaultValue ?? "")
     const [passwordVisible, setPasswordVisible] = useState(false)
 
     return (
-        <div className={styles.container}>
+        <div
+            className={`${styles.container} ${error ? styles.error : ""}`}
+            ref={containerRef}
+        >
             {name !== undefined ? (
                 <label className={styles.label} htmlFor={id}>
                     {name}
@@ -31,25 +37,25 @@ export default function TextField({
                     className={styles.input}
                     name={name}
                     onChange={(e) => setValue(e.target.value)}
+                    placeholder={placeholder ?? "..."}
                     type={password && !passwordVisible ? "password" : "text"}
                     value={value}
                     {...rest}
                 />
                 {password && (
                     <IconButton
-                        className={styles.passwordVisibilityToggle}
+                        className={styles.passwordVisibilityToggleButton}
+                        labelProps={{
+                            className:
+                                styles.passwordVisibilityToggleButtonLabel,
+                        }}
+                        noActiveAnimation
+                        noFocusColor
                         onClick={() => setPasswordVisible((pre) => !pre)}
-                        type="button"
+                        round
+                        themeColor={error ? "secondary" : undefined}
                     >
-                        {passwordVisible ? (
-                            <FaEyeSlash
-                                className={styles.passwordVisibilityToggleIcon}
-                            />
-                        ) : (
-                            <FaEye
-                                className={styles.passwordVisibilityToggleIcon}
-                            />
-                        )}{" "}
+                        {passwordVisible ? <FaEyeSlash /> : <FaEye />}{" "}
                     </IconButton>
                 )}
             </div>

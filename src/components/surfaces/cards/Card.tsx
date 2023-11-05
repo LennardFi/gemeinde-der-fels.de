@@ -5,7 +5,7 @@ export type CardProps = PaperProps
 
 export default function Card({ children, className, ...rest }: CardProps) {
     return (
-        <Paper className={`${styles.paper} ${className ?? ""}`} {...rest}>
+        <Paper className={`${styles.paper ?? ""} ${className ?? ""}`} {...rest}>
             {children}
         </Paper>
     )

@@ -12,17 +12,18 @@ export const POST = buildApiRouteWithDatabase<Website.Users.User>(
                     success: true,
                     data: {
                         email: session.jwtPayload.email,
-                        flags: session.jwtPayload.flags,
+                        flags: session.jwtPayload.userFlags,
                         id: session.jwtPayload.userId,
                         userName: session.jwtPayload.userName,
                     },
                 },
+                contentType: "application/json",
                 jwtPayload: session.jwtPayload,
                 status: 200,
             }
         }
 
-        let loginRequestBody: Website.Api.Endpoints.LoginRequestBody
+        let loginRequestBody: Website.Api.Endpoints.Auth.LoginRequestBody
         try {
             const requestBody: unknown = await req.json()
             const parseResult =
@@ -33,7 +34,7 @@ export const POST = buildApiRouteWithDatabase<Website.Users.User>(
                     "Invalid request body received",
                     {
                         endpoint: req.url,
-                        statusCode: 400,
+                        httpStatusCode: 400,
                     },
                     {
                         requestBody,
@@ -49,18 +50,25 @@ export const POST = buildApiRouteWithDatabase<Website.Users.User>(
 
             throw new WebsiteError("request", "Invalid request body received", {
                 endpoint: req.url,
-                statusCode: 400,
-                internalMessage: "Request body not parable JSON value",
+                httpStatusCode: 400,
+                internalMessage: "Request body not parsable JSON value",
             })
         }
 
-        const { email, password } = loginRequestBody
+        const { emailOrUsername, password } = loginRequestBody
 
         const passwordHash = await getPasswordHash(password)
 
-        const user = await client.user.findUnique({
+        const user = await client.user.findFirst({
             where: {
-                email,
+                OR: [
+                    {
+                        email: emailOrUsername,
+                    },
+                    {
+                        userName: emailOrUsername,
+                    },
+                ],
             },
         })
 
@@ -71,7 +79,7 @@ export const POST = buildApiRouteWithDatabase<Website.Users.User>(
         ) {
             throw new WebsiteError("request", "Credentials incorrect", {
                 endpoint: req.url,
-                statusCode: 401,
+                httpStatusCode: 401,
             })
         }
 
@@ -85,9 +93,10 @@ export const POST = buildApiRouteWithDatabase<Website.Users.User>(
                     email: user.email,
                 },
             },
+            contentType: "application/json",
             jwtPayload: {
                 email: user.email,
-                flags: user.flags,
+                userFlags: user.flags,
                 userId: user.id,
                 userName: user.userName,
             },

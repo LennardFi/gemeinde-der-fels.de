@@ -1,6 +1,8 @@
 import { buildApiRouteWithDatabase } from "@/lib/backend/apiRouteBuilders"
 import { WebsiteError } from "@/lib/shared/errors"
 
+export const x = ""
+
 export const GET = buildApiRouteWithDatabase<
     Buffer,
     { params: { id: string } }
@@ -16,8 +18,8 @@ export const GET = buildApiRouteWithDatabase<
 
     if (file === null) {
         throw new WebsiteError("request", "File not found", {
-            statusCode: 404,
-            statusText: "File not found",
+            httpStatusCode: 404,
+            httpStatusText: "File not found",
         })
     }
 
@@ -29,6 +31,9 @@ export const GET = buildApiRouteWithDatabase<
             data: fileContent,
         },
         contentType: file.mimeType,
+        headers: {
+            "Content-Length": fileContent.byteLength.toString(),
+        },
         status: 200,
         jwtPayload: session.jwtPayload,
     }

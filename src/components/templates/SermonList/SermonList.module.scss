@@ -1,0 +1,27 @@
+@use "../../../styles/core.module.scss" as core;
+
+.sermonsTableContainer {
+    table {
+        border: core.$size-border-default solid core.$color-accent;
+        width: 100%;
+
+        tr {
+            .header {
+                background-color: core.$color-accent;
+                color: core.$color-accent-font;
+                text-align: start;
+                padding: core.getDimensionValue(1);
+
+                &.title {
+                }
+
+                &.speaker {
+                }
+            }
+        }
+    }
+
+    .loadingCell {
+        column-span: all;
+    }
+}

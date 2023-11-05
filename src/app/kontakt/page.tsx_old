@@ -3,7 +3,7 @@
 // import useIsMounted from "../../hooks/useIsMounted"
 // import Website, { Maybe } from "../../typings"
 
-// const Contact = () => {
+// export default function Contact () {
 //     const isMountedRef = useIsMounted()
 //     const [requestSent, setRequestSent] = useState(false)
 //     const [response, setResponse] = useState<Maybe<boolean>>(undefined)
@@ -64,5 +64,3 @@
 
 //     return <></>
 // }
-
-// export default Contact

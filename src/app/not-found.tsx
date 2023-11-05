@@ -1,11 +1,9 @@
 import Paper from "@/components/surfaces/Paper"
 
-const NotFound = () => {
+export default function NotFound() {
     return (
         <Paper>
             <h1>Die gesuchte Seite wurde nicht gefunden :(</h1>
         </Paper>
     )
 }
-
-export default NotFound

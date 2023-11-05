@@ -34,6 +34,7 @@ module.exports = {
         "@typescript-eslint/no-empty-interface": "warn",
         "react/react-in-jsx-scope": "off",
         "@typescript-eslint/no-unused-vars": "warn",
+        curly: ["error", "all"],
     },
     settings: {
         react: {

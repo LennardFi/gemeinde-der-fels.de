@@ -22,14 +22,10 @@ export function getDimensionValue(...values: number[]): string {
 export function dateToTemporalInstance(
     date: Date,
     timeZone: string,
-): Maybe<Temporal.ZonedDateTime> {
-    try {
-        return Temporal.Instant.fromEpochMilliseconds(
-            date.getTime(),
-        ).toZonedDateTimeISO(timeZone)
-    } catch (err) {
-        console.error(err)
-    }
+): Temporal.ZonedDateTime {
+    return Temporal.Instant.fromEpochMilliseconds(
+        date.getTime(),
+    ).toZonedDateTimeISO(timeZone)
 }
 
 export function temporalInstanceToDate(
@@ -43,18 +39,13 @@ export function temporalInstanceToDate(
     temporalInstance: Temporal.PlainDateTime | Temporal.ZonedDateTime,
     fallBack?: Date,
 ): Maybe<Date> {
-    try {
-        if (temporalInstance instanceof Temporal.PlainDateTime) {
-            return new Date(
-                temporalInstance.toZonedDateTime("UTC").epochMilliseconds,
-            )
-        }
-        if (temporalInstance instanceof Temporal.ZonedDateTime) {
-            return new Date(temporalInstance.epochMilliseconds)
-        }
-        return fallBack
-    } catch (err) {
-        console.error(err)
-        return fallBack
+    if (temporalInstance instanceof Temporal.PlainDateTime) {
+        return new Date(
+            temporalInstance.toZonedDateTime("UTC").epochMilliseconds,
+        )
     }
+    if (temporalInstance instanceof Temporal.ZonedDateTime) {
+        return new Date(temporalInstance.epochMilliseconds)
+    }
+    return fallBack
 }

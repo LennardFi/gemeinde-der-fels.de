@@ -1,30 +1,141 @@
 @use "../../styles/core.module.scss" as core;
 
 .button {
-    border: core.getDimensionValue(0.1) solid core.$color-accent-font;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: core.getDimensionValue(1);
     background-color: core.$color-accent-font;
     color: core.$color-accent;
+    border: core.$size-border-default solid core.$color-accent-font;
+    outline: none;
     cursor: pointer;
     font-weight: 600;
     padding: core.getDimensionValue(1);
-    transition: border 200ms ease-in-out, background-color 200ms ease-in-out,
-        color 200ms ease-in-out;
+    transition: border 250ms ease-in-out, background-color 250ms ease-in-out,
+        color 250ms ease-in-out, transform 100ms ease-in-out;
 
-    &:hover,
-    &:focus {
+    .segment {
+        height: core.getDimensionValue(2);
+        width: core.getDimensionValue(2);
+
+        svg {
+            height: 100%;
+            width: 100%;
+        }
+
+        &.left {
+        }
+
+        &.right {
+        }
+    }
+
+    .label {
+        color: inherit;
+    }
+
+    &:not(:disabled):hover,
+    &:not(.noFocusColor):not(.disabled):focus {
         background-color: core.$color-accent-font-highlighted;
         border-color: core.$color-accent-highlighted;
         color: core.$color-accent-highlighted;
     }
 
-    &.outlined {
-        border-color: core.$color-accent;
+    &:not(.disabled):not(.noActiveAnimation):active {
+        transform: translateY(core.getDimensionValue(0.125));
+    }
 
-        &:hover,
-        &:focus {
+    &.round {
+        border-radius: 64px;
+    }
+
+    &:disabled {
+        cursor: auto;
+    }
+
+    &.primary {
+        background-color: core.$color-primary-font;
+        color: core.$color-primary;
+        border-color: core.$color-primary-font;
+
+        &:not(.disabled):hover,
+        &:not(.noFocusColor):not(.disabled):focus {
+            background-color: core.$color-primary-font-highlighted;
+            border-color: core.$color-primary-highlighted;
+            color: core.$color-primary-highlighted;
+        }
+    }
+
+    &.secondary {
+        background-color: core.$color-secondary-font;
+        color: core.$color-secondary;
+        border-color: core.$color-secondary-font;
+
+        &:not(.disabled):hover,
+        &:not(.noFocusColor):not(.disabled):focus {
+            background-color: core.$color-secondary-font-highlighted;
+            border-color: core.$color-secondary-highlighted;
+            color: core.$color-secondary-highlighted;
+        }
+    }
+
+    &.accent {
+        background-color: core.$color-accent-font;
+        color: core.$color-accent;
+        border-color: core.$color-accent-font;
+
+        &:not(.disabled):hover,
+        &:not(.noFocusColor):not(.disabled):focus {
             background-color: core.$color-accent-font-highlighted;
             border-color: core.$color-accent-highlighted;
             color: core.$color-accent-highlighted;
+        }
+    }
+
+    &.outlined {
+        border-color: core.$color-accent;
+
+        &:not(.disabled):hover,
+        &:not(.noFocusColor):not(.disabled):focus {
+            background-color: core.$color-accent-font-highlighted;
+            border-color: core.$color-accent-highlighted;
+            color: core.$color-accent-highlighted;
+            outline: none;
+        }
+
+        &.primary {
+            border-color: core.$color-primary;
+
+            &:not(.disabled):hover,
+            &:not(.noFocusColor):not(.disabled):focus {
+                background-color: core.$color-primary-font-highlighted;
+                border-color: core.$color-primary-highlighted;
+                color: core.$color-primary-highlighted;
+            }
+        }
+
+        &.secondary {
+            border-color: core.$color-secondary;
+
+            &:not(.disabled):hover,
+            &:not(.noFocusColor):not(.disabled):focus {
+                background-color: core.$color-secondary-font-highlighted;
+                border-color: core.$color-secondary-highlighted;
+                color: core.$color-secondary-highlighted;
+            }
+        }
+
+        &.accent {
+            border-color: core.$color-accent;
+
+            &:not(.disabled):hover,
+            &:not(.noFocusColor):not(.disabled):focus {
+                background-color: core.$color-accent-font-highlighted;
+                border-color: core.$color-accent-highlighted;
+                color: core.$color-accent-highlighted;
+            }
         }
     }
 
@@ -33,24 +144,51 @@
         border-color: core.$color-accent;
         color: core.$color-accent-font;
 
-        &:hover,
-        &:focus {
+        &:not(.disabled):hover,
+        &:not(.noFocusColor):not(.disabled):focus {
             background-color: core.$color-accent-highlighted;
             border-color: core.$color-accent-highlighted;
             color: core.$color-accent-font-highlighted;
+            outline: none;
         }
-    }
 
-    &[type="submit"] {
-        background-color: core.$color-primary;
-        border-color: core.$color-primary;
-        color: core.$color-primary-font;
+        &.primary {
+            background-color: core.$color-primary;
+            border-color: core.$color-primary;
+            color: core.$color-primary-font;
 
-        &:hover,
-        &:focus {
-            background-color: core.$color-primary-highlighted;
-            border-color: core.$color-primary-highlighted;
-            color: core.$color-primary-font-highlighted;
+            &:not(.disabled):hover,
+            &:not(.noFocusColor):not(.disabled):focus {
+                background-color: core.$color-primary-highlighted;
+                border-color: core.$color-primary-highlighted;
+                color: core.$color-primary-font-highlighted;
+            }
+        }
+
+        &.secondary {
+            background-color: core.$color-secondary;
+            border-color: core.$color-secondary;
+            color: core.$color-secondary-font;
+
+            &:not(.disabled):hover,
+            &:not(.noFocusColor):not(.disabled):focus {
+                background-color: core.$color-secondary-highlighted;
+                border-color: core.$color-secondary-highlighted;
+                color: core.$color-secondary-font-highlighted;
+            }
+        }
+
+        &.accent {
+            background-color: core.$color-accent;
+            border-color: core.$color-accent;
+            color: core.$color-accent-font;
+
+            &:not(.disabled):hover,
+            &:not(.noFocusColor):not(.disabled):focus {
+                background-color: core.$color-accent-highlighted;
+                border-color: core.$color-accent-highlighted;
+                color: core.$color-accent-font-highlighted;
+            }
         }
     }
 }

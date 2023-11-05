@@ -1,17 +1,19 @@
 "use client"
 
+import Button from "@/components/inputs/Button"
 import useAuthZustand from "@/zustand/useAuthZustand"
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
-import { TfiClose, TfiMenu } from "react-icons/tfi"
+import { TfiMenu } from "react-icons/tfi"
 import Aufmacher from "../../../media/Aufmacher.jpg"
 import Website from "../../../typings"
 import styles from "./Navigation.module.scss"
+import NavigationDrawer from "./NavigationDrawer"
 import NavigationItem from "./NavigationItem"
 
-const navigationEntries: Website.Content.Navigation.NavigationEntry[] = [
+export const navigationEntries: Website.Content.Navigation.NavigationEntry[] = [
     {
         label: "Startseite",
         path: "/",
@@ -46,7 +48,7 @@ const navigationEntries: Website.Content.Navigation.NavigationEntry[] = [
         ],
     },
     {
-        label: "Über uns",
+        label: <>Über&nbsp;uns</>,
         path: "/ueber-uns",
         subEntries: [
             {
@@ -133,9 +135,9 @@ const navigationEntries: Website.Content.Navigation.NavigationEntry[] = [
     },
 ]
 
-const Navigation = () => {
+export default function Navigation() {
     const pathName = usePathname()
-    const [showMenu, setShowMenu] = useState(false)
+    const [navDrawerOpened, setNavDrawerOpened] = useState(false)
     const jwt = useAuthZustand((state) => state.jwt)
     const loadJWTFromCookie = useAuthZustand((state) => state.loadJWTFromCookie)
     const updateUser = useAuthZustand((state) => state.updateUser)
@@ -151,42 +153,46 @@ const Navigation = () => {
     }, [jwt])
 
     useEffect(() => {
-        setShowMenu(false)
+        setNavDrawerOpened(false)
     }, [pathName])
 
     return (
-        <header className={`${styles.header} ${showMenu ? styles.show : ""}`}>
-            <Link className={styles.logoContainer} href="/">
-                <Image
-                    alt="Profile Picture"
-                    className={styles.logo}
-                    height={64}
-                    src={Aufmacher}
-                />
-            </Link>
+        <>
+            <header className={`${styles.header}`}>
+                <Link className={styles.logoContainer} href="/">
+                    <Image
+                        alt="Profile Picture"
+                        className={styles.logo}
+                        height={64}
+                        src={Aufmacher}
+                    />
+                </Link>
 
-            <h1 className={styles.title}>Gemeinde Der&nbsp;Fels</h1>
+                <h1 className={styles.title}>Gemeinde Der&nbsp;Fels</h1>
 
-            <button
-                className={styles.menuSwitch}
-                onClick={() => setShowMenu((prev) => !prev)}
-                type="button"
-            >
-                {showMenu ? <TfiClose /> : <TfiMenu />}
-            </button>
+                <Button
+                    className={styles.menuSwitch}
+                    noActiveAnimation
+                    onClick={() => setNavDrawerOpened((prev) => !prev)}
+                    themeColor="primary"
+                    variant="contained"
+                >
+                    <TfiMenu />
+                </Button>
 
-            <nav className={`${styles.nav}`}>
-                <ul className={`${styles.menu}`}>
-                    {navigationEntries.map(
-                        (
-                            { label, needsAuth, path, subEntries, ...entry },
-                            i,
-                        ) => {
-                            if (needsAuth && jwt === undefined) {
-                                return undefined
-                            }
-
-                            return (
+                <nav className={`${styles.nav}`}>
+                    <ul className={`${styles.menu}`}>
+                        {navigationEntries.map(
+                            (
+                                {
+                                    label,
+                                    needsAuth,
+                                    path,
+                                    subEntries,
+                                    ...entry
+                                },
+                                i,
+                            ) => (
                                 <NavigationItem
                                     className={
                                         entry.onlyMobile
@@ -201,13 +207,15 @@ const Navigation = () => {
                                 >
                                     {label}
                                 </NavigationItem>
-                            )
-                        },
-                    )}
-                </ul>
-            </nav>
-        </header>
+                            ),
+                        )}
+                    </ul>
+                </nav>
+            </header>
+            <NavigationDrawer
+                opened={navDrawerOpened}
+                onClose={() => setNavDrawerOpened(false)}
+            />
+        </>
     )
 }
-
-export default Navigation

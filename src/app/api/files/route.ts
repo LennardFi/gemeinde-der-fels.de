@@ -1,4 +1,5 @@
 import { buildApiRouteWithDatabase } from "@/lib/backend/apiRouteBuilders"
+import { fileUploadFileNameParamName } from "@/lib/frontend/urlParams"
 import { WebsiteError } from "@/lib/shared/errors"
 import { temporalInstanceToDate } from "@/lib/shared/helpers"
 import Website from "@/typings"
@@ -10,13 +11,13 @@ export const POST =
     buildApiRouteWithDatabase<Website.Content.Files.FileDetails>(
         async (req, client, session) => {
             const { searchParams } = new URL(req.url)
-            const fileName = searchParams.get("fileName")
+            const fileName = searchParams.get(fileUploadFileNameParamName)
 
             if (fileName === null) {
                 throw new WebsiteError("request", "fileName required", {
                     endpoint: req.url,
-                    internalMessage: `URL parameter "fileName" in request required`,
-                    statusCode: 400,
+                    internalMessage: `URL parameter "${fileUploadFileNameParamName}" in request required`,
+                    httpStatusCode: 400,
                 })
             }
 
@@ -26,7 +27,7 @@ export const POST =
                 throw new WebsiteError("request", "Content type required", {
                     endpoint: req.url,
                     internalMessage: `Header "ContentType" in request required`,
-                    statusCode: 400,
+                    httpStatusCode: 400,
                 })
             }
 
@@ -98,7 +99,7 @@ export const POST =
                     "database",
                     "Database error appeared while storing file",
                     {
-                        statusCode: 500,
+                        httpStatusCode: 500,
                     },
                     {
                         err,

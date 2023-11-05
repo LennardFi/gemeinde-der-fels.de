@@ -1,0 +1,79 @@
+@use "../../styles/core.module.scss" as core;
+
+.banner {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    grid-template: auto auto / auto 1fr auto;
+    padding: core.getDimensionValue(1);
+    gap: core.getDimensionValue(1);
+
+    .icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        svg {
+            height: core.getDimensionValue(2);
+        }
+    }
+
+    .content {
+        display: flex;
+        flex-direction: column;
+        justify-content: stretch;
+        align-items: stretch;
+        flex: 1 1 auto;
+        gap: core.getDimensionValue(0.5);
+
+        .label {
+            color: inherit;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+            font-size: core.$size-font-subheader;
+            font-weight: 500;
+        }
+
+        .description {
+            color: inherit;
+            flex: 1 1 auto;
+            font-size: core.$size-font-default;
+        }
+    }
+
+    .closeButton {
+        height: core.getDimensionValue(3);
+        width: core.getDimensionValue(3);
+        padding: 0;
+    }
+
+    &.primary {
+        background-color: core.$color-primary;
+        color: core.$color-primary-font;
+
+        .icon {
+            color: core.$color-primary-font;
+        }
+    }
+
+    &.secondary {
+        background-color: core.$color-secondary;
+        color: core.$color-secondary-font;
+
+        .icon {
+            color: core.$color-secondary-font;
+        }
+    }
+
+    &.accent {
+        background-color: core.$color-accent;
+        color: core.$color-accent-font;
+
+        .icon {
+            color: core.$color-accent-font;
+        }
+    }
+}

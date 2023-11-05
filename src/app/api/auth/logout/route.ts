@@ -1,39 +1,22 @@
 import { buildApiRouteWithDatabase } from "@/lib/backend/apiRouteBuilders"
-import { JWT_Cookie_Name, refreshJWT } from "@/lib/backend/auth"
+import { JWT_Cookie_Name } from "@/lib/backend/auth"
 import { WebsiteError } from "@/lib/shared/errors"
-import { Maybe } from "@/typings"
 
-export const POST = buildApiRouteWithDatabase<undefined>(async (req) => {
-    let jsonWebToken: Maybe<string>
-    if (req.headers.has("Authorization")) {
-        jsonWebToken = req.headers.get("Authorization") ?? undefined
-    } else if (req.cookies.has(JWT_Cookie_Name)) {
-        jsonWebToken = req.cookies.get(JWT_Cookie_Name)?.value
-    }
-
-    if (jsonWebToken === undefined) {
+export const POST = buildApiRouteWithDatabase<null>(async (req, _, session) => {
+    if (session.jwtPayload === undefined) {
         throw new WebsiteError("request", "No JWT send within the request", {
-            statusCode: 401,
-            statusText: "No JWT given",
+            httpStatusCode: 401,
+            httpStatusText: "No JWT given",
             endpoint: req.url,
-        })
-    }
-
-    try {
-        await refreshJWT(jsonWebToken)
-    } catch (err: unknown) {
-        throw new WebsiteError("request", "Invalid JWT", {
-            endpoint: req.url,
-            statusCode: 400,
-            statusText: "Invalid JWT",
         })
     }
 
     return {
         body: {
             success: true,
-            data: undefined,
+            data: null,
         },
+        contentType: "application/json",
         cookies: [
             {
                 name: JWT_Cookie_Name,
@@ -41,6 +24,7 @@ export const POST = buildApiRouteWithDatabase<undefined>(async (req) => {
                 expires: -1,
             },
         ],
+        jwtPayload: undefined,
         status: 200,
     }
 })

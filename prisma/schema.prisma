@@ -7,12 +7,17 @@ generator client {
     provider = "prisma-client-js"
 }
 
+enum FileRole {
+    SermonAudioFile
+}
+
 model File {
     id             String      @id @default(auto()) @map("_id") @db.ObjectId
     name           String
     extension      String
     mimeType       String
     uploadDateTime DateTime
+    role           FileRole?
     chunks         FileChunk[]
     Sermon         Sermon[]
 }
@@ -25,13 +30,13 @@ model FileChunk {
 }
 
 model ErrorLog {
-    id              String        @id @default(auto()) @map("_id") @db.ObjectId
-    errorId         String
-    timestamp       DateTime
-    cause           String
-    message         String
-    internalMessage String?
-    ResponseLog     ResponseLog[]
+    id            String        @id @default(auto()) @map("_id") @db.ObjectId
+    errorId       String
+    timestamp     DateTime
+    cause         String
+    message       String
+    internalError Json?
+    ResponseLog   ResponseLog[]
 }
 
 model ResponseLog {

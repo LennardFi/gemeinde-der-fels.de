@@ -1,59 +1,84 @@
 import { buildApiRouteWithDatabase } from "@/lib/backend/apiRouteBuilders"
+import { sermonsListGetEntriesAfterIdParamName } from "@/lib/frontend/urlParams"
 import { WebsiteError } from "@/lib/shared/errors"
 import { dateToTemporalInstance } from "@/lib/shared/helpers"
 import { postSermonsApiRequestBodySchema } from "@/lib/shared/schemes"
 import Website from "@/typings"
 import { Temporal } from "temporal-polyfill"
 
-export const GET = buildApiRouteWithDatabase<Website.Content.Sermons.Sermon[]>(
-    async (req, client, session) => {
-        const sermons = await client.sermon.findMany({
-            include: {
-                series: true,
-                speaker: true,
-            },
-        })
+export const GET =
+    buildApiRouteWithDatabase<Website.Api.Endpoints.SermonsListResponseBody>(
+        async (req, client, session) => {
+            const { searchParams } = new URL(req.url)
+            const afterId = searchParams.get(
+                sermonsListGetEntriesAfterIdParamName,
+            )
 
-        return {
-            body: {
-                success: true,
-                data: sermons.map<Website.Content.Sermons.Sermon>((sermon) => ({
-                    audioFileId: sermon.audioFileId,
-                    date: (
-                        dateToTemporalInstance(sermon.date, "UTC") ??
-                        Temporal.Instant.fromEpochMilliseconds(
-                            1_000_000,
-                        ).toZonedDateTimeISO("UTC")
-                    ).toPlainDate(),
-                    id: sermon.id,
-                    title: sermon.title,
-                    speaker: {
-                        id: sermon.speaker.id,
-                        initials: sermon.speaker.initials,
-                        name: sermon.speaker.name,
+            const pageLength = 10
+
+            const sermons = await client.sermon.findMany({
+                cursor:
+                    afterId !== null
+                        ? {
+                              id: afterId ?? undefined,
+                          }
+                        : undefined,
+                include: {
+                    series: true,
+                    speaker: true,
+                    audioFile: true,
+                },
+                orderBy: {
+                    title: "asc",
+                },
+                skip: afterId !== null ? 1 : 0,
+                take: pageLength + 1,
+            })
+
+            return {
+                body: {
+                    success: true,
+                    data: {
+                        endOfData: sermons.length !== pageLength + 1,
+                        entries: sermons.slice(0, -1).map((sermon) => ({
+                            audioFileId: sermon.audioFileId,
+                            audioFileFormat: sermon.audioFile.extension,
+                            date: (
+                                dateToTemporalInstance(sermon.date, "UTC") ??
+                                Temporal.Instant.fromEpochMilliseconds(
+                                    1_000_000,
+                                ).toZonedDateTimeISO("UTC")
+                            ).epochMilliseconds,
+                            id: sermon.id,
+                            title: sermon.title,
+                            speaker: {
+                                id: sermon.speaker.id,
+                                initials: sermon.speaker.initials,
+                                name: sermon.speaker.name,
+                            },
+                            series:
+                                sermon.series === null
+                                    ? undefined
+                                    : {
+                                          id: sermon.series.id,
+                                          title: sermon.series.title,
+                                      },
+                        })),
                     },
-                    series:
-                        sermon.series === null
-                            ? undefined
-                            : {
-                                  id: sermon.series.id,
-                                  title: sermon.series.title,
-                              },
-                })),
-            },
-            contentType: "application/json",
-            jwtPayload: session.jwtPayload,
-            status: 200,
-        }
-    },
-)
+                },
+                contentType: "application/json",
+                jwtPayload: session.jwtPayload,
+                status: 200,
+            }
+        },
+    )
 
 export const POST = buildApiRouteWithDatabase<string>(
     async (req, client, session) => {
         if (session.user === undefined) {
             throw new WebsiteError("request", "Not authenticated", {
                 endpoint: req.url,
-                statusCode: 401,
+                httpStatusCode: 401,
             })
         }
 
@@ -62,7 +87,7 @@ export const POST = buildApiRouteWithDatabase<string>(
                 "request",
                 "The user does not have permission to do this",
                 {
-                    statusCode: 403,
+                    httpStatusCode: 403,
                 },
             )
         }
@@ -72,8 +97,8 @@ export const POST = buildApiRouteWithDatabase<string>(
             body = await req.json()
         } catch (err) {
             throw new WebsiteError("request", "Body not parsable", {
-                statusCode: 400,
-                statusText: "Body not parsable",
+                httpStatusCode: 400,
+                httpStatusText: "Body not parsable",
             })
         }
 
@@ -83,22 +108,21 @@ export const POST = buildApiRouteWithDatabase<string>(
             console.log({ error: parsedResult.error })
 
             throw new WebsiteError("request", "Invalid request body", {
-                statusCode: 400,
-                statusText: "Invalid request body",
+                httpStatusCode: 400,
+                httpStatusText: "Invalid request body",
             })
         }
 
-        const series =
-            parsedResult.data.series !== undefined
-                ? await client.sermonSeries.findUnique({
-                      where: {
-                          id: parsedResult.data.series,
-                      },
-                      include: {
-                          parts: true,
-                      },
-                  })
-                : null
+        const series = parsedResult.data.series
+            ? await client.sermonSeries.findUnique({
+                  where: {
+                      id: parsedResult.data.series,
+                  },
+                  include: {
+                      parts: true,
+                  },
+              })
+            : null
 
         const sermonSpeaker = client.sermonSpeaker.findUnique({
             where: {
@@ -111,8 +135,8 @@ export const POST = buildApiRouteWithDatabase<string>(
                 "request",
                 "Speaker does not exist",
                 {
-                    statusCode: 404,
-                    statusText: "Speaker not found",
+                    httpStatusCode: 404,
+                    httpStatusText: "Speaker not found",
                 },
                 {
                     sermonSpeakerId: parsedResult.data.speaker,
@@ -131,8 +155,8 @@ export const POST = buildApiRouteWithDatabase<string>(
                 "request",
                 "Audio file does not exist",
                 {
-                    statusCode: 404,
-                    statusText: "Audio file not found",
+                    httpStatusCode: 404,
+                    httpStatusText: "Audio file not found",
                 },
                 {
                     audioFileId: parsedResult.data.audioFileId,

@@ -6,13 +6,37 @@ export type ErrorScope = "api" | "client" | "database" | "request" | "server"
 
 export type MetaData = Record<string, unknown>
 
+/**
+ * `critical`: Critical errors may cause security or privacy issues in the app.
+ * This issues should be fixed immediately.
+ *
+ * `illegalAction`: Illegal actions are a type of error which are caused by
+ * invalid states or invalid state transitions in the code of the app. For
+ * example an interaction which should be impossible.
+ *
+ * `error`: Just the default error type. It should be treaded responsible
+ * according to the error details.
+ *
+ * `warning`: A warning about some issues in the app. A warning **must not**
+ * intercept the normal result of the user. But it could be hint that there is
+ * some wrong or suspicious behavior.
+ *
+ * @default `"error"`
+ */
+export type ErrorLevel = "critical" | "illegalAction" | "error" | "warning"
+
 export interface WebsiteErrorOptions {
     databaseConnectionError?: boolean
+    httpStatusCode?: number
+    httpStatusText?: string
     endpoint?: string
     internalException?: Error
     internalMessage?: string
-    statusCode?: number
-    statusText?: string
+    /**
+     * @default `"error"`
+     * @see ErrorLevel
+     */
+    level?: ErrorLevel
     timestamp?: Temporal.ZonedDateTime
 }
 
@@ -22,21 +46,6 @@ export class WebsiteError extends Error {
     public readonly message: string
     public readonly options: WebsiteErrorOptions
     public readonly metaData: Readonly<MetaData>
-    public static fromApiError(
-        e: Website.Api.ApiError,
-        options?: WebsiteErrorOptions,
-        metaData?: MetaData,
-    ): WebsiteError {
-        return new WebsiteError(
-            e.scope === "server-internal" ? "server" : e.scope,
-            e.message,
-            {
-                ...options,
-                internalMessage: e.internalMessage,
-            },
-            metaData,
-        )
-    }
 
     public constructor(
         scope: ErrorScope,
@@ -57,6 +66,7 @@ export class WebsiteError extends Error {
                     : {}
                 : {}),
             ...options,
+            level: options?.level ?? "error",
             timestamp:
                 options?.timestamp ?? Temporal.Now.zonedDateTimeISO("UTC"),
         }
@@ -72,13 +82,13 @@ export class WebsiteError extends Error {
                 ? ""
                 : `:${this.options.endpoint}`
         }${
-            this.options.statusCode === undefined
+            this.options.httpStatusCode === undefined
                 ? ""
-                : `:${this.options.statusCode}`
+                : `:${this.options.httpStatusCode}`
         }${
-            this.options.statusText === undefined
+            this.options.httpStatusText === undefined
                 ? ""
-                : `:${this.options.statusText}`
+                : `:${this.options.httpStatusText}`
         }] ${this.message}`
     }
 
@@ -90,5 +100,21 @@ export class WebsiteError extends Error {
             options: this.options,
             metaData: this.metaData,
         }
+    }
+
+    public static fromApiError(
+        e: Website.Api.ApiError,
+        options?: WebsiteErrorOptions,
+        metaData?: MetaData,
+    ): WebsiteError {
+        return new WebsiteError(
+            e.scope === "server-internal" ? "server" : e.scope,
+            e.message,
+            {
+                internalMessage: e.internalMessage,
+                ...options,
+            },
+            metaData,
+        )
     }
 }

@@ -1,7 +1,7 @@
 import { readNewsFromDatabase } from "@/lib/backend/news"
 import styles from "./NewsList.module.scss"
 
-const NewsList = async () => {
+export default function NewsList async () {
     const news = await readNewsFromDatabase()
 
     return (
@@ -19,5 +19,3 @@ const NewsList = async () => {
         </ul>
     )
 }
-
-export default NewsList

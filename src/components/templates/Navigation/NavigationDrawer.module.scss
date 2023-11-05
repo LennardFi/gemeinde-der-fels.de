@@ -1,0 +1,66 @@
+@use "../../../styles/core.module.scss" as core;
+
+$duration: 10000ms;
+
+.drawerContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: stretch;
+    height: 100%;
+    width: 100%;
+    z-index: 100;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+
+    .drawer {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: stretch;
+        background-color: core.$color-primary;
+        color: core.$color-primary-font;
+        height: 100%;
+        width: min(core.$size-breakpoint-small, 100%);
+        transform-origin: right center;
+
+        .closeButton {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: core.getDimensionValue(8);
+            width: core.getDimensionValue(8);
+            padding: core.getDimensionValue(2);
+            align-self: flex-end;
+
+            svg {
+                height: core.getDimensionValue(4);
+                width: core.getDimensionValue(4);
+            }
+        }
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: stretch;
+            flex: 1 1 auto;
+            overflow: auto;
+
+            .first {
+                border-top: none;
+            }
+        }
+
+        @media (min-width: core.$size-breakpoint-small) {
+            border-left: core.$size-border-default solid
+                core.$color-primary-highlighted;
+        }
+    }
+
+    @media (min-width: core.$size-breakpoint-large) {
+        display: none;
+    }
+}

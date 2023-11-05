@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 
 const headerFont = Raleway({ subsets: ["latin"] })
 
-const Layout = ({ children }: IndexLayoutProps) => {
+export default function Layout({ children }: IndexLayoutProps) {
     return (
         <html>
             <head>
@@ -39,4 +39,3 @@ const Layout = ({ children }: IndexLayoutProps) => {
         </html>
     )
 }
-export default Layout

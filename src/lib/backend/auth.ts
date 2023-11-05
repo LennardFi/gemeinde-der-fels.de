@@ -3,6 +3,7 @@ import crypto from "crypto"
 import jsonwebtoken, { TokenExpiredError } from "jsonwebtoken"
 import { NextRequest } from "next/server"
 import { WebsiteError } from "../shared/errors"
+import { JWTPayloadSchema } from "./schemes"
 
 export const JWT_Cookie_Name = "JWT-Session"
 
@@ -13,7 +14,8 @@ export const getJWTForPayload = (
 ): string => {
     const payload: Website.Api.JWTPayload = {
         email: jwtPayload.email,
-        flags: jwtPayload.flags,
+        jwtFlags: jwtPayload.jwtFlags,
+        userFlags: jwtPayload.userFlags,
         userId: jwtPayload.userId,
         userName: jwtPayload.userName,
     }
@@ -32,28 +34,28 @@ export const validateJWT = async (
             jsonwebtoken.verify(jwt, key, (err, decoded) => {
                 if (err !== null) {
                     if (err instanceof TokenExpiredError) {
-                        reject(
+                        return reject(
                             new WebsiteError(
                                 "request",
                                 "JWT expired",
                                 {
-                                    statusCode: 401,
+                                    httpStatusCode: 401,
                                     internalException: err,
-                                    statusText: "JWT expired",
+                                    httpStatusText: "JWT expired",
                                 },
                                 {
                                     jwt,
                                 },
                             ),
                         )
-                        return
                     }
-                    reject(
+
+                    return reject(
                         new WebsiteError(
                             "api",
                             "Invalid JWT",
                             {
-                                statusCode: 401,
+                                httpStatusCode: 401,
                                 internalException: err,
                             },
                             {
@@ -61,21 +63,42 @@ export const validateJWT = async (
                             },
                         ),
                     )
-                    return
                 }
 
                 if (typeof decoded === "string") {
                     reject(
                         new WebsiteError("api", "Invalid JWT payload", {
-                            statusCode: 500,
+                            httpStatusCode: 500,
                         }),
                     )
                     return
                 }
 
-                const jwtPayload = decoded as Website.Api.JWTPayload
+                const parseResult = JWTPayloadSchema.safeParse(decoded)
 
-                return resolve(jwtPayload)
+                if (!parseResult.success) {
+                    throw new WebsiteError(
+                        "api",
+                        "Invalid JWT payload structure",
+                        {
+                            httpStatusCode: 500,
+                            internalException: parseResult.error,
+                        },
+                        {
+                            errorMsg: parseResult.error.toString(),
+                        },
+                    )
+                }
+
+                const jwtPayload = parseResult.data
+
+                return resolve({
+                    ...jwtPayload,
+                    jwtFlags: {
+                        resetPassword:
+                            jwtPayload.jwtFlags?.resetPassword ?? undefined,
+                    },
+                })
             })
         } catch (error) {
             if (error instanceof WebsiteError) {
@@ -88,7 +111,7 @@ export const validateJWT = async (
                     "api",
                     "Unknown error while validating JWT",
                     {
-                        statusCode: 500,
+                        httpStatusCode: 500,
                     },
                     {
                         error,
@@ -116,7 +139,7 @@ export const refreshJWT = async (
             "api",
             "Unknown error while validating JWT",
             {
-                statusCode: 500,
+                httpStatusCode: 500,
             },
             {
                 error,

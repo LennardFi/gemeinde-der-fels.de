@@ -10,44 +10,56 @@
         justify-content: flex-start;
         align-items: stretch;
 
-        .msg {
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-            margin: core.getDimensionValue(2) 0;
-            padding: core.getDimensionValue(1);
-
-            &.error {
-                background: core.$color-secondary;
-                color: core.$color-secondary-font;
-            }
-
-            p {
-                margin: 0 core.getDimensionValue(2);
-                text-align: center;
-            }
-        }
-
-        .inputs {
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: stretch;
-            gap: core.getDimensionValue(1);
+        fieldset {
             margin: core.getDimensionValue(2) 0;
 
-            .resetPassword {
-                align-self: flex-start;
-            }
-        }
+            &.msg {
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+                padding: core.getDimensionValue(1);
 
-        .actions {
-            display: flex;
-            flex-direction: row;
-            justify-content: flex-end;
-            align-items: center;
-            gap: core.getDimensionValue(1);
+                &.error {
+                    background: core.$color-secondary;
+                    color: core.$color-secondary-font;
+                }
+
+                p {
+                    margin: 0 core.getDimensionValue(2);
+                    text-align: center;
+                }
+            }
+
+            &.inputs {
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: stretch;
+                gap: core.getDimensionValue(1);
+
+                .resetPassword {
+                    align-self: flex-start;
+                }
+            }
+
+            &.banners {
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: stretch;
+                gap: core.getDimensionValue(1);
+                margin-top: 0;
+            }
+
+            &.actions {
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-end;
+                align-items: center;
+                gap: core.getDimensionValue(1);
+                margin: 0;
+            }
         }
     }
 }

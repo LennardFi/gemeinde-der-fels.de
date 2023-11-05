@@ -14,6 +14,7 @@
         "isolatedModules": true,
         "jsx": "preserve",
         "incremental": true,
+        "noUncheckedIndexedAccess": true,
         "paths": {
             "@/*": ["./src/*"]
         },
@@ -23,16 +24,6 @@
             }
         ]
     },
-    "include": [
-        "next-env.d.ts",
-        "**/*.ts",
-        "**/*.tsx",
-        ".next/types/**/*.ts",
-        "src/app/kontakt/page.tsx_old",
-        "src/app/predigten/page.tsx_old",
-        "src/components/templates/SermonsList/SermonsFilter.tsx_old",
-        "src/components/templates/SermonsList/SermonsList.tsx",
-        "src/lib/backend/content.ts_old"
-    ],
+    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
     "exclude": ["node_modules"]
 }

@@ -1,6 +1,6 @@
 import styles from "./page.module.scss"
 
-const Imprint = () => {
+export default function Imprint() {
     return (
         <div className={styles.imprint}>
             <h2>Angaben gemäß § 5 TMG</h2>
@@ -90,5 +90,3 @@ const Imprint = () => {
         </div>
     )
 }
-
-export default Imprint

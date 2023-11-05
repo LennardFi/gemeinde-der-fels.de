@@ -4,7 +4,7 @@ import useAuthZustand from "@/zustand/useAuthZustand"
 import Link from "next/link"
 import styles from "./Footer.module.scss"
 
-const Footer = () => {
+export default function Footer() {
     const jwt = useAuthZustand((state) => state.jwt)
 
     return (
@@ -34,5 +34,3 @@ const Footer = () => {
         </footer>
     )
 }
-
-export default Footer

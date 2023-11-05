@@ -1,5 +1,12 @@
 "use client"
 
+import { redirect, RedirectType, useSearchParams } from "next/navigation"
+
 export default function Page() {
-    return <h1>Reset password</h1>
+    const searchParams = useSearchParams()
+
+    redirect(
+        `/change-password?${searchParams.toString()}`,
+        RedirectType.replace,
+    )
 }

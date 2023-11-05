@@ -39,8 +39,6 @@ export async function logResponseOnServer<T>(
               res.body.internalError,
           ]
 
-    console.log({ internalError })
-
     try {
         const timeStamp = Temporal.Now.zonedDateTimeISO("UTC")
         await newClient.responseLog.create({
@@ -63,8 +61,7 @@ export async function logResponseOnServer<T>(
                                           timeStamp,
                                       new Date(),
                                   ),
-                                  internalMessage:
-                                      internalError.options.internalMessage,
+                                  internalError: internalError,
                               }
                             : undefined,
                 },

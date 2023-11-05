@@ -2,4 +2,14 @@
 
 .card {
     margin: auto 0;
+
+    .flagTable {
+        th {
+            text-align: left;
+        }
+
+        td:nth-child(2) {
+            text-align: center;
+        }
+    }
 }

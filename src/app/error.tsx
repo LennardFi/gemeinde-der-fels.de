@@ -1,5 +1,7 @@
 "use client"
 
+import { logError } from "@/lib/frontend/logger"
+import { WebsiteError } from "@/lib/shared/errors"
 import { useEffect } from "react"
 
 interface ErrorProps {
@@ -7,10 +9,16 @@ interface ErrorProps {
     reset: () => void
 }
 
-const Error = ({ error, reset }: ErrorProps) => {
+export default function Error({ error, reset }: ErrorProps) {
     useEffect(() => {
+        if (error instanceof WebsiteError) {
+            logError(error)
+
+            return
+        }
+
         // Log the error to an error reporting service
-        console.error(error)
+        console.error({ error })
     }, [error])
 
     return (
@@ -20,5 +28,3 @@ const Error = ({ error, reset }: ErrorProps) => {
         </div>
     )
 }
-
-export default Error

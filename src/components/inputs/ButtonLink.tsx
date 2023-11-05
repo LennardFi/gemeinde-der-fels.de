@@ -1,5 +1,6 @@
-import Website from "@/typings"
 import Link, { LinkProps } from "next/link"
+import { ButtonRootProps } from "./Button"
+import buttonStyles from "./Button.module.scss"
 import styles from "./ButtonLink.module.scss"
 
 type NextLinkProps = Omit<
@@ -10,33 +11,69 @@ type NextLinkProps = Omit<
         children?: React.ReactNode
     } & React.RefAttributes<HTMLAnchorElement>
 
-interface ButtonLinkProps extends NextLinkProps {
-    variant?: Website.Design.InputVariant
-}
+export type ButtonLinkProps = NextLinkProps & Omit<ButtonRootProps, "onClick">
 
 export default function ButtonLink({
     children,
     className,
-    href,
+    labelProps,
+    leftSegment,
+    rightSegment,
+    noActiveAnimation,
+    noFocusColor,
+    themeColor,
     type,
     variant,
     ...rest
 }: ButtonLinkProps) {
     const variantStyles =
         variant === "contained"
-            ? styles.contained
+            ? buttonStyles.contained
             : variant === "outlined"
-            ? styles.outlined
+            ? buttonStyles.outlined
+            : ""
+
+    const themeColorStyle =
+        themeColor === "primary"
+            ? buttonStyles.primary
+            : themeColor === "secondary"
+            ? buttonStyles.secondary
+            : themeColor === "accent"
+            ? buttonStyles.accent
             : ""
 
     return (
         <Link
-            className={`${styles.button} ${variantStyles} ${className ?? ""}`}
-            href={href}
+            className={`${buttonStyles.button} ${
+                styles.button
+            } ${variantStyles} ${themeColorStyle} ${
+                noActiveAnimation ? buttonStyles.noActiveAnimation : ""
+            } ${noFocusColor ? buttonStyles.noFocusColor : ""} ${className}`}
             type={type ?? "button"}
             {...rest}
         >
-            {children}
+            {leftSegment !== undefined ? (
+                <span
+                    className={`${buttonStyles.segment} ${buttonStyles.left}`}
+                >
+                    {leftSegment}
+                </span>
+            ) : null}
+            <span
+                {...labelProps}
+                className={`${buttonStyles.label} ${styles.label} ${
+                    labelProps?.className ?? ""
+                }`}
+            >
+                {children}
+            </span>
+            {rightSegment !== undefined ? (
+                <span
+                    className={`${buttonStyles.segment} ${buttonStyles.right}`}
+                >
+                    {rightSegment}
+                </span>
+            ) : null}
         </Link>
     )
 }

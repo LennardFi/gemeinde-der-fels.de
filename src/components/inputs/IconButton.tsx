@@ -1,20 +1,21 @@
+import Button, { ButtonProps } from "./Button"
 import styles from "./IconButton.module.scss"
 
-type IconButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement>
+type IconButtonProps = Omit<ButtonProps, "leftSegment" | "rightSegment">
 
 export default function IconButton({
-    children,
     className,
-    type,
+    labelProps,
     ...rest
 }: IconButtonProps) {
     return (
-        <button
-            className={`${styles.button} ${className ?? ""}`}
-            type={type ?? "button"}
+        <Button
+            className={`${styles.iconButton} ${className ?? ""}`}
+            labelProps={{
+                ...labelProps,
+                className: `${styles.label} ${labelProps?.className ?? ""}`,
+            }}
             {...rest}
-        >
-            {children}
-        </button>
+        />
     )
 }

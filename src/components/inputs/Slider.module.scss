@@ -1,0 +1,133 @@
+@use "../../styles/core.module.scss" as core;
+
+.slider {
+    height: core.getDimensionValue(4);
+    width: auto;
+    margin: 0 max(auto, core.getDimensionValue(1));
+
+    .track {
+        top: core.getDimensionValue(2);
+        transform: translateY(calc(-50%));
+        height: core.getDimensionValue(1);
+        overflow: visible;
+    }
+
+    .mark {
+        height: core.getDimensionValue(2.5);
+        width: core.getDimensionValue(0.5);
+        top: core.getDimensionValue(2);
+        transform: translate(calc(+50%), calc(-50%));
+    }
+
+    .thumb {
+        cursor: pointer;
+        height: core.getDimensionValue(2);
+        width: core.getDimensionValue(2);
+        top: core.getDimensionValue(2);
+        transition: transform 200ms ease-in-out;
+        transform: translate(calc(-50% + 4px), calc(-50%));
+        outline: none;
+        border: core.$size-border-default solid;
+        overflow: visible;
+
+        &.activeThumb {
+            transform: translate(calc(-50% + 4px), calc(-50%)) scale(1.2);
+
+            .thumbLabel {
+                display: flex;
+            }
+        }
+
+        .thumbLabel {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: core.getDimensionValue(0.5);
+            width: core.getDimensionValue(4);
+            position: relative;
+            bottom: core.getDimensionValue(3);
+            font-size: core.$size-font-label;
+            text-align: center;
+            transform: translateX(calc(-50% + core.getDimensionValue(1)));
+            z-index: 100;
+        }
+    }
+
+    &.primary {
+        .track {
+            background-color: core.$color-primary-faded;
+        }
+
+        .mark {
+            background-color: core.$color-primary;
+        }
+
+        .thumb {
+            color: core.$color-primary-font;
+            background-color: core.$color-primary;
+            border-color: core.$color-primary-font;
+
+            &.activeThumb {
+                color: core.$color-primary-font-highlighted;
+                background-color: core.$color-primary-highlighted;
+            }
+
+            .thumbLabel {
+                color: core.$color-primary-font;
+                background-color: core.$color-primary;
+            }
+        }
+    }
+
+    &.secondary {
+        .track {
+            background-color: core.$color-secondary-faded;
+        }
+
+        .mark {
+            background-color: core.$color-secondary;
+        }
+
+        .thumb {
+            color: core.$color-secondary-font;
+            background-color: core.$color-secondary;
+            border-color: core.$color-secondary-font;
+
+            &.activeThumb {
+                color: core.$color-secondary-font-highlighted;
+                background-color: core.$color-secondary-highlighted;
+            }
+
+            .thumbLabel {
+                color: core.$color-secondary-font;
+                background-color: core.$color-secondary;
+            }
+        }
+    }
+
+    &.accent {
+        .track {
+            background-color: core.$color-accent-faded;
+        }
+
+        .mark {
+            background-color: core.$color-accent;
+        }
+
+        .thumb {
+            color: core.$color-accent-font;
+            background-color: core.$color-accent;
+            border-color: core.$color-accent-font;
+
+            &.activeThumb {
+                color: core.$color-accent-font-highlighted;
+                background-color: core.$color-accent-highlighted;
+            }
+
+            .thumbLabel {
+                color: core.$color-accent-font;
+                background-color: core.$color-accent;
+            }
+        }
+    }
+}

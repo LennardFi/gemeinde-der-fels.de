@@ -1,0 +1,78 @@
+@use "../../../styles/core.module.scss" as core;
+
+.player {
+    display: grid;
+    grid-template: repeat(3, 1fr) / repeat(4, 1fr);
+    padding: core.getDimensionValue(1);
+    gap: core.getDimensionValue(1);
+
+    .labels {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        grid-column: 1 / 5;
+        grid-row: 1 / 3;
+
+        .title {
+            font-size: core.$size-font-subheader;
+        }
+
+        .performer {
+            font-size: core.$size-font-default;
+        }
+    }
+
+    .controls {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        gap: core.getDimensionValue(0.5);
+        grid-column: 1 / 2;
+        grid-row: 3 / 4;
+
+        .loaderButton {
+            padding: core.getDimensionValue(0.5);
+
+            .loader {
+                height: core.getDimensionValue(3);
+                width: core.getDimensionValue(3);
+            }
+        }
+    }
+
+    .sliderContainer {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        gap: core.getDimensionValue(1);
+        grid-column: 2 / 5;
+        grid-row: 3 / 4;
+
+        .slider {
+            flex: 1 1 auto;
+        }
+
+        .sliderValue {
+            text-align: center;
+            width: core.getDimensionValue(5);
+        }
+    }
+
+    &.primary {
+        background-color: core.$color-primary;
+        color: core.$color-primary-font;
+    }
+
+    &.secondary {
+        background-color: core.$color-secondary;
+        color: core.$color-secondary-font;
+    }
+
+    &.accent {
+        background-color: core.$color-accent;
+        color: core.$color-accent-font;
+    }
+}

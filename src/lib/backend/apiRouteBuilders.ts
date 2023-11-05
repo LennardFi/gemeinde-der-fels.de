@@ -10,36 +10,10 @@ import {
     JWT_Cookie_Name,
     validateJWT,
 } from "./auth"
+import { getClient } from "./databaseHelpers"
 import { logResponseOnServer } from "./logging"
 
 const forbiddenErrorCauses: ErrorScope[] = ["database"]
-
-let _client: Maybe<PrismaClient>
-
-const getClient = (): PrismaClient => {
-    if (_client === undefined) {
-        try {
-            _client = new PrismaClient()
-            _client.$connect()
-            console.log("Connecting to database")
-            return _client
-        } catch (err) {
-            throw new WebsiteError(
-                "database",
-                "Could not establish a database connection",
-                {
-                    databaseConnectionError: true,
-                    statusCode: 500,
-                },
-                {
-                    err,
-                },
-            )
-        }
-    }
-
-    return _client
-}
 
 /**
  * Builds a NEXT.js route which wraps the database handling away from the given
@@ -66,41 +40,44 @@ export const buildApiRouteWithDatabase =
         let apiResponse: Maybe<Website.Api.ApiResponse<T>>
         try {
             const jwt = getJWTFromRequest(req)
-            const sessionOptions: Website.Api.SessionOptions = {}
+            let sessionOptions: Website.Api.SessionOptions = {}
 
             if (jwt !== undefined) {
+                let jwtPayload: Maybe<Website.Api.JWTPayload>
                 try {
-                    sessionOptions.jwtPayload = await validateJWT(jwt)
+                    jwtPayload = await validateJWT(jwt)
                 } catch (err) {
                     if (
                         !(err instanceof WebsiteError) ||
-                        err.options.statusCode !== 401
-                    )
+                        err.options.httpStatusCode !== 401
+                    ) {
                         throw err
+                    }
                 }
 
-                if (sessionOptions.jwtPayload !== undefined) {
+                if (jwtPayload !== undefined) {
                     const user = await getClient().user.findUnique({
                         where: {
-                            id: sessionOptions.jwtPayload.userId,
+                            id: jwtPayload.userId,
                         },
                     })
 
-                    if (user?.disabled) {
-                        sessionOptions.jwtPayload = undefined
-                        sessionOptions.user = undefined
-                    } else if (user !== null) {
-                        sessionOptions.jwtPayload = {
-                            email: user.email,
-                            flags: user.flags,
-                            userId: user.id,
-                            userName: user.userName,
-                        }
-                        sessionOptions.user = {
-                            id: user.id,
-                            email: user.email,
-                            flags: user.flags,
-                            userName: user.userName,
+                    if (user !== null && !user.disabled) {
+                        sessionOptions = {
+                            jwtPayload: {
+                                email: user.email,
+                                jwtFlags: jwtPayload.jwtFlags,
+                                userFlags: user.flags,
+                                userId: user.id,
+                                userName: user.userName,
+                            },
+                            passwordHash: user.passwordHash,
+                            user: {
+                                id: user.id,
+                                email: user.email,
+                                flags: user.flags,
+                                userName: user.userName,
+                            },
                         }
                     }
                 }
@@ -130,7 +107,7 @@ export const buildApiRouteWithDatabase =
                                     : "-",
                             expires:
                                 apiResponse.jwtPayload !== undefined
-                                    ? 60 * 60 * 12 // 12 hours
+                                    ? 60 * 60 * 24 // 24 hours
                                     : -1,
                         },
                         ...(apiResponse.cookies ?? []),
@@ -169,7 +146,7 @@ export const buildApiRouteWithDatabase =
                         },
                         contentType: "application/json",
                         cookies: [
-                            ...(e.options.statusCode === 401
+                            ...(e.options.httpStatusCode === 401
                                 ? [
                                       {
                                           name: JWT_Cookie_Name,
@@ -179,8 +156,8 @@ export const buildApiRouteWithDatabase =
                                   ]
                                 : []),
                         ],
-                        status: e.options.statusCode ?? 500,
-                        statusText: e.options.statusText,
+                        status: e.options.httpStatusCode ?? 500,
+                        statusText: e.options.httpStatusText,
                     }
                 } else {
                     apiResponse = {
@@ -196,7 +173,7 @@ export const buildApiRouteWithDatabase =
                         },
                         contentType: "application/json",
                         cookies: [
-                            ...(e.options.statusCode === 401
+                            ...(e.options.httpStatusCode === 401
                                 ? [
                                       {
                                           name: JWT_Cookie_Name,
@@ -206,8 +183,8 @@ export const buildApiRouteWithDatabase =
                                   ]
                                 : []),
                         ],
-                        status: e.options.statusCode ?? 500,
-                        statusText: e.options.statusText,
+                        status: e.options.httpStatusCode ?? 500,
+                        statusText: e.options.httpStatusText,
                     }
                 }
             } else {
@@ -246,27 +223,38 @@ export const buildApiRouteWithDatabase =
                 options.endpoint = req.nextUrl.pathname
             }
 
-            return new NextResponse(JSON.stringify(apiResponse.body), {
-                status: apiResponse.status ?? 500,
-                statusText: apiResponse.statusText,
-                headers: (apiResponse.cookies ?? []).reduce(
-                    (headers, cookie) => {
-                        headers.append(
-                            "Set-Cookie",
-                            getCookieHeaderValueString(cookie),
-                        )
-                        return headers
-                    },
-                    new Headers({
-                        ...(apiResponse.contentType !== undefined
-                            ? {
-                                  "Content-Type": apiResponse.contentType,
-                              }
-                            : undefined),
-                        ...apiResponse.headers,
-                    }),
-                ),
-            })
+            const apiResponseBodyWithoutInternalError: Website.Api.ApiResponseBody<T> =
+                apiResponse.body.success
+                    ? apiResponse.body
+                    : {
+                          ...apiResponse.body,
+                          internalError: undefined,
+                      }
+
+            return new NextResponse(
+                JSON.stringify(apiResponseBodyWithoutInternalError),
+                {
+                    status: apiResponse.status ?? 500,
+                    statusText: apiResponse.statusText,
+                    headers: (apiResponse.cookies ?? []).reduce(
+                        (headers, cookie) => {
+                            headers.append(
+                                "Set-Cookie",
+                                getCookieHeaderValueString(cookie),
+                            )
+                            return headers
+                        },
+                        new Headers({
+                            ...(apiResponse.contentType !== undefined
+                                ? {
+                                      "Content-Type": apiResponse.contentType,
+                                  }
+                                : undefined),
+                            ...apiResponse.headers,
+                        }),
+                    ),
+                },
+            )
         } finally {
             if (
                 apiResponse !== undefined &&
@@ -277,7 +265,7 @@ export const buildApiRouteWithDatabase =
                     : true)
             ) {
                 try {
-                    logResponseOnServer(apiResponse, _client)
+                    logResponseOnServer(apiResponse, getClient())
                 } catch (error: unknown) {
                     console.log("Failed to log response")
                 }

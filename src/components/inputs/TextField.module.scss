@@ -23,6 +23,7 @@
         display: flex;
         flex-direction: row;
         justify-content: space-between;
+        align-items: center;
         flex: 1 1 auto;
         height: core.getDimensionValue(4);
 
@@ -31,7 +32,7 @@
             border: none;
             flex: 1 1 auto;
             font-size: core.$size-font-default;
-            padding: core.getDimensionValue(0.5);
+            padding: core.getDimensionValue(0.5) core.getDimensionValue(1);
 
             &:hover,
             &:active,
@@ -41,13 +42,34 @@
             }
         }
 
-        .passwordVisibilityToggle {
-            color: core.$color-accent;
+        .passwordVisibilityToggleButton {
+            margin: 0 core.getDimensionValue(0.5);
+            padding: core.getDimensionValue(1);
+            height: core.getDimensionValue(3.5);
+            width: core.getDimensionValue(3.5);
 
-            .passwordVisibilityToggleIcon {
-                height: core.getDimensionValue(2);
-                width: core.getDimensionValue(2);
-                object-fit: contain;
+            .passwordVisibilityToggleButtonLabel {
+                svg {
+                    height: core.getDimensionValue(2);
+                    width: core.getDimensionValue(2);
+                    object-fit: contain;
+                }
+            }
+        }
+    }
+
+    &.error {
+        border-color: core.$color-secondary;
+
+        .label {
+            background-color: core.$color-secondary;
+            color: core.$color-secondary-font;
+        }
+
+        .inputContainer {
+            .input {
+                background-color: core.$color-secondary-font;
+                color: core.$color-secondary;
             }
         }
     }

@@ -1,10 +1,38 @@
 /* eslint-disable @typescript-eslint/no-namespace */
+import { ReactNode } from "react"
 import { Temporal } from "temporal-polyfill"
 import { ErrorScope, WebsiteError } from "./lib/shared/errors"
 
 declare namespace Website {
     namespace Api {
         namespace Endpoints {
+            namespace Auth {
+                interface LoginRequestBody {
+                    emailOrUsername: string
+                    password: string
+                }
+
+                interface ResetPasswordRequestBodyBase<T extends string> {
+                    type: T
+                    newPassword: string
+                    confirmPassword: string
+                }
+
+                interface ResetPasswordWithPasswordRequestBody
+                    extends ResetPasswordRequestBodyBase<"password"> {
+                    oldPassword: string
+                }
+
+                interface ResetPasswordWithTokenRequestBody
+                    extends ResetPasswordRequestBodyBase<"token"> {
+                    token: string
+                }
+
+                type ResetPasswordRequestBody =
+                    | ResetPasswordWithPasswordRequestBody
+                    | ResetPasswordWithTokenRequestBody
+            }
+
             interface ContactRequestBody {
                 name: string
                 mail: string
@@ -12,13 +40,14 @@ declare namespace Website {
                 description: string
             }
 
-            interface LoginRequestBody {
-                email: string
-                password: string
+            interface SermonsListResponseBodyEntry
+                extends Omit<Content.Sermons.Sermon, "date"> {
+                date: number
             }
 
-            interface SermonsFilterRequestBody {
-                speakers?: string[]
+            interface SermonsListResponseBody {
+                endOfData: boolean
+                entries: SermonsListResponseBodyEntry[]
             }
 
             interface TestResponseBody {
@@ -68,11 +97,16 @@ declare namespace Website {
             statusText?: string
         }
 
+        interface JWTFlags {
+            resetPassword?: boolean
+        }
+
         interface JWTPayload {
-            flags: Users.UserFlags
             email: string
+            userFlags: Users.UserFlags
             userId: string
             userName: string
+            jwtFlags?: JWTFlags
         }
 
         interface Cookie {
@@ -82,12 +116,16 @@ declare namespace Website {
             path?: string
         }
 
-        interface SessionOptions {
+        interface SessionOptionsBase {
             /**
              * The decoded content of the JWT. `undefined` if the JWT wasn't
              * send with the request or failed the validation process.
              */
             jwtPayload?: JWTPayload
+            /**
+             * The hash of the current set password
+             */
+            passwordHash?: string
             /**
              * The current state of the user in the database. `undefined` if the
              * JWT wasn't send with the request or failed the validation
@@ -95,6 +133,14 @@ declare namespace Website {
              */
             user?: Users.User
         }
+
+        type SessionOptions =
+            | { jwtPayload: JWTPayload; passwordHash: string; user: Users.User }
+            | {
+                  jwtPayload?: undefined
+                  passwordHash?: undefined
+                  user?: undefined
+              }
     }
 
     namespace Base {
@@ -123,6 +169,28 @@ declare namespace Website {
     }
 
     namespace Content {
+        namespace Audio {
+            interface AudioFile {
+                fileId: string
+                format: string
+                id: string
+                performer: string
+                title: string
+            }
+
+            interface Playlist {
+                prev: AudioFile[]
+                currentlySelected: AudioFile
+                next: AudioFile[]
+            }
+
+            interface PlaylistAction extends Playlist {
+                isPlaying: boolean
+            }
+
+            type RepeatMode = "playlist" | "track" | false
+        }
+
         namespace Files {
             interface FileMetaData {
                 name: string
@@ -141,7 +209,7 @@ declare namespace Website {
 
         namespace Navigation {
             interface NavigationEntry {
-                label: string
+                label: ReactNode
                 icon?: string
                 needsAuth?: boolean
                 noLink?: boolean
@@ -153,7 +221,10 @@ declare namespace Website {
         }
 
         namespace Sermons {
+            interface SermonsMasterData {}
+
             interface Sermon {
+                audioFileFormat: string
                 audioFileId: string
                 date: Temporal.PlainDate
                 id: string
@@ -204,7 +275,20 @@ declare namespace Website {
     }
 
     namespace Design {
-        type InputVariant = "text" | "contained" | "outlined"
+        type Variant = "text" | "contained" | "outlined"
+
+        type ThemeColor = "primary" | "secondary" | "accent"
+
+        interface ColorShade {
+            default: string
+            defaultFont: string
+            highlighted: string
+            highlightedFont: string
+            faded: string
+            fadedFont: string
+        }
+
+        type Theme = Record<ThemeColor | "background", ColorShade>
     }
 
     namespace Users {

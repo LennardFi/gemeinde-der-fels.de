@@ -29,26 +29,13 @@
     .label {
         color: inherit;
         font-family: inherit;
-        font-size: core.$size-font-nav;
+        font-size: core.$size-font-subheader;
         font-weight: 600;
         text-decoration: none;
     }
 
     .arrow {
         margin: auto 0 auto core.getDimensionValue(1);
-    }
-
-    @media (hover: hover) and (pointer: fine) {
-        &:hover {
-            background-color: core.$color-primary-highlighted;
-            color: core.$color-primary-font-highlighted;
-
-            .subEntries {
-                display: flex;
-                border: core.getDimensionValue(0.125) solid core.$color-accent;
-                border-top: none;
-            }
-        }
     }
 
     &:focus,
@@ -89,5 +76,17 @@
         right: 0;
         min-width: core.getDimensionValue(30);
         z-index: 1000;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+        &:hover {
+            background-color: core.$color-primary-highlighted;
+            color: core.$color-primary-font-highlighted;
+
+            .subEntries {
+                display: flex;
+                border-top: none;
+            }
+        }
     }
 }

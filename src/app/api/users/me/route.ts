@@ -7,8 +7,8 @@ export const GET = buildApiRouteWithDatabase<Website.Users.User>(
         if (session.user === undefined) {
             throw new WebsiteError("request", "User not found", {
                 endpoint: req.url,
-                statusCode: 401,
-                statusText: "User not found",
+                httpStatusCode: 401,
+                httpStatusText: "User not found",
             })
         }
 

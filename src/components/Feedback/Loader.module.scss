@@ -1,0 +1,43 @@
+@use "../../styles/core.module.scss" as core;
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .loader {
+        max-height: 100%;
+        max-width: 100%;
+    }
+
+    &.primary {
+        color: core.$color-primary;
+
+        .loader {
+            > span {
+                color: core.$color-primary;
+            }
+        }
+    }
+
+    &.secondary {
+        color: core.$color-secondary;
+
+        .loader {
+            > span {
+                color: core.$color-secondary;
+            }
+        }
+    }
+
+    &.accent {
+        color: core.$color-accent;
+
+        .loader {
+            > span {
+                color: core.$color-accent;
+            }
+        }
+    }
+}

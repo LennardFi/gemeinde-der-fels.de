@@ -1,0 +1,46 @@
+@use "../../../styles/core.module.scss" as core;
+
+.card {
+    margin-top: auto;
+    margin-bottom: auto;
+
+    .form {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: stretch;
+
+        fieldset {
+            margin: core.getDimensionValue(2) 0;
+
+            &.inputs {
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: stretch;
+                gap: core.getDimensionValue(1);
+
+                .resetPassword {
+                    align-self: flex-start;
+                }
+            }
+
+            &.banners {
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: stretch;
+                gap: core.getDimensionValue(1);
+            }
+
+            &.actions {
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-end;
+                align-items: center;
+                gap: core.getDimensionValue(1);
+                margin: 0;
+            }
+        }
+    }
+}

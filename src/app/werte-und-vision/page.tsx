@@ -2,7 +2,7 @@ import Paper from "@/components/surfaces/Paper"
 import Link from "next/link"
 import styles from "./page.module.scss"
 
-const Page = () => {
+export default function Page() {
     return (
         <Paper className={styles.paper}>
             <h1>Werte und Vision</h1>
@@ -19,5 +19,3 @@ const Page = () => {
         </Paper>
     )
 }
-
-export default Page

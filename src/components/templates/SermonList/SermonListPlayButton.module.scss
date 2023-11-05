@@ -1,0 +1,13 @@
+@use "../../../styles/core.module.scss" as core;
+
+.button {
+}
+
+.loaderButton {
+    padding: core.getDimensionValue(0.5);
+
+    .loader {
+        height: core.getDimensionValue(3);
+        width: core.getDimensionValue(3);
+    }
+}

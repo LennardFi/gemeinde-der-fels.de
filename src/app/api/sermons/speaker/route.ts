@@ -37,7 +37,7 @@ export const POST = buildApiRouteWithDatabase<string>(
         if (session.user === undefined) {
             throw new WebsiteError("request", "Not authenticated", {
                 endpoint: req.url,
-                statusCode: 401,
+                httpStatusCode: 401,
             })
         }
 
@@ -46,7 +46,7 @@ export const POST = buildApiRouteWithDatabase<string>(
                 "request",
                 "The user does not have permission to do this",
                 {
-                    statusCode: 403,
+                    httpStatusCode: 403,
                 },
             )
         }
@@ -56,8 +56,8 @@ export const POST = buildApiRouteWithDatabase<string>(
             body = await req.json()
         } catch (err) {
             throw new WebsiteError("request", "Body not parsable", {
-                statusCode: 400,
-                statusText: "Body not parsable",
+                httpStatusCode: 400,
+                httpStatusText: "Body not parsable",
             })
         }
 
@@ -66,8 +66,8 @@ export const POST = buildApiRouteWithDatabase<string>(
 
         if (!parsedResult.success) {
             throw new WebsiteError("request", "Invalid request body", {
-                statusCode: 400,
-                statusText: "Invalid request body",
+                httpStatusCode: 400,
+                httpStatusText: "Invalid request body",
             })
         }
 

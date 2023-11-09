@@ -49,3 +49,57 @@ export function temporalInstanceToDate(
     }
     return fallBack
 }
+
+export function formatTemporalInstance(
+    temporalInstance: Temporal.PlainDateTime | Temporal.ZonedDateTime,
+): string {
+    if (temporalInstance instanceof Temporal.PlainDateTime) {
+        return `${temporalInstance.day
+            .toString()
+            .padStart(2, "0")}:${temporalInstance.month
+            .toString()
+            .padStart(2, "0")}:${temporalInstance.year
+            .toString()
+            .padStart(4, "0")}`
+    }
+
+    return `${temporalInstance.day
+        .toString()
+        .padStart(2, "0")}.${temporalInstance.month
+        .toString()
+        .padStart(2, "0")}.${temporalInstance.year.toString().padStart(4, "0")}`
+}
+
+export function formatPlainDate(plainDate: Temporal.PlainDate) {
+    return formatTemporalInstance(plainDate.toZonedDateTime("UTC"))
+}
+
+export function secondsToTimeStamp(
+    timeInSeconds: number,
+    keepHours?: boolean | "oneDigit",
+    keepMinutes?: boolean,
+): string {
+    const delimiter = ":"
+
+    const hours = Math.floor(timeInSeconds / 3600)
+    const minutes = Math.floor((timeInSeconds - hours * 3600) / 60)
+    const seconds = Math.floor(timeInSeconds - hours * 3600 - minutes * 60)
+
+    let timeStamp = ""
+
+    if (hours !== 0 || keepHours) {
+        const hoursString = hours.toString()
+        timeStamp +=
+            (keepHours === "oneDigit"
+                ? hoursString
+                : hoursString.padStart(2, "0")) + delimiter
+    }
+
+    if (timeStamp !== "" || minutes !== 0 || keepMinutes) {
+        timeStamp += minutes.toString().padStart(2, "0") + delimiter
+    }
+
+    timeStamp += seconds.toString().padStart(2, "0")
+
+    return timeStamp
+}

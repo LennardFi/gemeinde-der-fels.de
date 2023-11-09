@@ -1,8 +1,6 @@
 import { buildApiRouteWithDatabase } from "@/lib/backend/apiRouteBuilders"
 import { WebsiteError } from "@/lib/shared/errors"
 
-export const x = ""
-
 export const GET = buildApiRouteWithDatabase<
     Buffer,
     { params: { id: string } }
@@ -32,6 +30,7 @@ export const GET = buildApiRouteWithDatabase<
         },
         contentType: file.mimeType,
         headers: {
+            "Accept-Ranges": "bytes",
             "Content-Length": fileContent.byteLength.toString(),
         },
         status: 200,

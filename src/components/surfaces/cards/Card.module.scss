@@ -1,4 +1,8 @@
 @use "../../../styles/core.module.scss" as core;
 
 .paper {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
 }

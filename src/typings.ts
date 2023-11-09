@@ -153,6 +153,20 @@ declare namespace Website {
         }
     }
 
+    namespace UserSettings {
+        interface AudioSettings {
+            muted: boolean
+            /**
+             * Value between 0 and 1
+             */
+            volume: number
+        }
+
+        interface Settings {
+            audioSettings: AudioSettings
+        }
+    }
+
     namespace Config {
         interface MailingConfig {
             host: string
@@ -176,16 +190,13 @@ declare namespace Website {
                 id: string
                 performer: string
                 title: string
+                album?: string
             }
 
             interface Playlist {
                 prev: AudioFile[]
                 currentlySelected: AudioFile
                 next: AudioFile[]
-            }
-
-            interface PlaylistAction extends Playlist {
-                isPlaying: boolean
             }
 
             type RepeatMode = "playlist" | "track" | false
@@ -279,6 +290,13 @@ declare namespace Website {
 
         type ThemeColor = "primary" | "secondary" | "accent"
 
+        type ThemeColorVariant =
+            | "faded"
+            | "font-faded"
+            | "font-highlighted"
+            | "font"
+            | "highlighted"
+
         interface ColorShade {
             default: string
             defaultFont: string
@@ -317,5 +335,11 @@ declare namespace Website {
 }
 
 export type Maybe<T> = T | undefined
+
+export type DeepPartial<T> = T extends object
+    ? {
+          [P in keyof T]?: DeepPartial<T[P]>
+      }
+    : T
 
 export default Website

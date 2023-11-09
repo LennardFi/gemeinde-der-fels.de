@@ -29,7 +29,7 @@
         height: 100%;
         flex: 1 1 auto;
         align-self: center;
-        margin: core.getDimensionValue(1) 0;
+        padding: core.getDimensionValue(1) 0;
 
         .title {
             font-size: core.$size-font-header;
@@ -38,6 +38,10 @@
 
         .subTitle {
             font-size: core.$size-font-default;
+
+            &.noSubTitle {
+                display: none;
+            }
         }
     }
 

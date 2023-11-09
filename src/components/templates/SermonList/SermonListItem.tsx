@@ -1,3 +1,4 @@
+import { formatPlainDate } from "@/lib/shared/helpers"
 import Website from "@/typings"
 import useAudioPlayerZustand from "@/zustand/useAudioPlayerZustand"
 import { FaExclamationCircle } from "react-icons/fa"
@@ -57,7 +58,7 @@ export default function SermonListItem({
                     isSelectedMedia ? styles.isPlayingMedia : ""
                 } ${playerThemeClassName ?? ""} ${
                     highlighted ? styles.highlighted : ""
-                } ${styles.title} `}
+                } ${styles.titleCell} `}
             >
                 {entry.title}
             </td>
@@ -66,7 +67,7 @@ export default function SermonListItem({
                     isSelectedMedia ? styles.isPlayingMedia : ""
                 } ${playerThemeClassName ?? ""} ${
                     highlighted ? styles.highlighted : ""
-                } ${styles.speaker}`}
+                } ${styles.speakerCell}`}
             >
                 {entry.speaker.name}
             </td>
@@ -75,7 +76,16 @@ export default function SermonListItem({
                     isSelectedMedia ? styles.isPlayingMedia : ""
                 } ${playerThemeClassName ?? ""} ${
                     highlighted ? styles.highlighted : ""
-                } ${styles.playButton}`}
+                } ${styles.speakerCell}`}
+            >
+                {formatPlainDate(entry.date)}
+            </td>
+            <td
+                className={`${styles.cell} ${
+                    isSelectedMedia ? styles.isPlayingMedia : ""
+                } ${playerThemeClassName ?? ""} ${
+                    highlighted ? styles.highlighted : ""
+                } ${styles.playButtonCell}`}
             >
                 {error !== undefined &&
                 playingMedia?.fileId === entry.audioFileId ? (
@@ -89,7 +99,9 @@ export default function SermonListItem({
                     </>
                 ) : (
                     <SermonListPlayButton
+                        className={`${styles.playButton}`}
                         finished={isSelectedMedia && finished}
+                        highlighted={highlighted}
                         isLoading={isSelectedMedia && isLoading}
                         isPlaying={isSelectedMedia && isPlaying}
                         pause={isSelectedMedia ? pause : () => {}}
@@ -98,26 +110,23 @@ export default function SermonListItem({
                                 ? play
                                 : () =>
                                       start({
+                                          album: entry.series?.title,
                                           fileId: entry.audioFileId,
                                           format: entry.audioFileFormat,
                                           id: entry.id,
                                           performer: entry.speaker.name,
-                                          title:
-                                              entry.series === undefined
-                                                  ? entry.title
-                                                  : `${entry.title} (Aus "${entry.series.title}")`,
+                                          title: entry.title,
                                       })
                         }
+                        round
                         start={() =>
                             start({
+                                album: entry.series?.title,
                                 fileId: entry.audioFileId,
                                 format: entry.audioFileFormat,
                                 id: entry.id,
                                 performer: entry.speaker.name,
-                                title:
-                                    entry.series === undefined
-                                        ? entry.title
-                                        : `${entry.title} (Aus "${entry.series.title}")`,
+                                title: entry.title,
                             })
                         }
                     />

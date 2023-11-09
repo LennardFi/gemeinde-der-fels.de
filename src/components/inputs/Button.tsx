@@ -1,9 +1,8 @@
 import Website from "@/typings"
-import React from "react"
+import React, { forwardRef, Ref } from "react"
 import styles from "./Button.module.scss"
 
 export interface ButtonRootProps {
-    disabled?: boolean
     labelProps?: React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLSpanElement>,
         HTMLSpanElement
@@ -20,22 +19,25 @@ export interface ButtonRootProps {
 export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> &
     ButtonRootProps
 
-export default function Button({
-    children,
-    className,
-    disabled,
-    labelProps,
-    leftSegment,
-    noActiveAnimation,
-    noFocusColor,
-    onClick,
-    rightSegment,
-    round,
-    themeColor,
-    type,
-    variant = type === "submit" ? "contained" : undefined,
-    ...rest
-}: ButtonProps) {
+const Button = forwardRef(function Button(
+    {
+        children,
+        className,
+        disabled,
+        labelProps,
+        leftSegment,
+        noActiveAnimation,
+        noFocusColor,
+        onClick,
+        rightSegment,
+        round,
+        themeColor,
+        type,
+        variant = type === "submit" ? "contained" : undefined,
+        ...rest
+    }: ButtonProps,
+    ref: Ref<HTMLButtonElement>,
+) {
     const variantStyles =
         variant === "contained"
             ? styles.contained
@@ -62,10 +64,11 @@ export default function Button({
             className={`${styles.button} ${variantStyles} ${themeColorStyle} ${
                 noActiveAnimation ? styles.noActiveAnimation : ""
             } ${noFocusColor ? styles.noFocusColor : ""} ${
-                disabled ? styles.disabled : ""
-            } ${round ? styles.round : ""} ${className}`}
+                round ? styles.round : ""
+            } ${className}`}
             disabled={disabled}
             onClick={disabled ? undefined : onClick}
+            ref={ref}
             type={type ?? "button"}
             {...rest}
         >
@@ -87,4 +90,6 @@ export default function Button({
             ) : null}
         </button>
     )
-}
+})
+
+export default Button

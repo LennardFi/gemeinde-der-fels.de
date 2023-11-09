@@ -15,8 +15,8 @@ export default async function Page() {
         },
         take: 10,
         orderBy: {
-            // date: "desc",
-            title: "asc",
+            date: "desc",
+            // title: "asc",
         },
     })
     const initialSermons = dbEntries.map<SermonsListEntry>((entry, i) => ({
@@ -34,10 +34,9 @@ export default async function Page() {
     }))
 
     return (
-        <Card breakpoint="small" className={styles.card}>
-            <CardHeader title="Medien" />
+        <Card breakpoint="normal" className={styles.card}>
+            <CardHeader title="Predigten" />
             <CardContent className={styles.container}>
-                <h2>Predigten</h2>
                 <SermonsListContainer
                     initialSermons={initialSermons}
                     showFilter

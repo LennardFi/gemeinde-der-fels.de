@@ -1,26 +1,30 @@
 import Loader from "@/components/Feedback/Loader"
-import IconButton from "@/components/inputs/IconButton"
+import IconButton, { IconButtonProps } from "@/components/inputs/IconButton"
 import useIsMounted from "@/hooks/useIsMounted"
 import { useEffect, useState } from "react"
 import { FaPause, FaPlay, FaRedoAlt } from "react-icons/fa"
 import styles from "./SermonListPlayButton.module.scss"
 
-export interface SermonListPlayButtonProps {
+export interface SermonListPlayButtonProps extends IconButtonProps {
     finished: boolean
     isLoading: boolean
     isPlaying: boolean
     pause(): void
     play(): void
     start(): void
+    highlighted?: boolean
 }
 
 export default function SermonListPlayButton({
+    className,
     finished,
+    highlighted,
     isLoading,
     isPlaying,
     pause,
     play,
     start,
+    ...rest
 }: SermonListPlayButtonProps) {
     const isMountedRef = useIsMounted()
     const [preventLoader, setPreventLoader] = useState(false)
@@ -42,7 +46,11 @@ export default function SermonListPlayButton({
 
     if (isPlaying) {
         return (
-            <IconButton onClick={pause}>
+            <IconButton
+                {...rest}
+                className={`${className ?? ""}`}
+                onClick={pause}
+            >
                 <FaPause />
             </IconButton>
         )
@@ -50,7 +58,7 @@ export default function SermonListPlayButton({
 
     if (isLoading && preventLoader) {
         return (
-            <IconButton disabled>
+            <IconButton {...rest} className={`${className ?? ""}`} disabled>
                 <FaPlay />
             </IconButton>
         )
@@ -58,8 +66,18 @@ export default function SermonListPlayButton({
 
     if (isLoading) {
         return (
-            <IconButton className={styles.loaderButton} disabled>
-                <Loader height={24} width={4} className={styles.loader} />
+            <IconButton
+                {...rest}
+                className={`${className ?? ""} ${styles.loaderButton}`}
+                disabled
+            >
+                <Loader
+                    height={24}
+                    width={4}
+                    className={styles.loader}
+                    themeColor="primary"
+                    themeColorVariant="font"
+                />
             </IconButton>
         )
     }
@@ -67,6 +85,8 @@ export default function SermonListPlayButton({
     if (finished) {
         return (
             <IconButton
+                {...rest}
+                className={`${className ?? ""}`}
                 onClick={() => {
                     setPreventLoader(true)
                     start()
@@ -79,6 +99,8 @@ export default function SermonListPlayButton({
 
     return (
         <IconButton
+            {...rest}
+            className={`${className ?? ""}`}
             onClick={() => {
                 setPreventLoader(true)
                 play()

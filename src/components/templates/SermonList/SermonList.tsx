@@ -1,6 +1,5 @@
 import Website from "@/typings"
 import { useState } from "react"
-import Skeleton from "react-loading-skeleton"
 import "react-loading-skeleton/dist/skeleton.css"
 import { TableVirtuoso } from "react-virtuoso"
 import { Temporal } from "temporal-polyfill"
@@ -38,15 +37,6 @@ export default function SermonsList({
 
     return (
         <TableVirtuoso
-            components={{
-                FillerRow: ({ height }) => (
-                    <tr style={{ height }}>
-                        <td className={styles.loadingCell}>
-                            <Skeleton height="100%" width="100%" />
-                        </td>
-                    </tr>
-                ),
-            }}
             className={`${styles.sermonsTableContainer} ${
                 playerThemeClassName ?? ""
             }`}
@@ -54,7 +44,7 @@ export default function SermonsList({
             endReached={!endOfData ? loadNext : undefined}
             seamless
             style={{
-                height: 600,
+                height: 400,
                 width: "100%",
             }}
             overscan={30}
@@ -64,17 +54,27 @@ export default function SermonsList({
                 <tr>
                     <th
                         className={`${styles.header} ${styles.title}`}
-                        style={{ minWidth: 200 }}
+                        style={{
+                            minWidth: 200,
+                            position: "sticky",
+                            width: "auto",
+                        }}
                     >
                         Titel
                     </th>
                     <th
                         className={`${styles.header} ${styles.speaker}`}
-                        style={{ minWidth: 100 }}
+                        style={{ width: 250 }}
                     >
                         Sprecher/-in
                     </th>
-                    <th className={`${styles.header}`} style={{ minWidth: 50 }}>
+                    <th
+                        className={`${styles.header} ${styles.speaker}`}
+                        style={{ width: 120 }}
+                    >
+                        Datum
+                    </th>
+                    <th className={`${styles.header}`} style={{ width: 50 }}>
                         Audio
                     </th>
                 </tr>

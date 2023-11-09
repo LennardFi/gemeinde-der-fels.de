@@ -36,6 +36,7 @@
         "react-select": "^5.7.2",
         "react-slider": "^2.0.6",
         "react-spinners": "^0.13.8",
+        "react-tiny-popover": "^8.0.4",
         "react-virtuoso": "^4.6.2",
         "reactjs-popup": "^2.0.5",
         "remark": "^14.0.3",

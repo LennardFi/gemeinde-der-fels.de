@@ -1,14 +1,17 @@
 @use "../../styles/core.module.scss" as core;
 
 .slider {
-    height: core.getDimensionValue(4);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: core.getDimensionValue(3);
     width: auto;
-    margin: 0 max(auto, core.getDimensionValue(1));
 
     .track {
-        top: core.getDimensionValue(2);
-        transform: translateY(calc(-50%));
         height: core.getDimensionValue(1);
+        border-radius: core.getDimensionValue(1);
+        top: core.getDimensionValue(1.5);
+        transform: translateY(calc(-50%));
         overflow: visible;
     }
 
@@ -23,15 +26,14 @@
         cursor: pointer;
         height: core.getDimensionValue(2);
         width: core.getDimensionValue(2);
-        top: core.getDimensionValue(2);
         transition: transform 200ms ease-in-out;
-        transform: translate(calc(-50% + 4px), calc(-50%));
         outline: none;
         border: core.$size-border-default solid;
+        border-radius: core.getDimensionValue(2);
         overflow: visible;
 
         &.activeThumb {
-            transform: translate(calc(-50% + 4px), calc(-50%)) scale(1.2);
+            transform: scale(1.2);
 
             .thumbLabel {
                 display: flex;
@@ -48,7 +50,7 @@
             bottom: core.getDimensionValue(3);
             font-size: core.$size-font-label;
             text-align: center;
-            transform: translateX(calc(-50% + core.getDimensionValue(1)));
+            transform: translate(calc(-50% + core.getDimensionValue(1)));
             z-index: 100;
         }
     }

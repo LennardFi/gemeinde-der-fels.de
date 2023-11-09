@@ -1,13 +1,13 @@
+import { forwardRef, Ref } from "react"
 import Button, { ButtonProps } from "./Button"
 import styles from "./IconButton.module.scss"
 
-type IconButtonProps = Omit<ButtonProps, "leftSegment" | "rightSegment">
+export type IconButtonProps = Omit<ButtonProps, "leftSegment" | "rightSegment">
 
-export default function IconButton({
-    className,
-    labelProps,
-    ...rest
-}: IconButtonProps) {
+const IconButton = forwardRef(function IconButton(
+    { className, labelProps, ...rest }: IconButtonProps,
+    ref: Ref<HTMLButtonElement>,
+) {
     return (
         <Button
             className={`${styles.iconButton} ${className ?? ""}`}
@@ -15,7 +15,10 @@ export default function IconButton({
                 ...labelProps,
                 className: `${styles.label} ${labelProps?.className ?? ""}`,
             }}
+            ref={ref}
             {...rest}
         />
     )
-}
+})
+
+export default IconButton

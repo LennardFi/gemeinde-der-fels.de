@@ -1,5 +1,6 @@
 @use "../../../styles/core.module.scss" as core;
 
 .card {
-    margin: auto 0;
+    height: 100%;
+    margin: core.getDimensionValue(2) 0;
 }

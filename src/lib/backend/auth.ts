@@ -134,7 +134,9 @@ export const refreshJWT = async (
 
         return getJWTForPayload(payload)
     } catch (error) {
-        if (error instanceof WebsiteError) throw error
+        if (error instanceof WebsiteError) {
+            throw error
+        }
         throw new WebsiteError(
             "api",
             "Unknown error while validating JWT",

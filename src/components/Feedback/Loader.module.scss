@@ -12,31 +12,151 @@
     }
 
     &.primary {
-        color: core.$color-primary;
+        background-color: transparent;
 
         .loader {
-            > span {
-                color: core.$color-primary;
+            span {
+                background-color: core.$color-primary !important;
+            }
+        }
+
+        &.faded {
+            .loader {
+                span {
+                    background-color: core.$color-primary-faded !important;
+                }
+            }
+        }
+
+        &.highlighted {
+            .loader {
+                span {
+                    background-color: core.$color-primary-highlighted !important;
+                }
+            }
+        }
+
+        &.font {
+            .loader {
+                span {
+                    background-color: core.$color-primary-font !important;
+                }
+            }
+        }
+
+        &.fontFaded {
+            .loader {
+                span {
+                    background-color: core.$color-primary-font-faded !important;
+                }
+            }
+        }
+
+        &.fontHighlighted {
+            .loader {
+                span {
+                    background-color: core.$color-primary-font-highlighted !important;
+                }
             }
         }
     }
 
     &.secondary {
-        color: core.$color-secondary;
+        background-color: transparent;
 
         .loader {
-            > span {
-                color: core.$color-secondary;
+            span {
+                background-color: core.$color-secondary !important;
+            }
+        }
+
+        &.faded {
+            .loader {
+                span {
+                    background-color: core.$color-secondary-faded !important;
+                }
+            }
+        }
+
+        &.highlighted {
+            .loader {
+                span {
+                    background-color: core.$color-secondary-highlighted !important;
+                }
+            }
+        }
+
+        &.font {
+            .loader {
+                span {
+                    background-color: core.$color-secondary-font !important;
+                }
+            }
+        }
+
+        &.fontFaded {
+            .loader {
+                span {
+                    background-color: core.$color-secondary-font-faded !important;
+                }
+            }
+        }
+
+        &.fontHighlighted {
+            .loader {
+                span {
+                    background-color: core.$color-secondary-font-highlighted !important;
+                }
             }
         }
     }
 
     &.accent {
-        color: core.$color-accent;
+        background-color: transparent;
 
         .loader {
-            > span {
-                color: core.$color-accent;
+            span {
+                background-color: core.$color-accent !important;
+            }
+        }
+
+        &.faded {
+            .loader {
+                span {
+                    background-color: core.$color-accent-faded !important;
+                }
+            }
+        }
+
+        &.highlighted {
+            .loader {
+                span {
+                    background-color: core.$color-accent-highlighted !important;
+                }
+            }
+        }
+
+        &.font {
+            .loader {
+                span {
+                    background-color: core.$color-accent-font !important;
+                }
+            }
+        }
+
+        &.fontFaded {
+            .loader {
+                span {
+                    background-color: core.$color-accent-font-faded !important;
+                }
+            }
+        }
+
+        &.fontHighlighted {
+            .loader {
+                span {
+                    background-color: core.$color-accent-font-highlighted !important;
+                }
             }
         }
     }

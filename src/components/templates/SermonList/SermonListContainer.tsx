@@ -35,9 +35,6 @@ export const requestSermons = (
             )
         }
 
-        // Only for debug
-        // await asyncSleep(1_000) // DEBUG: Remove before commit
-
         const res =
             await makeApiRequest<Website.Api.Endpoints.SermonsListResponseBody>(
                 `/api/sermons${

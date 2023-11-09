@@ -15,14 +15,20 @@ export interface AudioPlayerZustand {
     finished: boolean
     isPlaying: boolean
     isLoading: boolean
-    mute(muted: boolean): void
     muted: boolean
     play(): void
     pause(): void
     reset(): void
     seek(seconds: number): void
-    secondsPassed: number
+    secondsPassed?: number
+    setMuted(muted: boolean): void
+    setVolume(volume: number): void
     start(audioFile: Readonly<Website.Content.Audio.AudioFile>): void
+    stop(): void
+    /**
+     * Number between `0` and `1`
+     */
+    volume: number
     duration?: number
     error?: MediaPlayerError
     playingMedia?: Readonly<Website.Content.Audio.AudioFile>
@@ -30,16 +36,24 @@ export interface AudioPlayerZustand {
 
 const initialZustand: Omit<
     AudioPlayerZustand,
-    "mute" | "play" | "pause" | "reset" | "seek" | "start"
+    | "play"
+    | "pause"
+    | "reset"
+    | "seek"
+    | "setMuted"
+    | "setVolume"
+    | "start"
+    | "stop"
 > = {
-    duration: 0,
+    duration: undefined,
+    error: undefined,
     finished: false,
     isLoading: false,
     isPlaying: false,
     muted: false,
     playingMedia: undefined,
-    secondsPassed: 0,
-    error: undefined,
+    secondsPassed: undefined,
+    volume: 1,
 }
 
 const useAudioPlayerZustand = create<AudioPlayerZustand>()((set) => {
@@ -48,8 +62,6 @@ const useAudioPlayerZustand = create<AudioPlayerZustand>()((set) => {
     let lastSecondsPassedUpdateTimestamp: Maybe<number> = undefined
 
     const setupInterval = () => {
-        console.log("setup Interval")
-
         if (playState?.seekInterval !== undefined) {
             window.cancelAnimationFrame(playState.seekInterval)
             playState.seekInterval = undefined
@@ -71,19 +83,17 @@ const useAudioPlayerZustand = create<AudioPlayerZustand>()((set) => {
             if (timeElapsed > 500) {
                 useAudioPlayerZustand.setState(() => {
                     if (playState === undefined) {
-                        return {}
+                        return { secondsPassed: undefined }
                     }
 
                     if (!playState.howl.playing(playState.howlId)) {
-                        return {}
+                        return { secondsPassed: undefined }
                     }
 
-                    const currentSeconds = playState.howl.seek()
-
-                    console.log("interval", { currentSeconds })
+                    const currentSeconds = playState.howl.seek(playState.howlId)
 
                     return {
-                        secondsPassed: currentSeconds,
+                        secondsPassed: Math.round(currentSeconds),
                     }
                 })
             }
@@ -100,26 +110,11 @@ const useAudioPlayerZustand = create<AudioPlayerZustand>()((set) => {
         return window.requestAnimationFrame(updateSecondsPassedCallback)
     }
 
-    const mute: AudioPlayerZustand["mute"] = () =>
-        set((state) => {
-            if (playState === undefined) {
-                return {}
-            }
-
-            playState.howl.mute(!state.muted, playState.howlId)
-
-            return {
-                muted: !state.muted,
-            }
-        })
-
     const play: AudioPlayerZustand["play"] = () =>
         set(() => {
             if (playState === undefined) {
                 return {}
             }
-
-            const secondsPassed = playState.howl.seek()
 
             if (playState.seekInterval !== undefined) {
                 window.cancelAnimationFrame(playState.seekInterval)
@@ -127,11 +122,10 @@ const useAudioPlayerZustand = create<AudioPlayerZustand>()((set) => {
             }
 
             playState.howlId = playState.howl.play(playState.howlId)
-            playState.howl.seek(secondsPassed, playState.howlId)
 
             playState.seekInterval = setupInterval()
 
-            return { isPlaying: true }
+            return { isPlaying: true, finished: false }
         })
 
     const pause: AudioPlayerZustand["pause"] = () =>
@@ -145,10 +139,11 @@ const useAudioPlayerZustand = create<AudioPlayerZustand>()((set) => {
                 playState.seekInterval = undefined
             }
 
-            playState.howl.pause(playState.howlId)
+            playState.howl = playState.howl.pause(playState.howlId)
 
-            const secondsPassed = playState.howl.seek()
-            console.log("pause", { secondsPassed })
+            const secondsPassed = Math.round(
+                playState.howl.seek(playState.howlId),
+            )
 
             return { isPlaying: false, secondsPassed }
         })
@@ -172,183 +167,232 @@ const useAudioPlayerZustand = create<AudioPlayerZustand>()((set) => {
             return
         }
 
-        // if (playState.seekInterval !== undefined) {
-        //     window.cancelAnimationFrame(playState.seekInterval)
-        //     console.log("cleared interval")
-        //     playState.seekInterval = undefined
-        // }
-
-        if (!playState.howl.playing(playState.howlId)) {
-            return
-        }
-
-        console.log("seek")
-
-        playState.howl.seek(seconds, playState.howlId)
-        // playState.seekInterval = setupInterval()
+        playState.howl = playState.howl.seek(seconds, playState.howlId)
     }
 
-    const start: AudioPlayerZustand["start"] = (audioFile) =>
+    const setMuted: AudioPlayerZustand["setMuted"] = (muted) =>
+        set(() => {
+            if (playState !== undefined) {
+                playState.howl.mute(muted, playState.howlId)
+            }
+
+            return {
+                muted,
+            }
+        })
+
+    const setVolume: AudioPlayerZustand["setVolume"] = (volume) =>
+        set(() => {
+            if (playState !== undefined) {
+                if (playState.howlId !== undefined) {
+                    playState.howl.volume(volume, playState.howlId)
+                }
+            }
+
+            return {
+                volume,
+            }
+        })
+
+    const start: AudioPlayerZustand["start"] = (audioFile) => {
+        stop()
+        // HOTFIX: `setTimeout`: Fix for race condition - needs improvement
+        setTimeout(
+            () =>
+                set((state) => {
+                    playState = {
+                        audioFile: audioFile,
+                        howl: new Howl({
+                            src: `/api/files/${audioFile.fileId}`,
+                            autoplay: true,
+                            format: audioFile.format,
+                            html5: true,
+                            mute: state.muted,
+                            volume: state.volume,
+                            onend: (id) =>
+                                useAudioPlayerZustand.setState((state) => {
+                                    if (playState !== undefined) {
+                                        playState.howlId = id
+                                    }
+
+                                    return { finished: true, isPlaying: false }
+                                }),
+                            onload: (id) =>
+                                useAudioPlayerZustand.setState((state) => {
+                                    if (playState === undefined) {
+                                        return {}
+                                    }
+
+                                    playState.howlId = id
+
+                                    const duration = Math.round(
+                                        playState.howl.duration(
+                                            playState.howlId,
+                                        ),
+                                    )
+
+                                    return {
+                                        duration,
+                                        isLoading: false,
+                                    }
+                                }),
+                            onloaderror: (id) =>
+                                useAudioPlayerZustand.setState((state) => {
+                                    if (playState !== undefined) {
+                                        playState.howlId = id
+                                    }
+
+                                    return {
+                                        error: "loading",
+                                        isLoading: false,
+                                    }
+                                }),
+                            onpause: (id) =>
+                                useAudioPlayerZustand.setState((state) => {
+                                    if (playState !== undefined) {
+                                        playState.howlId = id
+                                        if (
+                                            playState.seekInterval !== undefined
+                                        ) {
+                                            window.cancelAnimationFrame(
+                                                playState.seekInterval,
+                                            )
+                                            playState.seekInterval = undefined
+                                        }
+                                    }
+
+                                    return { isPlaying: false }
+                                }),
+                            onplay: (id) =>
+                                useAudioPlayerZustand.setState((state) => {
+                                    if (playState === undefined) {
+                                        return {}
+                                    }
+
+                                    playState.howlId = id
+                                    if (playState.seekInterval !== undefined) {
+                                        window.cancelAnimationFrame(
+                                            playState.seekInterval,
+                                        )
+                                        playState.seekInterval = undefined
+                                    }
+                                    playState.seekInterval = setupInterval()
+
+                                    playState.howl.seek()
+
+                                    return {
+                                        isPlaying: true,
+                                        secondsPassed: Math.round(
+                                            playState.howl.seek(),
+                                        ),
+                                    }
+                                }),
+                            onplayerror: (id) =>
+                                useAudioPlayerZustand.setState((state) => {
+                                    if (playState !== undefined) {
+                                        playState.howlId = id
+                                        if (
+                                            playState.seekInterval !== undefined
+                                        ) {
+                                            window.cancelAnimationFrame(
+                                                playState.seekInterval,
+                                            )
+                                            playState.seekInterval = undefined
+                                        }
+                                    }
+
+                                    return {
+                                        error: "playing",
+                                        isPlaying: false,
+                                    }
+                                }),
+                            onseek: (id) =>
+                                useAudioPlayerZustand.setState((state) => {
+                                    if (playState === undefined) {
+                                        return {}
+                                    }
+
+                                    playState.howl.mute(
+                                        state.muted,
+                                        playState.howlId,
+                                    )
+
+                                    return {
+                                        secondsPassed: Math.round(
+                                            playState.howl.seek(),
+                                        ),
+                                    }
+                                }),
+                            onstop: (id) =>
+                                useAudioPlayerZustand.setState((state) => {
+                                    if (playState === undefined) {
+                                        return {}
+                                    }
+
+                                    playState.howlId = id
+
+                                    if (playState.seekInterval !== undefined) {
+                                        window.cancelAnimationFrame(
+                                            playState.seekInterval,
+                                        )
+                                        playState.seekInterval = undefined
+                                    }
+
+                                    playState.howl.unload()
+                                    playState = undefined
+
+                                    return {
+                                        finished: true,
+                                        isLoading: false,
+                                        isPlaying: false,
+                                        playingMedia: undefined,
+                                        secondsPassed: undefined,
+                                    }
+                                }),
+                        }),
+                    }
+
+                    return {
+                        duration: undefined,
+                        finished: false,
+                        isPlaying: false,
+                        isLoading: true,
+                        playingMedia: audioFile,
+                        secondsPassed: undefined,
+                    }
+                }),
+            0,
+        )
+    }
+
+    const stop: AudioPlayerZustand["stop"] = () =>
         set((state) => {
             if (playState !== undefined) {
-                if (playState.audioFile.fileId === audioFile.fileId) {
-                    playState.howlId = playState.howl.play()
-                    playState.howl.seek(0, playState.howlId)
-
-                    return {}
-                }
-
                 if (playState.seekInterval !== undefined) {
                     window.cancelAnimationFrame(playState.seekInterval)
                     playState.seekInterval = undefined
                 }
+
                 playState.howl.unload()
-                playState = undefined
-            }
-
-            playState = {
-                audioFile: audioFile,
-                howl: new Howl({
-                    src: `/api/files/${audioFile.fileId}`,
-                    autoplay: true,
-                    format: audioFile.format,
-                    html5: true,
-                    mute: state.muted,
-                    volume: 0.5, // TODO: read volume from state
-                    onend: () =>
-                        useAudioPlayerZustand.setState(() => {
-                            return { finished: true, isPlaying: false }
-                        }),
-                    onload: () =>
-                        useAudioPlayerZustand.setState(() => {
-                            if (playState === undefined) {
-                                return {}
-                            }
-
-                            const duration = playState.howl.duration(
-                                playState.howlId,
-                            )
-
-                            return {
-                                duration,
-                                isLoading: false,
-                            }
-                        }),
-                    onloaderror: () =>
-                        useAudioPlayerZustand.setState(() => {
-                            return { error: "loading", isLoading: false }
-                        }),
-                    onpause: () =>
-                        useAudioPlayerZustand.setState(() => {
-                            if (playState !== undefined) {
-                                if (playState.seekInterval !== undefined) {
-                                    window.cancelAnimationFrame(
-                                        playState.seekInterval,
-                                    )
-                                    playState.seekInterval = undefined
-                                }
-                            }
-
-                            return { isPlaying: false }
-                        }),
-                    onplay: () =>
-                        useAudioPlayerZustand.setState(() => {
-                            if (playState !== undefined) {
-                                if (playState.seekInterval !== undefined) {
-                                    window.cancelAnimationFrame(
-                                        playState.seekInterval,
-                                    )
-                                    playState.seekInterval = undefined
-                                }
-                                playState.seekInterval = setupInterval()
-                            }
-
-                            return { isPlaying: true }
-                        }),
-                    onplayerror: () =>
-                        useAudioPlayerZustand.setState(() => {
-                            if (playState !== undefined) {
-                                if (playState.seekInterval !== undefined) {
-                                    window.cancelAnimationFrame(
-                                        playState.seekInterval,
-                                    )
-                                    playState.seekInterval = undefined
-                                }
-                            }
-
-                            return { error: "playing", isPlaying: false }
-                        }),
-                    onseek: () =>
-                        useAudioPlayerZustand.setState(() => {
-                            console.log("seek")
-
-                            if (playState === undefined) {
-                                return {}
-                            }
-
-                            if (!playState.howl.playing(playState.howlId)) {
-                                return {}
-                            }
-
-                            const secondsPassed = playState.howl.seek()
-
-                            console.log("onseek", { secondsPassed })
-
-                            return {
-                                secondsPassed,
-                            }
-                        }),
-                    onstop: () =>
-                        useAudioPlayerZustand.setState((state) => {
-                            if (playState === undefined) {
-                                return {}
-                            }
-
-                            if (
-                                state.playingMedia !== undefined &&
-                                playState.audioFile.fileId ===
-                                    state.playingMedia.fileId
-                            ) {
-                                return {}
-                            }
-
-                            if (playState.seekInterval !== undefined) {
-                                window.cancelAnimationFrame(
-                                    playState.seekInterval,
-                                )
-                                playState.seekInterval = undefined
-                            }
-
-                            playState.howl.unload()
-                            playState = undefined
-
-                            return {
-                                finished: true,
-                                isPlaying: false,
-                                playingMedia: undefined,
-                                secondsPassed: 0,
-                            }
-                        }),
-                }),
             }
 
             return {
-                finished: false,
+                finished: true,
+                isLoading: false,
                 isPlaying: false,
-                isLoading: true,
-                playingMedia: audioFile,
-                secondsPassed: 0,
             }
         })
 
     return {
         ...initialZustand,
-        mute,
         play,
         pause,
         reset,
         seek,
+        setMuted,
+        setVolume,
         start,
+        stop,
     }
 })
 

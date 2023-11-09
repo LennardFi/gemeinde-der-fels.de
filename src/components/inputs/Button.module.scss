@@ -37,13 +37,13 @@
     }
 
     &:not(:disabled):hover,
-    &:not(.noFocusColor):not(.disabled):focus {
+    &:not(.noFocusColor):not(:disabled):focus {
         background-color: core.$color-accent-font-highlighted;
         border-color: core.$color-accent-highlighted;
         color: core.$color-accent-highlighted;
     }
 
-    &:not(.disabled):not(.noActiveAnimation):active {
+    &:not(:disabled):not(.noActiveAnimation):active {
         transform: translateY(core.getDimensionValue(0.125));
     }
 
@@ -60,8 +60,8 @@
         color: core.$color-primary;
         border-color: core.$color-primary-font;
 
-        &:not(.disabled):hover,
-        &:not(.noFocusColor):not(.disabled):focus {
+        &:not(:disabled):hover,
+        &:not(.noFocusColor):not(:disabled):focus {
             background-color: core.$color-primary-font-highlighted;
             border-color: core.$color-primary-highlighted;
             color: core.$color-primary-highlighted;
@@ -73,8 +73,8 @@
         color: core.$color-secondary;
         border-color: core.$color-secondary-font;
 
-        &:not(.disabled):hover,
-        &:not(.noFocusColor):not(.disabled):focus {
+        &:not(:disabled):hover,
+        &:not(.noFocusColor):not(:disabled):focus {
             background-color: core.$color-secondary-font-highlighted;
             border-color: core.$color-secondary-highlighted;
             color: core.$color-secondary-highlighted;
@@ -86,8 +86,8 @@
         color: core.$color-accent;
         border-color: core.$color-accent-font;
 
-        &:not(.disabled):hover,
-        &:not(.noFocusColor):not(.disabled):focus {
+        &:not(:disabled):hover,
+        &:not(.noFocusColor):not(:disabled):focus {
             background-color: core.$color-accent-font-highlighted;
             border-color: core.$color-accent-highlighted;
             color: core.$color-accent-highlighted;
@@ -97,8 +97,8 @@
     &.outlined {
         border-color: core.$color-accent;
 
-        &:not(.disabled):hover,
-        &:not(.noFocusColor):not(.disabled):focus {
+        &:not(:disabled):hover,
+        &:not(.noFocusColor):not(:disabled):focus {
             background-color: core.$color-accent-font-highlighted;
             border-color: core.$color-accent-highlighted;
             color: core.$color-accent-highlighted;
@@ -108,8 +108,8 @@
         &.primary {
             border-color: core.$color-primary;
 
-            &:not(.disabled):hover,
-            &:not(.noFocusColor):not(.disabled):focus {
+            &:not(:disabled):hover,
+            &:not(.noFocusColor):not(:disabled):focus {
                 background-color: core.$color-primary-font-highlighted;
                 border-color: core.$color-primary-highlighted;
                 color: core.$color-primary-highlighted;
@@ -119,8 +119,8 @@
         &.secondary {
             border-color: core.$color-secondary;
 
-            &:not(.disabled):hover,
-            &:not(.noFocusColor):not(.disabled):focus {
+            &:not(:disabled):hover,
+            &:not(.noFocusColor):not(:disabled):focus {
                 background-color: core.$color-secondary-font-highlighted;
                 border-color: core.$color-secondary-highlighted;
                 color: core.$color-secondary-highlighted;
@@ -130,8 +130,8 @@
         &.accent {
             border-color: core.$color-accent;
 
-            &:not(.disabled):hover,
-            &:not(.noFocusColor):not(.disabled):focus {
+            &:not(:disabled):hover,
+            &:not(.noFocusColor):not(:disabled):focus {
                 background-color: core.$color-accent-font-highlighted;
                 border-color: core.$color-accent-highlighted;
                 color: core.$color-accent-highlighted;
@@ -144,8 +144,8 @@
         border-color: core.$color-accent;
         color: core.$color-accent-font;
 
-        &:not(.disabled):hover,
-        &:not(.noFocusColor):not(.disabled):focus {
+        &:not(:disabled):hover,
+        &:not(.noFocusColor):not(:disabled):focus {
             background-color: core.$color-accent-highlighted;
             border-color: core.$color-accent-highlighted;
             color: core.$color-accent-font-highlighted;
@@ -157,8 +157,8 @@
             border-color: core.$color-primary;
             color: core.$color-primary-font;
 
-            &:not(.disabled):hover,
-            &:not(.noFocusColor):not(.disabled):focus {
+            &:not(:disabled):hover,
+            &:not(.noFocusColor):not(:disabled):focus {
                 background-color: core.$color-primary-highlighted;
                 border-color: core.$color-primary-highlighted;
                 color: core.$color-primary-font-highlighted;
@@ -170,8 +170,8 @@
             border-color: core.$color-secondary;
             color: core.$color-secondary-font;
 
-            &:not(.disabled):hover,
-            &:not(.noFocusColor):not(.disabled):focus {
+            &:not(:disabled):hover,
+            &:not(.noFocusColor):not(:disabled):focus {
                 background-color: core.$color-secondary-highlighted;
                 border-color: core.$color-secondary-highlighted;
                 color: core.$color-secondary-font-highlighted;
@@ -183,8 +183,8 @@
             border-color: core.$color-accent;
             color: core.$color-accent-font;
 
-            &:not(.disabled):hover,
-            &:not(.noFocusColor):not(.disabled):focus {
+            &:not(:disabled):hover,
+            &:not(.noFocusColor):not(:disabled):focus {
                 background-color: core.$color-accent-highlighted;
                 border-color: core.$color-accent-highlighted;
                 color: core.$color-accent-font-highlighted;

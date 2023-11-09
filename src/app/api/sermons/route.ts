@@ -29,18 +29,23 @@ export const GET =
                     audioFile: true,
                 },
                 orderBy: {
-                    title: "asc",
+                    date: "desc",
                 },
                 skip: afterId !== null ? 1 : 0,
                 take: pageLength + 1,
             })
 
+            const endOfData = sermons.length !== pageLength + 1
+
             return {
                 body: {
                     success: true,
                     data: {
-                        endOfData: sermons.length !== pageLength + 1,
-                        entries: sermons.slice(0, -1).map((sermon) => ({
+                        endOfData,
+                        entries: (endOfData
+                            ? sermons
+                            : sermons.slice(0, -1)
+                        ).map((sermon) => ({
                             audioFileId: sermon.audioFileId,
                             audioFileFormat: sermon.audioFile.extension,
                             date: (

@@ -28,7 +28,13 @@ export default function CardHeader({
             ) : undefined}
             <div className={styles.titleSection}>
                 <span className={styles.title}>{title}</span>
-                <span className={styles.subTitle}>{subTitle}</span>
+                <span
+                    className={`${styles.subTitle} ${
+                        !subTitle ? styles.noSubTitle ?? "" : ""
+                    }`}
+                >
+                    {subTitle}
+                </span>
             </div>
             {actionHandler !== undefined ? (
                 <IconButton className={styles.action}>

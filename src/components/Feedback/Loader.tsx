@@ -10,9 +10,8 @@ export interface LoaderProps extends HTMLAttributes<HTMLDivElement> {
     height?: number | string
     loaderProps?: LoaderHeightWidthRadiusProps
     progress?: number
-    softLoader?: JSX.Element
-    softTimeout?: number
     themeColor?: Website.Design.ThemeColor
+    themeColorVariant?: Website.Design.ThemeColorVariant
     // /**
     //  * @default "bars"
     //  */
@@ -22,13 +21,11 @@ export interface LoaderProps extends HTMLAttributes<HTMLDivElement> {
 
 export default function Loader({
     className,
-    softLoader,
-    softTimeout,
     height,
     progress,
     style,
     themeColor,
-    // variant,
+    themeColorVariant,
     width,
     ...rest
 }: LoaderProps) {
@@ -39,14 +36,25 @@ export default function Loader({
             ? styles.secondary
             : styles.accent
 
+    const colorVariantClassName =
+        themeColorVariant === "faded"
+            ? styles.faded
+            : themeColorVariant === "font"
+            ? styles.font
+            : themeColorVariant === "font-faded"
+            ? styles.fontFaded
+            : themeColorVariant === "font-highlighted"
+            ? styles.fontHighlighted
+            : styles.highlighted
+
     // const variantOrDefault = variant ?? "bars"
 
     return (
         <div
             {...rest}
-            className={`${styles.container} ${colorClassName ?? ""} ${
-                className ?? ""
-            }`}
+            className={`${styles.container ?? ""} ${colorClassName ?? ""} ${
+                colorVariantClassName ?? ""
+            } ${className ?? ""}`}
             style={{
                 ...style,
             }}

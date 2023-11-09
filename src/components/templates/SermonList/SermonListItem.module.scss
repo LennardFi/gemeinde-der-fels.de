@@ -1,29 +1,60 @@
 @use "../../../styles/core.module.scss" as core;
 
 .cell {
-    &.isPlayingMedia {
-        background-color: core.$color-primary;
-        color: core.$color-primary-font;
+    padding: core.getDimensionValue(1);
 
-        &.highlighted {
-            background-color: core.$color-primary-faded;
-            color: core.$color-primary-font-faded;
+    &.titleCell {
+    }
+
+    &.speakerCell {
+    }
+
+    &.playButtonCell {
+        .playButton {
+            &:not(:disabled):hover,
+            &:not(:disabled):focus {
+                background-color: core.$color-accent;
+                border-color: core.$color-accent;
+                color: core.$color-accent-font;
+            }
         }
     }
 
     &.highlighted {
         background-color: core.$color-accent-faded;
         color: core.$color-accent-font-faded;
+
+        .playButton {
+            background-color: core.$color-accent-faded;
+            border-color: core.$color-accent-faded;
+            color: core.$color-accent-font-faded;
+
+            &:not(:disabled):hover,
+            &:not(:disabled):focus {
+                background-color: core.$color-accent;
+                border-color: core.$color-accent;
+                color: core.$color-accent-faded;
+            }
+        }
     }
 
-    padding: core.getDimensionValue(1);
+    &.isPlayingMedia {
+        background-color: core.$color-primary;
+        color: core.$color-primary-font;
 
-    &.title {
-    }
+        &.playButtonCell {
+            .playButton {
+                background-color: core.$color-primary;
+                border-color: core.$color-primary;
+                color: core.$color-primary-font;
 
-    &.speaker {
-    }
-
-    &.playButton {
+                &:not(:disabled):hover,
+                &:not(:disabled):focus {
+                    background-color: core.$color-primary-font;
+                    border-color: core.$color-primary-font;
+                    color: core.$color-primary;
+                }
+            }
+        }
     }
 }

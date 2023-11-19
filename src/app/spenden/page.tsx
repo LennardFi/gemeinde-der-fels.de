@@ -7,8 +7,7 @@ import styles from "./page.module.scss"
 
 export default function Page() {
     return (
-        <PageContainer>
-            <h2 className={styles.pageTitle}>Spenden</h2>
+        <PageContainer title="Spenden">
             <Flex
                 direction="row"
                 justify="space-around"

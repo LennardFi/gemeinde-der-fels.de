@@ -32,8 +32,11 @@ export default async function Page() {
     }))
 
     return (
-        <PageContainer breakpoint="normal" className={styles.container}>
-            <h2>Predigten</h2>
+        <PageContainer
+            breakpoint="normal"
+            className={styles.container}
+            title="Predigten"
+        >
             <SermonsListContainer
                 initialSermons={initialSermons}
                 showFilter

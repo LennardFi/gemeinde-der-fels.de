@@ -61,22 +61,21 @@ export default function Page() {
                     <div>
                         <h2>Willkommen in unserer Gemeinde!</h2>
                         <p>
-                            Wir sind jung, geprägt von bibeltreuen Werten und
-                            lebendigem Glauben. Mit regelmäßigen Gottesdiensten,
-                            Gebetsabenden und Treffen für Männer und Frauen,
-                            schaffen wir eine tiefe Gemeinschaft.
+                            Nisi duis do velit aute consequat tempor ad ipsum
+                            sit ullamco. Magna pariatur sit consequat id ut
+                            laborum minim et sint labore laboris id. Ut sit anim
+                            do do adipisicing nisi aliqua commodo proident
+                            veniam dolore elit.
                         </p>
                         <p>
-                            Als Teil von Gottes weltweiter Gemeinde tragen wir
-                            von Dautphe aus bei. Unsere Gemeinde ist voller
-                            Leben, mit vielen Kindern und Familien als
-                            Herzstück. Konflikte mit weltlichen Werten sehen wir
-                            als Chance, unseren Glauben authentisch zu leben.
+                            Lorem ipsum dolor sit amet consectetur adipisicing
+                            elit. At esse repudiandae voluptatem earum alias
+                            mollitia sint deleniti. Quos facere ab iusto
+                            excepturi doloribus, amet sed, ut doloremque placeat
+                            quis vel.
                         </p>
                         <p>
-                            <b>
-                                Komm uns besuchen. Du bist herzlich eingeladen.
-                            </b>
+                            <b>Laboris labore ad veniam ex eiusmod.</b>
                         </p>
                     </div>
                     <Image

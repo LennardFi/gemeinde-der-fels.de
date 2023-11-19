@@ -213,6 +213,15 @@ const useAudioPlayerZustand = create<AudioPlayerZustand>()((set) => {
                                 useAudioPlayerZustand.setState((state) => {
                                     if (playState !== undefined) {
                                         playState.howlId = id
+
+                                        if (
+                                            playState.seekInterval !== undefined
+                                        ) {
+                                            window.cancelAnimationFrame(
+                                                playState.seekInterval,
+                                            )
+                                            playState.seekInterval = undefined
+                                        }
                                     }
 
                                     return { finished: true, isPlaying: false }
@@ -234,6 +243,7 @@ const useAudioPlayerZustand = create<AudioPlayerZustand>()((set) => {
                                     return {
                                         duration,
                                         isLoading: false,
+                                        secondsPassed: undefined,
                                     }
                                 }),
                             onloaderror: (id) =>
@@ -377,9 +387,11 @@ const useAudioPlayerZustand = create<AudioPlayerZustand>()((set) => {
             }
 
             return {
-                finished: true,
+                duration: undefined,
+                finished: false,
                 isLoading: false,
                 isPlaying: false,
+                secondsPassed: undefined,
             }
         })
 

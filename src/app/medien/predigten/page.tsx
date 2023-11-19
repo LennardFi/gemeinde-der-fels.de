@@ -1,6 +1,4 @@
-import Card from "@/components/surfaces/cards/Card"
-import CardContent from "@/components/surfaces/cards/CardContent"
-import CardHeader from "@/components/surfaces/cards/CardHeader"
+import PageContainer from "@/components/containers/PageContainer"
 import { SermonsListEntry } from "@/components/templates/SermonList/SermonList"
 import SermonsListContainer from "@/components/templates/SermonList/SermonListContainer"
 import { getClient } from "@/lib/backend/databaseHelpers"
@@ -34,15 +32,13 @@ export default async function Page() {
     }))
 
     return (
-        <Card breakpoint="normal" className={styles.card}>
-            <CardHeader title="Predigten" />
-            <CardContent className={styles.container}>
-                <SermonsListContainer
-                    initialSermons={initialSermons}
-                    showFilter
-                    // themeColor="primary"
-                />
-            </CardContent>
-        </Card>
+        <PageContainer breakpoint="normal" className={styles.container}>
+            <h2>Predigten</h2>
+            <SermonsListContainer
+                initialSermons={initialSermons}
+                showFilter
+                themeColor="accent"
+            />
+        </PageContainer>
     )
 }

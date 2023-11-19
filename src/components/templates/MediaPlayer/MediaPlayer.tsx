@@ -1,12 +1,14 @@
 "use client"
 
-import Loader from "@/components/Feedback/Loader"
+import "react-loading-skeleton/dist/skeleton.css"
+
+import Loader from "@/components/feedback/Loader"
 import IconButton from "@/components/inputs/IconButton"
 import Slider, { SliderProps } from "@/components/inputs/Slider"
 import { secondsToTimeStamp } from "@/lib/shared/helpers"
 import Website from "@/typings"
 import useAudioPlayerZustand from "@/zustand/useAudioPlayerZustand"
-import useSettingsZustand from "@/zustand/useSettingsZustand"
+import useUserPreferencesZustand from "@/zustand/useUserPreferencesZustand"
 import { Howler } from "howler"
 import { HTMLAttributes, useEffect } from "react"
 import {
@@ -14,6 +16,7 @@ import {
     FaPlay,
     FaRedoAlt,
     FaStepBackward,
+    FaStop,
     FaVolumeMute,
     FaVolumeUp,
 } from "react-icons/fa"
@@ -52,13 +55,12 @@ export default function MediaPlayer({
         stop: state.stop,
         volume: state.volume,
     }))
-    const { audioSettings, loaded, updateSettings } = useSettingsZustand(
-        (state) => ({
-            audioSettings: state.audioSettings,
+    const { audioPreferences, loaded, updatePreferences } =
+        useUserPreferencesZustand((state) => ({
+            audioPreferences: state.audio,
             loaded: state.loaded,
-            updateSettings: state.updateSettings,
-        }),
-    )
+            updatePreferences: state.updatePreferences,
+        }))
 
     useEffect(() => {
         Howler.unload()
@@ -69,16 +71,17 @@ export default function MediaPlayer({
         }
     }, [])
 
+    // Set music player volume and muted state from
     useEffect(() => {
         if (!loaded) {
             return
         }
 
-        if (audioPlayerZustand.muted !== audioSettings.muted) {
-            audioPlayerZustand.setMuted(audioSettings.muted)
+        if (audioPlayerZustand.muted !== audioPreferences.muted) {
+            audioPlayerZustand.setMuted(audioPreferences.muted)
         }
-        if (audioPlayerZustand.volume !== audioSettings.volume) {
-            audioPlayerZustand.setVolume(audioSettings.volume)
+        if (audioPlayerZustand.volume !== audioPreferences.volume) {
+            audioPlayerZustand.setVolume(audioPreferences.volume)
         }
     }, [loaded])
 
@@ -89,16 +92,16 @@ export default function MediaPlayer({
 
         let changedSettings = false
 
-        if (audioPlayerZustand.muted !== audioSettings.muted) {
+        if (audioPlayerZustand.muted !== audioPreferences.muted) {
             changedSettings = true
         }
-        if (audioPlayerZustand.volume !== audioSettings.volume) {
+        if (audioPlayerZustand.volume !== audioPreferences.volume) {
             changedSettings = true
         }
 
         if (changedSettings) {
-            updateSettings({
-                audioSettings: {
+            updatePreferences({
+                audio: {
                     muted: audioPlayerZustand.muted,
                     volume: audioPlayerZustand.volume,
                 },
@@ -157,20 +160,6 @@ export default function MediaPlayer({
             audioPlayerZustand.duration !== undefined &&
             audioPlayerZustand.secondsPassed !== undefined
         ) {
-            console.log({
-                duration: audioPlayerZustand.duration,
-                durationTs: secondsToTimeStamp(
-                    audioPlayerZustand.duration,
-                    "oneDigit",
-                    true,
-                ),
-                secondsPassed: audioPlayerZustand.secondsPassed,
-                secondsPassedTs: secondsToTimeStamp(
-                    audioPlayerZustand.secondsPassed,
-                    "oneDigit",
-                    true,
-                ),
-            })
             navigator.mediaSession.setPositionState({
                 duration: audioPlayerZustand.duration,
                 playbackRate: 1,
@@ -179,142 +168,165 @@ export default function MediaPlayer({
         }
     }, [audioPlayerZustand.duration, audioPlayerZustand.secondsPassed])
 
+    const themeColorOrDefault = themeColor ?? "accent"
+
     if (hidden) {
         return <Skeleton height={136} width="100%" />
     }
+
     const { className: timeSliderClassName, ...timeSliderPropsRest } =
         timeSliderProps ?? {}
     const { className: volumeSliderClassName, ...volumeSliderPropsRest } =
         volumeSliderProps ?? {}
 
-    const playerThemeClassName =
-        themeColor === "primary"
-            ? styles.primary
-            : themeColor === "secondary"
-            ? styles.secondary
-            : styles.accent
-
     return (
         <div
             {...rest}
-            className={`${styles.player} ${playerThemeClassName ?? ""} ${
-                className ?? ""
-            }`}
+            className={`${styles.player} ${className ?? ""}`}
+            data-theme={themeColorOrDefault}
         >
-            <div className={styles.labels}>
-                <span className={styles.title}>
-                    {audioPlayerZustand.playingMedia?.title ??
-                        "Kein Lied ausgewählt"}
-                </span>
-                <span className={styles.performer}>
-                    {audioPlayerZustand.playingMedia?.performer ?? ""}
-                </span>
-                <span className={styles.album}>
-                    {audioPlayerZustand.playingMedia?.album ?? ""}
-                </span>
-            </div>
-            <div className={`${styles.timeSliderContainer}`}>
-                <Slider
-                    {...timeSliderPropsRest}
-                    className={`${styles.timeSlider} ${
-                        timeSliderClassName ?? ""
-                    }`}
-                    max={audioPlayerZustand.duration}
-                    min={0}
-                    onAfterChange={(newSecondsPassed) => {
-                        audioPlayerZustand.seek(newSecondsPassed)
-                    }}
-                    showLabel
-                    formatLabel={(value) => (
-                        <>{secondsToTimeStamp(value, true)}</>
-                    )}
-                    themeColor={themeColor}
-                    value={audioPlayerZustand.secondsPassed}
-                />
-                <span className={styles.timeCodeContainer}>
-                    <span className={styles.timeCode}>
-                        {audioPlayerZustand.secondsPassed === undefined
-                            ? "-:--:--"
-                            : secondsToTimeStamp(
-                                  audioPlayerZustand.secondsPassed,
-                                  "oneDigit",
-                                  true,
-                              )}
+            <div className={styles.wrapper}>
+                <div className={styles.labels}>
+                    <span className={styles.title}>
+                        {audioPlayerZustand.playingMedia?.title ??
+                            "Kein Lied ausgewählt"}
                     </span>
-                    &nbsp;/&nbsp;
-                    <span>
-                        {audioPlayerZustand.duration === undefined
-                            ? "-:--:--"
-                            : secondsToTimeStamp(
-                                  audioPlayerZustand.duration,
-                                  "oneDigit",
-                                  true,
-                              )}
+                    <span className={styles.performer}>
+                        {audioPlayerZustand.playingMedia?.performer ?? ""}
                     </span>
-                </span>
-            </div>
-            <div className={styles.controls}>
-                <IconButton
-                    disabled={audioPlayerZustand.playingMedia === undefined}
-                    onClick={() => audioPlayerZustand.seek(0)}
-                >
-                    <FaStepBackward />
-                </IconButton>
-                <IconButton
-                    className={
-                        audioPlayerZustand.isLoading
-                            ? styles.loaderButton ?? ""
-                            : undefined
-                    }
-                    disabled={audioPlayerZustand.playingMedia === undefined}
-                    // noFocusColor
-                    onClick={
-                        audioPlayerZustand.isPlaying
-                            ? audioPlayerZustand.pause
-                            : audioPlayerZustand.play
-                    }
-                >
-                    {audioPlayerZustand.isLoading ? (
-                        <Loader
-                            height={16}
-                            width={4}
-                            className={styles.loader}
+                </div>
+                <div className={`${styles.timeSliderContainer}`}>
+                    <Slider
+                        {...timeSliderPropsRest}
+                        className={`${styles.timeSlider} ${
+                            timeSliderClassName ?? ""
+                        }`}
+                        max={audioPlayerZustand.duration ?? 0}
+                        min={0}
+                        onAfterChange={(newSecondsPassed) => {
+                            audioPlayerZustand.seek(newSecondsPassed)
+                        }}
+                        showLabel
+                        formatLabel={(value) => (
+                            <>{secondsToTimeStamp(value, true)}</>
+                        )}
+                        themeColor={themeColor}
+                        value={audioPlayerZustand.secondsPassed ?? 0}
+                    />
+                    <span className={styles.timeCodeContainer}>
+                        <span className={styles.timeCode}>
+                            {audioPlayerZustand.secondsPassed === undefined
+                                ? "-:--:--"
+                                : secondsToTimeStamp(
+                                      audioPlayerZustand.secondsPassed,
+                                      "oneDigit",
+                                      true,
+                                  )}
+                        </span>
+                        &nbsp;/&nbsp;
+                        <span>
+                            {audioPlayerZustand.duration === undefined
+                                ? "-:--:--"
+                                : secondsToTimeStamp(
+                                      audioPlayerZustand.duration,
+                                      "oneDigit",
+                                      true,
+                                  )}
+                        </span>
+                    </span>
+                </div>
+                <div className={styles.controls}>
+                    <div className={styles.songControl}>
+                        <IconButton
+                            containedHover
+                            disabled={
+                                audioPlayerZustand.playingMedia === undefined
+                            }
+                            onClick={() => audioPlayerZustand.seek(0)}
+                            themeColor={themeColor}
+                            variant="outlined"
+                        >
+                            <FaStepBackward />
+                        </IconButton>
+                        <IconButton
+                            className={
+                                audioPlayerZustand.isLoading
+                                    ? styles.loaderButton ?? ""
+                                    : undefined
+                            }
+                            containedHover
+                            disabled={
+                                audioPlayerZustand.playingMedia === undefined
+                            }
+                            // noFocusColor
+                            onClick={
+                                audioPlayerZustand.isPlaying
+                                    ? audioPlayerZustand.pause
+                                    : audioPlayerZustand.play
+                            }
+                            themeColor={themeColor}
+                            variant="outlined"
+                        >
+                            {audioPlayerZustand.isLoading ? (
+                                <Loader
+                                    height={16}
+                                    width={4}
+                                    className={styles.loader}
+                                />
+                            ) : audioPlayerZustand.finished ? (
+                                <FaRedoAlt />
+                            ) : audioPlayerZustand.isPlaying ? (
+                                <FaPause />
+                            ) : (
+                                <FaPlay />
+                            )}
+                        </IconButton>
+                        <IconButton
+                            containedHover
+                            onClick={audioPlayerZustand.stop}
+                            themeColor={themeColor}
+                            variant="outlined"
+                        >
+                            <FaStop />
+                        </IconButton>
+                    </div>
+                    <div className={styles.volumeGroup}>
+                        <IconButton
+                            containedHover
+                            onClick={() =>
+                                audioPlayerZustand.setMuted(
+                                    !audioPlayerZustand.muted,
+                                )
+                            }
+                            themeColor={themeColor}
+                            variant="outlined"
+                        >
+                            {audioPlayerZustand.muted ? (
+                                <FaVolumeMute />
+                            ) : (
+                                <FaVolumeUp />
+                            )}
+                        </IconButton>
+                        <Slider
+                            {...volumeSliderPropsRest}
+                            className={`${styles.volumeSlider ?? ""} ${
+                                volumeSliderClassName ?? ""
+                            }`}
+                            max={1}
+                            min={0}
+                            step={0.05}
+                            onChange={(newVolume) => {
+                                audioPlayerZustand.setVolume(newVolume)
+                            }}
+                            showLabel
+                            formatLabel={(value) => (
+                                <>{Math.round(value * 100)}%</>
+                            )}
+                            themeColor={themeColor}
+                            value={audioPlayerZustand.volume}
                         />
-                    ) : audioPlayerZustand.finished ? (
-                        <FaRedoAlt />
-                    ) : audioPlayerZustand.isPlaying ? (
-                        <FaPause />
-                    ) : (
-                        <FaPlay />
-                    )}
-                </IconButton>
-                <IconButton
-                    onClick={() =>
-                        audioPlayerZustand.setMuted(!audioPlayerZustand.muted)
-                    }
-                >
-                    {audioPlayerZustand.muted ? (
-                        <FaVolumeMute />
-                    ) : (
-                        <FaVolumeUp />
-                    )}
-                </IconButton>
-                <Slider
-                    {...volumeSliderPropsRest}
-                    className={`${styles.volumeSlider ?? ""} ${
-                        playerThemeClassName ?? ""
-                    } ${volumeSliderClassName ?? ""}`}
-                    max={1}
-                    min={0}
-                    step={0.05}
-                    onChange={(newVolume) => {
-                        audioPlayerZustand.setVolume(newVolume)
-                    }}
-                    showLabel
-                    formatLabel={(value) => <>{Math.round(value * 100)}%</>}
-                    themeColor={themeColor}
-                    value={audioPlayerZustand.volume}
-                />
+                    </div>
+                </div>
             </div>
         </div>
     )

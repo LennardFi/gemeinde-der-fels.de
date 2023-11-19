@@ -1,8 +1,6 @@
 @use "../../styles/core.module.scss" as core;
 
 .paper {
-    background-color: core.$color-default;
-    color: core.$color-default-font;
     width: 100%;
 
     &.small {
@@ -26,6 +24,26 @@
 
         @media (min-width: core.$size-breakpoint-large) {
             width: core.$size-breakpoint-large;
+        }
+    }
+
+    &:not(.noBackgroundColor) {
+        background-color: core.$color-default;
+        color: core.$color-default-font;
+
+        &.primary {
+            background-color: core.$color-primary;
+            color: core.$color-primary-font;
+        }
+
+        &.secondary {
+            background-color: core.$color-secondary;
+            color: core.$color-secondary-font;
+        }
+
+        &.accent {
+            background-color: core.$color-accent;
+            color: core.$color-accent-font;
         }
     }
 }

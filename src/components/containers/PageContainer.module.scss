@@ -1,0 +1,21 @@
+@use "../../styles/core.module.scss" as core;
+
+.container {
+    justify-self: center;
+    margin: core.getDimensionValue(4) auto;
+    padding: core.getDimensionValue(2);
+    height: auto;
+    max-height: 100dvh;
+    min-height: 80dvh;
+    width: auto;
+
+    >h1,
+    >h2,
+    >h3,
+    >h4,
+    >h5,
+    >h6 {
+        margin-top: 0;
+        text-align: center;
+    }
+}

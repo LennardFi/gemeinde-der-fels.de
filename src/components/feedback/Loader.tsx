@@ -37,7 +37,9 @@ export default function Loader({
             : styles.accent
 
     const colorVariantClassName =
-        themeColorVariant === "faded"
+        themeColorVariant === "default"
+            ? styles.default
+            : themeColorVariant === "faded"
             ? styles.faded
             : themeColorVariant === "font"
             ? styles.font

@@ -1,5 +1,6 @@
 "use client"
 
+import RequiresDevFeatureFlag from "@/components/dev/RequiresDevFeatureFlag"
 import IconButton from "@/components/inputs/IconButton"
 import Website from "@/typings"
 import useAuthZustand from "@/zustand/useAuthZustand"
@@ -23,7 +24,8 @@ export default function NavigationDrawerItem({
     noLink,
     onlyMobile,
     path,
-    requiresFlag,
+    requiresAllDevFeatureFlag,
+    requireOneUserFlag,
     subEntries,
     className,
     children,
@@ -36,8 +38,8 @@ export default function NavigationDrawerItem({
     const [subEntriesExpanded, setSubEntriesExpanded] = useState(false)
 
     if (
-        requiresFlag !== undefined &&
-        requiresFlag.every((flag) => !user?.flags?.[flag])
+        requireOneUserFlag !== undefined &&
+        requireOneUserFlag.every((flag) => !user?.flags?.[flag])
     ) {
         return null
     }
@@ -65,7 +67,7 @@ export default function NavigationDrawerItem({
     }
 
     return (
-        <>
+        <RequiresDevFeatureFlag flags={requiresAllDevFeatureFlag ?? []}>
             <li
                 className={`${styles.item} ${
                     isLink || subEntries?.length ? styles.isButton : ""
@@ -159,6 +161,6 @@ export default function NavigationDrawerItem({
                     ) : null}
                 </AnimatePresence>
             ) : null}
-        </>
+        </RequiresDevFeatureFlag>
     )
 }

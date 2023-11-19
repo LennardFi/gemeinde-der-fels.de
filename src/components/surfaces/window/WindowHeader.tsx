@@ -1,9 +1,9 @@
 import React, { HTMLAttributes } from "react"
 import { FaBars } from "react-icons/fa"
 import IconButton from "../../inputs/IconButton"
-import styles from "./CardHeader.module.scss"
+import styles from "./WindowHeader.module.scss"
 
-export interface CardHeaderProps
+export interface WindowHeaderProps
     extends Omit<HTMLAttributes<HTMLDivElement>, "children"> {
     title: string
     action?: React.ReactNode
@@ -12,7 +12,7 @@ export interface CardHeaderProps
     subTitle?: React.ReactNode
 }
 
-export default function CardHeader({
+export default function WindowHeader({
     action,
     actionHandler,
     className,
@@ -20,7 +20,7 @@ export default function CardHeader({
     subTitle,
     title,
     ...rest
-}: CardHeaderProps) {
+}: WindowHeaderProps) {
     return (
         <div className={`${styles.header} ${className ?? ""}`} {...rest}>
             {icon !== undefined ? (

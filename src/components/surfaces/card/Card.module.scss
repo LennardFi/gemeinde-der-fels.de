@@ -1,0 +1,54 @@
+@use "../../../styles/core.module.scss" as core;
+
+.card {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: core.getDimensionValue(2);
+    margin: 0;
+    outline: 0;
+    border: 0;
+    font-size: 100%;
+    text-decoration: none;
+    transition: box-shadow 250ms ease-in-out;
+
+    &.primary {
+        background-color: core.$color-primary;
+        color: core.$color-primary-font;
+        box-shadow: 0.25rem 0.25rem core.$color-secondary;
+
+        &.hover:not(:disabled) {
+            &:hover {
+                box-shadow: 0.4rem 0.4rem core.$color-secondary;
+                cursor: pointer;
+            }
+        }
+    }
+
+    &.secondary {
+        background-color: core.$color-secondary;
+        color: core.$color-secondary-font;
+        box-shadow: 0.25rem 0.25rem core.$color-primary;
+
+        &.hover:not(:disabled) {
+            &:hover {
+                box-shadow: 0.4rem 0.4rem core.$color-primary;
+                cursor: pointer;
+            }
+        }
+    }
+
+    &.accent {
+        background-color: core.$color-accent;
+        color: core.$color-accent-font;
+        box-shadow: 0.25rem 0.25rem core.$color-secondary;
+
+        &.hover:not(:disabled) {
+            &:hover {
+                box-shadow: 0.4rem 0.4rem core.$color-secondary;
+                cursor: pointer;
+            }
+        }
+    }
+}

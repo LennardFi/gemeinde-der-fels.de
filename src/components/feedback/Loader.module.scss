@@ -14,9 +14,11 @@
     &.primary {
         background-color: transparent;
 
-        .loader {
-            span {
-                background-color: core.$color-primary !important;
+        &.default {
+            .loader {
+                span {
+                    background-color: core.$color-primary !important;
+                }
             }
         }
 
@@ -64,9 +66,11 @@
     &.secondary {
         background-color: transparent;
 
-        .loader {
-            span {
-                background-color: core.$color-secondary !important;
+        &.default {
+            .loader {
+                span {
+                    background-color: core.$color-secondary !important;
+                }
             }
         }
 
@@ -114,9 +118,11 @@
     &.accent {
         background-color: transparent;
 
-        .loader {
-            span {
-                background-color: core.$color-accent !important;
+        &.default {
+            .loader {
+                span {
+                    background-color: core.$color-accent !important;
+                }
             }
         }
 

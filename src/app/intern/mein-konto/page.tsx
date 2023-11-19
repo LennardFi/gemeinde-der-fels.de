@@ -1,9 +1,9 @@
 "use client"
 
 import ButtonLink from "@/components/inputs/ButtonLink"
-import Card from "@/components/surfaces/cards/Card"
-import CardContent from "@/components/surfaces/cards/CardContent"
-import CardHeader from "@/components/surfaces/cards/CardHeader"
+import Window from "@/components/surfaces/window/Window"
+import WindowContent from "@/components/surfaces/window/WindowContent"
+import WindowHeader from "@/components/surfaces/window/WindowHeader"
 import { returnToPathParamName } from "@/lib/frontend/urlParams"
 import useAuthZustand from "@/zustand/useAuthZustand"
 import { usePathname } from "next/navigation"
@@ -15,9 +15,9 @@ export default function Page() {
     const user = useAuthZustand((state) => state.user)
 
     return (
-        <Card breakpoint="normal" className={styles.card}>
-            <CardHeader title="Mitgliederbereich" />
-            <CardContent className={styles.container}>
+        <Window breakpoint="normal" className={styles.card}>
+            <WindowHeader title="Mitgliederbereich" />
+            <WindowContent className={styles.container}>
                 <h2>Mein Konto</h2>
                 <ButtonLink
                     href={`/change-password?${new URLSearchParams({
@@ -52,7 +52,7 @@ export default function Page() {
                         )}
                     </tbody>
                 </table>
-            </CardContent>
-        </Card>
+            </WindowContent>
+        </Window>
     )
 }

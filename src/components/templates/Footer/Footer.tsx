@@ -1,7 +1,9 @@
 "use client"
 
+import RequiresDevFeatureFlag from "@/components/dev/RequiresDevFeatureFlag"
 import useAuthZustand from "@/zustand/useAuthZustand"
 import Link from "next/link"
+import { FaYoutube } from "react-icons/fa"
 import styles from "./Footer.module.scss"
 
 export default function Footer() {
@@ -9,27 +11,62 @@ export default function Footer() {
 
     return (
         <footer className={styles.footer}>
-            <div className={styles.container}>
-                <ul className={styles.links}>
-                    <li>
-                        <Link href="/datenschutz">Datenschutzerklärung</Link>
-                    </li>
-                    <li>
-                        <Link href="/impressum">Impressum</Link>
-                    </li>
-                </ul>
-                <ul className={styles.links}>
-                    <li>
-                        <h3>Für Mitglieder:</h3>
-                    </li>
-                    <li>
-                        {jwt === undefined ? (
-                            <Link href="/login">Anmelden</Link>
-                        ) : (
-                            <Link href="/intern">Mitgliederbereich</Link>
-                        )}
-                    </li>
-                </ul>
+            <div className={styles.wrapper}>
+                <div className={styles.container}>
+                    <h3>Rechtliches</h3>
+                    <ul className={styles.links}>
+                        <li>
+                            <Link href="/datenschutz">
+                                Datenschutzerklärung
+                            </Link>
+                        </li>
+                        <li>
+                            <Link href="/impressum">Impressum</Link>
+                        </li>
+                    </ul>
+                </div>
+                <div className={styles.container}>
+                    <h3>Unterstützung</h3>
+                    <ul className={styles.links}>
+                        <li>
+                            {jwt === undefined ? (
+                                <Link href="/spenden">Spenden</Link>
+                            ) : (
+                                <Link href="/intern">Mitgliederbereich</Link>
+                            )}
+                        </li>
+                    </ul>
+                </div>
+                <div className={styles.container}>
+                    <h3>Social Media</h3>
+                    <ul className={styles.links}>
+                        <li>
+                            <Link
+                                href="https://www.youtube.com/@gemeindederfels7523"
+                                rel="noreferrer noopener"
+                                target="_blank"
+                            >
+                                <FaYoutube style={{ height: 24, width: 24 }} />
+                            </Link>
+                        </li>
+                    </ul>
+                </div>
+                <RequiresDevFeatureFlag flags={["login"]}>
+                    <div className={styles.container}>
+                        <h3>Für Mitglieder</h3>
+                        <ul className={styles.links}>
+                            <li>
+                                {jwt === undefined ? (
+                                    <Link href="/login">Anmelden</Link>
+                                ) : (
+                                    <Link href="/intern">
+                                        Mitgliederbereich
+                                    </Link>
+                                )}
+                            </li>
+                        </ul>
+                    </div>
+                </RequiresDevFeatureFlag>
             </div>
         </footer>
     )

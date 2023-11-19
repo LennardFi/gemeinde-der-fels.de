@@ -11,6 +11,7 @@
     padding: core.getDimensionValue(2) core.getDimensionValue(1.5);
     position: relative;
     user-select: none;
+    transition: background-color 150ms ease-in-out, color 150ms ease-in-out;
 
     &.isLink {
         cursor: pointer;
@@ -86,6 +87,8 @@
             .subEntries {
                 display: flex;
                 border-top: none;
+                box-shadow: 0.5rem 0.5rem 0.5rem #000a;
+                // box-shadow: 0.5rem 0.5rem core.$color-secondary;
             }
         }
     }

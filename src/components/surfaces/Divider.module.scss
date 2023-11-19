@@ -1,0 +1,110 @@
+@use "../../styles/core.module.scss" as core;
+
+.divider {
+    height: core.getDimensionValue(0.5);
+    width: 100%;
+    border: none;
+    margin: 0;
+    overflow: hidden;
+
+    &.margin {
+        margin: core.getDimensionValue(2) 0;
+    }
+
+    &.page {
+        height: core.getDimensionValue(10);
+    }
+
+    &.container {
+        height: core.getDimensionValue(1);
+    }
+
+    &.transparent {
+
+        &.half {
+            background-color: #fff5;
+        }
+
+        &.full {
+            background-color: transparent;
+        }
+    }
+
+    &.primary {
+        &.default {
+            background-color: core.$color-primary;
+        }
+
+        &.faded {
+            background-color: core.$color-primary-faded;
+        }
+
+        &.font {
+            background-color: core.$color-primary-font;
+        }
+
+        &.fontFaded {
+            background-color: core.$color-primary-font-faded;
+        }
+
+        &.fontHighlighted {
+            background-color: core.$color-primary-font-highlighted;
+        }
+
+        &.highlighted {
+            background-color: core.$color-primary-highlighted;
+        }
+    }
+
+    &.secondary {
+        &.default {
+            background-color: core.$color-secondary;
+        }
+
+        &.faded {
+            background-color: core.$color-secondary-faded;
+        }
+
+        &.font {
+            background-color: core.$color-secondary-font;
+        }
+
+        &.fontFaded {
+            background-color: core.$color-secondary-font-faded;
+        }
+
+        &.fontHighlighted {
+            background-color: core.$color-secondary-font-highlighted;
+        }
+
+        &.highlighted {
+            background-color: core.$color-secondary-highlighted;
+        }
+    }
+
+    &.accent {
+        &.default {
+            background-color: core.$color-accent;
+        }
+
+        &.faded {
+            background-color: core.$color-accent-faded;
+        }
+
+        &.font {
+            background-color: core.$color-accent-font;
+        }
+
+        &.fontFaded {
+            background-color: core.$color-accent-font-faded;
+        }
+
+        &.fontHighlighted {
+            background-color: core.$color-accent-font-highlighted;
+        }
+
+        &.highlighted {
+            background-color: core.$color-accent-highlighted;
+        }
+    }
+}

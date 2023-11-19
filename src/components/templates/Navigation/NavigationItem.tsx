@@ -1,5 +1,6 @@
 "use client"
 
+import RequiresDevFeatureFlag from "@/components/dev/RequiresDevFeatureFlag"
 import Website from "@/typings"
 import useAuthZustand from "@/zustand/useAuthZustand"
 import Link, { LinkProps } from "next/link"
@@ -21,7 +22,8 @@ export default function NavigationItem({
     noLink,
     onlyMobile,
     path,
-    requiresFlag,
+    requiresAllDevFeatureFlag,
+    requireOneUserFlag,
     subEntries,
     className,
     children,
@@ -33,8 +35,8 @@ export default function NavigationItem({
     const jwt = useAuthZustand((state) => state.jwt)
 
     if (
-        requiresFlag !== undefined &&
-        requiresFlag.every((flag) => !user?.flags?.[flag])
+        requireOneUserFlag !== undefined &&
+        requireOneUserFlag.every((flag) => !user?.flags?.[flag])
     ) {
         return null
     }
@@ -54,50 +56,52 @@ export default function NavigationItem({
     }
 
     return (
-        <li
-            className={`${styles.item} ${isLink ? styles.isLink : ""} ${
-                needsAuth ? styles.needsAuth : ""
-            } ${currentPage ? styles.active : ""} ${className ?? ""}`}
-            onClick={
-                isLink
-                    ? (e) => {
-                          e.preventDefault()
-                          e.stopPropagation()
+        <RequiresDevFeatureFlag flags={requiresAllDevFeatureFlag ?? []}>
+            <li
+                className={`${styles.item} ${isLink ? styles.isLink : ""} ${
+                    needsAuth ? styles.needsAuth : ""
+                } ${currentPage ? styles.active : ""} ${className ?? ""}`}
+                onClick={
+                    isLink
+                        ? (e) => {
+                              e.preventDefault()
+                              e.stopPropagation()
 
-                          if (path !== undefined) {
-                              router.push(path)
+                              if (path !== undefined) {
+                                  router.push(path)
+                              }
                           }
-                      }
-                    : undefined
-            }
-            {...rest}
-        >
-            {isLink ? (
-                <Link className={styles.label} href={path}>
-                    {children}
-                </Link>
-            ) : (
-                <span className={styles.label} tabIndex={0}>
-                    {children}
-                </span>
-            )}
-            {subEntries !== undefined ? (
-                <>
-                    <FaAngleDown className={`${styles.arrow}`} />
-                    <ul className={styles.subEntries}>
-                        {subEntries.map(({ label, path, ...rest }, i) => (
-                            <NavigationItem
-                                key={`${i}_${path}`}
-                                needsAuth={needsAuth}
-                                path={path}
-                                {...rest}
-                            >
-                                {label}
-                            </NavigationItem>
-                        ))}
-                    </ul>
-                </>
-            ) : null}
-        </li>
+                        : undefined
+                }
+                {...rest}
+            >
+                {isLink ? (
+                    <Link className={styles.label} href={path}>
+                        {children}
+                    </Link>
+                ) : (
+                    <span className={styles.label} tabIndex={0}>
+                        {children}
+                    </span>
+                )}
+                {subEntries !== undefined ? (
+                    <>
+                        <FaAngleDown className={`${styles.arrow}`} />
+                        <ul className={styles.subEntries}>
+                            {subEntries.map(({ label, path, ...rest }, i) => (
+                                <NavigationItem
+                                    key={`${i}_${path}`}
+                                    needsAuth={needsAuth}
+                                    path={path}
+                                    {...rest}
+                                >
+                                    {label}
+                                </NavigationItem>
+                            ))}
+                        </ul>
+                    </>
+                ) : null}
+            </li>
+        </RequiresDevFeatureFlag>
     )
 }

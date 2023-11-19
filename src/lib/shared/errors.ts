@@ -2,7 +2,13 @@ import Website from "@/typings"
 import { Temporal } from "temporal-polyfill"
 import { v4 as uuid } from "uuid"
 
-export type ErrorScope = "api" | "client" | "database" | "request" | "server"
+export type ErrorScope =
+    | "api"
+    | "build"
+    | "client"
+    | "database"
+    | "request"
+    | "server"
 
 export type MetaData = Record<string, unknown>
 

@@ -4,6 +4,9 @@ const nextConfig = {
     swcMinify: true,
     transpilePackages: [],
     poweredByHeader: false,
+    images: {
+        domains: ["picsum.photos", "placekitten.com"],
+    },
 }
 
 module.exports = nextConfig

@@ -2,13 +2,16 @@
 
 .header {
     display: grid;
-    grid-template: auto / auto 1fr 64px;
+    grid-template: auto / auto 64px;
     gap: core.getDimensionValue(2);
     align-items: center;
     background-color: core.$color-primary;
-    // border-bottom: core.getDimensionValue(0.125) solid core.$color-accent;
     color: core.$color-primary-font;
+    align-self: stretch;
+    position: sticky;
+    top: 0;
     max-height: core.getDimensionValue(8);
+    z-index: 10;
 
     .logoContainer {
         grid-column: 1 / 2;
@@ -30,14 +33,18 @@
         grid-column: 2 / 3;
         grid-row: auto;
         margin: 0px;
-        font-size: 1.6rem;
+        font-size: 1.2rem;
+
+        @media (min-width: core.$size-breakpoint-tiny) {
+            font-size: 1.6rem;
+        }
     }
 
     .menuSwitch {
         background: none;
         border: 0;
         color: core.$color-primary-font;
-        grid-column: 3 / 4;
+        grid-column: 2 / 3;
         height: core.getDimensionValue(8);
         cursor: pointer;
         padding: core.getDimensionValue(2);
@@ -60,35 +67,6 @@
             display: flex;
         }
     }
-
-    // .header {
-    //     display: grid;
-    //     grid-template: auto / auto 1fr 64px;
-    //     gap: core.getDimensionValue(2);
-    //     align-items: center;
-    //     background-color: core.$color-primary;
-    //     border-bottom: core.getDimensionValue(0.125) solid core.$color-accent;
-    //     color: core.$color-primary-font;
-
-    //     .logoContainer {
-    //         height: core.getDimensionValue(8);
-    //         // padding: core.getDimensionValue(1);
-
-    //         .logo {
-    //             grid-column: 1 / 2;
-    //             grid-row: 1 / 2;
-    //             // border-radius: 50% 50%;
-    //             // border-radius: core.getDimensionValue(0.5);
-    //             height: core.getDimensionValue(8);
-    //             width: auto;
-    //         }
-    //     }
-
-    //     .title {
-    //         grid-column: 2 / 3;
-    //         grid-row: 1 / 2;
-    //         margin: 0px;
-    //     }
 
     .nav {
         display: none;
@@ -113,7 +91,7 @@
                 align-items: center;
                 flex-direction: row;
 
-                & > button {
+                &>button {
                     height: core.getDimensionValue(3);
                     background: transparent;
                     border: none;
@@ -126,59 +104,6 @@
             }
         }
     }
-
-    //     &.show .menu {
-    //         height: auto;
-    //     }
-
-    //     .menuSwitch {
-    //         background: none;
-    //         border: 0;
-    //         color: core.$color-primary-font;
-    //         grid-column: 3 / 4;
-    //         grid-row: auto;
-    //         height: 64px;
-    //         cursor: pointer;
-    //         padding: core.getDimensionValue(2);
-
-    //         svg {
-    //             height: core.getDimensionValue(4);
-    //             width: core.getDimensionValue(4);
-    //         }
-    //     }
-
-    //     @media (max-width: core.$size-breakpoint-large) {
-    //         &.show {
-    //             .menuSwitch {
-    //                 grid-column: 3 / 4;
-    //             }
-
-    //             .logoContainer,
-    //             .title {
-    //                 display: none;
-    //             }
-
-    //             .nav {
-    //                 display: flex;
-    //                 flex-direction: column;
-    //                 justify-content: center;
-    //                 align-items: center;
-    //                 border-bottom: 0;
-
-    //                 .menu {
-    //                     display: flex;
-    //                     flex-direction: column;
-    //                     justify-content: center;
-    //                     align-items: center;
-    //                     height: 100vh;
-    //                 }
-    //             }
-
-    //             & ~ * {
-    //                 display: none;
-    //             }
-    //         }
-    //     }
 
     //     // Changes for wide displays
     @media (min-width: (core.$size-breakpoint-large)) {

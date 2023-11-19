@@ -13,7 +13,7 @@ import {
 import { getClient } from "./databaseHelpers"
 import { logResponseOnServer } from "./logging"
 
-const forbiddenErrorCauses: ErrorScope[] = ["database"]
+const forbiddenErrorCauses: ErrorScope[] = ["build", "database"]
 
 /**
  * Builds a NEXT.js route which wraps the database handling away from the given

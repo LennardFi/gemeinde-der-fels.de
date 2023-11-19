@@ -151,10 +151,16 @@ declare namespace Website {
             label: L
             value: V
         }
+        type DevFeatureFlags =
+            | "admin"
+            | "sendEmail"
+            | "login"
+            | "mediaPlayer"
+            | "news"
     }
 
-    namespace UserSettings {
-        interface AudioSettings {
+    namespace UserPreferences {
+        interface AudioPreferences {
             muted: boolean
             /**
              * Value between 0 and 1
@@ -162,8 +168,8 @@ declare namespace Website {
             volume: number
         }
 
-        interface Settings {
-            audioSettings: AudioSettings
+        interface Preferences {
+            audio: AudioPreferences
         }
     }
 
@@ -226,7 +232,8 @@ declare namespace Website {
                 noLink?: boolean
                 onlyMobile?: boolean
                 path?: string
-                requiresFlag?: (keyof Users.UserFlags)[]
+                requiresAllDevFeatureFlag?: Base.DevFeatureFlags[]
+                requireOneUserFlag?: (keyof Users.UserFlags)[]
                 subEntries?: NavigationEntry[]
             }
         }
@@ -291,6 +298,7 @@ declare namespace Website {
         type ThemeColor = "primary" | "secondary" | "accent"
 
         type ThemeColorVariant =
+            | "default"
             | "faded"
             | "font-faded"
             | "font-highlighted"

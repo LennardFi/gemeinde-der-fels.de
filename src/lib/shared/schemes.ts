@@ -43,11 +43,11 @@ export const postSermonsSpeakerApiRequestBodySchema = z.object({
     name: z.string(),
 })
 
-export const audioSettingsSchema = z.object({
+export const audioPreferencesSchema = z.object({
     muted: z.boolean(),
     volume: z.number().max(1).min(0),
 })
 
-export const settingsSchema = z.object({
-    audioSettings: audioSettingsSchema,
+export const preferencesSchema = z.object({
+    audio: audioPreferencesSchema,
 })

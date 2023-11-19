@@ -6,10 +6,8 @@
     justify-content: center;
     align-items: center;
     gap: core.getDimensionValue(1);
-    background-color: core.$color-accent-font;
-    color: core.$color-accent;
-    border: core.$size-border-default solid core.$color-accent-font;
     outline: none;
+    border: core.$size-border-default solid;
     cursor: pointer;
     font-weight: 600;
     padding: core.getDimensionValue(1);
@@ -25,22 +23,13 @@
             width: 100%;
         }
 
-        &.left {
-        }
+        &.left {}
 
-        &.right {
-        }
+        &.right {}
     }
 
     .label {
         color: inherit;
-    }
-
-    &:not(:disabled):hover,
-    &:not(.noFocusColor):not(:disabled):focus {
-        background-color: core.$color-accent-font-highlighted;
-        border-color: core.$color-accent-highlighted;
-        color: core.$color-accent-highlighted;
     }
 
     &:not(:disabled):not(.noActiveAnimation):active {
@@ -55,104 +44,9 @@
         cursor: auto;
     }
 
-    &.primary {
-        background-color: core.$color-primary-font;
-        color: core.$color-primary;
-        border-color: core.$color-primary-font;
-
-        &:not(:disabled):hover,
-        &:not(.noFocusColor):not(:disabled):focus {
-            background-color: core.$color-primary-font-highlighted;
-            border-color: core.$color-primary-highlighted;
-            color: core.$color-primary-highlighted;
-        }
-    }
-
-    &.secondary {
-        background-color: core.$color-secondary-font;
-        color: core.$color-secondary;
-        border-color: core.$color-secondary-font;
-
-        &:not(:disabled):hover,
-        &:not(.noFocusColor):not(:disabled):focus {
-            background-color: core.$color-secondary-font-highlighted;
-            border-color: core.$color-secondary-highlighted;
-            color: core.$color-secondary-highlighted;
-        }
-    }
-
-    &.accent {
-        background-color: core.$color-accent-font;
-        color: core.$color-accent;
-        border-color: core.$color-accent-font;
-
-        &:not(:disabled):hover,
-        &:not(.noFocusColor):not(:disabled):focus {
-            background-color: core.$color-accent-font-highlighted;
-            border-color: core.$color-accent-highlighted;
-            color: core.$color-accent-highlighted;
-        }
-    }
-
-    &.outlined {
-        border-color: core.$color-accent;
-
-        &:not(:disabled):hover,
-        &:not(.noFocusColor):not(:disabled):focus {
-            background-color: core.$color-accent-font-highlighted;
-            border-color: core.$color-accent-highlighted;
-            color: core.$color-accent-highlighted;
-            outline: none;
-        }
-
-        &.primary {
-            border-color: core.$color-primary;
-
-            &:not(:disabled):hover,
-            &:not(.noFocusColor):not(:disabled):focus {
-                background-color: core.$color-primary-font-highlighted;
-                border-color: core.$color-primary-highlighted;
-                color: core.$color-primary-highlighted;
-            }
-        }
-
-        &.secondary {
-            border-color: core.$color-secondary;
-
-            &:not(:disabled):hover,
-            &:not(.noFocusColor):not(:disabled):focus {
-                background-color: core.$color-secondary-font-highlighted;
-                border-color: core.$color-secondary-highlighted;
-                color: core.$color-secondary-highlighted;
-            }
-        }
-
-        &.accent {
-            border-color: core.$color-accent;
-
-            &:not(:disabled):hover,
-            &:not(.noFocusColor):not(:disabled):focus {
-                background-color: core.$color-accent-font-highlighted;
-                border-color: core.$color-accent-highlighted;
-                color: core.$color-accent-highlighted;
-            }
-        }
-    }
-
-    &.contained {
-        background-color: core.$color-accent;
-        border-color: core.$color-accent;
-        color: core.$color-accent-font;
-
-        &:not(:disabled):hover,
-        &:not(.noFocusColor):not(:disabled):focus {
-            background-color: core.$color-accent-highlighted;
-            border-color: core.$color-accent-highlighted;
-            color: core.$color-accent-font-highlighted;
-            outline: none;
-        }
-
-        &.primary {
+    &[data-variant="contained"],
+    &.containedHover:hover {
+        &[data-theme="primary"] {
             background-color: core.$color-primary;
             border-color: core.$color-primary;
             color: core.$color-primary-font;
@@ -165,7 +59,7 @@
             }
         }
 
-        &.secondary {
+        &[data-theme="secondary"] {
             background-color: core.$color-secondary;
             border-color: core.$color-secondary;
             color: core.$color-secondary-font;
@@ -178,7 +72,7 @@
             }
         }
 
-        &.accent {
+        &[data-theme="accent"] {
             background-color: core.$color-accent;
             border-color: core.$color-accent;
             color: core.$color-accent-font;
@@ -188,6 +82,88 @@
                 background-color: core.$color-accent-highlighted;
                 border-color: core.$color-accent-highlighted;
                 color: core.$color-accent-font-highlighted;
+            }
+        }
+    }
+
+    &[data-variant="outlined"] {
+        &[data-theme="primary"] {
+            color: core.$color-primary;
+            background-color: core.$color-primary-font;
+            border-color: core.$color-primary;
+
+            &:not(:disabled):hover,
+            &:not(.noFocusColor):not(:disabled):focus {
+                background-color: core.$color-primary-font-highlighted;
+                border-color: core.$color-primary-highlighted;
+                color: core.$color-primary-highlighted;
+            }
+        }
+
+        &[data-theme="secondary"] {
+            color: core.$color-secondary;
+            background-color: core.$color-secondary-font;
+            border-color: core.$color-secondary;
+
+            &:not(:disabled):hover,
+            &:not(.noFocusColor):not(:disabled):focus {
+                background-color: core.$color-secondary-font-highlighted;
+                border-color: core.$color-secondary-highlighted;
+                color: core.$color-secondary-highlighted;
+            }
+        }
+
+        &[data-theme="accent"] {
+            color: core.$color-accent;
+            background-color: core.$color-accent-font;
+            border-color: core.$color-accent;
+
+            &:not(:disabled):hover,
+            &:not(.noFocusColor):not(:disabled):focus {
+                background-color: core.$color-accent-font-highlighted;
+                border-color: core.$color-accent-highlighted;
+                color: core.$color-accent-highlighted;
+            }
+        }
+    }
+
+    &[data-variant="text"] {
+        &[data-theme="primary"] {
+            background-color: transparent;
+            color: core.$color-primary;
+            border-color: transparent;
+
+            &:not(:disabled):hover,
+            &:not(.noFocusColor):not(:disabled):focus {
+                background-color: core.$color-primary-font-highlighted;
+                border-color: core.$color-primary-highlighted;
+                color: core.$color-primary-highlighted;
+            }
+        }
+
+        &[data-theme="secondary"] {
+            background-color: transparent;
+            color: core.$color-secondary;
+            border-color: transparent;
+
+            &:not(:disabled):hover,
+            &:not(.noFocusColor):not(:disabled):focus {
+                background-color: core.$color-secondary-font-highlighted;
+                border-color: core.$color-secondary-highlighted;
+                color: core.$color-secondary-highlighted;
+            }
+        }
+
+        &[data-theme="accent"] {
+            background-color: transparent;
+            color: core.$color-accent;
+            border-color: transparent;
+
+            &:not(:disabled):hover,
+            &:not(.noFocusColor):not(:disabled):focus {
+                background-color: core.$color-accent-font-highlighted;
+                border-color: core.$color-accent-highlighted;
+                color: core.$color-accent-highlighted;
             }
         }
     }

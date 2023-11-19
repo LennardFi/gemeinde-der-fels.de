@@ -13,6 +13,12 @@ import styles from "./Navigation.module.scss"
 import NavigationDrawer from "./NavigationDrawer"
 import NavigationItem from "./NavigationItem"
 
+export interface NavigationProps {
+    id?: string
+    inRootLayout?: boolean
+    sticky?: boolean
+}
+
 export const navigationEntries: Website.Content.Navigation.NavigationEntry[] = [
     {
         label: "Startseite",
@@ -34,6 +40,7 @@ export const navigationEntries: Website.Content.Navigation.NavigationEntry[] = [
             {
                 label: "Predigten",
                 path: "/medien/predigten",
+                requiresAllDevFeatureFlag: ["mediaPlayer"],
             },
         ],
     },
@@ -41,6 +48,14 @@ export const navigationEntries: Website.Content.Navigation.NavigationEntry[] = [
         label: "Veranstaltungen",
         path: "/veranstaltungen",
         subEntries: [
+            {
+                label: "Gottesdienst",
+                path: "/veranstaltungen/gottesdienst",
+            },
+            {
+                label: "Gebetsabend",
+                path: "/veranstaltungen/gebetsabend",
+            },
             {
                 label: "Termine",
                 path: "/veranstaltungen/termine",
@@ -89,10 +104,15 @@ export const navigationEntries: Website.Content.Navigation.NavigationEntry[] = [
         path: "/kontakt",
     },
     {
+        label: "Spenden",
+        path: "/spenden",
+    },
+    {
         label: "Verwaltung",
         needsAuth: true,
         path: "/admin",
-        requiresFlag: [
+        requiresAllDevFeatureFlag: ["admin", "login"],
+        requireOneUserFlag: [
             "Admin",
             "ManageCalendar",
             "ManageNews",
@@ -104,17 +124,20 @@ export const navigationEntries: Website.Content.Navigation.NavigationEntry[] = [
             {
                 label: "News",
                 path: "/admin/inhalte/news",
-                requiresFlag: ["ManageNews"],
+                requiresAllDevFeatureFlag: ["admin", "login"],
+                requireOneUserFlag: ["ManageNews"],
             },
             {
                 label: "Predigten",
                 path: "/admin/inhalte/predigten",
-                requiresFlag: ["ManageSermons"],
+                requiresAllDevFeatureFlag: ["admin", "login"],
+                requireOneUserFlag: ["ManageSermons"],
             },
             {
                 label: "Benutzereinstellungen",
                 path: "/admin/einstellungen/benutzer",
-                requiresFlag: ["ManageUser"],
+                requiresAllDevFeatureFlag: ["admin", "login"],
+                requireOneUserFlag: ["ManageUser"],
             },
         ],
     },
@@ -122,6 +145,7 @@ export const navigationEntries: Website.Content.Navigation.NavigationEntry[] = [
         label: "Mitglieder",
         needsAuth: true,
         path: "/intern",
+        requiresAllDevFeatureFlag: ["login"],
         subEntries: [
             {
                 label: "Mein Konto",
@@ -135,7 +159,13 @@ export const navigationEntries: Website.Content.Navigation.NavigationEntry[] = [
     },
 ]
 
-export default function Navigation() {
+const disabledOnRoutes: string[] = ["/"]
+
+export default function Navigation({
+    id,
+    inRootLayout,
+    sticky,
+}: NavigationProps) {
     const pathName = usePathname()
     const [navDrawerOpened, setNavDrawerOpened] = useState(false)
     const jwt = useAuthZustand((state) => state.jwt)
@@ -156,19 +186,27 @@ export default function Navigation() {
         setNavDrawerOpened(false)
     }, [pathName])
 
+    if (inRootLayout && disabledOnRoutes.includes(pathName)) {
+        return null
+    }
+
     return (
         <>
-            <header className={`${styles.header}`}>
+            <header
+                className={`${styles.header} ${sticky ? styles.sticky : ""}`}
+                id={id}
+            >
                 <Link className={styles.logoContainer} href="/">
                     <Image
                         alt="Profile Picture"
                         className={styles.logo}
                         height={64}
                         src={Aufmacher}
+                        priority
                     />
                 </Link>
 
-                <h1 className={styles.title}>Gemeinde Der&nbsp;Fels</h1>
+                {/* <h1 className={styles.title}>Gemeinde Der&nbsp;Fels</h1> */}
 
                 <Button
                     className={styles.menuSwitch}
@@ -183,25 +221,14 @@ export default function Navigation() {
                 <nav className={`${styles.nav}`}>
                     <ul className={`${styles.menu}`}>
                         {navigationEntries.map(
-                            (
-                                {
-                                    label,
-                                    needsAuth,
-                                    path,
-                                    subEntries,
-                                    ...entry
-                                },
-                                i,
-                            ) => (
+                            ({ label, path, ...entry }, i) => (
                                 <NavigationItem
                                     className={
                                         entry.onlyMobile
                                             ? styles.onlyMobile
                                             : ""
                                     }
-                                    needsAuth={needsAuth}
                                     path={path}
-                                    subEntries={subEntries}
                                     key={`${i}_${path}`}
                                     {...entry}
                                 >

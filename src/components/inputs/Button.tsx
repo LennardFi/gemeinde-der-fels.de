@@ -1,13 +1,16 @@
 import Website from "@/typings"
 import React, { forwardRef, Ref } from "react"
+import Loader from "../feedback/Loader"
 import styles from "./Button.module.scss"
 
 export interface ButtonRootProps {
+    containedHover?: boolean
     labelProps?: React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLSpanElement>,
         HTMLSpanElement
     >
     leftSegment?: React.ReactNode
+    loading?: boolean
     noActiveAnimation?: boolean
     noFocusColor?: boolean
     rightSegment?: React.ReactNode
@@ -23,9 +26,11 @@ const Button = forwardRef(function Button(
     {
         children,
         className,
+        containedHover,
         disabled,
         labelProps,
         leftSegment,
+        loading,
         noActiveAnimation,
         noFocusColor,
         onClick,
@@ -33,26 +38,14 @@ const Button = forwardRef(function Button(
         round,
         themeColor,
         type,
-        variant = type === "submit" ? "contained" : undefined,
+        variant,
         ...rest
     }: ButtonProps,
     ref: Ref<HTMLButtonElement>,
 ) {
-    const variantStyles =
-        variant === "contained"
-            ? styles.contained
-            : variant === "outlined"
-            ? styles.outlined
-            : ""
-
-    const themeColorStyle =
-        themeColor === "primary"
-            ? styles.primary
-            : themeColor === "secondary"
-            ? styles.secondary
-            : themeColor === "accent"
-            ? styles.accent
-            : ""
+    const variantOrDefault =
+        variant ?? (type === "submit" ? "contained" : "text")
+    const themeColorOrDefault = themeColor ?? "accent"
 
     const { className: customLabelClassName, ...customLabelPropsRest } = {
         className: undefined,
@@ -61,11 +54,14 @@ const Button = forwardRef(function Button(
 
     return (
         <button
-            className={`${styles.button} ${variantStyles} ${themeColorStyle} ${
-                noActiveAnimation ? styles.noActiveAnimation : ""
-            } ${noFocusColor ? styles.noFocusColor : ""} ${
-                round ? styles.round : ""
-            } ${className}`}
+            // ${variantStyles} ${themeColorStyle}
+            className={`${styles.button} ${
+                containedHover ? styles.containedHover : ""
+            } ${noActiveAnimation ? styles.noActiveAnimation : ""} ${
+                noFocusColor ? styles.noFocusColor : ""
+            } ${round ? styles.round : ""} ${className}`}
+            data-theme={themeColorOrDefault}
+            data-variant={variantOrDefault}
             disabled={disabled}
             onClick={disabled ? undefined : onClick}
             ref={ref}
@@ -81,7 +77,15 @@ const Button = forwardRef(function Button(
                 className={`${styles.label} ${customLabelClassName}`}
                 {...customLabelPropsRest}
             >
-                {children}
+                {loading ? (
+                    <Loader
+                        height="1rem"
+                        themeColor={themeColorOrDefault}
+                        themeColorVariant="font"
+                    />
+                ) : (
+                    children
+                )}
             </span>
             {rightSegment !== undefined ? (
                 <span className={`${styles.segment} ${styles.right}`}>

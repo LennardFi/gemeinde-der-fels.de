@@ -1,12 +1,12 @@
 "use client"
 
-import Banner from "@/components/Feedback/Banner"
+import Banner from "@/components/feedback/Banner"
 import Button from "@/components/inputs/Button"
 import ButtonLink from "@/components/inputs/ButtonLink"
 import TextField from "@/components/inputs/TextField"
-import Card from "@/components/surfaces/cards/Card"
-import CardContent from "@/components/surfaces/cards/CardContent"
-import CardHeader from "@/components/surfaces/cards/CardHeader"
+import Window from "@/components/surfaces/window/Window"
+import WindowContent from "@/components/surfaces/window/WindowContent"
+import WindowHeader from "@/components/surfaces/window/WindowHeader"
 import {
     resetPasswordTokenParamName,
     returnToPathParamName,
@@ -94,8 +94,8 @@ export default function Page() {
     }
 
     return (
-        <Card breakpoint="small" className={styles.card}>
-            <CardHeader
+        <Window breakpoint="small" className={styles.card}>
+            <WindowHeader
                 icon={<FaKey />}
                 title={
                     !resetPasswordToken
@@ -103,7 +103,7 @@ export default function Page() {
                         : "Passwort zurücksetzen"
                 }
             />
-            <CardContent className={styles.container}>
+            <WindowContent className={styles.container}>
                 <form className={styles.form} onSubmit={onSubmit}>
                     <fieldset className={styles.inputs}>
                         {!resetPasswordToken && (
@@ -202,7 +202,7 @@ export default function Page() {
                         </Button>
                     </fieldset>
                 </form>
-            </CardContent>
-        </Card>
+            </WindowContent>
+        </Window>
     )
 }

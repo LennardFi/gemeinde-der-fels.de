@@ -2,47 +2,75 @@
 
 .footer {
     background: core.$color-accent;
-    padding: 0 core.getDimensionValue(1);
+    padding: core.getDimensionValue(4) 0;
+    padding-bottom: core.getDimensionValue(6);
+    z-index: 10;
 
-    .container {
-        display: flex;
-        flex-direction: row;
+    .wrapper {
+        display: grid;
+        grid-template: auto / auto;
         justify-content: center;
-        align-items: stretch;
-        margin: auto;
+        gap: core.getDimensionValue(2);
+        margin: 0 auto;
         max-width: core.$size-breakpoint-small;
-        padding: 0;
-        margin: core.getDimensionValue(2) auto;
+        color: core.$color-accent-font;
 
-        ul.links {
+        .container {
             display: flex;
-            flex: 1 1 auto;
             flex-direction: column;
-            gap: core.getDimensionValue(1);
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            color: core.$color-accent-font;
+            justify-content: flex-start;
+            align-items: flex-start;
+            max-width: core.$size-breakpoint-tiny;
 
-            h3 {
+            ul {
+                display: flex;
+                flex: 1 1 auto;
+                flex-direction: column;
+                gap: core.getDimensionValue(1);
+                list-style: none;
                 margin: 0;
-            }
+                padding: 0;
 
-            a {
-                color: core.$color-accent-font;
-                text-decoration: none;
+                a {
+                    color: core.$color-accent-font;
+                    text-decoration: none;
 
-                &:focus,
-                &:active {
-                    color: core.$color-accent-font-highlighted;
-                }
-
-                @media (hover: hover) and (pointer: fine) {
-                    &:hover {
+                    &:focus,
+                    &:active {
                         color: core.$color-accent-font-highlighted;
+                    }
+
+                    @media (hover: hover) and (pointer: fine) {
+                        &:hover {
+                            color: core.$color-accent-font-highlighted;
+                        }
                     }
                 }
             }
+        }
+
+        @media (min-width: 350px) {
+            grid-template: auto / auto;
+            gap: core.getDimensionValue(4);
+            padding: 0 core.getDimensionValue(2);
+        }
+
+        @media (min-width: core.$size-breakpoint-tiny) {
+            column-gap: core.getDimensionValue(12);
+            row-gap: core.getDimensionValue(4);
+            grid-template: auto / auto auto;
+        }
+
+        @media (min-width: core.$size-breakpoint-small) {
+            grid-template: auto / auto auto;
+            max-width: core.$size-breakpoint-normal;
+        }
+
+        @media (min-width: core.$size-breakpoint-normal) {
+            gap: core.getDimensionValue(12);
+            grid-template: auto / auto auto;
+            max-width: unset;
+            grid-auto-flow: column;
         }
 
         hr {
@@ -51,19 +79,19 @@
             border-style: solid;
         }
 
-        ul.socialMedia {
-            align-items: center;
-            display: flex;
-            flex-direction: row;
-            gap: core.getDimensionValue(2);
-            justify-content: center;
-            list-style: none;
-            margin: 0;
-            padding: core.getDimensionValue(1) core.getDimensionValue(2);
+        // ul.socialMedia {
+        //     align-items: center;
+        //     display: flex;
+        //     flex-direction: row;
+        //     gap: core.getDimensionValue(2);
+        //     justify-content: center;
+        //     list-style: none;
+        //     margin: 0;
+        //     padding: core.getDimensionValue(1) core.getDimensionValue(2);
 
-            li {
-                font-size: core.$size-font-default * 2;
-            }
-        }
+        //     li {
+        //         font-size: core.$size-font-default * 2;
+        //     }
+        // }
     }
 }

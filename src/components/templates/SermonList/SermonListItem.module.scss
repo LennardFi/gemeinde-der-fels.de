@@ -2,59 +2,122 @@
 
 .cell {
     padding: core.getDimensionValue(1);
+    cursor: pointer;
 
-    &.titleCell {
-    }
+    &.titleCell {}
 
-    &.speakerCell {
-    }
+    &.speakerCell {}
 
     &.playButtonCell {
-        .playButton {
-            &:not(:disabled):hover,
-            &:not(:disabled):focus {
-                background-color: core.$color-accent;
-                border-color: core.$color-accent;
-                color: core.$color-accent-font;
-            }
-        }
+        .playButton {}
     }
 
-    &.highlighted {
-        background-color: core.$color-accent-faded;
-        color: core.$color-accent-font-faded;
+    &.isSelectedMedia {
+        border: core.$size-border-default solid;
+        cursor: auto;
 
-        .playButton {
-            background-color: core.$color-accent-faded;
-            border-color: core.$color-accent-faded;
-            color: core.$color-accent-font-faded;
+        .wrapper {
+            display: grid;
+            grid-template: repeat(3, 1fr) / 2fr auto auto;
 
-            &:not(:disabled):hover,
-            &:not(:disabled):focus {
-                background-color: core.$color-accent;
-                border-color: core.$color-accent;
-                color: core.$color-accent-faded;
-            }
-        }
-    }
+            .labels {
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: flex-start;
+                gap: core.getDimensionValue(1);
+                grid-column: 1 / 3;
+                grid-row: 1 / 2;
 
-    &.isPlayingMedia {
-        background-color: core.$color-primary;
-        color: core.$color-primary-font;
+                .title {
+                    font-size: core.$size-font-header;
+                }
 
-        &.playButtonCell {
-            .playButton {
-                background-color: core.$color-primary;
-                border-color: core.$color-primary;
-                color: core.$color-primary-font;
-
-                &:not(:disabled):hover,
-                &:not(:disabled):focus {
-                    background-color: core.$color-primary-font;
-                    border-color: core.$color-primary-font;
-                    color: core.$color-primary;
+                .speaker {
+                    font-size: core.$size-font-subheader;
+                    grid-column: 1 / 2;
+                    grid-row: 2 / 3;
                 }
             }
+
+            .actions {
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: center;
+                gap: core.getDimensionValue(1);
+                grid-column: 3 / 4;
+                grid-row: 1 / 4;
+
+                .button {
+                    height: core.getDimensionValue(5);
+                    width: core.getDimensionValue(5);
+                }
+
+            }
+
+            .details {
+                grid-column: 1 / 2;
+                grid-row: 2 / 3;
+                font-size: core.$size-font-default;
+            }
+        }
+    }
+
+    &[data-theme="primary"] {
+        background-color: core.$color-primary-font;
+        color: core.$color-primary;
+
+        &.highlighted {
+            background-color: core.$color-primary-faded;
+            color: core.$color-primary-font-faded;
+        }
+
+        &.isPlayingMedia {
+            background-color: core.$color-primary;
+            color: core.$color-primary-font;
+        }
+
+        &.isSelectedMedia {
+            border-color: core.$color-primary-font;
+        }
+    }
+
+    &[data-theme="secondary"] {
+        background-color: core.$color-secondary-font;
+        color: core.$color-secondary;
+
+        &.highlighted {
+            background-color: core.$color-secondary-faded;
+            color: core.$color-secondary-font-faded;
+        }
+
+        &.isPlayingMedia {
+            background-color: core.$color-secondary;
+            color: core.$color-secondary-font;
+        }
+
+        &.isSelectedMedia {
+            border-color: core.$color-secondary-font;
+        }
+    }
+
+    &[data-theme="accent"] {
+        background-color: core.$color-accent-font;
+        color: core.$color-accent;
+
+        &.highlighted {
+            background-color: core.$color-accent-faded;
+            color: core.$color-accent-font-faded;
+        }
+
+        &.isPlayingMedia {
+            background-color: core.$color-accent;
+            color: core.$color-accent-font;
+        }
+
+        &.isSelectedMedia {
+            border-color: core.$color-accent-font;
         }
     }
 }

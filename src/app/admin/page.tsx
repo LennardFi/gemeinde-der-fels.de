@@ -1,14 +1,14 @@
-import Card from "@/components/surfaces/cards/Card"
-import CardContent from "@/components/surfaces/cards/CardContent"
-import CardHeader from "@/components/surfaces/cards/CardHeader"
+import Window from "@/components/surfaces/window/Window"
+import WindowContent from "@/components/surfaces/window/WindowContent"
+import WindowHeader from "@/components/surfaces/window/WindowHeader"
 import Link from "next/link"
 import styles from "./page.module.scss"
 
 export default function Page() {
     return (
-        <Card breakpoint="normal" className={styles.card}>
-            <CardHeader title="Verwaltung" />
-            <CardContent className={styles.container}>
+        <Window breakpoint="normal" className={styles.card}>
+            <WindowHeader title="Verwaltung" />
+            <WindowContent className={styles.container}>
                 <h2>Einstellungen</h2>
                 <ul>
                     <li>
@@ -26,7 +26,7 @@ export default function Page() {
                         <Link href="/admin/inhalte/predigten">Predigten</Link>
                     </li>
                 </ul>
-            </CardContent>
-        </Card>
+            </WindowContent>
+        </Window>
     )
 }

@@ -60,3 +60,5 @@ Content-Type: application/json
 ###
 # Get sermons list
 GET {{baseUrl}}/api/sermons
+###
+GET {{baseUrl}}/api/files/654c220c2590c35bff477e08/xyz.mp3

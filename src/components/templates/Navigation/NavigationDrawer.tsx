@@ -78,15 +78,16 @@ export default function NavigationDrawer({
                     onKeyUp={onKeyUpHandler}
                     ref={containerRef}
                     initial={{
-                        backdropFilter: "blur(0)",
+                        backdropFilter: "blur(4px) opacity(0)",
                     }}
                     animate={{
-                        backdropFilter: "blur(4px)",
+                        backdropFilter: "blur(4px) opacity(1)",
                     }}
                     exit={{
-                        backdropFilter: "blur(0)",
+                        backdropFilter: "blur(4px) opacity(0)",
                     }}
                     transition={{
+                        type: "spring",
                         ease: "easeInOut",
                         duration: 0.25,
                     }}
@@ -122,16 +123,7 @@ export default function NavigationDrawer({
                         </Button>
                         <div className={styles.content}>
                             {navigationEntries.map(
-                                (
-                                    {
-                                        label,
-                                        needsAuth,
-                                        path,
-                                        subEntries,
-                                        ...entry
-                                    },
-                                    i,
-                                ) => {
+                                ({ label, needsAuth, path, ...entry }, i) => {
                                     if (needsAuth && jwt === undefined) {
                                         return undefined
                                     }
@@ -143,7 +135,6 @@ export default function NavigationDrawer({
                                             }
                                             needsAuth={needsAuth}
                                             path={path}
-                                            subEntries={subEntries}
                                             key={`${i}_${path}`}
                                             {...entry}
                                         >

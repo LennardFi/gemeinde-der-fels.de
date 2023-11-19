@@ -1,7 +1,8 @@
 import Link, { LinkProps } from "next/link"
+import Loader from "../feedback/Loader"
 import { ButtonRootProps } from "./Button"
-import buttonStyles from "./Button.module.scss"
-import styles from "./ButtonLink.module.scss"
+import styles from "./Button.module.scss"
+import linkStyles from "./ButtonLink.module.scss"
 
 type NextLinkProps = Omit<
     React.AnchorHTMLAttributes<HTMLAnchorElement>,
@@ -11,66 +12,67 @@ type NextLinkProps = Omit<
         children?: React.ReactNode
     } & React.RefAttributes<HTMLAnchorElement>
 
-export type ButtonLinkProps = NextLinkProps & Omit<ButtonRootProps, "onClick">
+export type ButtonLinkProps = NextLinkProps & ButtonRootProps
 
 export default function ButtonLink({
     children,
     className,
+    containedHover,
     labelProps,
     leftSegment,
+    loading,
     rightSegment,
     noActiveAnimation,
     noFocusColor,
+    onClick,
     themeColor,
     type,
     variant,
     ...rest
 }: ButtonLinkProps) {
-    const variantStyles =
-        variant === "contained"
-            ? buttonStyles.contained
-            : variant === "outlined"
-            ? buttonStyles.outlined
-            : ""
-
-    const themeColorStyle =
-        themeColor === "primary"
-            ? buttonStyles.primary
-            : themeColor === "secondary"
-            ? buttonStyles.secondary
-            : themeColor === "accent"
-            ? buttonStyles.accent
-            : ""
+    const variantOrDefault =
+        variant ?? (type === "submit" ? "contained" : "text")
+    const themeColorOrDefault = themeColor ?? "accent"
 
     return (
         <Link
-            className={`${buttonStyles.button} ${
-                styles.button
-            } ${variantStyles} ${themeColorStyle} ${
-                noActiveAnimation ? buttonStyles.noActiveAnimation : ""
-            } ${noFocusColor ? buttonStyles.noFocusColor : ""} ${className}`}
+            className={`${styles.button} ${linkStyles.button} ${
+                containedHover ? styles.containedHover : ""
+            } ${noActiveAnimation ? styles.noActiveAnimation : ""} ${
+                noFocusColor ? styles.noFocusColor : ""
+            } ${className}`}
+            data-theme={themeColorOrDefault}
+            data-variant={variantOrDefault}
+            onClick={(e) => {
+                e.stopPropagation()
+                onClick?.(e)
+            }}
             type={type ?? "button"}
             {...rest}
         >
             {leftSegment !== undefined ? (
-                <span
-                    className={`${buttonStyles.segment} ${buttonStyles.left}`}
-                >
+                <span className={`${styles.segment} ${styles.left}`}>
                     {leftSegment}
                 </span>
             ) : null}
             <span
                 {...labelProps}
-                className={`${buttonStyles.label} ${styles.label} ${
+                className={`${styles.label} ${linkStyles.label} ${
                     labelProps?.className ?? ""
                 }`}
             >
-                {children}
+                {loading ? (
+                    <Loader
+                        height="1rem"
+                        themeColor={themeColorOrDefault}
+                        themeColorVariant="font"
+                    />
+                ) : (
+                    children
+                )}
             </span>
             {rightSegment !== undefined ? (
-                <span
-                    className={`${buttonStyles.segment} ${buttonStyles.right}`}
-                >
+                <span className={`${styles.segment} ${styles.right}`}>
                     {rightSegment}
                 </span>
             ) : null}

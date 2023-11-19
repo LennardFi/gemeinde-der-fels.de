@@ -1,7 +1,8 @@
 @use "../../../styles/core.module.scss" as core;
 
 .container {
-    flex: 1 1 auto;
+    // flex: 1 1 auto;
+    overflow: hidden;
 
     .mediaPlayer {
         width: 100%;

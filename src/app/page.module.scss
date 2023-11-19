@@ -1,46 +1,136 @@
 @use "../styles/core.module.scss" as core;
 
-.welcomeBanner {
-    background-color: #fff9;
-    // background: linear-gradient(
-    //     0deg,
-    //     rgba(0, 0, 0, 0) 0%,
-    //     rgba(255, 255, 255, 0.5) 10%,
-    //     rgba(255, 255, 255, 0.5) 70%,
-    //     rgba(255, 255, 255, 0) 100%
-    // );
-    padding: core.getDimensionValue(5) 0;
-    margin: core.getDimensionValue(20) 0;
-    width: 100%;
+.paper {
+    padding: core.getDimensionValue(6);
 
-    .welcomeLabel {
-        display: block;
-        background-image: url("../media/background.jpg");
-        background-size: 1920px;
-        background-repeat: no-repeat;
-        background-position: 50% 38.5%;
-        background-clip: text;
-        -webkit-background-clip: text;
-        color: transparent;
-        height: auto;
-        margin: auto;
-        max-width: unset;
-        font-size: 1000%;
-        // font-size: 15vw;
-        font-weight: 800;
-        text-align: center;
-        filter: drop-shadow(3px 3px 6px black);
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        max-width: core.$size-breakpoint-small;
+        margin: 0;
+        margin-bottom: core.getDimensionValue(2);
     }
 
-    .welcomeLabel:nth-child(2) {
-        font-size: 1000%;
-        // font-size: 19vw;
-        background-position: 100% 60%;
+    h2 {
+        font-size: core.$size-font-title;
+    }
+
+    h3 {
+        font-size: core.$size-font-header;
+    }
+
+    p {
+        max-width: core.$size-breakpoint-small;
     }
 }
 
-.paper {
-    .slider {
-        max-width: 300px;
+.hero {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100dvh;
+    background-color: transparentize(core.$color-accent, 0.1);
+    color: core.$color-accent-font;
+    margin: 0;
+    width: 100%;
+    // background-image: url("../media/Aufmacher.jpg");
+    // background-position: 50%;
+    // background-repeat: no-repeat;
+    // background-clip: text;
+    // color: transparent;
+
+    .heroTitle {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-size: 2rem;
+        font-weight: 100;
+        line-height: 2;
+        text-align: center;
+
+        .highlighted {
+            color: core.$color-primary;
+            font-size: 3rem;
+            font-weight: bold;
+            line-height: 1.2;
+            text-shadow: 0.1rem 0.1rem core.$color-secondary;
+        }
+
+        @media (min-width: core.$size-breakpoint-small) {
+            font-size: 3rem;
+
+            .highlighted {
+                font-size: 4rem;
+                text-shadow: 0.15rem 0.15rem core.$color-secondary;
+            }
+        }
+
+        @media (min-width: core.$size-breakpoint-normal) {
+            font-size: 4rem;
+
+            .highlighted {
+                font-size: 6rem;
+                text-shadow: 0.2rem 0.2rem core.$color-secondary;
+            }
+        }
+
+        @media (min-width: core.$size-breakpoint-large) {
+            font-size: 6rem;
+
+            .highlighted {
+                font-size: 8rem;
+                text-shadow: 0.2rem 0.2rem core.$color-secondary;
+            }
+        }
+    }
+
+    .scrollDownButton {
+        color: core.$color-accent-font;
+        outline: none;
+        margin-top: 3rem;
+        height: 3rem;
+        width: 3rem;
+
+        svg {
+            height: 100%;
+            width: 100%;
+        }
+
+        &:focus {
+            color: core.$color-secondary;
+        }
+
+        &:hover {
+            cursor: pointer;
+            color: core.$color-primary;
+        }
+    }
+}
+
+.bannerImg {
+    max-width: 100%;
+    height: auto;
+    width: auto;
+}
+
+.cardList {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    gap: core.getDimensionValue(8);
+    padding: 0;
+    margin: 0;
+    font-size: 1.5rem;
+    list-style: none;
+
+    a {
+        text-decoration: none;
     }
 }

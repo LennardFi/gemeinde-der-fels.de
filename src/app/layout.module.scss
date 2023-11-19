@@ -1,0 +1,59 @@
+@use "../styles/core.module" as core;
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: stretch;
+    overflow: auto;
+    height: 100dvh;
+
+    >main {
+        display: flex;
+        flex-direction: column;
+        flex: 1 1 auto;
+        justify-content: flex-start;
+        align-items: center;
+        max-width: 100%;
+
+        >h1,
+        >h2,
+        >h3,
+        >h4,
+        >h5,
+        >h6,
+        >p {
+            margin-left: auto;
+            margin-right: auto;
+        }
+    }
+
+    .noScriptContainer {
+        height: 100dvh;
+        position: absolute;
+        inset: 0;
+        background-image: url(../media/background.jpg);
+        background-repeat: no-repeat;
+        background-size: cover;
+        z-index: 1000000;
+
+        .noScriptWrapper {
+            display: flex;
+            flex-direction: column;
+            flex-wrap: nowrap;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            width: 100%;
+            backdrop-filter: blur(20px);
+        }
+
+        .noScriptWindow {
+            p {
+                font-size: core.$size-font-subheader;
+            }
+        }
+
+    }
+}

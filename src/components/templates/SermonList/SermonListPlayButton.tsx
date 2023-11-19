@@ -1,4 +1,4 @@
-import Loader from "@/components/Feedback/Loader"
+import Loader from "@/components/feedback/Loader"
 import IconButton, { IconButtonProps } from "@/components/inputs/IconButton"
 import useIsMounted from "@/hooks/useIsMounted"
 import { useEffect, useState } from "react"
@@ -9,6 +9,7 @@ export interface SermonListPlayButtonProps extends IconButtonProps {
     finished: boolean
     isLoading: boolean
     isPlaying: boolean
+    isPlayingMedia: boolean
     pause(): void
     play(): void
     start(): void
@@ -21,9 +22,11 @@ export default function SermonListPlayButton({
     highlighted,
     isLoading,
     isPlaying,
+    isPlayingMedia,
     pause,
     play,
     start,
+    themeColor,
     ...rest
 }: SermonListPlayButtonProps) {
     const isMountedRef = useIsMounted()
@@ -49,7 +52,14 @@ export default function SermonListPlayButton({
             <IconButton
                 {...rest}
                 className={`${className ?? ""}`}
-                onClick={pause}
+                containedHover
+                onClick={(e) => {
+                    e.preventDefault()
+                    e.stopPropagation()
+                    pause()
+                }}
+                themeColor={themeColor}
+                variant="outlined"
             >
                 <FaPause />
             </IconButton>
@@ -58,7 +68,14 @@ export default function SermonListPlayButton({
 
     if (isLoading && preventLoader) {
         return (
-            <IconButton {...rest} className={`${className ?? ""}`} disabled>
+            <IconButton
+                {...rest}
+                className={`${className ?? ""}`}
+                containedHover
+                disabled
+                themeColor={themeColor}
+                variant="outlined"
+            >
                 <FaPlay />
             </IconButton>
         )
@@ -69,13 +86,16 @@ export default function SermonListPlayButton({
             <IconButton
                 {...rest}
                 className={`${className ?? ""} ${styles.loaderButton}`}
+                containedHover
                 disabled
+                themeColor={themeColor}
+                variant="outlined"
             >
                 <Loader
                     height={24}
                     width={4}
                     className={styles.loader}
-                    themeColor="primary"
+                    themeColor={themeColor}
                     themeColorVariant="font"
                 />
             </IconButton>
@@ -87,10 +107,15 @@ export default function SermonListPlayButton({
             <IconButton
                 {...rest}
                 className={`${className ?? ""}`}
-                onClick={() => {
+                containedHover
+                onClick={(e) => {
+                    e.preventDefault()
+                    e.stopPropagation()
                     setPreventLoader(true)
-                    start()
+                    play()
                 }}
+                themeColor={themeColor}
+                variant="outlined"
             >
                 <FaRedoAlt />
             </IconButton>
@@ -101,10 +126,15 @@ export default function SermonListPlayButton({
         <IconButton
             {...rest}
             className={`${className ?? ""}`}
-            onClick={() => {
+            containedHover
+            onClick={(e) => {
+                e.preventDefault()
+                e.stopPropagation()
                 setPreventLoader(true)
                 play()
             }}
+            themeColor={themeColor}
+            variant="outlined"
         >
             <FaPlay />
         </IconButton>

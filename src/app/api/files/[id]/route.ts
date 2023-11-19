@@ -3,7 +3,11 @@ import { WebsiteError } from "@/lib/shared/errors"
 
 export const GET = buildApiRouteWithDatabase<
     Buffer,
-    { params: { id: string } }
+    {
+        params: {
+            id: string
+        }
+    }
 >(async (req, client, session, options) => {
     const file = await client.file.findUnique({
         where: {

@@ -1,6 +1,5 @@
 import Website from "@/typings"
 import { useState } from "react"
-import "react-loading-skeleton/dist/skeleton.css"
 import { TableVirtuoso } from "react-virtuoso"
 import { Temporal } from "temporal-polyfill"
 import styles from "./SermonList.module.scss"
@@ -16,19 +15,21 @@ interface SermonsListProps {
     loadNext(): void
     entries: SermonsListEntry[]
     endOfData?: boolean
+    height?: number
     themeColor?: Website.Design.ThemeColor
 }
 
 export default function SermonsList({
     endOfData,
     entries,
+    height,
     isLoading,
     loadNext,
     themeColor,
 }: SermonsListProps) {
     const [selectedSermon, setSelectedSermon] = useState(entries[0]?.id)
 
-    const playerThemeClassName =
+    const themeClassName =
         themeColor === "primary"
             ? styles.primary
             : themeColor === "secondary"
@@ -38,7 +39,7 @@ export default function SermonsList({
     return (
         <TableVirtuoso
             className={`${styles.sermonsTableContainer} ${
-                playerThemeClassName ?? ""
+                themeClassName ?? ""
             }`}
             data={entries}
             endReached={!endOfData ? loadNext : undefined}
@@ -53,7 +54,7 @@ export default function SermonsList({
             fixedHeaderContent={() => (
                 <tr>
                     <th
-                        className={`${styles.header} ${styles.title}`}
+                        className={`${styles.title}`}
                         style={{
                             minWidth: 200,
                             position: "sticky",
@@ -62,19 +63,13 @@ export default function SermonsList({
                     >
                         Titel
                     </th>
-                    <th
-                        className={`${styles.header} ${styles.speaker}`}
-                        style={{ width: 250 }}
-                    >
+                    <th className={`${styles.speaker}`} style={{ width: 250 }}>
                         Sprecher/-in
                     </th>
-                    <th
-                        className={`${styles.header} ${styles.speaker}`}
-                        style={{ width: 120 }}
-                    >
+                    <th className={`${styles.date}`} style={{ width: 120 }}>
                         Datum
                     </th>
-                    <th className={`${styles.header}`} style={{ width: 50 }}>
+                    <th className={``} style={{ width: 50 }}>
                         Audio
                     </th>
                 </tr>
@@ -92,7 +87,13 @@ export default function SermonsList({
                                 .toPlainDate(),
                         }}
                         highlighted={!(i % 2)}
-                        open={selectedSermon === entry.id}
+                        onSelect={() => setSelectedSermon(entry.id)}
+                        onUnselect={
+                            selectedSermon === entry.id
+                                ? () => setSelectedSermon(undefined)
+                                : undefined
+                        }
+                        selected={selectedSermon === entry.id}
                         themeColor={themeColor}
                     />
                 )

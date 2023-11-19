@@ -1,11 +1,11 @@
 "use client"
 
+import RequiresDevFeatureFlag from "@/components/dev/RequiresDevFeatureFlag"
 import usePagination, { PaginationNextHandler } from "@/hooks/usePagenation"
 import { makeApiRequest } from "@/lib/frontend/makeApiRequest"
 import { sermonsListGetEntriesAfterIdParamName } from "@/lib/frontend/urlParams"
 import Website from "@/typings"
-import useAudioPlayerZustand from "@/zustand/useAudioPlayerZustand"
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import MediaPlayer from "../MediaPlayer/MediaPlayer"
 import SermonsList, { SermonsListEntry } from "./SermonList"
 import styles from "./SermonListContainer.module.scss"
@@ -67,6 +67,8 @@ export default function SermonsListContainer({
     showFilter,
     themeColor,
 }: SermonsListContainerProps) {
+    const containerRef = useRef<HTMLDivElement | null>(null)
+    const [innerHeight, setInnerHeight] = useState(600)
     const [filter, setFilter] = useState<Website.Content.Sermons.SermonsFilter>(
         baseFilter ?? {},
     )
@@ -88,37 +90,47 @@ export default function SermonsListContainer({
         },
         paginationFilterFunc,
     )
-    const { playingMedia } = useAudioPlayerZustand((state) => ({
-        playingMedia: state.playingMedia,
-    }))
-
-    const playerThemeClassName =
-        themeColor === "primary"
-            ? styles.primary
-            : themeColor === "secondary"
-            ? styles.secondary
-            : styles.accent
 
     useEffect(() => {
-        console.log({ playingMedia })
-    }, [playingMedia])
+        const refresh = (target: HTMLDivElement) => {
+            const clientHeight = target.clientHeight
+
+            setInnerHeight(clientHeight - 250)
+
+            console.log({ clientHeight, newInnerHeight: clientHeight - 200 })
+        }
+        const handler = (e: UIEvent) => {
+            refresh(e.target as HTMLDivElement)
+        }
+        containerRef.current?.addEventListener("resize", handler)
+        if (containerRef.current !== null) {
+            refresh(containerRef.current)
+        }
+
+        return () => {
+            containerRef.current?.removeEventListener("resize", handler)
+        }
+    }, [])
 
     return (
-        <div className={`${styles.container} ${playerThemeClassName}`}>
-            {/* {showFilter ?? (
+        <RequiresDevFeatureFlag flags={["mediaPlayer"]} fallback>
+            <div className={`${styles.container}`} ref={containerRef}>
+                {/* {showFilter ?? (
                 <SermonsFilter filter={filter} setFilter={setFilter} />
             )} */}
-            <SermonsList
-                endOfData={endOfData}
-                entries={data}
-                isLoading={isLoading}
-                loadNext={next}
-                themeColor={themeColor}
-            />
-            <MediaPlayer
-                className={styles.mediaPlayer}
-                themeColor={themeColor}
-            />
-        </div>
+                <SermonsList
+                    endOfData={endOfData}
+                    entries={data}
+                    height={innerHeight}
+                    isLoading={isLoading}
+                    loadNext={next}
+                    themeColor={themeColor}
+                />
+                <MediaPlayer
+                    className={styles.mediaPlayer}
+                    themeColor={themeColor}
+                />
+            </div>
+        </RequiresDevFeatureFlag>
     )
 }

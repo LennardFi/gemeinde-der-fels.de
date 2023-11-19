@@ -1,7 +1,7 @@
 $color-default: hsl(0, 0%, 98%);
 $color-default-highlighted: hsl(0, 0%, 86%);
-$color-default-font: hsl(0, 0%, 14%);
-$color-default-font-highlighted: hsl(0, 0%, 6%);
+$color-default-font: hsl(0, 0%, 20%);
+$color-default-font-highlighted: hsl(0, 0%, 25%);
 
 $color-accent: hsl(0, 0%, 20%);
 $color-accent-highlighted: hsl(0, 0%, 25%);
@@ -28,6 +28,7 @@ $color-secondary-font-faded: hsl(0, 0%, 20%);
     @return ($baseValue * 8px);
 }
 
+$size-breakpoint-tiny: 430px;
 $size-breakpoint-small: 680px;
 $size-breakpoint-normal: 980px;
 $size-breakpoint-large: 1280px;

@@ -1,15 +1,15 @@
-import Card from "@/components/surfaces/cards/Card"
-import CardContent from "@/components/surfaces/cards/CardContent"
-import CardHeader from "@/components/surfaces/cards/CardHeader"
+import Window from "@/components/surfaces/window/Window"
+import WindowContent from "@/components/surfaces/window/WindowContent"
+import WindowHeader from "@/components/surfaces/window/WindowHeader"
 import styles from "./page.module.scss"
 
 export default function Page() {
     return (
-        <Card breakpoint="normal" className={styles.card}>
-            <CardHeader title="Verwaltung" />
-            <CardContent className={styles.container}>
+        <Window breakpoint="normal" className={styles.card}>
+            <WindowHeader title="Verwaltung" />
+            <WindowContent className={styles.container}>
                 <h2>Benutzereinstellungen</h2>
-            </CardContent>
-        </Card>
+            </WindowContent>
+        </Window>
     )
 }

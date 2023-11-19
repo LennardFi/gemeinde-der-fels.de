@@ -6,41 +6,38 @@ body {
     margin: 0;
     max-height: 100dvh;
     height: 100dvh;
-    font-size: core.getDimensionValue(2);
-    background-image: url(../media/background.jpg);
+    width: 100%;
+    // font-size: core.getDimensionValue(2);
+    // background-image: url(../media/background.jpg);
     background-repeat: no-repeat;
     background-size: cover;
     overflow: hidden;
+    transition: background-position-y 1s ease-in-out;
+    scroll-behavior: smooth;
+    line-height: 1.5;
 
-    > .wrapper {
-        display: flex;
-        flex-direction: column;
-        flex-wrap: nowrap;
-        justify-content: flex-start;
-        align-items: stretch;
-        overflow: auto;
-        height: 100dvh;
-
-        > main {
-            display: flex;
-            flex-direction: column;
-            flex: 1 1 auto;
-            justify-content: flex-start;
-            align-items: center;
-            max-width: 100%;
-
-            h1,
-            h2,
-            h3,
-            h4,
-            h5,
-            h6,
-            p {
-                margin-left: auto;
-                margin-right: auto;
-            }
-        }
-    }
+    --color-default: #{core.$color-default};
+    --color-default-highlighted: #{core.$color-default-highlighted};
+    --color-default-font: #{core.$color-default-font};
+    --color-default-font-highlighted: #{core.$color-default-font-highlighted};
+    --color-accent: #{core.$color-accent};
+    --color-accent-highlighted: #{core.$color-accent-highlighted};
+    --color-accent-faded: #{core.$color-accent-faded};
+    --color-accent-font: #{core.$color-accent-font};
+    --color-accent-font-highlighted: #{core.$color-accent-font-highlighted};
+    --color-accent-font-faded: #{core.$color-accent-font-faded};
+    --color-primary: #{core.$color-primary};
+    --color-primary-highlighted: #{core.$color-primary-highlighted};
+    --color-primary-faded: #{core.$color-primary-faded};
+    --color-primary-font: #{core.$color-primary-font};
+    --color-primary-font-highlighted: #{core.$color-primary-font-highlighted};
+    --color-primary-font-faded: #{core.$color-primary-font-faded};
+    --color-secondary: #{core.$color-secondary};
+    --color-secondary-highlighted: #{core.$color-secondary-highlighted};
+    --color-secondary-faded: #{core.$color-secondary-faded};
+    --color-secondary-font: #{core.$color-secondary-font};
+    --color-secondary-font-highlighted: #{core.$color-secondary-font-highlighted};
+    --color-secondary-font-faded: #{core.$color-secondary-font-faded};
 
     a {
         color: core.$color-primary;
@@ -73,15 +70,11 @@ body {
     }
 }
 
+body {
+    height: 100dvh;
+    width: 100dvw;
+}
+
 * {
     box-sizing: border-box;
 }
-// @media (prefers-color-scheme: dark) {
-//     html {
-//         color-scheme: dark;
-//     }
-//     body {
-//         color: white;
-//         background: black;
-//     }
-// }

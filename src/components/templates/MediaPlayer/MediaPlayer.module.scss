@@ -1,149 +1,138 @@
 @use "../../../styles/core.module.scss" as core;
 
 .player {
-    display: grid;
-    grid-template: auto repeat(2, 1fr) / repeat(4, 1fr);
-    padding: core.getDimensionValue(1);
-    gap: core.getDimensionValue(2);
-
-    .labels {
+    .wrapper {
         display: grid;
-        grid-template: repeat(2, 1fr) / 1fr auto;
-        gap: core.getDimensionValue(0.5);
-        padding: core.getDimensionValue(1);
-        grid-column: 1 / 5;
-        grid-row: 1 / 2;
+        grid-template: auto repeat(2, 1fr) / repeat(4, 1fr);
+        padding: core.getDimensionValue(2);
+        gap: core.getDimensionValue(2);
+        width: min(core.$size-breakpoint-small, 100%);
+        margin: auto;
 
-        .title {
-            font-size: core.$size-font-subheader;
-            grid-column: 1 / 2;
+        .labels {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: stretch;
+            gap: core.getDimensionValue(0.5);
+            grid-column: 1 / 5;
             grid-row: 1 / 2;
-        }
 
-        .performer {
-            font-size: core.$size-font-default;
-            grid-column: 1 / 2;
-            grid-row: 2 / 3;
-        }
-
-        .album {
-            font-size: core.$size-font-default;
-            grid-column: 2 / 3;
-            grid-row: 1 / 2;
-            text-align: right;
-        }
-    }
-
-    .timeSliderContainer {
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: stretch;
-        grid-column: 1 / 5;
-        grid-row: 2 / 3;
-
-        .timeSlider {
-            flex: 1 1 auto;
-        }
-
-        .timeCodeContainer {
-            margin-left: core.getDimensionValue(2);
-            text-align: center;
-            width: auto;
-
-            .timeCode {
+            .title {
+                font-size: core.$size-font-subheader;
                 font-weight: 600;
             }
-        }
-    }
 
-    .controls {
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-start;
-        align-items: center;
-        gap: core.getDimensionValue(0.5);
-        grid-column: 1 / 5;
-        grid-row: 3 / 4;
-
-        .loaderButton {
-            padding: core.getDimensionValue(0.5);
-
-            .loader {
-                height: core.getDimensionValue(3);
-                width: core.getDimensionValue(3);
+            .performer {
+                font-size: core.$size-font-default;
             }
         }
-
-        .volumeSlider {
-            width: core.getDimensionValue(12);
-
-            &.primary {
-                background-color: core.$color-primary-font;
-                color: core.$color-primary;
-            }
-
-            &.secondary {
-                background-color: core.$color-secondary;
-                color: core.$color-secondary-font;
-            }
-
-            &.accent {
-                background-color: core.$color-accent;
-                color: core.$color-accent-font;
-            }
-        }
-    }
-
-    &.primary {
-        background-color: core.$color-primary;
-        color: core.$color-primary-font;
-    }
-
-    &.secondary {
-        background-color: core.$color-secondary;
-        color: core.$color-secondary-font;
-    }
-
-    &.accent {
-        background-color: core.$color-accent;
-        color: core.$color-accent-font;
-    }
-
-    @media (min-width: core.$size-breakpoint-small) {
-        // .labels {
-        //     grid-template: repeat(2, 1fr) / 1fr auto;
-
-        //     .title {
-        //         grid-column: 1 / 2;
-        //         grid-row: 1 / 2;
-        //     }
-
-        //     .albumLabel {
-        //         font-size: core.$size-font-label;
-        //         display: block;
-        //         grid-column: 2 / 3;
-        //         grid-row: 1 / 2;
-        //     }
-
-        //     .album {
-        //         font-size: core.$size-font-default;
-        //         grid-column: 2 / 3;
-        //         grid-row: 2 / 3;
-        //         text-align: right;
-        //     }
-        // }
 
         .timeSliderContainer {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: stretch;
+            grid-column: 1 / 5;
+            grid-row: 2 / 3;
+
+            .timeSlider {
+                flex: 1 1 auto;
+            }
+
+            .timeCodeContainer {
+                text-align: center;
+                margin: auto;
+                width: core.getDimensionValue(18);
+
+                .timeCode {
+                    font-weight: 600;
+                }
+            }
+        }
+
+        .controls {
             display: flex;
             flex-direction: row;
             justify-content: space-between;
             align-items: center;
+            gap: core.getDimensionValue(0.5);
+            grid-column: 1 / 5;
+            grid-row: 3 / 4;
 
-            .timeCodeContainer {
-                text-align: center;
-                width: core.getDimensionValue(18);
+            .songControl {
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+                align-items: center;
+                gap: core.getDimensionValue(1);
+
+                .loaderButton {
+                    padding: core.getDimensionValue(0.5);
+
+                    .loader {
+                        height: core.getDimensionValue(3);
+                        width: core.getDimensionValue(3);
+                    }
+                }
+            }
+
+            .volumeGroup {
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+                align-items: center;
+                gap: core.getDimensionValue(1);
+
+                .volumeSlider {
+                    width: core.getDimensionValue(10);
+
+                    &.primary {
+                        background-color: core.$color-primary-font;
+                        color: core.$color-primary;
+                    }
+
+                    &.secondary {
+                        background-color: core.$color-secondary;
+                        color: core.$color-secondary-font;
+                    }
+
+                    &.accent {
+                        background-color: core.$color-accent;
+                        color: core.$color-accent-font;
+                    }
+                }
             }
         }
+
+        @media (min-width: core.$size-breakpoint-tiny) {
+            .timeSliderContainer {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+
+                .timeCodeContainer {
+                    margin: 0;
+                    margin-left: core.getDimensionValue(1);
+                    text-align: right;
+                }
+            }
+        }
+    }
+
+    &[data-theme="primary"] {
+        background-color: core.$color-primary;
+        color: core.$color-primary-font;
+    }
+
+    &[data-theme="secondary"] {
+        background-color: core.$color-secondary;
+        color: core.$color-secondary-font;
+    }
+
+    &[data-theme="accent"] {
+        background-color: core.$color-accent;
+        color: core.$color-accent-font;
     }
 }

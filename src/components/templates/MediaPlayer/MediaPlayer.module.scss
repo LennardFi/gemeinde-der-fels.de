@@ -4,8 +4,8 @@
     .wrapper {
         display: grid;
         grid-template: auto repeat(2, 1fr) / repeat(4, 1fr);
-        padding: core.getDimensionValue(2);
-        gap: core.getDimensionValue(2);
+        padding: core.getDimensionValue(1) core.getDimensionValue(2);
+        gap: core.getDimensionValue(1);
         width: min(core.$size-breakpoint-small, 100%);
         margin: auto;
 
@@ -119,6 +119,19 @@
                 }
             }
         }
+
+        @media (min-width: core.$size-breakpoint-normal) {
+            padding: core.getDimensionValue(2);
+            gap: core.getDimensionValue(2);
+        }
+    }
+
+    &.sticky {
+        position: sticky;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: auto;
     }
 
     &[data-theme="primary"] {

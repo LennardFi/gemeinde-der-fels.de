@@ -1,4 +1,5 @@
 import { buildApiRouteWithDatabase } from "@/lib/backend/apiRouteBuilders"
+import { readFileFromFolder } from "@/lib/backend/databaseHelpers"
 import { WebsiteError } from "@/lib/shared/errors"
 
 export const GET = buildApiRouteWithDatabase<
@@ -13,9 +14,6 @@ export const GET = buildApiRouteWithDatabase<
         where: {
             id: options.params.id,
         },
-        include: {
-            chunks: true,
-        },
     })
 
     if (file === null) {
@@ -25,7 +23,9 @@ export const GET = buildApiRouteWithDatabase<
         })
     }
 
-    const fileContent = Buffer.concat(file.chunks.map((chunk) => chunk.content))
+    const fileContent = await readFileFromFolder(file.fileId, file.extension)
+
+    // const fileContent = Buffer.concat(file.chunks.map((chunk) => chunk.content))
 
     return {
         body: {
@@ -36,6 +36,9 @@ export const GET = buildApiRouteWithDatabase<
         headers: {
             "Accept-Ranges": "bytes",
             "Content-Length": fileContent.byteLength.toString(),
+            "Content-Disposition": `attachment; filename="${encodeURIComponent(
+                file.name,
+            )}"`,
         },
         status: 200,
         jwtPayload: session.jwtPayload,

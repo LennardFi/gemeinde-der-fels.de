@@ -1,6 +1,7 @@
 import { buildApiRouteWithDatabase } from "@/lib/backend/apiRouteBuilders"
 import { WebsiteError } from "@/lib/shared/errors"
 import { postSermonsSpeakerApiRequestBodySchema } from "@/lib/shared/schemes"
+import Website from "@/typings"
 
 // export const GET = buildApiRouteWithDatabase<Website.Content.Sermons.Sermon[]>(
 //     async (req, client, session) => {
@@ -32,7 +33,7 @@ import { postSermonsSpeakerApiRequestBodySchema } from "@/lib/shared/schemes"
 //     },
 // )
 
-export const POST = buildApiRouteWithDatabase<string>(
+export const POST = buildApiRouteWithDatabase<Website.Content.Sermons.Speaker["id"]>(
     async (req, client, session) => {
         if (session.user === undefined) {
             throw new WebsiteError("request", "Not authenticated", {

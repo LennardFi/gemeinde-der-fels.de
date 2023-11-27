@@ -1,5 +1,6 @@
 node_modules
 .next
 mailing-config.json
-*.env
+*.env*
+!*.env.sample
 test-files/

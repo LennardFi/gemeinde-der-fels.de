@@ -1,69 +1,91 @@
 @use "../../../styles/core.module.scss" as core;
 
 .sermonsTableContainer {
-    table {
-        border: core.$size-border-default solid;
-        border-collapse: collapse;
-        width: 100%;
+    border: core.$size-border-default solid;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-collapse: collapse;
+    width: 100%;
+    max-width: core.$size-breakpoint-normal;
+    position: relative;
 
-        thead {
-            tr {
-                border-color: inherit;
+    thead {
 
-                th {
-                    text-align: start;
-                    padding: core.getDimensionValue(1);
+        tr {
 
-                    &.title {}
+            th {
+                text-align: start;
+                padding: core.getDimensionValue(1);
+                position: sticky;
+                top: 64px;
+                width: auto;
 
-                    &.speaker {}
+                &.title {
+                    max-width: core.getDimensionValue(20);
+                }
 
-                    &.date {}
+                &.speaker {
+                    max-width: core.getDimensionValue(25);
+                }
+
+                &.date {
+                    max-width: core.getDimensionValue(15);
+                }
+
+                &.playAudio {
+                    max-width: core.getDimensionValue(15);
+                    text-align: center;
                 }
             }
         }
     }
 
-    &.primary {
-        table {
-            border-color: core.$color-primary-font;
+    tbody {
+        tr {
+            td {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                text-wrap: nowrap;
+                white-space: nowrap;
+            }
+        }
+    }
 
-            thead {
-                tr {
-                    th {
-                        background-color: core.$color-primary;
-                        color: core.$color-primary-font;
-                    }
+    &.primary {
+        border-color: core.$color-primary-font;
+
+        thead {
+            tr {
+                th {
+                    background-color: core.$color-primary;
+                    color: core.$color-primary-font;
                 }
             }
         }
     }
 
     &.secondary {
-        table {
-            border-color: core.$color-secondary-font;
+        border-color: core.$color-secondary-font;
 
-            thead {
-                tr {
-                    th {
-                        background-color: core.$color-secondary;
-                        color: core.$color-secondary-font;
-                    }
+        thead {
+            tr {
+                th {
+                    background-color: core.$color-secondary;
+                    color: core.$color-secondary-font;
                 }
             }
         }
     }
 
     &.accent {
-        table {
-            border-color: core.$color-accent-font;
+        border-color: core.$color-accent-font;
 
-            thead {
-                tr {
-                    th {
-                        background-color: core.$color-accent;
-                        color: core.$color-accent-font;
-                    }
+        thead {
+            tr {
+                th {
+                    background-color: core.$color-accent;
+                    color: core.$color-accent-font;
                 }
             }
         }

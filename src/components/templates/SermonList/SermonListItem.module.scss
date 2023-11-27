@@ -9,16 +9,18 @@
     &.speakerCell {}
 
     &.playButtonCell {
+        display: flex;
+        justify-content: center;
+
         .playButton {}
     }
 
     &.isSelectedMedia {
         border: core.$size-border-default solid;
-        cursor: auto;
 
         .wrapper {
             display: grid;
-            grid-template: repeat(3, 1fr) / 2fr auto auto;
+            grid-template: repeat(2, 1fr) / 2fr auto auto;
 
             .labels {
                 display: flex;

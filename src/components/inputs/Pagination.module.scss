@@ -1,0 +1,47 @@
+@use "../../styles/core.module.scss" as core;
+
+.pagination {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: core.getDimensionValue(1);
+
+    .currentPage {
+        font-size: core.$size-font-action;
+        min-width: core.getDimensionValue(5);
+        text-align: center;
+        padding: core.getDimensionValue(1);
+    }
+
+    button {
+        svg {
+            height: core.getDimensionValue(3);
+            width: core.getDimensionValue(3);
+        }
+    }
+
+    &[data-variant="text"] {
+        &[data-theme="primary"] {}
+
+        &[data-theme="secopndary"] {}
+
+        &[data-theme="accent"] {}
+    }
+
+    &[data-variant="contained"] {
+        &[data-theme="primary"] {}
+
+        &[data-theme="secopndary"] {}
+
+        &[data-theme="accent"] {}
+    }
+
+    &[data-variant="outlined"] {
+        &[data-theme="primary"] {}
+
+        &[data-theme="secopndary"] {}
+
+        &[data-theme="accent"] {}
+    }
+}

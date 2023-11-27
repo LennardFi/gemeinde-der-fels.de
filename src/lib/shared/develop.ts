@@ -11,10 +11,9 @@ export const isDevMode = process.env.NODE_ENV === "development"
 export function parseDevFeatureFlagEnvValue(
     featureFlagEnvValue: string,
 ): Website.Base.DevFeatureFlags[] {
-    const initialFlags: Record<
-        Website.Base.DevFeatureFlags,
-        boolean | 1 | -1 | undefined
-    > = {
+    const initialFlags: {
+        [K in Website.Base.DevFeatureFlags]: boolean | 1 | -1 | undefined
+    } = {
         admin: undefined,
         sendEmail: undefined,
         login: undefined,
@@ -64,7 +63,7 @@ export function parseDevFeatureFlagEnvValue(
         .map(([name]) => name as Website.Base.DevFeatureFlags)
 }
 
-const featureFlagEnvValue = process.env.GDF_DEV_FEATURE_FLAGS
+const featureFlagEnvValue = process.env.NEXT_PUBLIC_GDF_DEV_FEATURE_FLAGS
 
 export function validateDevFeatureFlag(
     ...flags: Website.Base.DevFeatureFlags[]

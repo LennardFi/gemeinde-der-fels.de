@@ -14,7 +14,7 @@ import { FaExclamationTriangle } from "react-icons/fa"
 import backgroundImage from "../media/background.jpg"
 import styles from "./layout.module.scss"
 
-interface IndexLayoutProps extends React.HTMLProps<HTMLDivElement> {
+interface IndexLayoutProps {
     children?: React.ReactNode
 }
 

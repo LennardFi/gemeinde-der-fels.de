@@ -1,7 +1,10 @@
 import { Maybe } from "@/typings"
 import { Temporal } from "temporal-polyfill"
+import { WebsiteError } from "./errors"
 
 export const DIMENSION_BASE = 8
+export const SIZE_BREAKPOINT_TINY = 680
+export const SIZE_BREAKPOINT_TINY_STRING = `${SIZE_BREAKPOINT_TINY}px`
 export const SIZE_BREAKPOINT_SMALL = 680
 export const SIZE_BREAKPOINT_SMALL_STRING = `${SIZE_BREAKPOINT_SMALL}px`
 export const SIZE_BREAKPOINT_NORMAL = 980
@@ -10,12 +13,12 @@ export const SIZE_BREAKPOINT_LARGE = 1280
 export const SIZE_BREAKPOINT_LARGE_STRING = `${SIZE_BREAKPOINT_LARGE}px`
 
 export function getDimensionValue(
-    a: number,
-    b: number,
-    c: number,
-    d: number,
-): string
-export function getDimensionValue(...values: number[]): string {
+    ...values:
+        | [a: number]
+        | [a: number, b: number]
+        | [a: number, b: number, c: number]
+        | [a: number, b: number, c: number, d: number]
+): string {
     return values.map((x) => `${x * DIMENSION_BASE}px`).join(" ")
 }
 
@@ -102,4 +105,50 @@ export function secondsToTimeStamp(
     timeStamp += seconds.toString().padStart(2, "0")
 
     return timeStamp
+}
+
+export function getRandomArbitrary(min: number, max: number) {
+    return Math.random() * (max - min) + min
+}
+
+export function getRandomInt(min: number, max: number) {
+    min = Math.ceil(min)
+    max = Math.floor(max)
+    return Math.floor(Math.random() * (max - min + 1)) + min
+}
+
+export function getIntegerSearchParameter(
+    searchParams: URLSearchParams,
+    key: string,
+): number | undefined
+export function getIntegerSearchParameter(
+    searchParams: URLSearchParams,
+    key: string,
+    defaultValue: number,
+): number
+export function getIntegerSearchParameter(
+    searchParams: URLSearchParams,
+    key: string,
+    defaultValue?: number,
+): number | undefined {
+    const paramValue = searchParams.get(key)
+
+    if (paramValue === null) {
+        return defaultValue
+    }
+
+    const parsed = Number.parseInt(paramValue)
+
+    if (isNaN(parsed)) {
+        throw new WebsiteError(
+            "request",
+            `Could not parse integer value in "${key}" search parameter`,
+            {
+                httpStatusCode: 400,
+                httpStatusText: `Invalid "${key}" URL parameter`,
+            },
+        )
+    }
+
+    return parsed
 }

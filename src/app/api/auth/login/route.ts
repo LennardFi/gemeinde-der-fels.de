@@ -88,7 +88,14 @@ export const POST = buildApiRouteWithDatabase<Website.Users.User>(
                 success: true,
                 data: {
                     id: user.id,
-                    flags: user.flags,
+                    flags: {
+                        Admin: user.AdminFlag,
+                        ManageCalendar: user.ManageCalendarFlag,
+                        ManageNews: user.ManageNewsFlag,
+                        ManageRooms: user.ManageRoomsFlag,
+                        ManageSermons: user.ManageSermonsFlag,
+                        ManageUser: user.ManageUserFlag,
+                    },
                     userName: user.userName,
                     email: user.email,
                 },
@@ -96,7 +103,14 @@ export const POST = buildApiRouteWithDatabase<Website.Users.User>(
             contentType: "application/json",
             jwtPayload: {
                 email: user.email,
-                userFlags: user.flags,
+                userFlags: {
+                        Admin: user.AdminFlag,
+                        ManageCalendar: user.ManageCalendarFlag,
+                        ManageNews: user.ManageNewsFlag,
+                        ManageRooms: user.ManageRoomsFlag,
+                        ManageSermons: user.ManageSermonsFlag,
+                    ManageUser: user.ManageUserFlag,
+                },
                 userId: user.id,
                 userName: user.userName,
             },

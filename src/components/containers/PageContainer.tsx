@@ -16,12 +16,14 @@ export default function PageContainer({
 }: PageContainerProps) {
     return (
         <Paper className={`${styles.container} ${className ?? ""}`} {...rest}>
-            <h2
-                {...titleProps}
-                // className={`${styles.pageTitle} ${titleProps?.className ?? ""}`}
-            >
-                {title}
-            </h2>
+            {title ? (
+                <h1
+                    {...titleProps}
+                    // className={`${styles.pageTitle} ${titleProps?.className ?? ""}`}
+                >
+                    {title}
+                </h1>
+            ) : null}
             {children}
         </Paper>
     )

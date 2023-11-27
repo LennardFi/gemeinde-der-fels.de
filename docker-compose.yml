@@ -9,6 +9,13 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: admin
     ports:
       - 27017:27017
+  postgres:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - 5432:5432
   web:
     build: .
     restart: "unless-stopped"

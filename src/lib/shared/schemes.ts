@@ -33,8 +33,8 @@ export const postResetPasswordApiRequestBodySchema = z
 export const postSermonsApiRequestBodySchema = z.object({
     audioFileId: z.string(),
     date: z.number(),
-    series: z.string().nullish(),
-    speaker: z.string(),
+    series: z.number().int().nullish(),
+    speaker: z.number().int(),
     title: z.string(),
 })
 

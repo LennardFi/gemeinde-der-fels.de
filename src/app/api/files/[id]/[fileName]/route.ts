@@ -1,4 +1,5 @@
 import { buildApiRouteWithDatabase } from "@/lib/backend/apiRouteBuilders"
+import { readFileFromFolder } from "@/lib/backend/databaseHelpers"
 import { WebsiteError } from "@/lib/shared/errors"
 
 export const GET = buildApiRouteWithDatabase<
@@ -14,9 +15,6 @@ export const GET = buildApiRouteWithDatabase<
         where: {
             id: options.params.id,
         },
-        include: {
-            chunks: true,
-        },
     })
 
     if (file === null) {
@@ -26,7 +24,7 @@ export const GET = buildApiRouteWithDatabase<
         })
     }
 
-    const fileContent = Buffer.concat(file.chunks.map((chunk) => chunk.content))
+    const fileContent = await readFileFromFolder(file.fileId, file.extension)
 
     return {
         body: {

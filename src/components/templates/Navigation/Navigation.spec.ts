@@ -1,5 +1,5 @@
+import { SIZE_BREAKPOINT_SMALL } from "@/lib/shared/helpers"
 import { expect, test } from "@playwright/test"
-import { SIZE_BREAKPOINT_SMALL } from "../../lib/helpers"
 
 test.describe(`Component "Navigation"`, async () => {
     test("Contains German entries", async ({ page }) => {

@@ -5,7 +5,7 @@ import { RedirectType } from "next/dist/client/components/redirect"
 import { redirect, usePathname } from "next/navigation"
 import styles from "./layout.module.scss"
 
-interface InternalLayoutProps extends React.HTMLProps<HTMLDivElement> {
+interface InternalLayoutProps {
     children?: React.ReactNode
 }
 

@@ -1,7 +1,9 @@
 @use "../../../styles/core.module.scss" as core;
 
 .container {
-    width: 100%;
-    //     height: 100%;
-    //     margin: core.getDimensionValue(2) 0;
+    padding: 0;
+
+    .sermonList {
+        margin: 0 core.getDimensionValue(2);
+    }
 }

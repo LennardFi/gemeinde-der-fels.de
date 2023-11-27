@@ -9,7 +9,7 @@ export interface usePaginationReturns<T> {
      */
     endOfData: boolean
     isLoading: boolean
-    next(): void
+    loadMore(): void
 }
 
 export interface FetchFuncResult<C, T> {
@@ -35,7 +35,7 @@ export type PaginationNextHandler<C, T> = (
 
 const usePagination = <C, T>(
     init: FetchFuncInit<C, T>,
-    nextHandler: PaginationNextHandler<C, T>,
+    loadMoreHandler: PaginationNextHandler<C, T>,
 ): usePaginationReturns<T> => {
     const [cursor, setCursor] = useState(init.cursor)
     const [data, setData] = useState(init.data)
@@ -57,7 +57,7 @@ const usePagination = <C, T>(
         })
     }
 
-    const next = useCallback(async () => {
+    const loadMore = useCallback(async () => {
         if (isLoading || endOfData) {
             console.log({
                 isLoading,
@@ -68,19 +68,19 @@ const usePagination = <C, T>(
 
         setIsLoading(true)
 
-        const result = await nextHandler(cursor)
+        const result = await loadMoreHandler(cursor)
 
         setCursor(result.cursor)
         setData((prev) => [...prev, ...result.data])
         setEndOfData(result.endOfData)
         setIsLoading(false)
-    }, [cursor, endOfData, isLoading, nextHandler])
+    }, [cursor, endOfData, isLoading, loadMoreHandler])
 
     return {
         data,
         endOfData,
         isLoading,
-        next,
+        loadMore,
     }
 }
 

@@ -1,19 +1,19 @@
 import Website, { Maybe } from "@/typings"
 import { PrismaClient } from "@prisma/client"
-import { randomUUID } from "crypto"
 import { NextRequest, NextResponse } from "next/server"
+import { isDevMode } from "../shared/develop"
 import { ErrorScope, WebsiteError, WebsiteErrorOptions } from "../shared/errors"
 import { getCookieHeaderValueString } from "./apiHelpers"
 import {
-    getJWTForPayload,
-    getJWTFromRequest,
     JWT_Cookie_Name,
+    getJWTFromPayload,
+    getJWTFromRequest,
     validateJWT,
 } from "./auth"
 import { getClient } from "./databaseHelpers"
 import { logResponseOnServer } from "./logging"
 
-const forbiddenErrorCauses: ErrorScope[] = ["build", "database"]
+const forbiddenErrorScopes: ErrorScope[] = ["build", "database", "server"]
 
 /**
  * Builds a NEXT.js route which wraps the database handling away from the given
@@ -67,7 +67,14 @@ export const buildApiRouteWithDatabase =
                             jwtPayload: {
                                 email: user.email,
                                 jwtFlags: jwtPayload.jwtFlags,
-                                userFlags: user.flags,
+                                userFlags: {
+                                    Admin: user.AdminFlag,
+                                    ManageCalendar: user.ManageCalendarFlag,
+                                    ManageNews: user.ManageNewsFlag,
+                                    ManageRooms: user.ManageRoomsFlag,
+                                    ManageSermons: user.ManageSermonsFlag,
+                                    ManageUser: user.ManageUserFlag,
+                                },
                                 userId: user.id,
                                 userName: user.userName,
                             },
@@ -75,7 +82,14 @@ export const buildApiRouteWithDatabase =
                             user: {
                                 id: user.id,
                                 email: user.email,
-                                flags: user.flags,
+                                flags: {
+                                    Admin: user.AdminFlag,
+                                    ManageCalendar: user.ManageCalendarFlag,
+                                    ManageNews: user.ManageNewsFlag,
+                                    ManageRooms: user.ManageRoomsFlag,
+                                    ManageSermons: user.ManageSermonsFlag,
+                                    ManageUser: user.ManageUserFlag,
+                                },
                                 userName: user.userName,
                             },
                         }
@@ -103,7 +117,9 @@ export const buildApiRouteWithDatabase =
                             name: JWT_Cookie_Name,
                             value:
                                 apiResponse.jwtPayload !== undefined
-                                    ? getJWTForPayload(apiResponse.jwtPayload)
+                                    ? await getJWTFromPayload(
+                                          apiResponse.jwtPayload,
+                                      )
                                     : "-",
                             expires:
                                 apiResponse.jwtPayload !== undefined
@@ -132,7 +148,7 @@ export const buildApiRouteWithDatabase =
             )
         } catch (e) {
             if (e instanceof WebsiteError) {
-                if (forbiddenErrorCauses.includes(e.scope)) {
+                if (forbiddenErrorScopes.includes(e.scope)) {
                     apiResponse = {
                         body: {
                             success: false,
@@ -140,7 +156,7 @@ export const buildApiRouteWithDatabase =
                                 scope: "server-internal",
                                 id: e.errorId,
                                 message:
-                                    "An error occurred in the server while processing the request. Try again later.",
+                                    "An unexpected error occurred in the server while processing the request. Try again later.",
                             },
                             internalError: e,
                         },
@@ -188,25 +204,24 @@ export const buildApiRouteWithDatabase =
                     }
                 }
             } else {
+                const internalError = new WebsiteError(
+                    "server",
+                    "An error occurred in the server while processing the request.",
+                    {
+                        endpoint: req.url,
+                        internalMessage: `${e}`,
+                        internalException: e instanceof Error ? e : undefined,
+                    },
+                )
                 apiResponse = {
                     body: {
                         success: false,
                         error: {
                             scope: "server-internal",
-                            id: randomUUID(),
-                            message:
-                                "An error occurred in the server while processing the request. Try again later.",
+                            id: internalError.errorId,
+                            message: internalError.message,
                         },
-                        internalError: new WebsiteError(
-                            "api",
-                            "An error occurred in the server while processing the request.",
-                            {
-                                endpoint: req.url,
-                                internalMessage: JSON.stringify(e),
-                                internalException:
-                                    e instanceof Error ? e : undefined,
-                            },
-                        ),
+                        internalError,
                     },
                     contentType: "application/json",
                     status: 500,
@@ -223,13 +238,13 @@ export const buildApiRouteWithDatabase =
                 options.endpoint = req.nextUrl.pathname
             }
 
-            const apiResponseBodyWithoutInternalError: Website.Api.ApiResponseBody<T> =
-                apiResponse.body.success
-                    ? apiResponse.body
-                    : {
+            const apiResponseBodyWithoutInternalError =
+                !isDevMode && !apiResponse.body.success
+                    ? {
                           ...apiResponse.body,
                           internalError: undefined,
                       }
+                    : apiResponse.body
 
             return new NextResponse(
                 JSON.stringify(apiResponseBodyWithoutInternalError),

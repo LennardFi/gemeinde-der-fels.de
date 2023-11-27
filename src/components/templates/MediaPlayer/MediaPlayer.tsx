@@ -24,6 +24,7 @@ import Skeleton from "react-loading-skeleton"
 import styles from "./MediaPlayer.module.scss"
 
 export interface MediaPlayerProps extends HTMLAttributes<HTMLDivElement> {
+    sticky?: boolean
     themeColor?: Website.Design.ThemeColor
     timeSliderProps?: Omit<SliderProps, "max" | "min" | "onChange" | "value">
     volumeSliderProps?: Omit<SliderProps, "max" | "min" | "onChange" | "value">
@@ -32,6 +33,7 @@ export interface MediaPlayerProps extends HTMLAttributes<HTMLDivElement> {
 export default function MediaPlayer({
     className,
     hidden,
+    sticky,
     timeSliderProps,
     themeColor,
     volumeSliderProps,
@@ -182,7 +184,9 @@ export default function MediaPlayer({
     return (
         <div
             {...rest}
-            className={`${styles.player} ${className ?? ""}`}
+            className={`${styles.player} ${sticky ? styles.sticky : ""} ${
+                className ?? ""
+            }`}
             data-theme={themeColorOrDefault}
         >
             <div className={styles.wrapper}>

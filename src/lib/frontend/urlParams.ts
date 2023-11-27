@@ -5,4 +5,5 @@ export const resetPasswordTokenParamName = "token"
 export const fileUploadFileNameParamName = "fileName"
 
 // Sermons list
+export const sermonsListGetEntriesPageSizeParamName = "pageSize"
 export const sermonsListGetEntriesAfterIdParamName = "afterId"

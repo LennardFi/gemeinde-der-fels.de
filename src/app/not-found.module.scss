@@ -1,0 +1,27 @@
+@use "../styles/core.module.scss" as core;
+
+.searchedPageContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: core.getDimensionValue(1);
+
+    .searchedPageTitle {
+        display: flex;
+        flex-direction: row;
+        align-items: stretch;
+        margin: 0;
+    }
+
+    .pathName {
+        background-color: core.$color-default-font;
+        color: core.$color-default;
+        flex: 1 1 auto;
+        margin: 0;
+        padding: core.getDimensionValue(0.5) core.getDimensionValue(1);
+        text-overflow: ellipsis;
+        overflow: hidden;
+        max-width: core.$size-breakpoint-small;
+    }
+}

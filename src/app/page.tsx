@@ -80,7 +80,6 @@ export default function Page() {
                     </div>
                     <Image
                         alt="Some placeholder picture"
-                        className={styles.bannerImg}
                         src="https://picsum.photos/seed/sdasxgwathad/1920/1080.jpg"
                         height={300}
                         width={400}

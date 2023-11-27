@@ -1,11 +1,26 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     reactStrictMode: true,
-    swcMinify: true,
     transpilePackages: [],
     poweredByHeader: false,
     images: {
-        domains: ["picsum.photos", "placekitten.com"],
+        remotePatterns: [
+            {
+                protocol: "https",
+                hostname: "picsum.photos",
+                pathname: "**/*",
+                port: "",
+            },
+            {
+                protocol: "https",
+                hostname: "placekitten.com",
+                pathname: "**/*",
+                port: "",
+            },
+        ],
+    },
+    experimental: {
+        instrumentationHook: true,
     },
 }
 

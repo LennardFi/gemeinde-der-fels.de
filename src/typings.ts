@@ -61,7 +61,9 @@ declare namespace Website {
         }
 
         interface ApiError {
-            scope: Exclude<ErrorScope, "database"> | "server-internal"
+            scope:
+                | Exclude<ErrorScope, "build" | "database" | "server">
+                | "server-internal"
             id: string
             message: string
             internalMessage?: string
@@ -104,7 +106,7 @@ declare namespace Website {
         interface JWTPayload {
             email: string
             userFlags: Users.UserFlags
-            userId: string
+            userId: number
             userName: string
             jwtFlags?: JWTFlags
         }
@@ -144,7 +146,7 @@ declare namespace Website {
     }
 
     namespace Base {
-        type DeviceSize = "small" | "normal" | "large" | "x-large"
+        type DeviceSize = "tiny" | "small" | "normal" | "large"
         type Breakpoint = Exclude<DeviceSize, "x-large">
 
         type SelectOption<L extends string, V extends string> = {
@@ -193,7 +195,7 @@ declare namespace Website {
             interface AudioFile {
                 fileId: string
                 format: string
-                id: string
+                id: number
                 performer: string
                 title: string
                 album?: string
@@ -245,7 +247,7 @@ declare namespace Website {
                 audioFileFormat: string
                 audioFileId: string
                 date: Temporal.PlainDate
-                id: string
+                id: number
                 title: string
                 speaker: Speaker
                 series?: Omit<SermonSeries, "parts" | "speakers">
@@ -264,7 +266,7 @@ declare namespace Website {
             }
 
             interface Speaker {
-                id: string
+                id: number
                 initials: string
                 name: string
             }
@@ -272,7 +274,7 @@ declare namespace Website {
             type NewSpeaker = Omit<Speaker, "id">
 
             interface SermonSeries {
-                id: string
+                id: number
                 parts: Sermon[]
                 title: string
                 speakers: Speaker[]
@@ -286,7 +288,7 @@ declare namespace Website {
 
         interface NewsPost {
             description: string
-            id: string
+            id: number
             publicationDate: Temporal.PlainDate
             title: string
         }
@@ -320,21 +322,21 @@ declare namespace Website {
     namespace Users {
         interface UserFlags {
             // Can promote users to admins
-            Admin?: boolean | null
+            Admin?: boolean
             // Can change calendar
-            ManageCalendar?: boolean | null
+            ManageCalendar?: boolean
             // Can change news
-            ManageNews?: boolean | null
+            ManageNews?: boolean
             // Can change sermons
-            ManageSermons?: boolean | null
+            ManageSermons?: boolean
             // Can change rooms
-            ManageRooms?: boolean | null
+            ManageRooms?: boolean
             // Can create users
-            ManageUser?: boolean | null
+            ManageUser?: boolean
         }
 
         interface User {
-            id: string
+            id: number
             email: string
             userName: string
             flags: UserFlags

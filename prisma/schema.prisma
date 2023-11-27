@@ -1,10 +1,16 @@
 datasource db {
-    provider = "mongodb"
-    url      = env("MONGODB_URL")
+    provider = "postgresql"
+    url      = env("POSTGRES_URL")
 }
 
 generator client {
     provider = "prisma-client-js"
+}
+
+model DatabaseMetadata {
+    id        Int      @id @unique @default(autoincrement())
+    version   Int
+    isDevData Boolean?
 }
 
 enum FileRole {
@@ -12,26 +18,19 @@ enum FileRole {
 }
 
 model File {
-    id             String      @id @default(auto()) @map("_id") @db.ObjectId
+    id             String    @id @unique @default(uuid()) @db.Uuid
+    fileId         String    @unique @default(uuid()) @db.Uuid
     name           String
     extension      String
     mimeType       String
     uploadDateTime DateTime
     role           FileRole?
-    chunks         FileChunk[]
     Sermon         Sermon[]
 }
 
-model FileChunk {
-    id      String @id @default(auto()) @map("_id") @db.ObjectId
-    content Bytes
-    file    File   @relation(fields: [fileId], references: [id])
-    fileId  String @db.ObjectId
-}
-
 model ErrorLog {
-    id            String        @id @default(auto()) @map("_id") @db.ObjectId
-    errorId       String
+    id            Int           @id @unique @default(autoincrement())
+    errorId       String        @unique
     timestamp     DateTime
     cause         String
     message       String
@@ -40,69 +39,61 @@ model ErrorLog {
 }
 
 model ResponseLog {
-    id              String    @id @default(auto()) @map("_id") @db.ObjectId
+    id              Int       @id @unique @default(autoincrement())
     timestamp       DateTime
     status          String
     success         Boolean
     errorLogEntry   ErrorLog? @relation(fields: [errorLogEntryId], references: [id])
-    errorLogEntryId String?   @db.ObjectId
+    errorLogEntryId Int?
     data            Bytes?
     dataSize        Int?
     statusText      String?
 }
 
 model NewsPost {
-    id              String   @id @default(auto()) @map("_id") @db.ObjectId
+    id              Int      @id @unique @default(autoincrement())
     publicationDate DateTime
     title           String
     description     String
 }
 
 model Sermon {
-    id          String        @id @default(auto()) @map("_id") @db.ObjectId
+    id          Int           @id @unique @default(autoincrement())
     title       String
     date        DateTime
     audioFile   File          @relation(fields: [audioFileId], references: [id])
-    audioFileId String        @db.ObjectId
+    audioFileId String        @db.Uuid
     series      SermonSeries? @relation(fields: [seriesId], references: [id])
-    seriesId    String?       @db.ObjectId
+    seriesId    Int?
     speaker     SermonSpeaker @relation(fields: [speakerId], references: [id])
-    speakerId   String        @db.ObjectId
+    speakerId   Int
 }
 
 model SermonSpeaker {
-    id       String   @id @default(auto()) @map("_id") @db.ObjectId
+    id       Int      @id @unique @default(autoincrement())
     name     String   @unique
     initials String   @unique
     sermon   Sermon[]
 }
 
 model SermonSeries {
-    id    String   @id @default(auto()) @map("_id") @db.ObjectId
+    id    Int      @id @unique @default(autoincrement())
     title String
     parts Sermon[]
 }
 
 model User {
-    id           String    @id @default(auto()) @map("_id") @db.ObjectId
-    email        String    @unique
-    userName     String    @unique
+    id           Int     @id @unique @default(autoincrement())
+    email        String  @unique
+    userName     String  @unique
     passwordHash String
-    disabled     Boolean   @default(false)
-    flags        UserFlags
-}
+    disabled     Boolean @default(false)
 
-type UserFlags {
-    // Can promote users to admins
-    Admin          Boolean?
-    // Can change calendar
-    ManageCalendar Boolean?
-    // Can change news
-    ManageNews     Boolean?
-    // Can change sermons
-    ManageSermons  Boolean?
-    // Can change rooms
-    ManageRooms    Boolean?
-    // Can create users
-    ManageUser     Boolean?
+    // Flags:
+    AdminFlag          Boolean @default(false) // Can promote users to admins
+    ManageCalendarFlag Boolean @default(false) // Can change calendar
+    ManageNewsFlag     Boolean @default(false) // Can change news
+    ManageSermonsFlag  Boolean @default(false) // Can change sermons
+    ManageRoomsFlag    Boolean @default(false) // Can change rooms
+    ManageUserFlag     Boolean @default(false) // Can create users
 }

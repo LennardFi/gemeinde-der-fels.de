@@ -1,4 +1,5 @@
 import { buildApiRouteWithDatabase } from "@/lib/backend/apiRouteBuilders"
+import { storeFileToFolder } from "@/lib/backend/databaseHelpers"
 import { fileUploadFileNameParamName } from "@/lib/frontend/urlParams"
 import { WebsiteError } from "@/lib/shared/errors"
 import { temporalInstanceToDate } from "@/lib/shared/helpers"
@@ -31,28 +32,6 @@ export const POST =
                 })
             }
 
-            const file = await req.blob()
-            const arrayBuffers = await Promise.all(
-                Array.from<Buffer>({
-                    length: Math.ceil(file.size / 16_000_000),
-                }).reduce(
-                    ({ chunks, position }) => ({
-                        chunks: [
-                            ...chunks,
-                            file
-                                .slice(position, position + 16_000_000)
-                                .arrayBuffer(),
-                        ],
-                        position: position + 16_000_000,
-                    }),
-                    { chunks: [], position: 0 } as {
-                        chunks: Promise<ArrayBuffer>[]
-                        position: number
-                    },
-                ).chunks,
-            )
-            const chunks = arrayBuffers.map((buffer) => Buffer.from(buffer))
-
             const fileUploadTime = Temporal.Now.zonedDateTimeISO("UTC")
 
             try {
@@ -65,16 +44,40 @@ export const POST =
                             fileUploadTime,
                             new Date(),
                         ),
-                        chunks: {
-                            create: chunks.map((chunk) => ({
-                                content: chunk,
-                            })),
-                        },
-                    },
-                    include: {
-                        chunks: true,
                     },
                 })
+
+                const file = await req.blob()
+                const fileBuffer = Buffer.from(await file.arrayBuffer())
+                try {
+                    await storeFileToFolder(
+                        newFile.fileId,
+                        newFile.mimeType,
+                        fileBuffer,
+                    )
+                } catch (e) {
+                    await client.file.delete({
+                        where: {
+                            id: newFile.id,
+                        },
+                    })
+                    if (e instanceof WebsiteError) {
+                        throw e
+                    }
+
+                    throw new WebsiteError(
+                        "database",
+                        "Error appeared while storing file to file system",
+                        {
+                            httpStatusCode: 500,
+                            internalException:
+                                e instanceof Error ? e : undefined,
+                        },
+                        {
+                            e,
+                        },
+                    )
+                }
 
                 console.log({ newFile })
 
@@ -93,16 +96,16 @@ export const POST =
                     status: 201,
                     statusText: "File created",
                 }
-            } catch (err) {
-                console.log(err)
+            } catch (e) {
                 throw new WebsiteError(
                     "database",
                     "Database error appeared while storing file",
                     {
                         httpStatusCode: 500,
+                        internalException: e instanceof Error ? e : undefined,
                     },
                     {
-                        err,
+                        e,
                     },
                 )
             }

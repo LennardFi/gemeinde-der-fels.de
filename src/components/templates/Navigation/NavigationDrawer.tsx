@@ -30,6 +30,7 @@ export default function NavigationDrawer({
     const containerRef = useRef<HTMLDivElement | null>(null)
     const jwt = useAuthZustand((state) => state.jwt)
     const isBigScreen = useMediaQuery("(min-width: 1280px)")
+    const prefersReducedAnimation = useMediaQuery("(prefers-reduced-motion)")
 
     useEffect(() => {
         if (opened && onEscKeyUpHandler.current === undefined) {
@@ -87,7 +88,7 @@ export default function NavigationDrawer({
                         backdropFilter: "blur(4px) opacity(0)",
                     }}
                     transition={{
-                        type: "spring",
+                        type: "keyframes",
                         ease: "easeInOut",
                         duration: 0.25,
                     }}
@@ -96,18 +97,23 @@ export default function NavigationDrawer({
                         className={styles.drawer}
                         onKeyUp={onKeyUpHandler}
                         initial={{
-                            x: "min(680px, 100%)",
+                            x: !prefersReducedAnimation
+                                ? "min(680px, 100%)"
+                                : undefined,
                             opacity: 0,
                         }}
                         animate={{
-                            x: 0,
+                            x: !prefersReducedAnimation ? 0 : undefined,
                             opacity: 1,
                         }}
                         exit={{
-                            x: "min(680px, 100%)",
+                            x: !prefersReducedAnimation
+                                ? "min(680px, 100%)"
+                                : undefined,
                             opacity: 0,
                         }}
                         transition={{
+                            type: "keyframes",
                             ease: "easeInOut",
                             duration: 0.25,
                         }}

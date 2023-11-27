@@ -4,7 +4,7 @@
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
-    align-items: flex-start;
+    align-items: center;
     background-color: core.$color-accent;
     color: core.$color-accent-font;
     border-bottom: core.getDimensionValue(0.1) solid core.$color-accent;

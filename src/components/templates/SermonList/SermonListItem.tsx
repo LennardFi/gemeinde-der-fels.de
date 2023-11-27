@@ -2,6 +2,7 @@ import ButtonLink from "@/components/inputs/ButtonLink"
 import { formatPlainDate } from "@/lib/shared/helpers"
 import Website from "@/typings"
 import useAudioPlayerZustand from "@/zustand/useAudioPlayerZustand"
+import { useRef } from "react"
 import { FaDownload, FaExclamationCircle } from "react-icons/fa"
 import styles from "./SermonListItem.module.scss"
 import SermonListPlayButton from "./SermonListPlayButton"
@@ -27,6 +28,7 @@ export default function SermonListItem({
     selected,
     themeColor,
 }: SermonListItemProps) {
+    const cellRef = useRef<HTMLTableCellElement | null>(null)
     const {
         error,
         finished,
@@ -60,23 +62,33 @@ export default function SermonListItem({
 
     if (selected) {
         return (
-            <td
-                className={`${styles.cell} ${styles.isSelectedMedia} ${
-                    isPlayingMedia ? styles.isPlayingMedia : ""
-                } ${highlighted ? styles.highlighted : ""}`}
-                data-theme={themeColorOrDefault}
-                colSpan={4}
-                role="button"
-            >
-                <div className={styles.wrapper}>
-                    <div className={styles.labels}>
-                        <div className={styles.title}>{entry.title}</div>
-                        <div className={styles.speaker}>
-                            {entry.speaker.name}
+            <tr>
+                <td
+                    className={`${styles.cell} ${styles.isSelectedMedia} ${
+                        isPlayingMedia ? styles.isPlayingMedia : ""
+                    } ${highlighted ? styles.highlighted : ""}`}
+                    colSpan={4}
+                    data-theme={themeColorOrDefault}
+                    onClick={(e) => {
+                        if (!document.getSelection()?.isCollapsed) {
+                            return
+                        }
+                        e.preventDefault()
+                        e.stopPropagation()
+                        onUnselect?.()
+                    }}
+                    ref={cellRef}
+                    role="button"
+                >
+                    <div className={styles.wrapper}>
+                        <div className={styles.labels}>
+                            <div className={styles.title}>{entry.title}</div>
+                            <div className={styles.speaker}>
+                                {entry.speaker.name}
+                            </div>
                         </div>
-                    </div>
-                    <div className={styles.actions}>
-                        {/* <IconButton
+                        <div className={styles.actions}>
+                            {/* <IconButton
                             className={`${styles.button}`}
                             onClick={onUnselect}
                             themeColor={isPlayingMedia ? "primary" : "accent"}
@@ -84,85 +96,90 @@ export default function SermonListItem({
                         >
                             <FaCompressAlt />
                         </IconButton> */}
-                        {error !== undefined &&
-                        playingMedia?.fileId === entry.audioFileId ? (
-                            <>
-                                <FaExclamationCircle />{" "}
-                                {error === "loading"
-                                    ? "Ladefehler"
-                                    : error === "playing"
-                                    ? "Abspielfehler"
-                                    : ""}
-                            </>
-                        ) : (
-                            <SermonListPlayButton
-                                className={`${styles.button} ${styles.playButton}`}
-                                finished={isPlayingMedia && finished}
-                                highlighted={highlighted}
-                                isLoading={isPlayingMedia && isLoading}
-                                isPlaying={isPlayingMedia && isPlaying}
-                                isPlayingMedia={isPlayingMedia}
-                                pause={isPlayingMedia ? pause : () => {}}
-                                play={
-                                    isPlayingMedia
-                                        ? play
-                                        : () =>
-                                              start({
-                                                  album: entry.series?.title,
-                                                  fileId: entry.audioFileId,
-                                                  format: entry.audioFileFormat,
-                                                  id: entry.id,
-                                                  performer: entry.speaker.name,
-                                                  title: entry.title,
-                                              })
-                                }
-                                start={() =>
-                                    start({
-                                        album: entry.series?.title,
-                                        fileId: entry.audioFileId,
-                                        format: entry.audioFileFormat,
-                                        id: entry.id,
-                                        performer: entry.speaker.name,
-                                        title: entry.title,
-                                    })
-                                }
+                            {error !== undefined &&
+                            playingMedia?.fileId === entry.audioFileId ? (
+                                <>
+                                    <FaExclamationCircle />{" "}
+                                    {error === "loading"
+                                        ? "Ladefehler"
+                                        : error === "playing"
+                                          ? "Abspielfehler"
+                                          : ""}
+                                </>
+                            ) : (
+                                <SermonListPlayButton
+                                    className={`${styles.button} ${styles.playButton}`}
+                                    finished={isPlayingMedia && finished}
+                                    highlighted={highlighted}
+                                    isLoading={isPlayingMedia && isLoading}
+                                    isPlaying={isPlayingMedia && isPlaying}
+                                    isPlayingMedia={isPlayingMedia}
+                                    pause={isPlayingMedia ? pause : () => {}}
+                                    play={
+                                        isPlayingMedia
+                                            ? play
+                                            : () =>
+                                                  start({
+                                                      album: entry.series
+                                                          ?.title,
+                                                      fileId: entry.audioFileId,
+                                                      format: entry.audioFileFormat,
+                                                      id: entry.id,
+                                                      performer:
+                                                          entry.speaker.name,
+                                                      title: entry.title,
+                                                  })
+                                    }
+                                    start={() =>
+                                        start({
+                                            album: entry.series?.title,
+                                            fileId: entry.audioFileId,
+                                            format: entry.audioFileFormat,
+                                            id: entry.id,
+                                            performer: entry.speaker.name,
+                                            title: entry.title,
+                                        })
+                                    }
+                                    themeColor={themeColor}
+                                    variant={
+                                        isPlayingMedia ? "text" : "contained"
+                                    }
+                                />
+                            )}
+                            <ButtonLink
+                                className={`${styles.button}`}
+                                containedHover
+                                href={`/api/files/${
+                                    entry.audioFileId
+                                }/${formatPlainDate(entry.date)} - ${
+                                    entry.speaker.name
+                                } - ${entry.title}.${entry.audioFileFormat}`}
+                                rel="noreferrer noopener"
+                                target="_blank"
                                 themeColor={themeColor}
-                                variant={isPlayingMedia ? "text" : "contained"}
-                            />
-                        )}
-                        <ButtonLink
-                            className={`${styles.button}`}
-                            containedHover
-                            href={`/api/files/${
-                                entry.audioFileId
-                            }/${formatPlainDate(entry.date)} - ${
-                                entry.speaker.name
-                            } - ${entry.title}.${entry.audioFileFormat}`}
-                            rel="noreferrer noopener"
-                            target="_blank"
-                            themeColor={themeColor}
-                            variant="outlined"
-                        >
-                            <FaDownload />
-                        </ButtonLink>
+                                variant="outlined"
+                            >
+                                <FaDownload />
+                            </ButtonLink>
+                        </div>
+                        <div className={styles.details}>
+                            <ul>
+                                {entry.series !== undefined ? (
+                                    <li>
+                                        <b>Predigtreihe:</b>&nbsp;
+                                        {entry.series.title}
+                                    </li>
+                                ) : null}
+                            </ul>
+                        </div>
                     </div>
-                    <div className={styles.details}>
-                        <ul>
-                            {entry.series !== undefined ? (
-                                <li>
-                                    <b>Predigtreihe:</b>&nbsp;
-                                    {entry.series.title}
-                                </li>
-                            ) : null}
-                        </ul>
-                    </div>
-                </div>
-            </td>
+                </td>
+            </tr>
         )
     }
 
     return (
-        <>
+        <tr>
             <td
                 className={`${styles.cell} ${
                     isPlayingMedia ? styles.isPlayingMedia : ""
@@ -216,8 +233,8 @@ export default function SermonListItem({
                         {error === "loading"
                             ? "Ladefehler"
                             : error === "playing"
-                            ? "Abspielfehler"
-                            : ""}
+                              ? "Abspielfehler"
+                              : ""}
                     </>
                 ) : (
                     <SermonListPlayButton
@@ -256,6 +273,6 @@ export default function SermonListItem({
                     />
                 )}
             </td>
-        </>
+        </tr>
     )
 }

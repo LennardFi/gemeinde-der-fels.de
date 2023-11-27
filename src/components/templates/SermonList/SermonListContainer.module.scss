@@ -1,10 +1,20 @@
 @use "../../../styles/core.module.scss" as core;
 
 .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: core.getDimensionValue(2);
     // flex: 1 1 auto;
-    overflow: hidden;
+    // overflow: hidden;
+
+    .pagination {
+        margin-top: core.getDimensionValue(2);
+    }
 
     .mediaPlayer {
+        margin-top: core.getDimensionValue(4);
         width: 100%;
     }
 }

@@ -1,37 +1,54 @@
 "use client"
 
 import RequiresDevFeatureFlag from "@/components/dev/RequiresDevFeatureFlag"
+import Pagination from "@/components/inputs/Pagination"
 import usePagination, { PaginationNextHandler } from "@/hooks/usePagenation"
 import { makeApiRequest } from "@/lib/frontend/makeApiRequest"
-import { sermonsListGetEntriesAfterIdParamName } from "@/lib/frontend/urlParams"
-import Website from "@/typings"
-import { useEffect, useMemo, useRef, useState } from "react"
+import {
+    sermonsListGetEntriesAfterIdParamName,
+    sermonsListGetEntriesPageSizeParamName,
+} from "@/lib/frontend/urlParams"
+import Website, { Maybe } from "@/typings"
+import { HTMLAttributes, useEffect, useMemo, useState } from "react"
 import MediaPlayer from "../MediaPlayer/MediaPlayer"
-import SermonsList, { SermonsListEntry } from "./SermonList"
+import SermonsList, { SermonListProps, SermonsListEntry } from "./SermonList"
 import styles from "./SermonListContainer.module.scss"
 
-interface SermonsListContainerProps {
+interface SermonListContainerProps extends HTMLAttributes<HTMLDivElement> {
     baseFilter?: Website.Content.Sermons.SermonsFilter
     initialSermons?: SermonsListEntry[]
+    /**
+     * @default 10
+     */
+    pageSize?: number
+    sermonListProps?: Omit<
+        SermonListProps,
+        "entries" | "loadNext" | "endOfData" | "isLoading" | "themeColor"
+    >
     showFilter?: boolean
     themeColor?: Website.Design.ThemeColor
 }
 
 interface SermonsListCursor {
     nextIndex: number
-    lastId?: string
+    lastId?: Website.Content.Sermons.Sermon["id"]
 }
 
 export const requestSermons = (
-    baseFilter?: Website.Content.Sermons.SermonsFilter,
+    pageSize: number,
+    filter?: Website.Content.Sermons.SermonsFilter,
 ): PaginationNextHandler<SermonsListCursor, SermonsListEntry> => {
     return async (cursor) => {
         const searchParams = new URLSearchParams()
+        searchParams.append(
+            sermonsListGetEntriesPageSizeParamName,
+            pageSize.toString(),
+        )
 
         if (cursor.lastId !== undefined) {
             searchParams.append(
                 sermonsListGetEntriesAfterIdParamName,
-                cursor.lastId,
+                cursor.lastId.toString(),
             )
         }
 
@@ -63,18 +80,20 @@ export const requestSermons = (
 
 export default function SermonsListContainer({
     baseFilter,
+    className,
     initialSermons,
+    pageSize = 10,
+    sermonListProps,
     showFilter,
     themeColor,
-}: SermonsListContainerProps) {
-    const containerRef = useRef<HTMLDivElement | null>(null)
-    const [innerHeight, setInnerHeight] = useState(600)
+    ...rest
+}: SermonListContainerProps) {
     const [filter, setFilter] = useState<Website.Content.Sermons.SermonsFilter>(
         baseFilter ?? {},
     )
+    const [page, setPage] = useState(0)
     const paginationFilterFunc = useMemo(() => {
-        // console.log("regenerating paginationFilterFunc")
-        return requestSermons(baseFilter)
+        return requestSermons(pageSize, filter)
     }, [filter])
     const initialCursor = useMemo<SermonsListCursor>(
         () => ({
@@ -83,7 +102,7 @@ export default function SermonsListContainer({
         }),
         [initialSermons],
     )
-    const { data, endOfData, isLoading, next } = usePagination(
+    const { data, endOfData, isLoading, loadMore } = usePagination(
         {
             data: initialSermons ?? [],
             cursor: initialCursor,
@@ -91,43 +110,49 @@ export default function SermonsListContainer({
         paginationFilterFunc,
     )
 
+    const pageWindow = useMemo(() => {
+        const dataIndex = page * pageSize
+        let pageWindow: Maybe<SermonsListEntry>[] = data.slice(
+            dataIndex,
+            dataIndex + pageSize,
+        )
+        if (pageWindow.length === 0) {
+            pageWindow = Array.from({ length: pageSize }).map(() => undefined)
+        }
+        return pageWindow
+    }, [data, page])
+
     useEffect(() => {
-        const refresh = (target: HTMLDivElement) => {
-            const clientHeight = target.clientHeight
-
-            setInnerHeight(clientHeight - 250)
-
-            console.log({ clientHeight, newInnerHeight: clientHeight - 200 })
+        if (!isLoading && !endOfData && pageWindow.includes(undefined)) {
+            loadMore()
+            // TODO: Add abort handler
         }
-        const handler = (e: UIEvent) => {
-            refresh(e.target as HTMLDivElement)
-        }
-        containerRef.current?.addEventListener("resize", handler)
-        if (containerRef.current !== null) {
-            refresh(containerRef.current)
-        }
-
-        return () => {
-            containerRef.current?.removeEventListener("resize", handler)
-        }
-    }, [])
+    }, [pageWindow, pageSize, isLoading, endOfData])
 
     return (
         <RequiresDevFeatureFlag flags={["mediaPlayer"]} fallback>
-            <div className={`${styles.container}`} ref={containerRef}>
+            <div className={`${styles.container} ${className ?? ""}`} {...rest}>
                 {/* {showFilter ?? (
                 <SermonsFilter filter={filter} setFilter={setFilter} />
             )} */}
                 <SermonsList
-                    endOfData={endOfData}
-                    entries={data}
-                    height={innerHeight}
-                    isLoading={isLoading}
-                    loadNext={next}
+                    entries={pageWindow}
                     themeColor={themeColor}
+                    {...sermonListProps}
+                />
+                <Pagination
+                    className={styles.pagination}
+                    onChange={(newPageIndex) => setPage(newPageIndex)}
+                    total={
+                        !endOfData
+                            ? page + 2
+                            : Math.ceil(data.length / pageSize)
+                    }
+                    value={page}
                 />
                 <MediaPlayer
                     className={styles.mediaPlayer}
+                    sticky
                     themeColor={themeColor}
                 />
             </div>

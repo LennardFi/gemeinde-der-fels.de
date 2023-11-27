@@ -1,3 +1,5 @@
+"use server"
+
 import PageContainer from "@/components/containers/PageContainer"
 import { SermonsListEntry } from "@/components/templates/SermonList/SermonList"
 import SermonsListContainer from "@/components/templates/SermonList/SermonListContainer"
@@ -11,7 +13,7 @@ export default async function Page() {
             series: true,
             speaker: true,
         },
-        take: 10,
+        take: 20,
         orderBy: {
             date: "desc",
             // title: "asc",
@@ -33,12 +35,16 @@ export default async function Page() {
 
     return (
         <PageContainer
-            breakpoint="normal"
+            breakpoint="large"
             className={styles.container}
             title="Predigten"
         >
             <SermonsListContainer
+                sermonListProps={{
+                    className: styles.sermonList,
+                }}
                 initialSermons={initialSermons}
+                pageSize={20}
                 showFilter
                 themeColor="accent"
             />

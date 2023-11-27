@@ -40,7 +40,7 @@ export const navigationEntries: Website.Content.Navigation.NavigationEntry[] = [
             {
                 label: "Predigten",
                 path: "/medien/predigten",
-                requiresAllDevFeatureFlag: ["mediaPlayer"],
+                // requiresAllDevFeatureFlag: ["mediaPlayer"],
             },
         ],
     },

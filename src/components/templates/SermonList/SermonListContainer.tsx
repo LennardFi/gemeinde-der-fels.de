@@ -1,6 +1,5 @@
 "use client"
 
-import RequiresDevFeatureFlag from "@/components/dev/RequiresDevFeatureFlag"
 import Pagination from "@/components/inputs/Pagination"
 import usePagination, { PaginationNextHandler } from "@/hooks/usePagenation"
 import { makeApiRequest } from "@/lib/frontend/makeApiRequest"
@@ -130,32 +129,30 @@ export default function SermonsListContainer({
     }, [pageWindow, pageSize, isLoading, endOfData])
 
     return (
-        <RequiresDevFeatureFlag flags={["mediaPlayer"]} fallback>
-            <div className={`${styles.container} ${className ?? ""}`} {...rest}>
-                {/* {showFilter ?? (
+        // <RequiresDevFeatureFlag flags={["mediaPlayer"]} fallback>
+        <div className={`${styles.container} ${className ?? ""}`} {...rest}>
+            {/* {showFilter ?? (
                 <SermonsFilter filter={filter} setFilter={setFilter} />
             )} */}
-                <SermonsList
-                    entries={pageWindow}
-                    themeColor={themeColor}
-                    {...sermonListProps}
-                />
-                <Pagination
-                    className={styles.pagination}
-                    onChange={(newPageIndex) => setPage(newPageIndex)}
-                    total={
-                        !endOfData
-                            ? page + 2
-                            : Math.ceil(data.length / pageSize)
-                    }
-                    value={page}
-                />
-                <MediaPlayer
-                    className={styles.mediaPlayer}
-                    sticky
-                    themeColor={themeColor}
-                />
-            </div>
-        </RequiresDevFeatureFlag>
+            <SermonsList
+                entries={pageWindow}
+                themeColor={themeColor}
+                {...sermonListProps}
+            />
+            <Pagination
+                className={styles.pagination}
+                onChange={(newPageIndex) => setPage(newPageIndex)}
+                total={
+                    !endOfData ? page + 2 : Math.ceil(data.length / pageSize)
+                }
+                value={page}
+            />
+            <MediaPlayer
+                className={styles.mediaPlayer}
+                sticky
+                themeColor={themeColor}
+            />
+        </div>
+        // </RequiresDevFeatureFlag>
     )
 }

@@ -90,6 +90,10 @@ export const navigationEntries: Website.Content.Navigation.NavigationEntry[] = [
                 path: "/gruppen/kigo",
             },
             {
+                label: "Teenie Jüngerschule",
+                path: "/gruppen/tjs",
+            },
+            {
                 label: "Young Generation",
                 path: "/gruppen/young-generation",
             },

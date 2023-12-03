@@ -28,7 +28,7 @@ export default function Page() {
                     </p>
                     <p></p>
                 </div>
-                <Card themeColor="primary">
+                <Card>
                     <CardHeader component="h3">Banküberweisung</CardHeader>
                     <CardContent>
                         <b>Bank:</b> Sparkasse Marburg-Biedenkopf <br />

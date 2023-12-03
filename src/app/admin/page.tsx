@@ -6,7 +6,7 @@ import styles from "./page.module.scss"
 
 export default function Page() {
     return (
-        <Window breakpoint="normal" className={styles.card}>
+        <Window breakpoint="normal" className={styles.card} pageContainer>
             <WindowHeader title="Verwaltung" />
             <WindowContent className={styles.container}>
                 <h2>Einstellungen</h2>

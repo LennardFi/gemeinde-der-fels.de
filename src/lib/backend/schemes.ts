@@ -11,7 +11,7 @@ export const JWTPayloadSchema = z
     .object({
         email: z.string().email(),
         userFlags: userFlagsSchema,
-        userId: z.string(),
+        userId: z.number(),
         userName: z.string(),
         jwtFlags: jwtFlagsSchema.nullish(),
     })

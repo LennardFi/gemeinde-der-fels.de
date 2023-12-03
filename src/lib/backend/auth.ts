@@ -19,7 +19,12 @@ export const getJWTFromPayload = async (
         userName: jwtPayload.userName,
     }
 
-    const jwt = await new SignJWT(payload).setExpirationTime("1d").sign(key)
+    const jwt = await new SignJWT(payload)
+        .setProtectedHeader({
+            alg: "HS256",
+        })
+        .setExpirationTime("1d")
+        .sign(key)
     return jwt
 }
 

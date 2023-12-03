@@ -18,7 +18,7 @@ enum FileRole {
 }
 
 model File {
-    id             String    @id @unique @default(uuid()) @db.Uuid
+    id             Int       @id @unique @default(autoincrement())
     fileId         String    @unique @default(uuid()) @db.Uuid
     name           String
     extension      String
@@ -62,7 +62,7 @@ model Sermon {
     title       String
     date        DateTime
     audioFile   File          @relation(fields: [audioFileId], references: [id])
-    audioFileId String        @db.Uuid
+    audioFileId Int           @db.Integer
     series      SermonSeries? @relation(fields: [seriesId], references: [id])
     seriesId    Int?
     speaker     SermonSpeaker @relation(fields: [speakerId], references: [id])

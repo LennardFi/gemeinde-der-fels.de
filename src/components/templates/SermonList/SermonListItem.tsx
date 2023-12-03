@@ -51,7 +51,7 @@ export default function SermonListItem({
 
     const themeColorOrDefault = themeColor ?? "accent"
 
-    const isPlayingMedia = playingMedia?.fileId === entry.audioFileId
+    const isPlayingMedia = playingMedia?.id === entry.audioFileId
 
     // const playingMediaThemeColor: Website.Design.ThemeColor =
     //     themeColor === "primary"
@@ -97,7 +97,7 @@ export default function SermonListItem({
                             <FaCompressAlt />
                         </IconButton> */}
                             {error !== undefined &&
-                            playingMedia?.fileId === entry.audioFileId ? (
+                            playingMedia?.id === entry.audioFileId ? (
                                 <>
                                     <FaExclamationCircle />{" "}
                                     {error === "loading"
@@ -207,9 +207,7 @@ export default function SermonListItem({
             <td
                 className={`${styles.cell} ${
                     isPlayingMedia ? styles.isPlayingMedia : ""
-                } ${highlighted ? styles.highlighted : ""} ${
-                    styles.speakerCell
-                }`}
+                } ${highlighted ? styles.highlighted : ""} ${styles.dateCell}`}
                 data-theme={themeColorOrDefault}
                 onClick={onSelect}
                 role="button"
@@ -227,7 +225,7 @@ export default function SermonListItem({
                 role="button"
             >
                 {error !== undefined &&
-                playingMedia?.fileId === entry.audioFileId ? (
+                playingMedia?.id === entry.audioFileId ? (
                     <>
                         <FaExclamationCircle />{" "}
                         {error === "loading"

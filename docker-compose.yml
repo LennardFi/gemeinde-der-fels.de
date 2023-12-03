@@ -1,19 +1,38 @@
-version: "2"
+version: "3"
 
 services:
-  postgres:
-    image: postgres:latest
-    restart: always
-    environment:
-      POSTGRES_PASSWORD: postgres
-    ports:
-      - 5432:5432
-  web:
-    build: .
-    restart: "unless-stopped"
-    ports:
-      - 3000:3000
-    environment:
-      MONGODB_URL: mongodb://admin:admin@localhost:27017/prisma-test?authSource=admin&directConnection=true
-    depends_on:
-      - mongodb
+    postgres:
+        image: postgres:latest
+        restart: always
+        environment:
+            POSTGRES_PASSWORD: postgres
+            POSTGRES_USER: postgres
+            POSTGRES_DB: postgres
+        ports:
+            - 5432:5432
+        healthcheck:
+            test: ["CMD", "curl", "-f", "http://localhost:5432"]
+            interval: 30s
+            timeout: 10s
+            retries: 5
+    web:
+        build: .
+        restart: "on-failure"
+        ports:
+            - 3000:3000
+        environment:
+            POSTGRES_URL: postgresql://postgres:postgres@localhost:5432/gemeinde-der-fels-de?schema=public
+            GDF_JWT_SIGNING_SECRET: BiGpC28DyjcsEkaBBaSEK6oTifTHx2E8
+            GDF_FILES_FOLDER: ./test-files
+            GDF_DEV_DATABASE_REPLACE_EXISTING_DATA: "0"
+            NEXT_PUBLIC_GDF_DEV_FEATURE_FLAGS: "*"
+        depends_on:
+            postgres:
+                condition: service_healthy
+                required: true
+                restart: true
+        healthcheck:
+            test: ["CMD", "curl", "-f", "http://localhost:3000"]
+            interval: 30s
+            timeout: 10s
+            retries: 5

@@ -8,65 +8,76 @@ export function asyncSleep(ms: number): Promise<void> {
 
 export const isDevMode = process.env.NODE_ENV === "development"
 
-export function parseDevFeatureFlagEnvValue(
+export function parseFeatureFlagEnvValue(
     featureFlagEnvValue: string,
-): Website.Base.DevFeatureFlags[] {
+): Website.Base.FeatureFlags[] {
     const initialFlags: {
-        [K in Website.Base.DevFeatureFlags]: boolean | 1 | -1 | undefined
+        [K in Website.Base.FeatureFlags]: boolean | 1 | -1 | undefined
     } = {
         admin: undefined,
+        calendar: undefined,
         sendEmail: undefined,
-        login: undefined,
+        internArea: undefined,
         mediaPlayer: undefined,
         news: undefined,
     }
     return Object.entries(
-        featureFlagEnvValue.split(",").reduce((prevFlags, part) => {
-            let negated = false
+        featureFlagEnvValue
+            .split(",")
+            .map((featureFlag) => featureFlag.trim())
+            .filter(
+                (featureFlagValue) =>
+                    featureFlagValue in initialFlags ||
+                    `!${featureFlagValue}` in initialFlags,
+            )
+            .reduce((prevFlags, featureFlagValue) => {
+                let negated = false
 
-            if (part.startsWith("!")) {
-                negated = true
-                part = part.slice(1)
-            }
-
-            if (
-                (part.toLowerCase() as Website.Base.DevFeatureFlags | "*") ===
-                "*"
-            ) {
-                return (
-                    Object.entries(prevFlags) as [
-                        Website.Base.DevFeatureFlags,
-                        boolean | 1 | -1 | undefined,
-                    ][]
-                ).reduce((prevFlags, [flagName, prevValue]) => {
-                    if (prevValue === undefined || prevValue === -1) {
-                        return {
-                            ...prevFlags,
-                            [flagName]: negated ? -1 : 1,
-                        }
-                    }
-                    return prevFlags
-                }, prevFlags)
-            }
-
-            if (Object.keys(prevFlags).includes(part)) {
-                return {
-                    ...prevFlags,
-                    [part as Website.Base.DevFeatureFlags]: !negated,
+                if (featureFlagValue.startsWith("!")) {
+                    negated = true
+                    featureFlagValue = featureFlagValue.slice(1)
                 }
-            }
 
-            return prevFlags
-        }, initialFlags),
+                if (
+                    (featureFlagValue.toLowerCase() as
+                        | Website.Base.FeatureFlags
+                        | "*") === "*"
+                ) {
+                    return (
+                        Object.entries(prevFlags) as [
+                            Website.Base.FeatureFlags,
+                            boolean | 1 | -1 | undefined,
+                        ][]
+                    ).reduce((prevFlags, [flagName, prevValue]) => {
+                        if (prevValue === undefined || prevValue === -1) {
+                            return {
+                                ...prevFlags,
+                                [flagName]: negated ? -1 : 1,
+                            }
+                        }
+                        return prevFlags
+                    }, prevFlags)
+                }
+
+                if (Object.keys(prevFlags).includes(featureFlagValue)) {
+                    return {
+                        ...prevFlags,
+                        [featureFlagValue as Website.Base.FeatureFlags]:
+                            !negated,
+                    }
+                }
+
+                return prevFlags
+            }, initialFlags),
     )
         .filter(([, value]) => value && value !== -1)
-        .map(([name]) => name as Website.Base.DevFeatureFlags)
+        .map(([name]) => name as Website.Base.FeatureFlags)
 }
 
-const featureFlagEnvValue = process.env.NEXT_PUBLIC_GDF_DEV_FEATURE_FLAGS
+const featureFlagEnvValue = process.env.NEXT_PUBLIC_GDF_FEATURE_FLAGS
 
-export function validateDevFeatureFlag(
-    ...flags: Website.Base.DevFeatureFlags[]
+export function validateFeatureFlag(
+    ...flags: Website.Base.FeatureFlags[]
 ): boolean {
     if (flags.length === 0) {
         return true
@@ -76,10 +87,9 @@ export function validateDevFeatureFlag(
         return false
     }
 
-    const configuredDevFeatureFlags =
-        parseDevFeatureFlagEnvValue(featureFlagEnvValue)
+    const configuredFeatureFlags = parseFeatureFlagEnvValue(featureFlagEnvValue)
 
-    if (flags.some((flag) => !configuredDevFeatureFlags.includes(flag))) {
+    if (flags.some((flag) => !configuredFeatureFlags.includes(flag))) {
         return false
     }
 

@@ -86,6 +86,7 @@ export const POST =
                         success: true,
                         data: {
                             extension: newFile.extension,
+                            fileId: newFile.fileId,
                             id: newFile.id,
                             mimeType: newFile.mimeType,
                             name: newFile.name,

@@ -1,6 +1,6 @@
 "use client"
 
-import RequiresDevFeatureFlag from "@/components/dev/RequiresDevFeatureFlag"
+import RequiresFeatureFlag from "@/components/dev/RequiresDevFeatureFlag"
 import Banner from "@/components/feedback/Banner"
 import Button from "@/components/inputs/Button"
 import ButtonLink from "@/components/inputs/ButtonLink"
@@ -61,8 +61,8 @@ export default function Page() {
     }
 
     return (
-        <RequiresDevFeatureFlag flags={["login"]} redirectTo="/">
-            <Window breakpoint="small" className={styles.card}>
+        <RequiresFeatureFlag flags={["internArea"]} redirectTo="/">
+            <Window breakpoint="small" className={styles.card} pageContainer>
                 <WindowHeader icon={<FaKey />} title="Anmelden" />
                 <WindowContent>
                     <form className={styles.form} onSubmit={onLogin}>
@@ -131,6 +131,6 @@ export default function Page() {
                     </form>
                 </WindowContent>
             </Window>
-        </RequiresDevFeatureFlag>
+        </RequiresFeatureFlag>
     )
 }

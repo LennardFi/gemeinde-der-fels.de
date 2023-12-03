@@ -35,14 +35,11 @@ export default async function Page() {
 
     return (
         <PageContainer
-            breakpoint="large"
+            breakpoint="normal"
             className={styles.container}
             title="Predigten"
         >
             <SermonsListContainer
-                sermonListProps={{
-                    className: styles.sermonList,
-                }}
                 initialSermons={initialSermons}
                 pageSize={20}
                 showFilter

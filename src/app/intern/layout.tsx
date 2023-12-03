@@ -1,9 +1,9 @@
 "use client"
 
+import RequiresFeatureFlag from "@/components/dev/RequiresDevFeatureFlag"
 import useAuthZustand from "@/zustand/useAuthZustand"
 import { RedirectType } from "next/dist/client/components/redirect"
 import { redirect, usePathname } from "next/navigation"
-import styles from "./layout.module.scss"
 
 interface InternalLayoutProps {
     children?: React.ReactNode
@@ -22,36 +22,41 @@ export default function Layout({ children }: InternalLayoutProps) {
     }
 
     return (
-        <div className={styles.container}>
+        <RequiresFeatureFlag flags={["internArea"]} redirectTo="/notFound">
             {/* <ul className={styles.quickLinks}>
-                <li>
-                    <ButtonLink
-                        href="/internals/mein-konto"
-                        variant="contained"
-                    >
-                        Mein Konto
-                    </ButtonLink>
-                </li>
-                {user?.flags.Admin ? (
-                    <li>
-                        <ButtonLink href="/internals/admin" variant="contained">
-                            Admin
-                        </ButtonLink>
-                    </li>
-                ) : null}
-                {user?.flags.Admin ? (
                     <li>
                         <ButtonLink
-                            href="/internals/inhalte/medien"
+                            href="/internals/mein-konto"
                             variant="contained"
                         >
-                            Medien
+                            Mein Konto
                         </ButtonLink>
                     </li>
-                ) : null}
-            </ul> */}
+                    <RequiresFeatureFlag flags={["admin", "internArea"]}>
+                        {user?.flags.Admin ? (
+                            <li>
+                                <ButtonLink
+                                    href="/internals/admin"
+                                    variant="contained"
+                                >
+                                    Admin
+                                </ButtonLink>
+                            </li>
+                        ) : null}
+                        {user?.flags.Admin ? (
+                            <li>
+                                <ButtonLink
+                                    href="/internals/inhalte/medien"
+                                    variant="contained"
+                                >
+                                    Medien
+                                </ButtonLink>
+                            </li>
+                        ) : null}
+                    </RequiresFeatureFlag>
+                </ul> */}
 
-            <div className={styles.content}>{children}</div>
-        </div>
+            {children}
+        </RequiresFeatureFlag>
     )
 }

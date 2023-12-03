@@ -40,7 +40,7 @@ export const navigationEntries: Website.Content.Navigation.NavigationEntry[] = [
             {
                 label: "Predigten",
                 path: "/medien/predigten",
-                // requiresAllDevFeatureFlag: ["mediaPlayer"],
+                requiresAllFeatureFlags: ["mediaPlayer"],
             },
         ],
     },
@@ -115,7 +115,7 @@ export const navigationEntries: Website.Content.Navigation.NavigationEntry[] = [
         label: "Verwaltung",
         needsAuth: true,
         path: "/admin",
-        requiresAllDevFeatureFlag: ["admin", "login"],
+        requiresAllFeatureFlags: ["admin", "internArea"],
         requireOneUserFlag: [
             "Admin",
             "ManageCalendar",
@@ -128,19 +128,19 @@ export const navigationEntries: Website.Content.Navigation.NavigationEntry[] = [
             {
                 label: "News",
                 path: "/admin/inhalte/news",
-                requiresAllDevFeatureFlag: ["admin", "login"],
+                requiresAllFeatureFlags: ["admin", "internArea"],
                 requireOneUserFlag: ["ManageNews"],
             },
             {
                 label: "Predigten",
                 path: "/admin/inhalte/predigten",
-                requiresAllDevFeatureFlag: ["admin", "login"],
+                requiresAllFeatureFlags: ["admin", "internArea"],
                 requireOneUserFlag: ["ManageSermons"],
             },
             {
                 label: "Benutzereinstellungen",
                 path: "/admin/einstellungen/benutzer",
-                requiresAllDevFeatureFlag: ["admin", "login"],
+                requiresAllFeatureFlags: ["admin", "internArea"],
                 requireOneUserFlag: ["ManageUser"],
             },
         ],
@@ -149,7 +149,7 @@ export const navigationEntries: Website.Content.Navigation.NavigationEntry[] = [
         label: "Mitglieder",
         needsAuth: true,
         path: "/intern",
-        requiresAllDevFeatureFlag: ["login"],
+        requiresAllFeatureFlags: ["internArea"],
         subEntries: [
             {
                 label: "Mein Konto",
@@ -157,6 +157,7 @@ export const navigationEntries: Website.Content.Navigation.NavigationEntry[] = [
             },
             {
                 label: "Abmelden",
+                addReturnToCurrentPath: true,
                 path: "/logout",
             },
         ],

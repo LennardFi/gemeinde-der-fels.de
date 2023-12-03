@@ -94,7 +94,7 @@ export default function Page() {
     }
 
     return (
-        <Window breakpoint="small" className={styles.card}>
+        <Window breakpoint="small" className={styles.card} pageContainer>
             <WindowHeader
                 icon={<FaKey />}
                 title={

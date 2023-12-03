@@ -1,6 +1,7 @@
 "use client"
 
-import RequiresDevFeatureFlag from "@/components/dev/RequiresDevFeatureFlag"
+import RequiresFeatureFlag from "@/components/dev/RequiresDevFeatureFlag"
+import { returnToPathParamName } from "@/lib/frontend/urlParams"
 import Website from "@/typings"
 import useAuthZustand from "@/zustand/useAuthZustand"
 import Link, { LinkProps } from "next/link"
@@ -17,12 +18,14 @@ interface NavigationItemProps
         Omit<Website.Content.Navigation.NavigationEntry, "label"> {}
 
 export default function NavigationItem({
+    addReturnToCurrentPath,
+    addSearchParams,
     icon,
     needsAuth,
     noLink,
     onlyMobile,
     path,
-    requiresAllDevFeatureFlag,
+    requiresAllFeatureFlags: requiresAllDevFeatureFlag,
     requireOneUserFlag,
     subEntries,
     className,
@@ -41,11 +44,35 @@ export default function NavigationItem({
         return null
     }
 
-    const isLink = path !== undefined && !noLink
+    const targetPathParams = new URLSearchParams()
+
+    if (addReturnToCurrentPath) {
+        targetPathParams?.append(returnToPathParamName, pathName)
+    }
+
+    if (addSearchParams) {
+        for (const param in addSearchParams) {
+            const value = addSearchParams[param]
+            if (value !== undefined) {
+                targetPathParams.append(param, value)
+            }
+        }
+    }
+
+    const targetPath =
+        path !== undefined
+            ? targetPathParams.size > 0
+                ? `${path}?${targetPathParams?.toString()}`
+                : `${path}`
+            : path
+
+    const isLink = targetPath !== undefined && !noLink
 
     const currentPage =
-        path !== undefined &&
-        (path === "/" ? pathName === path : pathName.startsWith(path))
+        targetPath !== undefined &&
+        (targetPath === "/"
+            ? pathName === targetPath
+            : pathName.startsWith(targetPath))
 
     if (needsAuth && jwt === undefined) {
         return null
@@ -56,7 +83,7 @@ export default function NavigationItem({
     }
 
     return (
-        <RequiresDevFeatureFlag flags={requiresAllDevFeatureFlag ?? []}>
+        <RequiresFeatureFlag flags={requiresAllDevFeatureFlag ?? []}>
             <li
                 className={`${styles.item} ${isLink ? styles.isLink : ""} ${
                     needsAuth ? styles.needsAuth : ""
@@ -67,8 +94,8 @@ export default function NavigationItem({
                               e.preventDefault()
                               e.stopPropagation()
 
-                              if (path !== undefined) {
-                                  router.push(path)
+                              if (targetPath !== undefined) {
+                                  router.push(targetPath)
                               }
                           }
                         : undefined
@@ -76,7 +103,7 @@ export default function NavigationItem({
                 {...rest}
             >
                 {isLink ? (
-                    <Link className={styles.label} href={path}>
+                    <Link className={styles.label} href={targetPath}>
                         {children}
                     </Link>
                 ) : (
@@ -102,6 +129,6 @@ export default function NavigationItem({
                     </>
                 ) : null}
             </li>
-        </RequiresDevFeatureFlag>
+        </RequiresFeatureFlag>
     )
 }

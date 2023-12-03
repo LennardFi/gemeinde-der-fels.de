@@ -6,7 +6,7 @@ export const GET = buildApiRouteWithDatabase<
     Buffer,
     {
         params: {
-            id: string
+            id: number
         }
     }
 >(async (req, client, session, options) => {

@@ -153,10 +153,11 @@ declare namespace Website {
             label: L
             value: V
         }
-        type DevFeatureFlags =
+        type FeatureFlags =
             | "admin"
+            | "calendar"
             | "sendEmail"
-            | "login"
+            | "internArea"
             | "mediaPlayer"
             | "news"
     }
@@ -193,7 +194,7 @@ declare namespace Website {
     namespace Content {
         namespace Audio {
             interface AudioFile {
-                fileId: string
+                fileId: number
                 format: string
                 id: number
                 performer: string
@@ -222,20 +223,23 @@ declare namespace Website {
             }
 
             interface FileDetails extends FileMetaData {
-                id: string
+                id: number
+                fileId: string
             }
         }
 
         namespace Navigation {
             interface NavigationEntry {
                 label: ReactNode
+                addReturnToCurrentPath?: boolean
+                addSearchParams?: Record<string, string>
                 icon?: string
                 needsAuth?: boolean
                 noLink?: boolean
                 onlyMobile?: boolean
                 path?: string
-                requiresAllDevFeatureFlag?: Base.DevFeatureFlags[]
                 requireOneUserFlag?: (keyof Users.UserFlags)[]
+                requiresAllFeatureFlags?: Base.FeatureFlags[]
                 subEntries?: NavigationEntry[]
             }
         }
@@ -245,7 +249,7 @@ declare namespace Website {
 
             interface Sermon {
                 audioFileFormat: string
-                audioFileId: string
+                audioFileId: number
                 date: Temporal.PlainDate
                 id: number
                 title: string

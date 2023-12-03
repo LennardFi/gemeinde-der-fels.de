@@ -1,6 +1,6 @@
 "use client"
 
-import RequiresDevFeatureFlag from "@/components/dev/RequiresDevFeatureFlag"
+import RequiresFeatureFlag from "@/components/dev/RequiresDevFeatureFlag"
 import useAuthZustand from "@/zustand/useAuthZustand"
 import Link from "next/link"
 import { FaYoutube } from "react-icons/fa"
@@ -29,11 +29,7 @@ export default function Footer() {
                     <h3>Unterstützung</h3>
                     <ul className={styles.links}>
                         <li>
-                            {jwt === undefined ? (
-                                <Link href="/spenden">Spenden</Link>
-                            ) : (
-                                <Link href="/intern">Mitgliederbereich</Link>
-                            )}
+                            <Link href="/spenden">Spenden</Link>
                         </li>
                     </ul>
                 </div>
@@ -51,7 +47,7 @@ export default function Footer() {
                         </li>
                     </ul>
                 </div>
-                <RequiresDevFeatureFlag flags={["login"]}>
+                <RequiresFeatureFlag flags={["internArea"]}>
                     <div className={styles.container}>
                         <h3>Für Mitglieder</h3>
                         <ul className={styles.links}>
@@ -66,7 +62,7 @@ export default function Footer() {
                             </li>
                         </ul>
                     </div>
-                </RequiresDevFeatureFlag>
+                </RequiresFeatureFlag>
             </div>
         </footer>
     )

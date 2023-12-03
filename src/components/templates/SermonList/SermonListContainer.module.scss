@@ -9,12 +9,17 @@
     // flex: 1 1 auto;
     // overflow: hidden;
 
+    .listContainer {
+        margin: auto;
+        padding: 0 core.getDimensionValue(3);
+        width: 100%;
+    }
+
     .pagination {
-        margin-top: core.getDimensionValue(2);
+        margin: core.getDimensionValue(3) 0;
     }
 
     .mediaPlayer {
-        margin-top: core.getDimensionValue(4);
         width: 100%;
     }
 }

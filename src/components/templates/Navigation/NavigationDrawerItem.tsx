@@ -1,7 +1,8 @@
 "use client"
 
-import RequiresDevFeatureFlag from "@/components/dev/RequiresDevFeatureFlag"
+import RequiresFeatureFlag from "@/components/dev/RequiresDevFeatureFlag"
 import IconButton from "@/components/inputs/IconButton"
+import { returnToPathParamName } from "@/lib/frontend/urlParams"
 import Website from "@/typings"
 import useAuthZustand from "@/zustand/useAuthZustand"
 import { AnimatePresence, motion } from "framer-motion"
@@ -19,12 +20,14 @@ interface NavigationDrawerItemProps
         Omit<Website.Content.Navigation.NavigationEntry, "label"> {}
 
 export default function NavigationDrawerItem({
+    addReturnToCurrentPath,
+    addSearchParams,
     icon,
     needsAuth,
     noLink,
     onlyMobile,
     path,
-    requiresAllDevFeatureFlag,
+    requiresAllFeatureFlags: requiresAllDevFeatureFlag,
     requireOneUserFlag,
     subEntries,
     className,
@@ -44,11 +47,35 @@ export default function NavigationDrawerItem({
         return null
     }
 
-    const isLink = path !== undefined && !noLink
+    const targetPathParams = new URLSearchParams()
+
+    if (addReturnToCurrentPath) {
+        targetPathParams?.append(returnToPathParamName, pathName)
+    }
+
+    if (addSearchParams) {
+        for (const param in addSearchParams) {
+            const value = addSearchParams[param]
+            if (value !== undefined) {
+                targetPathParams.append(param, value)
+            }
+        }
+    }
+
+    const targetPath =
+        path !== undefined
+            ? targetPathParams.size > 0
+                ? `${path}?${targetPathParams?.toString()}`
+                : `${path}`
+            : path
+
+    const isLink = targetPath !== undefined && !noLink
 
     const currentPage =
-        path !== undefined &&
-        (path === "/" ? pathName === path : pathName.startsWith(path))
+        targetPath !== undefined &&
+        (targetPath === "/"
+            ? pathName === targetPath
+            : pathName.startsWith(targetPath))
 
     if (typeof document !== "undefined" && currentPage && !subEntriesExpanded) {
         setSubEntriesExpanded(true)
@@ -67,7 +94,7 @@ export default function NavigationDrawerItem({
     }
 
     return (
-        <RequiresDevFeatureFlag flags={requiresAllDevFeatureFlag ?? []}>
+        <RequiresFeatureFlag flags={requiresAllDevFeatureFlag ?? []}>
             <li
                 className={`${styles.item} ${
                     isLink || subEntries?.length ? styles.isButton : ""
@@ -80,8 +107,8 @@ export default function NavigationDrawerItem({
                               e.preventDefault()
                               e.stopPropagation()
 
-                              if (path !== undefined) {
-                                  router.push(path)
+                              if (targetPath !== undefined) {
+                                  router.push(targetPath)
                               }
                           }
                         : undefined
@@ -89,7 +116,7 @@ export default function NavigationDrawerItem({
                 {...rest}
             >
                 {isLink ? (
-                    <Link className={styles.label} href={path}>
+                    <Link className={styles.label} href={targetPath}>
                         {children}
                     </Link>
                 ) : (
@@ -114,8 +141,8 @@ export default function NavigationDrawerItem({
                             currentPage
                                 ? "secondary"
                                 : !needsAuth
-                                ? "primary"
-                                : "accent"
+                                  ? "primary"
+                                  : "accent"
                         }
                         variant="contained"
                     >
@@ -161,6 +188,6 @@ export default function NavigationDrawerItem({
                     ) : null}
                 </AnimatePresence>
             ) : null}
-        </RequiresDevFeatureFlag>
+        </RequiresFeatureFlag>
     )
 }

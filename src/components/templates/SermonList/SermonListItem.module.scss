@@ -4,9 +4,17 @@
     padding: core.getDimensionValue(1);
     cursor: pointer;
 
-    &.titleCell {}
+    &.titleCell {
+        max-width: core.getDimensionValue(20);
+    }
 
-    &.speakerCell {}
+    &.speakerCell {
+        max-width: core.getDimensionValue(25);
+    }
+
+    &.dateCell {
+        max-width: core.getDimensionValue(15);
+    }
 
     &.playButtonCell {
         display: flex;

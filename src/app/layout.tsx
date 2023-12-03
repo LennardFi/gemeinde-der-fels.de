@@ -58,6 +58,7 @@ export default function Layout({ children }: IndexLayoutProps) {
                                 <Window
                                     breakpoint="small"
                                     className={styles.noScriptWindow}
+                                    pageContainer
                                 >
                                     <WindowHeader
                                         title="JavaScript nicht erlaubt"

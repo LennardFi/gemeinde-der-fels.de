@@ -1,23 +1,20 @@
-import { validateFeatureFlag } from "@/lib/shared/develop"
-import Website from "@/typings"
+import { isDevMode } from "@/lib/shared/develop"
 import { RedirectType, redirect } from "next/navigation"
 import React from "react"
 import Banner from "../feedback/Banner"
 
-export interface RequiresFeatureFlagProps {
-    flags: Website.Base.FeatureFlags[]
+export interface RequiresDevModeProps {
     children?: React.ReactNode
     fallback?: React.ReactNode
     redirectTo?: string
 }
 
-export default function RequiresFeatureFlag({
+export default function RequiresDevMode({
     children,
     fallback,
-    flags,
     redirectTo,
-}: RequiresFeatureFlagProps) {
-    if (flags.length !== 0 && !validateFeatureFlag(...flags)) {
+}: RequiresDevModeProps) {
+    if (!isDevMode) {
         if (redirectTo !== undefined) {
             redirect(redirectTo, RedirectType.replace)
         }

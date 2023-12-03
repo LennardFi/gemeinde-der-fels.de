@@ -1,5 +1,6 @@
 "use client"
 
+import RequiresDevMode from "@/components/dev/RequiresDevMode"
 import ButtonLink from "@/components/inputs/ButtonLink"
 import Window from "@/components/surfaces/window/Window"
 import WindowContent from "@/components/surfaces/window/WindowContent"
@@ -15,7 +16,7 @@ export default function Page() {
     const user = useAuthZustand((state) => state.user)
 
     return (
-        <Window breakpoint="normal" className={styles.card}>
+        <Window breakpoint="normal" className={styles.card} pageContainer>
             <WindowHeader title="Mitgliederbereich" />
             <WindowContent className={styles.container}>
                 <h2>Mein Konto</h2>
@@ -27,31 +28,33 @@ export default function Page() {
                 >
                     Passwort zurücksetzen
                 </ButtonLink>
-                <h3>User Flags:</h3>
-                <table className={`${styles.flagTable}`}>
-                    <thead>
-                        <tr>
-                            <th>Flag</th>
-                            <th>Value</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {Object.entries(user?.flags ?? {}).map(
-                            ([flag, value]) => (
-                                <tr key={flag}>
-                                    <td>{flag}</td>
-                                    <td>
-                                        {value ? (
-                                            <FaCheckSquare color="teal" />
-                                        ) : (
-                                            <FaMinusSquare color="red" />
-                                        )}
-                                    </td>
-                                </tr>
-                            ),
-                        )}
-                    </tbody>
-                </table>
+                <RequiresDevMode>
+                    <h3>User Flags:</h3>
+                    <table className={`${styles.flagTable}`}>
+                        <thead>
+                            <tr>
+                                <th>Flag</th>
+                                <th>Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {Object.entries(user?.flags ?? {}).map(
+                                ([flag, value]) => (
+                                    <tr key={flag}>
+                                        <td>{flag}</td>
+                                        <td>
+                                            {value ? (
+                                                <FaCheckSquare color="teal" />
+                                            ) : (
+                                                <FaMinusSquare color="red" />
+                                            )}
+                                        </td>
+                                    </tr>
+                                ),
+                            )}
+                        </tbody>
+                    </table>
+                </RequiresDevMode>
             </WindowContent>
         </Window>
     )

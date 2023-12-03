@@ -1,15 +1,23 @@
-FROM node:20
+FROM node:lts
 
 WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm install
+RUN npm ci
 
 COPY . .
 
-ENV CONN_STR=mongodb://user:pass@mongodb
+ENV POSTGRES_URL="postgresql://postgres:postgres@localhost:5432/gemeinde-der-fels-de?schema=public"
+ENV GDF_JWT_SIGNING_SECRET="BiGpC28DyjcsEkaBBaSEK6oTifTHx2E8"
+ENV GDF_FILES_FOLDER="./test-files"
+ENV GDF_DEV_DATABASE_REPLACE_EXISTING_DATA="0"
+ENV NEXT_PUBLIC_GDF_DEV_FEATURE_FLAGS="*"
 
 EXPOSE 3000
 
-CMD [ "npm", "run", "dev" ]
+RUN npx prisma db push
+
+RUN npm run build
+
+CMD [ "npm", "run", "start" ]

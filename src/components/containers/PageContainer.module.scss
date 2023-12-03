@@ -1,7 +1,6 @@
 @use "../../styles/core.module.scss" as core;
 
 .container {
-    justify-self: center;
     margin: core.getDimensionValue(4) auto;
     padding: core.getDimensionValue(2);
     height: auto;

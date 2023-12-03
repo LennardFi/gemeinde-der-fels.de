@@ -5,26 +5,17 @@
 
     &.small {
         max-width: core.$size-breakpoint-small;
+        width: 100%;
     }
 
     &.normal {
         max-width: core.$size-breakpoint-normal;
+        width: 100%;
     }
 
     &.large {
         max-width: core.$size-breakpoint-large;
-
-        @media (min-width: core.$size-breakpoint-small) {
-            width: core.$size-breakpoint-small;
-        }
-
-        @media (min-width: core.$size-breakpoint-normal) {
-            width: core.$size-breakpoint-normal;
-        }
-
-        @media (min-width: core.$size-breakpoint-large) {
-            width: core.$size-breakpoint-large;
-        }
+        width: 100%;
     }
 
     &:not(.noBackgroundColor) {

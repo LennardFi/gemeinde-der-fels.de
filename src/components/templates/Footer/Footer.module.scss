@@ -1,7 +1,7 @@
 @use "../../../styles/core.module.scss" as core;
 
 .footer {
-    background: core.$color-accent;
+    background: core.$color-primary;
     padding: core.getDimensionValue(4) 0;
     padding-bottom: core.getDimensionValue(6);
     z-index: 10;

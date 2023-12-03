@@ -25,14 +25,13 @@ export default function ButtonLink({
     noActiveAnimation,
     noFocusColor,
     onClick,
-    themeColor,
+    themeColor = "primary",
     type,
     variant,
     ...rest
 }: ButtonLinkProps) {
     const variantOrDefault =
         variant ?? (type === "submit" ? "contained" : "text")
-    const themeColorOrDefault = themeColor ?? "accent"
 
     return (
         <Link
@@ -41,7 +40,7 @@ export default function ButtonLink({
             } ${noActiveAnimation ? styles.noActiveAnimation : ""} ${
                 noFocusColor ? styles.noFocusColor : ""
             } ${className}`}
-            data-theme={themeColorOrDefault}
+            data-theme={themeColor}
             data-variant={variantOrDefault}
             onClick={(e) => {
                 e.stopPropagation()
@@ -64,7 +63,7 @@ export default function ButtonLink({
                 {loading ? (
                     <Loader
                         height="1rem"
-                        themeColor={themeColorOrDefault}
+                        themeColor={themeColor}
                         themeColorVariant="font"
                     />
                 ) : (

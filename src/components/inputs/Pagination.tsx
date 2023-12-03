@@ -24,14 +24,11 @@ export default function Pagination({
     className,
     bigSteps = 10,
     onChange,
-    themeColor,
+    themeColor = "primary",
     value = 0,
-    variant,
+    variant = "contained",
     ...rest
 }: PaginationProps) {
-    const themeColorOrDefault = themeColor ?? "accent"
-    const variantOrDefault = variant ?? "contained"
-
     const changeHandler = (pageIndex: number) => () => {
         if (pageIndex < 0) {
             onChange?.(0)
@@ -48,22 +45,22 @@ export default function Pagination({
         <div
             {...rest}
             className={`${styles.pagination} ${className ?? ""}`}
-            data-theme={themeColorOrDefault}
-            data-variant={variantOrDefault}
+            data-theme={themeColor}
+            data-variant={variant}
         >
             <IconButton
                 disabled={value - 1 < 0}
                 onClick={changeHandler(value - bigSteps)}
-                themeColor={themeColorOrDefault}
-                variant={variantOrDefault}
+                themeColor={themeColor}
+                variant={variant}
             >
                 <FaAngleDoubleLeft />
             </IconButton>
             <IconButton
                 disabled={value - 1 < 0}
                 onClick={changeHandler(value - 1)}
-                themeColor={themeColorOrDefault}
-                variant={variantOrDefault}
+                themeColor={themeColor}
+                variant={variant}
             >
                 <FaAngleLeft />
             </IconButton>
@@ -73,16 +70,16 @@ export default function Pagination({
             <IconButton
                 disabled={value + 1 >= total}
                 onClick={changeHandler(value + 1)}
-                themeColor={themeColorOrDefault}
-                variant={variantOrDefault}
+                themeColor={themeColor}
+                variant={variant}
             >
                 <FaAngleRight />
             </IconButton>
             <IconButton
                 disabled={value + 1 >= total}
                 onClick={changeHandler(value + bigSteps)}
-                themeColor={themeColorOrDefault}
-                variant={variantOrDefault}
+                themeColor={themeColor}
+                variant={variant}
             >
                 <FaAngleDoubleRight />
             </IconButton>

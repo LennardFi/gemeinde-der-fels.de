@@ -35,7 +35,7 @@ export default function MediaPlayer({
     hidden,
     sticky,
     timeSliderProps,
-    themeColor,
+    themeColor = "primary",
     volumeSliderProps,
     ...rest
 }: MediaPlayerProps) {
@@ -170,8 +170,6 @@ export default function MediaPlayer({
         }
     }, [audioPlayerZustand.duration, audioPlayerZustand.secondsPassed])
 
-    const themeColorOrDefault = themeColor ?? "accent"
-
     if (hidden) {
         return <Skeleton height={136} width="100%" />
     }
@@ -187,7 +185,7 @@ export default function MediaPlayer({
             className={`${styles.player} ${sticky ? styles.sticky : ""} ${
                 className ?? ""
             }`}
-            data-theme={themeColorOrDefault}
+            data-theme={themeColor}
         >
             <div className={styles.wrapper}>
                 <div className={styles.labels}>

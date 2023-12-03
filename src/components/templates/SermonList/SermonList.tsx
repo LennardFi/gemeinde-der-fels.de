@@ -24,7 +24,7 @@ export default function SermonsList({
     loadNext,
     endOfData,
     isLoading,
-    themeColor,
+    themeColor = "primary",
     ...rest
 }: SermonListProps) {
     const [selectedSermon, setSelectedSermon] = useState<Maybe<number>>()
@@ -34,7 +34,9 @@ export default function SermonsList({
             ? styles.primary
             : themeColor === "secondary"
               ? styles.secondary
-              : styles.accent
+              : themeColor === "accent"
+                ? styles.accent
+                : ""
 
     return (
         <>

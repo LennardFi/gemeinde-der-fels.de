@@ -85,7 +85,7 @@ export default function SermonsListContainer({
     pageSize = 10,
     sermonListProps,
     showFilter,
-    themeColor,
+    themeColor = "primary",
     ...rest
 }: SermonListContainerProps) {
     const [filter, setFilter] = useState<Website.Content.Sermons.SermonsFilter>(

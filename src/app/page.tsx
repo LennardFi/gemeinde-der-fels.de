@@ -1,11 +1,11 @@
 "use client"
 
 import Flex from "@/components/containers/Flex"
+import Divider from "@/components/surfaces/Divider"
+import Paper from "@/components/surfaces/Paper"
 import Card from "@/components/surfaces/card/Card"
 import CardContent from "@/components/surfaces/card/CardContent"
 import CardHeader from "@/components/surfaces/card/CardHeader"
-import Divider from "@/components/surfaces/Divider"
-import Paper from "@/components/surfaces/Paper"
 import Navigation from "@/components/templates/Navigation/Navigation"
 import Image from "next/image"
 import Link from "next/link"
@@ -21,6 +21,7 @@ export default function Page() {
             behavior: "smooth",
         })
     }
+
     return (
         <>
             <div className={styles.hero}>
@@ -49,7 +50,7 @@ export default function Page() {
                 priority
             />
             <Divider variant="page" themeColor="transparent" />
-            <Paper className={styles.paper} themeColor="accent">
+            <Paper className={styles.paper} themeColor="primary">
                 <Flex
                     direction="row"
                     justify="center"
@@ -100,7 +101,7 @@ export default function Page() {
                 priority
             />
             <Divider variant="page" themeColor="transparent" />
-            <Paper className={styles.paper} themeColor="accent">
+            <Paper className={styles.paper} themeColor="primary">
                 <Flex
                     direction="column"
                     justify="flex-start"

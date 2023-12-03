@@ -17,7 +17,7 @@
         background-color: core.$color-primary;
         color: core.$color-primary-font;
         font-family: inherit;
-        font-size: core.$size-font-subheader;
+        font-size: core.$size-font-header;
         font-weight: 600;
         padding: core.getDimensionValue(2);
         text-decoration: none;
@@ -38,7 +38,7 @@
     }
 
     .arrow {
-        height: core.getDimensionValue(8);
+        height: max(100%, core.getDimensionValue(8));
         width: core.getDimensionValue(8);
         outline: none;
 
@@ -74,10 +74,9 @@
     &.needsAuth {
         background-color: core.$color-accent;
         color: core.$color-accent-font;
-        border-top: core.$size-border-default solid
-            core.$color-accent-highlighted;
+        border-top: core.$size-border-default solid core.$color-accent-highlighted;
 
-        > .label {
+        >.label {
             background-color: core.$color-accent;
             color: core.$color-accent-font;
 
@@ -88,7 +87,7 @@
             }
         }
 
-        &.isButton > .label:hover {
+        &.isButton>.label:hover {
             background-color: core.$color-accent-highlighted;
             color: core.$color-accent-font-highlighted;
         }
@@ -97,10 +96,9 @@
     &.active {
         color: core.$color-secondary-font;
         background-color: core.$color-secondary;
-        border-top: core.$size-border-default solid
-            core.$color-secondary-highlighted;
+        border-top: core.$size-border-default solid core.$color-secondary-highlighted;
 
-        > .label {
+        >.label {
             color: core.$color-secondary-font;
             background-color: core.$color-secondary;
 
@@ -111,7 +109,7 @@
             }
         }
 
-        &.isButton > .label:hover {
+        &.isButton>.label:hover {
             color: core.$color-secondary-font-highlighted;
             background-color: core.$color-secondary-highlighted;
         }

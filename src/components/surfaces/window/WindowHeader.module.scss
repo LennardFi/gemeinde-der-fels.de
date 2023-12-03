@@ -5,9 +5,9 @@
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
-    background-color: core.$color-accent;
-    color: core.$color-accent-font;
-    border-bottom: core.getDimensionValue(0.1) solid core.$color-accent;
+    background-color: core.$color-primary;
+    color: core.$color-primary-font;
+    border-bottom: core.getDimensionValue(0.1) solid core.$color-primary;
     gap: 0 core.getDimensionValue(2);
     padding: 0 core.getDimensionValue(2);
 
@@ -46,8 +46,8 @@
     }
 
     .action {
-        background-color: core.$color-accent-font;
-        color: core.$color-accent;
+        background-color: core.$color-primary-font;
+        color: core.$color-primary;
         height: core.getDimensionValue(6);
         width: core.getDimensionValue(6);
     }

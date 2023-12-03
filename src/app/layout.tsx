@@ -8,10 +8,9 @@ import WindowHeader from "@/components/surfaces/window/WindowHeader"
 import Footer from "@/components/templates/Footer/Footer"
 import Navigation from "@/components/templates/Navigation/Navigation"
 import { Metadata } from "next"
-import { Noto_Sans } from "next/font/google"
+import { Montserrat } from "next/font/google"
 import React from "react"
 import { FaExclamationTriangle } from "react-icons/fa"
-import backgroundImage from "../media/background.jpg"
 import styles from "./layout.module.scss"
 
 interface IndexLayoutProps {
@@ -22,17 +21,19 @@ export const metadata: Metadata = {
     title: "Gemeinde der Fels",
 }
 
-const headerFont = Noto_Sans({
+const headerFont = Montserrat({
     subsets: ["latin"],
-    weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 })
 
 export default function Layout({ children }: IndexLayoutProps) {
     return (
         <html
-            style={{
-                backgroundImage: `url(${backgroundImage.blurDataURL})`,
-            }}
+            style={
+                {
+                    // backgroundImage: `url(${backgroundImage.blurDataURL})`,
+                    // background: "white",
+                }
+            }
         >
             <head>
                 <meta title="Gemeinde der Fels" />
@@ -44,9 +45,12 @@ export default function Layout({ children }: IndexLayoutProps) {
             </head>
             <body
                 className={`${headerFont.className}`}
-                style={{
-                    backgroundImage: `url("${backgroundImage.src}"`,
-                }}
+                style={
+                    {
+                        // backgroundImage: `url("${backgroundImage.src}"`,
+                        // background: "white",
+                    }
+                }
             >
                 <div className={styles.wrapper}>
                     <Navigation inRootLayout />

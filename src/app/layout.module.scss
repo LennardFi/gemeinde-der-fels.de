@@ -8,6 +8,7 @@
     align-items: stretch;
     overflow: auto;
     height: 100%;
+    background: linear-gradient(core.$color-accent, core.$color-accent-faded);
 
     >main {
         display: flex;
@@ -33,9 +34,10 @@
         height: 100dvh;
         position: absolute;
         inset: 0;
-        background-image: url(../media/background.jpg);
-        background-repeat: no-repeat;
-        background-size: cover;
+        // background-image: url(../media/background.jpg);
+        // background-repeat: no-repeat;
+        // background-size: cover;
+        background: linear-gradient(core.$color-accent, core.$color-accent-faded);
         z-index: 1000000;
 
         .noScriptWrapper {

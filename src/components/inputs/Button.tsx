@@ -36,7 +36,7 @@ const Button = forwardRef(function Button(
         onClick,
         rightSegment,
         round,
-        themeColor,
+        themeColor = "primary",
         type,
         variant,
         ...rest
@@ -45,7 +45,6 @@ const Button = forwardRef(function Button(
 ) {
     const variantOrDefault =
         variant ?? (type === "submit" ? "contained" : "text")
-    const themeColorOrDefault = themeColor ?? "accent"
 
     const { className: customLabelClassName, ...customLabelPropsRest } = {
         className: undefined,
@@ -60,7 +59,7 @@ const Button = forwardRef(function Button(
             } ${noActiveAnimation ? styles.noActiveAnimation : ""} ${
                 noFocusColor ? styles.noFocusColor : ""
             } ${round ? styles.round : ""} ${className}`}
-            data-theme={themeColorOrDefault}
+            data-theme={themeColor}
             data-variant={variantOrDefault}
             disabled={disabled}
             onClick={disabled ? undefined : onClick}
@@ -80,7 +79,7 @@ const Button = forwardRef(function Button(
                 {loading ? (
                     <Loader
                         height="1rem"
-                        themeColor={themeColorOrDefault}
+                        themeColor={themeColor}
                         themeColorVariant="font"
                     />
                 ) : (

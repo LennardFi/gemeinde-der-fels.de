@@ -43,7 +43,7 @@ export default async function Page() {
                 initialSermons={initialSermons}
                 pageSize={20}
                 showFilter
-                themeColor="accent"
+                // themeColor="secondary"
             />
         </PageContainer>
     )

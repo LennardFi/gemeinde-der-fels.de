@@ -9,20 +9,28 @@ export interface SkeletonProps extends InternalSkeletonProps {
     theme?: Website.Design.ThemeColor
 }
 
-export default function Skeleton({ style, theme, ...rest }: SkeletonProps) {
+export default function Skeleton({
+    style,
+    theme = "primary",
+    ...rest
+}: SkeletonProps) {
     const baseColor =
         theme === "primary"
             ? "var(--color-primary)"
             : theme === "secondary"
               ? "var(--color-secondary)"
-              : "var(--color-accent)"
+              : theme === "accent"
+                ? "var(--color-accent)"
+                : ""
 
     const highlightColor =
         theme === "primary"
             ? "var(--color-primary-highlighted)"
             : theme === "secondary"
               ? "var(--color-secondary-highlighted)"
-              : "var(--color-accent-highlighted)"
+              : theme === "accent"
+                ? "var(--color-accent-highlighted)"
+                : ""
 
     return (
         <InternalSkeleton

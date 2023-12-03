@@ -5,11 +5,11 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: stretch;
-    border: core.getDimensionValue(0.2) solid core.$color-accent;
+    border: core.getDimensionValue(0.2) solid core.$color-primary;
 
     .label {
-        background-color: core.$color-accent;
-        color: core.$color-accent-font;
+        background-color: core.$color-primary;
+        color: core.$color-primary-font;
         font-size: core.$size-font-label;
         font-weight: 600;
         padding: core.getDimensionValue(0.5);

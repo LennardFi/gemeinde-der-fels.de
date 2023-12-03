@@ -53,7 +53,7 @@ export default function TextField({
                         noFocusColor
                         onClick={() => setPasswordVisible((pre) => !pre)}
                         round
-                        themeColor={error ? "secondary" : undefined}
+                        themeColor={!error ? "primary" : "secondary"}
                     >
                         {passwordVisible ? <FaEyeSlash /> : <FaEye />}{" "}
                     </IconButton>

@@ -22,7 +22,7 @@ export default function Layout({ children }: InternalLayoutProps) {
     }
 
     return (
-        <RequiresFeatureFlag flags={["internArea"]} redirectTo="/notFound">
+        <RequiresFeatureFlag flags={["internArea"]} redirectTo="/">
             {/* <ul className={styles.quickLinks}>
                     <li>
                         <ButtonLink

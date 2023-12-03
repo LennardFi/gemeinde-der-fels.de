@@ -16,10 +16,11 @@ export function parseFeatureFlagEnvValue(
     } = {
         admin: undefined,
         calendar: undefined,
-        sendEmail: undefined,
+        hopefulYouTubeChannel: undefined,
         internArea: undefined,
         mediaPlayer: undefined,
         news: undefined,
+        sendEmail: undefined,
     }
     return Object.entries(
         featureFlagEnvValue

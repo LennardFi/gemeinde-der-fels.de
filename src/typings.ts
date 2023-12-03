@@ -156,10 +156,11 @@ declare namespace Website {
         type FeatureFlags =
             | "admin"
             | "calendar"
-            | "sendEmail"
+            | "hopefulYouTubeChannel"
             | "internArea"
             | "mediaPlayer"
             | "news"
+            | "sendEmail"
     }
 
     namespace UserPreferences {

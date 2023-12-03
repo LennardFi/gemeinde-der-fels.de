@@ -280,7 +280,7 @@ export const buildApiRouteWithDatabase =
                     : true)
             ) {
                 try {
-                    logResponseOnServer(apiResponse, getClient())
+                    logResponseOnServer(apiResponse)
                 } catch (error: unknown) {
                     console.log("Failed to log response")
                 }

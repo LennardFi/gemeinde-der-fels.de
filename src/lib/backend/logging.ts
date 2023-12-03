@@ -1,8 +1,12 @@
 import Website, { Maybe } from "@/typings"
-import { PrismaClient } from "@prisma/client"
 import { Temporal } from "temporal-polyfill"
+import { isDevMode } from "../shared/develop"
 import { WebsiteError } from "../shared/errors"
-import { temporalInstanceToDate } from "../shared/helpers"
+import {
+    formatTemporalInstance,
+    temporalInstanceToDate,
+} from "../shared/helpers"
+import { getClient } from "./databaseHelpers"
 
 // export async function logErrorOnServer (error: WebsiteError): Promise<void> {
 //     const client = new PrismaClient()
@@ -18,10 +22,41 @@ import { temporalInstanceToDate } from "../shared/helpers"
 
 export async function logResponseOnServer<T>(
     res: Website.Api.ApiResponse<T>,
-    client?: PrismaClient,
 ): Promise<void> {
-    const newClient = client ?? new PrismaClient()
-    newClient.$connect()
+    const client = getClient()
+    const timeStamp = Temporal.Now.zonedDateTimeISO("UTC")
+
+    if (
+        isDevMode &&
+        !res.body.success &&
+        res.body.internalError !== undefined
+    ) {
+        console.debug(
+            `Internal error:${formatTemporalInstance(
+                timeStamp,
+                true,
+            )}:${JSON.stringify(
+                res.body.internalError,
+                undefined,
+                2,
+            ).replaceAll("\n", "\t\n")}`,
+        )
+    }
+
+    if (isDevMode) {
+        let responseBodyOutput = ""
+        if (res.body.success) {
+            responseBodyOutput = "/"
+        } else {
+            responseBodyOutput = JSON.stringify(res.body.error, undefined, 2)
+        }
+        console.debug(
+            `Outgoing response:${formatTemporalInstance(
+                timeStamp,
+                true,
+            )}:${responseBodyOutput.replaceAll("\n", "\t\n")}`,
+        )
+    }
 
     const [responseBody, responseBodyLength, internalError]: [
         Buffer,
@@ -40,8 +75,7 @@ export async function logResponseOnServer<T>(
           ]
 
     try {
-        const timeStamp = Temporal.Now.zonedDateTimeISO("UTC")
-        await newClient.responseLog.create({
+        await client.responseLog.create({
             data: {
                 data: responseBody,
                 dataSize: responseBodyLength,
@@ -73,9 +107,5 @@ export async function logResponseOnServer<T>(
     } catch (err: unknown) {
         console.log("Failed pushing log to database")
         console.log({ err })
-    } finally {
-        if (client === undefined) {
-            await newClient.$disconnect()
-        }
     }
 }

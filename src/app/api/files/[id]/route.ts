@@ -6,13 +6,20 @@ export const GET = buildApiRouteWithDatabase<
     Buffer,
     {
         params: {
-            id: number
+            id: string
         }
     }
 >(async (req, client, session, options) => {
+    const parsedFileId = Number.parseInt(options.params.id)
+    if (isNaN(parsedFileId)) {
+        throw new WebsiteError("request", "File id is not a valid integer", {
+            httpStatusCode: 400,
+        })
+    }
+
     const file = await client.file.findUnique({
         where: {
-            id: options.params.id,
+            id: parsedFileId,
         },
     })
 

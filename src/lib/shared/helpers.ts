@@ -55,22 +55,23 @@ export function temporalInstanceToDate(
 
 export function formatTemporalInstance(
     temporalInstance: Temporal.PlainDateTime | Temporal.ZonedDateTime,
+    withTime?: boolean,
 ): string {
-    if (temporalInstance instanceof Temporal.PlainDateTime) {
-        return `${temporalInstance.day
-            .toString()
-            .padStart(2, "0")}:${temporalInstance.month
-            .toString()
-            .padStart(2, "0")}:${temporalInstance.year
-            .toString()
-            .padStart(4, "0")}`
-    }
+    const timeStamp = `T${temporalInstance.hour
+        .toString()
+        .padStart(2, "0")}:${temporalInstance.minute
+        .toString()
+        .padStart(2, "0")}:${temporalInstance.second
+        .toString()
+        .padStart(2, "0")}`
 
     return `${temporalInstance.day
         .toString()
         .padStart(2, "0")}.${temporalInstance.month
         .toString()
-        .padStart(2, "0")}.${temporalInstance.year.toString().padStart(4, "0")}`
+        .padStart(2, "0")}.${temporalInstance.year
+        .toString()
+        .padStart(4, "0")}${withTime ? timeStamp : ""}`
 }
 
 export function formatPlainDate(plainDate: Temporal.PlainDate) {

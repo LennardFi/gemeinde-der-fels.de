@@ -36,6 +36,7 @@ export const navigationEntries: Website.Content.Navigation.NavigationEntry[] = [
             {
                 label: "Hopful auf YouTube",
                 path: "/medien/hopeful-yt",
+                requiresAllFeatureFlags: ["hopefulYouTubeChannel"],
             },
             {
                 label: "Predigten",
@@ -59,6 +60,7 @@ export const navigationEntries: Website.Content.Navigation.NavigationEntry[] = [
             {
                 label: "Termine",
                 path: "/veranstaltungen/termine",
+                requiresAllFeatureFlags: ["calendar"],
             },
         ],
     },

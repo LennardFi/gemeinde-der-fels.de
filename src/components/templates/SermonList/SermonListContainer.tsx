@@ -4,10 +4,8 @@ import RequiresDevFeatureFlag from "@/components/dev/RequiresDevFeatureFlag"
 import Pagination from "@/components/inputs/Pagination"
 import usePagination, { PaginationNextHandler } from "@/hooks/usePagenation"
 import { makeApiRequest } from "@/lib/frontend/makeApiRequest"
-import {
-    sermonsListGetEntriesAfterIdParamName,
-    sermonsListGetEntriesPageSizeParamName,
-} from "@/lib/frontend/urlParams"
+import { defaultListPageSize } from "@/lib/shared/apiHelpers"
+import { afterIdParamName, pageSizeParamName } from "@/lib/shared/urlParams"
 import Website, { Maybe } from "@/typings"
 import { HTMLAttributes, useEffect, useMemo, useState } from "react"
 import MediaPlayer from "../MediaPlayer/MediaPlayer"
@@ -29,7 +27,7 @@ interface SermonListContainerProps extends HTMLAttributes<HTMLDivElement> {
     themeColor?: Website.Design.ThemeColor
 }
 
-interface SermonsListCursor {
+interface SermonListCursor {
     nextIndex: number
     lastId?: Website.Content.Sermons.Sermon["id"]
 }
@@ -37,19 +35,13 @@ interface SermonsListCursor {
 export const requestSermons = (
     pageSize: number,
     filter?: Website.Content.Sermons.SermonsFilter,
-): PaginationNextHandler<SermonsListCursor, SermonsListEntry> => {
+): PaginationNextHandler<SermonListCursor, SermonsListEntry> => {
     return async (cursor) => {
         const searchParams = new URLSearchParams()
-        searchParams.append(
-            sermonsListGetEntriesPageSizeParamName,
-            pageSize.toString(),
-        )
+        searchParams.append(pageSizeParamName, pageSize.toString())
 
         if (cursor.lastId !== undefined) {
-            searchParams.append(
-                sermonsListGetEntriesAfterIdParamName,
-                cursor.lastId.toString(),
-            )
+            searchParams.append(afterIdParamName, cursor.lastId.toString())
         }
 
         const res =
@@ -82,7 +74,7 @@ export default function SermonsListContainer({
     baseFilter,
     className,
     initialSermons,
-    pageSize = 10,
+    pageSize = defaultListPageSize,
     sermonListProps,
     showFilter,
     themeColor = "primary",
@@ -95,7 +87,7 @@ export default function SermonsListContainer({
     const paginationFilterFunc = useMemo(() => {
         return requestSermons(pageSize, filter)
     }, [filter])
-    const initialCursor = useMemo<SermonsListCursor>(
+    const initialCursor = useMemo<SermonListCursor>(
         () => ({
             nextIndex: initialSermons !== undefined ? initialSermons.length : 0,
             lastId: initialSermons?.at(-1)?.id,

@@ -15,7 +15,7 @@
     }
 
     h2 {
-        font-size: 3.5rem;
+        font-size: core.$size-font-title;
     }
 
     h3 {
@@ -129,7 +129,7 @@
     gap: core.getDimensionValue(8);
     padding: 0;
     margin: 0;
-    font-size: core.$size-font-title;
+    font-size: core.$size-font-subheader;
     list-style: none;
 
     a {

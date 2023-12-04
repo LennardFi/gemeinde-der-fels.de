@@ -1,5 +1,36 @@
 @use "../../../styles/core.module.scss" as core;
 
-.paper {
-    // margin: core.getDimensionValue(1) 0;
+.highlighted {
+    color: core.$color-secondary;
+    font-weight: 600;
+}
+
+.mainValue {
+
+    summary {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        gap: core.getDimensionValue(1);
+        cursor: pointer;
+        font-weight: 600;
+        list-style: none;
+
+        :hover {
+            color: core.$color-primary-highlighted;
+        }
+    }
+
+    * {
+        font-weight: initial;
+    }
+
+    .mainValueIcon {
+        transition: rotate 250ms ease-in-out;
+    }
+
+    ul {
+        margin: 0;
+    }
 }

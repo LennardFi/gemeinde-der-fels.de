@@ -213,8 +213,6 @@ export default function Navigation({
                     />
                 </Link>
 
-                {/* <h1 className={styles.title}>Gemeinde Der&nbsp;Fels</h1> */}
-
                 <Button
                     className={styles.menuSwitch}
                     noActiveAnimation

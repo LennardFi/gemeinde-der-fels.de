@@ -1,5 +1,7 @@
 import Website from "@/typings"
 
+export const defaultListPageSize = 20
+
 export const getCookieHeaderValueString = (
     cookie: Website.Api.Cookie,
 ): string => {

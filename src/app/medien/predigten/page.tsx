@@ -4,6 +4,7 @@ import PageContainer from "@/components/containers/PageContainer"
 import { SermonsListEntry } from "@/components/templates/SermonList/SermonList"
 import SermonsListContainer from "@/components/templates/SermonList/SermonListContainer"
 import { getClient } from "@/lib/backend/databaseHelpers"
+import { defaultListPageSize } from "@/lib/shared/apiHelpers"
 import styles from "./page.module.scss"
 
 export default async function Page() {
@@ -13,7 +14,7 @@ export default async function Page() {
             series: true,
             speaker: true,
         },
-        take: 20,
+        take: defaultListPageSize,
         orderBy: {
             date: "desc",
             // title: "asc",
@@ -41,7 +42,7 @@ export default async function Page() {
         >
             <SermonsListContainer
                 initialSermons={initialSermons}
-                pageSize={20}
+                pageSize={defaultListPageSize}
                 showFilter
                 // themeColor="secondary"
             />

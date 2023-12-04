@@ -1,9 +1,9 @@
 import Website, { Maybe } from "@/typings"
 import { PrismaClient } from "@prisma/client"
 import { NextRequest, NextResponse } from "next/server"
+import { getCookieHeaderValueString } from "../shared/apiHelpers"
 import { isDevMode } from "../shared/develop"
 import { ErrorScope, WebsiteError, WebsiteErrorOptions } from "../shared/errors"
-import { getCookieHeaderValueString } from "./apiHelpers"
 import {
     JWT_Cookie_Name,
     getJWTFromPayload,
@@ -80,6 +80,7 @@ export const buildApiRouteWithDatabase =
                             },
                             passwordHash: user.passwordHash,
                             user: {
+                                disabled: user.disabled,
                                 id: user.id,
                                 email: user.email,
                                 flags: {

@@ -29,8 +29,8 @@ export default function Banner({
         themeColor === "primary"
             ? styles.primary
             : themeColor === "secondary"
-            ? styles.secondary
-            : styles.accent
+              ? styles.secondary
+              : styles.accent
 
     return (
         <div
@@ -38,12 +38,7 @@ export default function Banner({
             {...rest}
         >
             {icon && <div className={`${styles.icon}`}>{icon}</div>}
-            <div className={`${styles.content}`}>
-                {label && <div className={`${styles.label}`}>{label}</div>}
-                {description && (
-                    <div className={`${styles.description}`}>{description}</div>
-                )}
-            </div>
+            {label && <div className={`${styles.label}`}>{label}</div>}
             {onClose && (
                 <IconButton
                     className={`${styles.closeButton}`}
@@ -57,6 +52,9 @@ export default function Banner({
                 >
                     <FaTimes />
                 </IconButton>
+            )}
+            {description && (
+                <div className={`${styles.description}`}>{description}</div>
             )}
         </div>
     )

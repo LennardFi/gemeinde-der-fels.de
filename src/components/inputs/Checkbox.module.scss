@@ -1,0 +1,13 @@
+@use "../../styles/core.module.scss" as core;
+
+.checkbox {
+    color: core.$color-primary;
+}
+
+.label {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    gap: core.getDimensionValue(1);
+}

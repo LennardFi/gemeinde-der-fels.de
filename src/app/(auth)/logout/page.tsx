@@ -1,6 +1,6 @@
 "use client"
 
-import { returnToPathParamName } from "@/lib/frontend/urlParams"
+import { returnToPathParamName } from "@/lib/shared/urlParams"
 import useAuthZustand from "@/zustand/useAuthZustand"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useEffect } from "react"

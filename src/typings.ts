@@ -58,6 +58,11 @@ declare namespace Website {
                     user: boolean
                 }
             }
+
+            interface UserListResponseBodyEntry {
+                endOfData: boolean
+                entries: Users.User[]
+            }
         }
 
         interface ApiError {
@@ -341,6 +346,7 @@ declare namespace Website {
         }
 
         interface User {
+            disabled: boolean
             id: number
             email: string
             userName: string

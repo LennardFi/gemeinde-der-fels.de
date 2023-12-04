@@ -75,6 +75,8 @@ body {
     width: 100dvw;
 }
 
-* {
+*,
+*::before,
+*::after {
     box-sizing: border-box;
 }

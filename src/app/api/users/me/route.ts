@@ -16,10 +16,11 @@ export const GET = buildApiRouteWithDatabase<Website.Users.User>(
             body: {
                 success: true,
                 data: {
-                    id: session.user.id,
-                    flags: session.user.flags,
-                    userName: session.user.userName,
+                    disabled: session.user.disabled,
                     email: session.user.email,
+                    flags: session.user.flags,
+                    id: session.user.id,
+                    userName: session.user.userName,
                 },
             },
             contentType: "application/json",

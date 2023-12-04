@@ -11,6 +11,7 @@ export const POST = buildApiRouteWithDatabase<Website.Users.User>(
                 body: {
                     success: true,
                     data: {
+                        disabled: false,
                         email: session.jwtPayload.email,
                         flags: session.jwtPayload.userFlags,
                         id: session.jwtPayload.userId,
@@ -87,7 +88,8 @@ export const POST = buildApiRouteWithDatabase<Website.Users.User>(
             body: {
                 success: true,
                 data: {
-                    id: user.id,
+                    disabled: user.disabled,
+                    email: user.email,
                     flags: {
                         Admin: user.AdminFlag,
                         ManageCalendar: user.ManageCalendarFlag,
@@ -96,19 +98,19 @@ export const POST = buildApiRouteWithDatabase<Website.Users.User>(
                         ManageSermons: user.ManageSermonsFlag,
                         ManageUser: user.ManageUserFlag,
                     },
+                    id: user.id,
                     userName: user.userName,
-                    email: user.email,
                 },
             },
             contentType: "application/json",
             jwtPayload: {
                 email: user.email,
                 userFlags: {
-                        Admin: user.AdminFlag,
-                        ManageCalendar: user.ManageCalendarFlag,
-                        ManageNews: user.ManageNewsFlag,
-                        ManageRooms: user.ManageRoomsFlag,
-                        ManageSermons: user.ManageSermonsFlag,
+                    Admin: user.AdminFlag,
+                    ManageCalendar: user.ManageCalendarFlag,
+                    ManageNews: user.ManageNewsFlag,
+                    ManageRooms: user.ManageRoomsFlag,
+                    ManageSermons: user.ManageSermonsFlag,
                     ManageUser: user.ManageUserFlag,
                 },
                 userId: user.id,

@@ -8,8 +8,9 @@ import TextField from "@/components/inputs/TextField"
 import Window from "@/components/surfaces/window/Window"
 import WindowContent from "@/components/surfaces/window/WindowContent"
 import WindowHeader from "@/components/surfaces/window/WindowHeader"
-import { returnToPathParamName } from "@/lib/frontend/urlParams"
 import { WebsiteError } from "@/lib/shared/errors"
+import { returnToPathParamName } from "@/lib/shared/urlParams"
+import { Maybe } from "@/typings"
 import useAuthZustand from "@/zustand/useAuthZustand"
 import { useRouter, useSearchParams } from "next/navigation"
 import { FormEvent, useEffect, useState } from "react"
@@ -27,7 +28,7 @@ export default function Page() {
     const [emailOrUsername, setEmailOrUsername] = useState("")
     const [password, setPassword] = useState("")
     const [invalidAuth, setInvalidAuth] = useState(false)
-    const [error, setError] = useState("") // FIXME: Show error
+    const [error, setError] = useState<Maybe<string>>(undefined) // FIXME: Show error
 
     useEffect(() => {
         if (jwt !== undefined) {
@@ -52,6 +53,8 @@ export default function Page() {
         } catch (e) {
             setProcessing(false)
             if (e instanceof WebsiteError) {
+                setError(e.message)
+
                 if (e.options.httpStatusCode === 401) {
                     setInvalidAuth(true)
                     return
@@ -108,13 +111,21 @@ export default function Page() {
                             </ButtonLink>
                         </fieldset>
                         <fieldset className={styles.banners}>
-                            {invalidAuth && (
+                            {invalidAuth ? (
                                 <Banner
                                     error
                                     icon={<FaTimesCircle />}
                                     label="Ungültige Anmeldedaten"
                                 />
-                            )}
+                            ) : error !== undefined ? (
+                                <Banner
+                                    error
+                                    icon={<FaTimesCircle />}
+                                    label="Unbekannter Fehler"
+                                    description={error}
+                                    onClose={() => setError(undefined)}
+                                />
+                            ) : null}
                         </fieldset>
                         <fieldset className={styles.actions}>
                             <Button

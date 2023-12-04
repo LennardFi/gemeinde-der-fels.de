@@ -10,7 +10,7 @@ import WindowHeader from "@/components/surfaces/window/WindowHeader"
 import {
     resetPasswordTokenParamName,
     returnToPathParamName,
-} from "@/lib/frontend/urlParams"
+} from "@/lib/shared/urlParams"
 import useAuthZustand from "@/zustand/useAuthZustand"
 import { useRouter, useSearchParams } from "next/navigation"
 import { FormEvent, useEffect, useState } from "react"

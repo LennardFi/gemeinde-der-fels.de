@@ -1,14 +1,11 @@
 import { buildApiRouteWithDatabase } from "@/lib/backend/apiRouteBuilders"
-import {
-    sermonsListGetEntriesAfterIdParamName,
-    sermonsListGetEntriesPageSizeParamName,
-} from "@/lib/frontend/urlParams"
 import { WebsiteError } from "@/lib/shared/errors"
 import {
     dateToTemporalInstance,
     getIntegerSearchParameter,
 } from "@/lib/shared/helpers"
 import { postSermonsApiRequestBodySchema } from "@/lib/shared/schemes"
+import { afterIdParamName, pageSizeParamName } from "@/lib/shared/urlParams"
 import Website from "@/typings"
 import { Temporal } from "temporal-polyfill"
 
@@ -21,12 +18,12 @@ export const GET =
             const { searchParams } = new URL(req.url)
             const afterId = getIntegerSearchParameter(
                 searchParams,
-                sermonsListGetEntriesAfterIdParamName,
+                afterIdParamName,
             )
 
             let pageSize = getIntegerSearchParameter(
                 searchParams,
-                sermonsListGetEntriesPageSizeParamName,
+                pageSizeParamName,
                 defaultPageSize,
             )
 

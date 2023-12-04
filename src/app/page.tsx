@@ -1,8 +1,8 @@
 "use client"
 
 import Flex from "@/components/containers/Flex"
+import Section from "@/components/containers/Section"
 import Divider from "@/components/surfaces/Divider"
-import Paper from "@/components/surfaces/Paper"
 import Card from "@/components/surfaces/card/Card"
 import CardContent from "@/components/surfaces/card/CardContent"
 import CardHeader from "@/components/surfaces/card/CardHeader"
@@ -50,7 +50,13 @@ export default function Page() {
                 priority
             />
             <Divider variant="page" themeColor="transparent" />
-            <Paper className={styles.paper} themeColor="primary">
+            <Section
+                fullWidth
+                paperProps={{
+                    className: styles.paper,
+                }}
+                themeColor="primary"
+            >
                 <Flex
                     direction="row"
                     justify="center"
@@ -88,7 +94,7 @@ export default function Page() {
                         blurDataURL="https://picsum.photos/seed/sdasxgwathad/192/108.jpg?grayscale"
                     />
                 </Flex>
-            </Paper>
+            </Section>
             <Divider variant="page" themeColor="transparent" />
             <Image
                 alt="Some placeholder picture"
@@ -101,7 +107,13 @@ export default function Page() {
                 priority
             />
             <Divider variant="page" themeColor="transparent" />
-            <Paper className={styles.paper} themeColor="primary">
+            <Section
+                fullWidth
+                paperProps={{
+                    className: styles.paper,
+                }}
+                themeColor="primary"
+            >
                 <Flex
                     direction="column"
                     justify="flex-start"
@@ -127,7 +139,7 @@ export default function Page() {
                         </li>
                     </ul>
                 </Flex>
-            </Paper>
+            </Section>
             <Divider variant="page" themeColor="transparent" />
             <Image
                 alt="Some placeholder picture"

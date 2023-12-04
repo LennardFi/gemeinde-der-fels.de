@@ -1,7 +1,7 @@
 "use client"
 
 import RequiresFeatureFlag from "@/components/dev/RequiresDevFeatureFlag"
-import { returnToPathParamName } from "@/lib/frontend/urlParams"
+import { returnToPathParamName } from "@/lib/shared/urlParams"
 import Website from "@/typings"
 import useAuthZustand from "@/zustand/useAuthZustand"
 import Link, { LinkProps } from "next/link"

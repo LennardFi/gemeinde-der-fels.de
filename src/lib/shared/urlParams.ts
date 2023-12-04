@@ -1,0 +1,6 @@
+export const returnToPathParamName = "returnTo"
+export const resetPasswordTokenParamName = "token"
+export const fileNameParamName = "fileName"
+export const pageSizeParamName = "pageSize"
+export const afterIdParamName = "afterId"
+export const showDisabledParamName = "showDisabled"

@@ -2,7 +2,7 @@
 
 import RequiresFeatureFlag from "@/components/dev/RequiresDevFeatureFlag"
 import IconButton from "@/components/inputs/IconButton"
-import { returnToPathParamName } from "@/lib/frontend/urlParams"
+import { returnToPathParamName } from "@/lib/shared/urlParams"
 import Website from "@/typings"
 import useAuthZustand from "@/zustand/useAuthZustand"
 import { AnimatePresence, motion } from "framer-motion"

@@ -1,8 +1,8 @@
 import { buildApiRouteWithDatabase } from "@/lib/backend/apiRouteBuilders"
 import { storeFileToFolder } from "@/lib/backend/databaseHelpers"
-import { fileUploadFileNameParamName } from "@/lib/frontend/urlParams"
 import { WebsiteError } from "@/lib/shared/errors"
 import { temporalInstanceToDate } from "@/lib/shared/helpers"
+import { fileNameParamName } from "@/lib/shared/urlParams"
 import Website from "@/typings"
 import mime from "mime"
 import path from "path"
@@ -12,12 +12,12 @@ export const POST =
     buildApiRouteWithDatabase<Website.Content.Files.FileDetails>(
         async (req, client, session) => {
             const { searchParams } = new URL(req.url)
-            const fileName = searchParams.get(fileUploadFileNameParamName)
+            const fileName = searchParams.get(fileNameParamName)
 
             if (fileName === null) {
                 throw new WebsiteError("request", "fileName required", {
                     endpoint: req.url,
-                    internalMessage: `URL parameter "${fileUploadFileNameParamName}" in request required`,
+                    internalMessage: `URL parameter "${fileNameParamName}" in request required`,
                     httpStatusCode: 400,
                 })
             }

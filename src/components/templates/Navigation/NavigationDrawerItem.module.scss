@@ -120,17 +120,8 @@
             overflow: hidden;
         }
 
-        &.active:hover {
-            background: core.$color-secondary;
-            color: core.$color-secondary-font;
-        }
-
+        &.isButton:hover,
         &.needsAuth:hover {
-            background: core.$color-accent;
-            color: core.$color-accent-font;
-        }
-
-        &.isButton:hover {
             background: core.$color-primary;
             color: core.$color-primary-font;
         }

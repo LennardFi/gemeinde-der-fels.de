@@ -11,7 +11,7 @@
     padding: core.getDimensionValue(2) core.getDimensionValue(1.5);
     position: relative;
     user-select: none;
-    transition: background-color 150ms ease-in-out, color 150ms ease-in-out;
+    transition: background 250ms ease-in-out, color 250ms ease-in-out;
 
     &.isLink {
         cursor: pointer;
@@ -72,11 +72,13 @@
         color: core.$color-primary-font;
         margin: 0;
         padding: 0;
+        padding-bottom: core.getDimensionValue(1);
         position: absolute;
         top: 100%;
         right: 0;
         min-width: core.getDimensionValue(30);
         z-index: 1000;
+        cursor: auto;
     }
 
     @media (hover: hover) and (pointer: fine) {

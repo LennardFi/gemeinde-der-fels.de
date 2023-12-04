@@ -114,7 +114,13 @@ export default function NavigationItem({
                 {subEntries !== undefined ? (
                     <>
                         <FaAngleDown className={`${styles.arrow}`} />
-                        <ul className={styles.subEntries}>
+                        <ul
+                            className={styles.subEntries}
+                            onClick={(e) => {
+                                e.preventDefault()
+                                e.stopPropagation()
+                            }}
+                        >
                             {subEntries.map(({ label, path, ...rest }, i) => (
                                 <NavigationItem
                                     key={`${i}_${path}`}

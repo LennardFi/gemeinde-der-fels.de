@@ -14,7 +14,7 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
-        background-color: core.$color-primary;
+        background: core.$color-primary;
         color: core.$color-primary-font;
         font-family: inherit;
         font-size: core.$size-font-header;
@@ -25,11 +25,12 @@
         height: 100%;
         transition: transform 100ms ease-in-out;
         outline: none;
+        transition: background 250ms ease-in-out;
 
         &:focus,
         &:active {
             color: core.$color-primary-font-highlighted;
-            background-color: core.$color-primary-highlighted;
+            background: core.$color-primary-highlighted;
         }
 
         &:active {
@@ -51,19 +52,9 @@
     &.isButton {
         cursor: pointer;
 
-        &:hover {
+        .label:hover {
             background-color: core.$color-primary-highlighted;
             color: core.$color-primary-font-highlighted;
-
-            .label:hover {
-                background-color: core.$color-primary-highlighted;
-                color: core.$color-primary-font-highlighted;
-            }
-
-            // &.subEntriesItem {
-            //     background-color: core.$color-primary;
-            //     color: core.$color-primary-font;
-            // }
         }
     }
 
@@ -72,9 +63,8 @@
     }
 
     &.needsAuth {
-        background-color: core.$color-accent;
         color: core.$color-accent-font;
-        border-top: core.$size-border-default solid core.$color-accent-highlighted;
+        border-top: core.$size-border-default solid core.$color-primary-highlighted;
 
         >.label {
             background-color: core.$color-accent;
@@ -88,15 +78,13 @@
         }
 
         &.isButton>.label:hover {
-            background-color: core.$color-accent-highlighted;
+            background: core.$color-accent-highlighted;
             color: core.$color-accent-font-highlighted;
         }
     }
 
     &.active {
-        color: core.$color-secondary-font;
-        background-color: core.$color-secondary;
-        border-top: core.$size-border-default solid core.$color-secondary-highlighted;
+        border-top: core.$size-border-default solid core.$color-primary-highlighted;
 
         >.label {
             color: core.$color-secondary-font;
@@ -111,7 +99,7 @@
 
         &.isButton>.label:hover {
             color: core.$color-secondary-font-highlighted;
-            background-color: core.$color-secondary-highlighted;
+            background: core.$color-secondary-highlighted;
         }
     }
 
@@ -133,17 +121,17 @@
         }
 
         &.active:hover {
-            background-color: core.$color-secondary;
+            background: core.$color-secondary;
             color: core.$color-secondary-font;
         }
 
         &.needsAuth:hover {
-            background-color: core.$color-accent;
+            background: core.$color-accent;
             color: core.$color-accent-font;
         }
 
         &.isButton:hover {
-            background-color: core.$color-primary;
+            background: core.$color-primary;
             color: core.$color-primary-font;
         }
     }

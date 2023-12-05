@@ -26,7 +26,7 @@ export default function Pagination({
     onChange,
     themeColor = "primary",
     value = 0,
-    variant = "contained",
+    variant = "text",
     ...rest
 }: PaginationProps) {
     const changeHandler = (pageIndex: number) => () => {

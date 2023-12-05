@@ -14,11 +14,24 @@
         align-items: center;
         gap: core.getDimensionValue(1);
         cursor: pointer;
-        font-weight: 600;
+        font-weight: 400;
         list-style: none;
+        color: core.$color-primary-font;
 
-        :hover {
-            color: core.$color-primary-highlighted;
+        &:hover {
+            color: core.$color-secondary-highlighted;
+            font-weight: 700;
+        }
+    }
+
+    &[open] {
+        summary {
+            color: core.$color-secondary;
+            font-weight: 700;
+
+            &:hover {
+                color: core.$color-secondary-highlighted;
+            }
         }
     }
 

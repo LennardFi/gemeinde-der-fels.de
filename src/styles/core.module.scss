@@ -7,21 +7,21 @@ $color-primary: hsl(0, 0%, 20%);
 $color-primary-highlighted: hsl(0, 0%, 30%);
 $color-primary-faded: hsl(0, 0%, 80%);
 $color-primary-font: hsl(0, 0%, 95%);
-$color-primary-font-highlighted: hsl(0, 0%, 95%);
+$color-primary-font-highlighted: hsl(0, 0%, 85%);
 $color-primary-font-faded: hsl(0, 0%, 20%);
 
 $color-secondary: hsl(23, 36%, 52%);
 $color-secondary-highlighted: hsl(13, 39%, 47%);
 $color-secondary-faded: hsl(23, 26%, 80%);
 $color-secondary-font: hsl(0, 0%, 95%);
-$color-secondary-font-highlighted: hsl(0, 0%, 95%);
+$color-secondary-font-highlighted: hsl(0, 0%, 85%);
 $color-secondary-font-faded: hsl(0, 0%, 20%);
 
 $color-accent: hsl(201deg 37% 38%);
 $color-accent-highlighted: hsl(201deg 37% 46%);
 $color-accent-faded: hsl(185deg 19% 63%);
-$color-accent-font: hsl(0, 0%, 88%);
-$color-accent-font-highlighted: hsl(0, 0%, 98%);
+$color-accent-font: hsl(0, 0%, 95%);
+$color-accent-font-highlighted: hsl(0, 0%, 85%);
 $color-accent-font-faded: hsl(0, 0%, 20%);
 
 @function getDimensionValue($baseValue) {

@@ -15,17 +15,16 @@
         color 250ms ease-in-out, transform 100ms ease-in-out;
 
     .segment {
+        display: flex;
+        justify-content: center;
+        align-items: center;
         height: core.getDimensionValue(2);
         width: core.getDimensionValue(2);
 
         svg {
-            height: 100%;
-            width: 100%;
+            height: core.getDimensionValue(2);
+            width: core.getDimensionValue(2);
         }
-
-        &.left {}
-
-        &.right {}
     }
 
     .label {
@@ -57,6 +56,19 @@
                 border-color: core.$color-primary-highlighted;
                 color: core.$color-primary-font-highlighted;
             }
+
+            &.fontColor {
+                background-color: core.$color-primary-font;
+                border-color: core.$color-primary-font;
+                color: core.$color-primary;
+
+                &:not(:disabled):hover,
+                &:not(.noFocusColor):not(:disabled):focus {
+                    background-color: core.$color-primary-font-highlighted;
+                    border-color: core.$color-primary-font-highlighted;
+                    color: core.$color-primary-highlighted;
+                }
+            }
         }
 
         &[data-theme="secondary"] {
@@ -69,6 +81,19 @@
                 background-color: core.$color-secondary-highlighted;
                 border-color: core.$color-secondary-highlighted;
                 color: core.$color-secondary-font-highlighted;
+            }
+
+            &.fontColor {
+                background-color: core.$color-secondary-font;
+                border-color: core.$color-secondary-font;
+                color: core.$color-secondary;
+
+                &:not(:disabled):hover,
+                &:not(.noFocusColor):not(:disabled):focus {
+                    background-color: core.$color-secondary-font-highlighted;
+                    border-color: core.$color-secondary-font-highlighted;
+                    color: core.$color-secondary-highlighted;
+                }
             }
         }
 
@@ -83,51 +108,112 @@
                 border-color: core.$color-accent-highlighted;
                 color: core.$color-accent-font-highlighted;
             }
+
+            &.fontColor {
+                background-color: core.$color-accent-font;
+                border-color: core.$color-accent-font;
+                color: core.$color-accent;
+
+                &:not(:disabled):hover,
+                &:not(.noFocusColor):not(:disabled):focus {
+                    background-color: core.$color-accent-font-highlighted;
+                    border-color: core.$color-accent-font-highlighted;
+                    color: core.$color-accent-highlighted;
+                }
+            }
         }
     }
 
     &[data-variant="outlined"] {
         &[data-theme="primary"] {
-            color: core.$color-primary;
-            background-color: core.$color-primary-font;
+            background-color: transparent;
             border-color: core.$color-primary;
+            color: core.$color-primary;
 
             &:not(:disabled):hover,
             &:not(.noFocusColor):not(:disabled):focus {
-                background-color: core.$color-primary-font-highlighted;
-                border-color: core.$color-primary-highlighted;
-                color: core.$color-primary-highlighted;
+                background-color: core.$color-primary;
+                border-color: core.$color-primary-font;
+                color: core.$color-primary-font;
+            }
+
+            &.fontColor {
+                color: core.$color-primary-font;
+                background-color: transparent;
+                border-color: core.$color-primary-font;
+
+                &:not(:disabled):hover,
+                &:not(.noFocusColor):not(:disabled):focus {
+                    background-color: core.$color-primary-font-highlighted;
+                    border-color: core.$color-primary-highlighted;
+                    color: core.$color-primary-highlighted;
+                }
             }
         }
 
         &[data-theme="secondary"] {
-            color: core.$color-secondary;
-            background-color: core.$color-secondary-font;
+            background-color: transparent;
             border-color: core.$color-secondary;
+            color: core.$color-secondary;
 
             &:not(:disabled):hover,
             &:not(.noFocusColor):not(:disabled):focus {
-                background-color: core.$color-secondary-font-highlighted;
-                border-color: core.$color-secondary-highlighted;
-                color: core.$color-secondary-highlighted;
+                background-color: core.$color-secondary;
+                border-color: core.$color-secondary-font;
+                color: core.$color-secondary-font;
+            }
+
+            &.fontColor {
+                color: core.$color-secondary-font;
+                background-color: transparent;
+                border-color: core.$color-secondary-font;
+
+                &:not(:disabled):hover,
+                &:not(.noFocusColor):not(:disabled):focus {
+                    background-color: core.$color-secondary-font-highlighted;
+                    border-color: core.$color-secondary-highlighted;
+                    color: core.$color-secondary-highlighted;
+                }
             }
         }
 
         &[data-theme="accent"] {
-            color: core.$color-accent;
-            background-color: core.$color-accent-font;
+            background-color: transparent;
             border-color: core.$color-accent;
+            color: core.$color-accent;
 
             &:not(:disabled):hover,
             &:not(.noFocusColor):not(:disabled):focus {
-                background-color: core.$color-accent-font-highlighted;
-                border-color: core.$color-accent-highlighted;
-                color: core.$color-accent-highlighted;
+                background-color: core.$color-accent;
+                border-color: core.$color-accent-font;
+                color: core.$color-accent-font;
+            }
+
+            &.fontColor {
+                color: core.$color-accent-font;
+                background-color: transparent;
+                border-color: core.$color-accent-font;
+
+                &:not(:disabled):hover,
+                &:not(.noFocusColor):not(:disabled):focus {
+                    background-color: core.$color-accent-font-highlighted;
+                    border-color: core.$color-accent-highlighted;
+                    color: core.$color-accent-highlighted;
+                }
             }
         }
     }
 
     &[data-variant="text"] {
+        &:not(.containedHover) {
+            border: none;
+            padding: 0;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+
         &[data-theme="primary"] {
             background-color: transparent;
             color: core.$color-primary;
@@ -135,9 +221,22 @@
 
             &:not(:disabled):hover,
             &:not(.noFocusColor):not(:disabled):focus {
-                background-color: core.$color-primary-font-highlighted;
+                background-color: transparent;
                 border-color: core.$color-primary-highlighted;
                 color: core.$color-primary-highlighted;
+            }
+
+            &.fontColor {
+                background-color: transparent;
+                color: core.$color-primary-font;
+                border-color: transparent;
+
+                &:not(:disabled):hover,
+                &:not(.noFocusColor):not(:disabled):focus {
+                    background-color: transparent;
+                    border-color: core.$color-primary-font-highlighted;
+                    color: core.$color-primary-font-highlighted;
+                }
             }
         }
 
@@ -148,9 +247,22 @@
 
             &:not(:disabled):hover,
             &:not(.noFocusColor):not(:disabled):focus {
-                background-color: core.$color-secondary-font-highlighted;
+                background-color: transparent;
                 border-color: core.$color-secondary-highlighted;
                 color: core.$color-secondary-highlighted;
+            }
+
+            &.fontColor {
+                background-color: transparent;
+                color: core.$color-secondary-font;
+                border-color: transparent;
+
+                &:not(:disabled):hover,
+                &:not(.noFocusColor):not(:disabled):focus {
+                    background-color: transparent;
+                    border-color: core.$color-secondary-font-highlighted;
+                    color: core.$color-secondary-font-highlighted;
+                }
             }
         }
 
@@ -161,9 +273,22 @@
 
             &:not(:disabled):hover,
             &:not(.noFocusColor):not(:disabled):focus {
-                background-color: core.$color-accent-font-highlighted;
+                background-color: transparent;
                 border-color: core.$color-accent-highlighted;
                 color: core.$color-accent-highlighted;
+            }
+
+            &.fontColor {
+                background-color: transparent;
+                color: core.$color-accent-font;
+                border-color: transparent;
+
+                &:not(:disabled):hover,
+                &:not(.noFocusColor):not(:disabled):focus {
+                    background-color: transparent;
+                    border-color: core.$color-accent-font-highlighted;
+                    color: core.$color-accent-font-highlighted;
+                }
             }
         }
     }

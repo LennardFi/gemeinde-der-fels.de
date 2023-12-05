@@ -11,20 +11,19 @@
     h6 {
         // max-width: core.$size-breakpoint-small;
         margin: 0;
-        margin-bottom: core.getDimensionValue(2);
+        margin-bottom: core.getDimensionValue(4);
     }
 
     h2 {
-        font-size: core.$size-font-title;
-    }
-
-    h3 {
         font-size: core.$size-font-header;
     }
 
+    h3 {
+        font-size: core.$size-font-subheader;
+    }
+
     p {
-        font-size: 1.5rem;
-        // text-align: center;
+        font-size: core.$size-font-default;
         max-width: core.$size-breakpoint-small;
     }
 }
@@ -50,7 +49,7 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        font-size: 2rem;
+        font-size: 2.5rem;
         font-weight: 200;
         line-height: 2;
         text-align: center;
@@ -60,7 +59,7 @@
 
         .highlighted {
             color: core.$color-accent-font;
-            font-size: 3rem;
+            font-size: 3.5rem;
             font-weight: bold;
             line-height: 1.2;
         }
@@ -114,6 +113,12 @@
     }
 }
 
+.quickLink {
+    font-size: core.$size-font-action;
+    font-weight: 300;
+    padding: core.getDimensionValue(2) core.getDimensionValue(4);
+}
+
 .bannerImg {
     max-width: 100%;
     height: auto;
@@ -129,7 +134,7 @@
     gap: core.getDimensionValue(8);
     padding: 0;
     margin: 0;
-    font-size: core.$size-font-subheader;
+    font-size: core.$size-font-action;
     list-style: none;
 
     a {

@@ -19,12 +19,12 @@
             grid-row: 1 / 2;
 
             .title {
-                font-size: core.$size-font-subheader;
+                font-size: core.$size-font-default;
                 font-weight: 600;
             }
 
             .performer {
-                font-size: core.$size-font-default;
+                font-size: core.$size-font-label;
             }
         }
 

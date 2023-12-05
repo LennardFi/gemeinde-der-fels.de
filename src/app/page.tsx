@@ -2,6 +2,7 @@
 
 import Flex from "@/components/containers/Flex"
 import Section from "@/components/containers/Section"
+import ButtonLink from "@/components/inputs/ButtonLink"
 import Divider from "@/components/surfaces/Divider"
 import Card from "@/components/surfaces/card/Card"
 import CardContent from "@/components/surfaces/card/CardContent"
@@ -25,11 +26,11 @@ export default function Page() {
     return (
         <>
             <div className={styles.hero}>
-                <div className={styles.heroTitle}>
+                <h1 className={styles.heroTitle}>
                     <span>Wir sind</span>
                     <span className={styles.highlighted}>Gemeinde</span>
                     <span className={styles.highlighted}>der Fels</span>
-                </div>
+                </h1>
                 <Link
                     className={styles.scrollDownButton}
                     href={`#${navHtmlId}`}
@@ -58,12 +59,81 @@ export default function Page() {
                 themeColor="primary"
             >
                 <Flex
-                    direction="row"
+                    breakpoint="normal"
+                    direction="column"
                     justify="center"
                     alignItems="center"
-                    columnGap={5}
+                    gap={1}
+                    wrap
+                    transition
+                    normal={{
+                        direction: "row",
+                        gap: 2,
+                    }}
+                    large={{
+                        gap: 8,
+                    }}
+                >
+                    <ButtonLink
+                        className={`${styles.quickLink}`}
+                        href="/ueber-uns"
+                        themeColor="primary"
+                        fontColor
+                        variant="text"
+                        containedHover
+                    >
+                        Neu&nbsp;hier?
+                    </ButtonLink>
+                    <ButtonLink
+                        className={`${styles.quickLink}`}
+                        href="/veranstaltungen"
+                        themeColor="primary"
+                        fontColor
+                        variant="text"
+                        containedHover
+                    >
+                        Termine
+                    </ButtonLink>
+                    <ButtonLink
+                        className={`${styles.quickLink}`}
+                        href="/medien/predigten"
+                        themeColor="primary"
+                        fontColor
+                        variant="text"
+                        containedHover
+                    >
+                        Predigten
+                    </ButtonLink>
+                    <ButtonLink
+                        className={`${styles.quickLink}`}
+                        href="/kontakt"
+                        themeColor="primary"
+                        fontColor
+                        variant="text"
+                        containedHover
+                    >
+                        Kontakt
+                    </ButtonLink>
+                </Flex>
+            </Section>
+            <Divider variant="page" themeColor="transparent" />
+            <Section
+                fullWidth
+                paperProps={{
+                    className: styles.paper,
+                }}
+            >
+                <Flex
+                    direction="column"
+                    breakpoint="large"
+                    justify="flex-start"
+                    alignItems="center"
+                    columnGap={4}
                     rowGap={2}
-                    wrap="wrap"
+                    large={{
+                        direction: "row",
+                        justify: "space-around",
+                    }}
                 >
                     <div>
                         <h2>Willkommen in unserer Gemeinde!</h2>
@@ -87,9 +157,10 @@ export default function Page() {
                     </div>
                     <Image
                         alt="Some placeholder picture"
+                        className={styles.bannerImg}
                         src="https://picsum.photos/seed/sdasxgwathad/1920/1080.jpg"
                         height={300}
-                        width={400}
+                        width={600}
                         placeholder="blur"
                         blurDataURL="https://picsum.photos/seed/sdasxgwathad/192/108.jpg?grayscale"
                     />

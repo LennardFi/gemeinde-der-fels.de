@@ -29,7 +29,10 @@ export function parseFeatureFlagEnvValue(
             .filter(
                 (featureFlagValue) =>
                     featureFlagValue in initialFlags ||
-                    `!${featureFlagValue}` in initialFlags,
+                    (featureFlagValue.startsWith("!") &&
+                        featureFlagValue.substring(1) in initialFlags) ||
+                    featureFlagValue === "*" ||
+                    featureFlagValue === "!*",
             )
             .reduce((prevFlags, featureFlagValue) => {
                 let negated = false
@@ -75,7 +78,9 @@ export function parseFeatureFlagEnvValue(
         .map(([name]) => name as Website.Base.FeatureFlags)
 }
 
-const featureFlagEnvValue = process.env.NEXT_PUBLIC_GDF_FEATURE_FLAGS
+const featureFlagEnvValue =
+    (isDevMode ? process.env.NEXT_PUBLIC_GDF_DEV_FEATURE_FLAGS : undefined) ??
+    process.env.NEXT_PUBLIC_GDF_FEATURE_FLAGS
 
 export function validateFeatureFlag(
     ...flags: Website.Base.FeatureFlags[]

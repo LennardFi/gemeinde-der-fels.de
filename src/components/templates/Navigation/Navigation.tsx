@@ -27,7 +27,7 @@ export const navigationEntries: Website.Content.Navigation.NavigationEntry[] = [
     },
     {
         label: "Audio",
-        path: "/medien",
+        // path: "/medien",
         subEntries: [
             {
                 label: "Lobpreis",

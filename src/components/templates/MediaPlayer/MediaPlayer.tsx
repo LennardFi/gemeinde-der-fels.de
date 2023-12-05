@@ -246,7 +246,7 @@ export default function MediaPlayer({
                             }
                             onClick={() => audioPlayerZustand.seek(0)}
                             themeColor={themeColor}
-                            variant="outlined"
+                            variant="contained"
                         >
                             <FaStepBackward />
                         </IconButton>
@@ -267,7 +267,7 @@ export default function MediaPlayer({
                                     : audioPlayerZustand.play
                             }
                             themeColor={themeColor}
-                            variant="outlined"
+                            variant="contained"
                         >
                             {audioPlayerZustand.isLoading ? (
                                 <Loader
@@ -287,7 +287,7 @@ export default function MediaPlayer({
                             containedHover
                             onClick={audioPlayerZustand.stop}
                             themeColor={themeColor}
-                            variant="outlined"
+                            variant="contained"
                         >
                             <FaStop />
                         </IconButton>
@@ -301,7 +301,7 @@ export default function MediaPlayer({
                                 )
                             }
                             themeColor={themeColor}
-                            variant="outlined"
+                            variant="contained"
                         >
                             {audioPlayerZustand.muted ? (
                                 <FaVolumeMute />

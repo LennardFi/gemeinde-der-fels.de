@@ -8,7 +8,7 @@
     gap: core.getDimensionValue(1);
 
     .currentPage {
-        font-size: core.$size-font-action;
+        font-size: core.$size-font-default;
         min-width: core.getDimensionValue(5);
         text-align: center;
         padding: core.getDimensionValue(1);

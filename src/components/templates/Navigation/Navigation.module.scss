@@ -13,6 +13,7 @@
     top: 0;
     max-height: core.getDimensionValue(8);
     z-index: 10;
+    box-shadow: 0rem 0.5rem 0.5rem #000a;
 
     .logoContainer {
         grid-column: 1 / 2;

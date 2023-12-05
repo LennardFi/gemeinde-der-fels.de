@@ -13,12 +13,13 @@
     thead {
 
         tr {
+            position: sticky;
+            top: 64px;
+            box-shadow: 0rem 0.2rem 0.5rem #000a;
 
             th {
                 text-align: start;
                 padding: core.getDimensionValue(1);
-                position: sticky;
-                top: 64px;
                 width: auto;
 
                 &.title {

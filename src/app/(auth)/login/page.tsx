@@ -105,7 +105,7 @@ export default function Page() {
                                 className={styles.resetPassword}
                                 href="/reset-password"
                                 loading={processing}
-                                variant="outlined"
+                                variant="text"
                             >
                                 Passwort zurücksetzen
                             </ButtonLink>

@@ -22,8 +22,8 @@ export default function Page() {
         setExpandedMainValue((prev) => (prev === index ? -1 : index))
 
     return (
-        <PageContainer title="Werte und Vision">
-            <Paper breakpoint="small">
+        <PageContainer title="Werte und Vision" themeColor="primary">
+            <Paper breakpoint="small" noBackgroundColor>
                 <h2>Unsere Vision</h2>
                 <p>
                     <span className={styles.highlighted}>Gott</span> hat unser
@@ -42,7 +42,7 @@ export default function Page() {
                     , ihre Welt zu verändern.
                 </p>
             </Paper>
-            <Paper breakpoint="small">
+            <Paper breakpoint="small" noBackgroundColor>
                 <h2>Unsere Werte</h2>
                 <details
                     className={styles.mainValue}
@@ -370,7 +370,7 @@ export default function Page() {
                     </li>
                 </ul> */}
             </Paper>
-            <Paper breakpoint="small">
+            <Paper breakpoint="small" noBackgroundColor>
                 <h2>Geistliches Leitbild</h2>
                 <p>
                     Unsere Vision und unsere Werte sind auch nochmal

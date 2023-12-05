@@ -1,8 +1,8 @@
 @use "../../styles/core.module.scss" as core;
 
 .container {
-    margin: core.getDimensionValue(4) auto;
-    padding: core.getDimensionValue(3);
+    margin: auto;
+    padding: core.getDimensionValue(1);
     font-size: core.$size-font-default;
     height: auto;
     width: auto;
@@ -18,5 +18,15 @@
 
     &.noPadding {
         padding: 0;
+    }
+
+    @media (min-width: core.$size-breakpoint-small) {
+
+        padding: core.getDimensionValue(2);
+    }
+
+    @media (min-width: core.$size-breakpoint-normal) {
+
+        padding: core.getDimensionValue(3);
     }
 }

@@ -19,7 +19,7 @@
         font-family: inherit;
         font-size: core.$size-font-default;
         font-weight: 600;
-        padding: core.getDimensionValue(2);
+        padding: core.getDimensionValue(1) core.getDimensionValue(2);
         text-decoration: none;
         flex: 1 1 auto;
         height: 100%;
@@ -40,13 +40,13 @@
 
     .arrow {
         height: 100%;
-        min-height: core.getDimensionValue(8);
-        width: core.getDimensionValue(8);
+        min-height: core.getDimensionValue(6);
+        width: core.getDimensionValue(6);
         outline: none;
 
         svg {
-            height: core.getDimensionValue(4);
-            width: core.getDimensionValue(4);
+            height: core.getDimensionValue(3);
+            width: core.getDimensionValue(3);
         }
     }
 
@@ -60,7 +60,7 @@
     }
 
     &.noSubEntries {
-        min-height: calc(core.getDimensionValue(8) + 1px);
+        min-height: calc(core.getDimensionValue(6) + 1px);
     }
 
     &.needsAuth {

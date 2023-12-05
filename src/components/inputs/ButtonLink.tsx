@@ -18,6 +18,7 @@ export default function ButtonLink({
     children,
     className,
     containedHover,
+    fontColor,
     labelProps,
     leftSegment,
     loading,
@@ -35,11 +36,11 @@ export default function ButtonLink({
 
     return (
         <Link
-            className={`${styles.button} ${linkStyles.button} ${
-                containedHover ? styles.containedHover : ""
-            } ${noActiveAnimation ? styles.noActiveAnimation : ""} ${
-                noFocusColor ? styles.noFocusColor : ""
-            } ${className}`}
+            className={`${styles.button} ${fontColor ? styles.fontColor : ""} ${
+                linkStyles.button
+            } ${containedHover ? styles.containedHover : ""} ${
+                noActiveAnimation ? styles.noActiveAnimation : ""
+            } ${noFocusColor ? styles.noFocusColor : ""} ${className}`}
             data-theme={themeColor}
             data-variant={variantOrDefault}
             onClick={(e) => {

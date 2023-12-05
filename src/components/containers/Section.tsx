@@ -14,7 +14,7 @@ export default function Section({
     className,
     fullWidth,
     paperProps,
-    themeColor = "primary",
+    themeColor,
     ...rest
 }: SectionProps) {
     return (

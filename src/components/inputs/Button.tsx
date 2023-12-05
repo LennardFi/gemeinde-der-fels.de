@@ -5,6 +5,7 @@ import styles from "./Button.module.scss"
 
 export interface ButtonRootProps {
     containedHover?: boolean
+    fontColor?: boolean
     labelProps?: React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLSpanElement>,
         HTMLSpanElement
@@ -28,6 +29,7 @@ const Button = forwardRef(function Button(
         className,
         containedHover,
         disabled,
+        fontColor,
         labelProps,
         leftSegment,
         loading,
@@ -36,7 +38,7 @@ const Button = forwardRef(function Button(
         onClick,
         rightSegment,
         round,
-        themeColor = "primary",
+        themeColor,
         type,
         variant,
         ...rest
@@ -54,12 +56,14 @@ const Button = forwardRef(function Button(
     return (
         <button
             // ${variantStyles} ${themeColorStyle}
-            className={`${styles.button} ${
+            className={`${styles.button} ${fontColor ? styles.fontColor : ""} ${
                 containedHover ? styles.containedHover : ""
             } ${noActiveAnimation ? styles.noActiveAnimation : ""} ${
                 noFocusColor ? styles.noFocusColor : ""
             } ${round ? styles.round : ""} ${className}`}
-            data-theme={themeColor}
+            data-theme={
+                themeColor ?? type !== "submit" ? "primary" : "secondary"
+            }
             data-variant={variantOrDefault}
             disabled={disabled}
             onClick={disabled ? undefined : onClick}
@@ -68,9 +72,7 @@ const Button = forwardRef(function Button(
             {...rest}
         >
             {leftSegment !== undefined ? (
-                <span className={`${styles.segment} ${styles.left}`}>
-                    {leftSegment}
-                </span>
+                <span className={`${styles.segment}`}>{leftSegment}</span>
             ) : null}
             <span
                 className={`${styles.label} ${customLabelClassName}`}
@@ -87,9 +89,7 @@ const Button = forwardRef(function Button(
                 )}
             </span>
             {rightSegment !== undefined ? (
-                <span className={`${styles.segment} ${styles.right}`}>
-                    {rightSegment}
-                </span>
+                <span className={`${styles.segment}`}>{rightSegment}</span>
             ) : null}
         </button>
     )

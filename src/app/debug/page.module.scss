@@ -1,0 +1,7 @@
+@use "../../styles/core.module.scss" as core;
+
+.debugInfo {
+    font-size: core.$size-font-label;
+    max-height: 30dvh;
+    overflow: auto;
+}

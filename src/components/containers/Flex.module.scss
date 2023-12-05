@@ -2,4 +2,37 @@
 
 .flex {
     display: flex;
+    width: 100%;
+
+    &.grid {
+        display: grid;
+    }
+
+    &.transition {
+        transition: gap 500ms ease-in-out, row-gap 500ms ease-in-out, column-gap 500ms ease-in-out;
+    }
+
+    @media (prefers-reduced-motion) {
+        &.transition {
+            transition: none;
+        }
+    }
+
+    &.small {
+        max-width: core.$size-breakpoint-small;
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    &.normal {
+        max-width: core.$size-breakpoint-normal;
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    &.large {
+        max-width: core.$size-breakpoint-large;
+        width: 100%;
+        margin: 0 auto;
+    }
 }

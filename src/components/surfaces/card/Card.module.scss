@@ -27,5 +27,7 @@
     .wrapper {
         background-color: core.$color-primary;
         padding: core.getDimensionValue(1);
+        height: 100%;
+        width: 100%;
     }
 }

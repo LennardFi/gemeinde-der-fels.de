@@ -127,11 +127,10 @@
 
 .cardList {
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    flex-direction: column;
     justify-content: center;
-    align-items: flex-start;
-    gap: core.getDimensionValue(8);
+    align-items: stretch;
+    gap: core.getDimensionValue(4);
     padding: 0;
     margin: 0;
     font-size: core.$size-font-action;
@@ -139,5 +138,11 @@
 
     a {
         text-decoration: none;
+    }
+
+    @media (min-width: core.$size-breakpoint-small) {
+        flex-direction: row;
+        align-items: flex-start;
+        gap: core.getDimensionValue(8);
     }
 }

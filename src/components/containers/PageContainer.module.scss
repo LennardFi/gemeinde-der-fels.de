@@ -2,7 +2,7 @@
 
 .container {
     margin: core.getDimensionValue(4) auto;
-    padding: core.getDimensionValue(2);
+    padding: core.getDimensionValue(3);
     font-size: core.$size-font-default;
     height: auto;
     width: auto;
@@ -14,5 +14,9 @@
     >h5,
     >h6 {
         text-align: center;
+    }
+
+    &.noPadding {
+        padding: 0;
     }
 }

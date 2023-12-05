@@ -3,6 +3,7 @@ import Paper, { PaperProps } from "../surfaces/Paper"
 import styles from "./PageContainer.module.scss"
 
 export interface PageContainerProps extends PaperProps {
+    noPadding?: boolean
     title?: string
     titleProps?: HTMLAttributes<HTMLHeadingElement>
 }
@@ -10,12 +11,18 @@ export interface PageContainerProps extends PaperProps {
 export default function PageContainer({
     children,
     className,
+    noPadding,
     title,
     titleProps,
     ...rest
 }: PageContainerProps) {
     return (
-        <Paper className={`${styles.container} ${className ?? ""}`} {...rest}>
+        <Paper
+            className={`${styles.container} ${
+                noPadding ? styles.noPadding : ""
+            } ${className ?? ""}`}
+            {...rest}
+        >
             {title ? (
                 <h1
                     {...titleProps}

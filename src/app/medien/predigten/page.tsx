@@ -38,6 +38,7 @@ export default async function Page() {
         <PageContainer
             breakpoint="normal"
             className={styles.container}
+            noPadding
             title="Predigten"
         >
             <SermonsListContainer

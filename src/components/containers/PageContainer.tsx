@@ -5,38 +5,51 @@ import styles from "./PageContainer.module.scss"
 
 export interface PageContainerProps extends PaperProps {
     title?: string
+    titleLeftAligned?: boolean
+    titlePaperProps?: PaperProps
     titleProps?: HTMLAttributes<HTMLHeadingElement>
 }
 
 export default function PageContainer({
     children,
     className,
-    themeColor,
-    themeColorVariant,
     title,
+    titleLeftAligned,
+    titlePaperProps,
     titleProps,
     ...rest
 }: PageContainerProps) {
+    const {
+        className: titlePaperClassName,
+        noPadding: titlePaperNoPadding,
+        ...titlePaperPropsRest
+    } = titlePaperProps ?? {}
     return (
         <>
             <Divider variant="page" themeColor="transparent" />
             <Paper
                 className={`${styles.container} ${className ?? ""}`}
-                themeColor={themeColor ?? "primary"}
-                themeColorVariant={
-                    themeColor === undefined
-                        ? themeColorVariant ?? "font"
-                        : themeColorVariant
-                }
                 {...rest}
             >
                 {title ? (
-                    <h1
-                        {...titleProps}
-                        // className={`${styles.pageTitle} ${titleProps?.className ?? ""}`}
+                    <Paper
+                        className={`${styles.titlePaper} ${
+                            titlePaperClassName ?? ""
+                        }`}
+                        noPadding={titlePaperNoPadding}
+                        {...titlePaperPropsRest}
                     >
-                        {title}
-                    </h1>
+                        <h1
+                            {...titleProps}
+                            className={`${
+                                titleLeftAligned ? styles.titleLeftAligned : ""
+                            } ${
+                                titlePaperNoPadding ? styles.titleNoMargin : ""
+                            } ${titleProps?.className ?? ""}`}
+                        >
+                            {title}
+                        </h1>
+                    </Paper>
                 ) : null}
                 {children}
             </Paper>

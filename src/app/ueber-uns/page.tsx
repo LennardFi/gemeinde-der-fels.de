@@ -1,3 +1,13 @@
+import PageContainer from "@/components/containers/PageContainer"
+
 export default function Page() {
-    return <h1>Über uns</h1>
+    return (
+        <PageContainer
+            title="Über uns"
+            themeColor="primary"
+            themeColorVariant="font"
+        >
+            TBD
+        </PageContainer>
+    )
 }

@@ -6,7 +6,8 @@
 }
 
 .valueSection {
-    min-height: core.$size-breakpoint-small;
+    transition: 250ms height ease-in-out;
+    min-height: core.$size-breakpoint-tiny;
 
     .mainValue {
         summary {

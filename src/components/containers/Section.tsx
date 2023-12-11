@@ -9,7 +9,6 @@ export default function Section({
     breakpoint,
     children,
     className,
-    noBackgroundColor,
     noPadding,
     paperProps,
     themeColor,
@@ -31,9 +30,7 @@ export default function Section({
         <div
             className={`${styles.wrapper} ${breakpointClassName} ${
                 noPadding ? styles.noPadding : ""
-            } ${noBackgroundColor ? styles.noBackgroundColor : ""} ${
-                className ?? ""
-            }`}
+            } ${className ?? ""}`}
             data-theme={themeColor}
             data-theme-variant={themeColorVariant}
             {...rest}

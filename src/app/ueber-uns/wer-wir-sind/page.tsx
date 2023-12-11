@@ -10,7 +10,7 @@ import styles from "./page.module.scss"
 export default function Page() {
     return (
         <PageContainer title="Wer wir sind" breakpoint="large">
-            <Paper breakpoint="normal" noBackgroundColor>
+            <Paper breakpoint="normal">
                 <Image
                     alt="Some placeholder picture"
                     className={styles.bannerImg}
@@ -30,12 +30,7 @@ export default function Page() {
                     justify: "space-around",
                 }}
             >
-                <Paper
-                    breakpoint="tiny"
-                    className={styles.content}
-                    noBackgroundColor
-                    noPadding
-                >
+                <Paper breakpoint="tiny" className={styles.content} noPadding>
                     <p>
                         Wir sind eine kleine, bibeltreue Gemeinde im Herzen
                         Dautphetals (ca. 20km von Marburg an der Lahn entfernt).
@@ -51,12 +46,7 @@ export default function Page() {
                         lernen wir ein Leben zur Ehre Gottes zu führen.
                     </p>
                 </Paper>
-                <Paper
-                    breakpoint="tiny"
-                    className={styles.content}
-                    noBackgroundColor
-                    noPadding
-                >
+                <Paper breakpoint="tiny" className={styles.content} noPadding>
                     <p>
                         Wir haben die Sehnsucht, die Menschen unserer Region zu
                         segnen, indem wir für sie beten und sie mit Jesus

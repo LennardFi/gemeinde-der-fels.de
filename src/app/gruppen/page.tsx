@@ -4,8 +4,19 @@ import BibleVerse from "@/components/data-display/BibleVerse"
 
 export default function Page() {
     return (
-        <PageContainer noPadding title="Gruppen">
-            <Section paperProps={{ breakpoint: "small" }}>
+        <PageContainer
+            noPadding
+            title="Gruppen"
+            titlePaperProps={{
+                themeColor: "primary",
+                themeColorVariant: "font",
+            }}
+        >
+            <Section
+                paperProps={{ breakpoint: "small" }}
+                themeColor="primary"
+                themeColorVariant="font"
+            >
                 <h2>Kindergottesdienst</h2>
                 <BibleVerse
                     book="Matthäus"
@@ -46,7 +57,11 @@ export default function Page() {
                     um 16 Uhr bis ca. 18 Uhr.
                 </p>
             </Section>
-            <Section paperProps={{ breakpoint: "small" }}>
+            <Section
+                paperProps={{ breakpoint: "small" }}
+                themeColor="primary"
+                themeColorVariant="font"
+            >
                 <h2>Young Generation</h2>
                 <p>
                     Als 'Young Generation' treffen sich Jugendliche und junge
@@ -97,7 +112,11 @@ export default function Page() {
                     mindestens zu Zweit!
                 </p>
             </Section>
-            <Section paperProps={{ breakpoint: "small" }}>
+            <Section
+                paperProps={{ breakpoint: "small" }}
+                themeColor="primary"
+                themeColorVariant="font"
+            >
                 <h2>Männer- und Frauenabende</h2>
                 <p>
                     Einmal im Monat kommen wir als Männer bzw. als Frauen

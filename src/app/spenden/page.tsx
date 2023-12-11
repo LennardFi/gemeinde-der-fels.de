@@ -7,8 +7,13 @@ import styles from "./page.module.scss"
 
 export default function Page() {
     return (
-        <PageContainer title="Spenden" breakpoint="normal">
+        <PageContainer
+            title="Spenden"
+            themeColor="primary"
+            themeColorVariant="font"
+        >
             <Flex
+                breakpoint="normal"
                 direction="row"
                 justify="space-around"
                 alignItems="flex-start"

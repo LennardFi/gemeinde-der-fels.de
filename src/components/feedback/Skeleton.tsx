@@ -6,36 +6,36 @@ import InternalSkeleton, {
 import "react-loading-skeleton/dist/skeleton.css"
 
 export interface SkeletonProps extends InternalSkeletonProps {
-    theme?: Website.Design.ThemeColor
+    themeColor?: Website.Design.ThemeColor
+    themeColorVariant?: Extract<
+        Website.Design.ThemeColorVariant,
+        "default" | "font"
+    >
 }
 
 export default function Skeleton({
     style,
-    theme = "primary",
+    themeColor = "primary",
+    themeColorVariant = "default",
     ...rest
 }: SkeletonProps) {
-    const baseColor =
-        theme === "primary"
-            ? "var(--color-primary)"
-            : theme === "secondary"
-              ? "var(--color-secondary)"
-              : theme === "accent"
-                ? "var(--color-accent)"
-                : ""
-
-    const highlightColor =
-        theme === "primary"
-            ? "var(--color-primary-highlighted)"
-            : theme === "secondary"
-              ? "var(--color-secondary-highlighted)"
-              : theme === "accent"
-                ? "var(--color-accent-highlighted)"
+    const color =
+        themeColor === "primary"
+            ? "--color-primary"
+            : themeColor === "secondary"
+              ? "--color-secondary"
+              : themeColor === "accent"
+                ? "--color-accent"
                 : ""
 
     return (
         <InternalSkeleton
-            baseColor={baseColor}
-            highlightColor={highlightColor}
+            baseColor={`var(${color}${
+                themeColorVariant === "font" ? "-font" : ""
+            })`}
+            highlightColor={`var(${color}${
+                themeColorVariant === "font" ? "-font" : ""
+            }-highlighted)`}
             style={{
                 zIndex: "auto",
                 ...style,

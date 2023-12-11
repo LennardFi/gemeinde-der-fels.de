@@ -4,6 +4,7 @@ import Flex from "@/components/containers/Flex"
 import PageContainer from "@/components/containers/PageContainer"
 import Section from "@/components/containers/Section"
 import Button from "@/components/inputs/Button"
+import Divider from "@/components/surfaces/Divider"
 import Paper from "@/components/surfaces/Paper"
 import useDebouncedValue from "@/hooks/useDebouncedValue"
 import useDeviceSize from "@/hooks/useDeviceSize"
@@ -26,7 +27,14 @@ export default function Page() {
         setExpandedMainValue((prev) => (prev === index ? -1 : index))
 
     return (
-        <PageContainer noPadding title="Werte und Vision" themeColor="primary">
+        <PageContainer
+            noPadding
+            title="Werte und Vision"
+            titlePaperProps={{
+                themeColor: "primary",
+                noPadding: false,
+            }}
+        >
             <Section
                 paperProps={{
                     breakpoint: "small",
@@ -49,6 +57,7 @@ export default function Page() {
                     , ihre Welt zu verändern.
                 </p>
             </Section>
+            <Divider variant="page" themeColor="transparent" />
             <Section
                 className={styles.valueSection}
                 paperProps={{
@@ -400,6 +409,7 @@ export default function Page() {
                     </Paper>
                 </Flex>
             </Section>
+            <Divider variant="page" themeColor="transparent" />
             <Section
                 paperProps={{
                     breakpoint: "small",

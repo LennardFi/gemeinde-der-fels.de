@@ -9,8 +9,12 @@ import styles from "./page.module.scss"
 
 export default function Page() {
     return (
-        <PageContainer title="Veranstaltungen" themeColor="primary">
-            <Section paperProps={{ breakpoint: "small" }} noBackgroundColor>
+        <PageContainer
+            themeColor="primary"
+            themeColorVariant="font"
+            title="Veranstaltungen"
+        >
+            <Section paperProps={{ breakpoint: "small" }}>
                 <Flex className={styles.cardList} direction="column" gap={2}>
                     <Link href="/veranstaltungen/godi">
                         <Card hover>

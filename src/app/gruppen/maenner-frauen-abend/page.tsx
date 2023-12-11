@@ -3,7 +3,11 @@ import Section from "@/components/containers/Section"
 
 export default function Page() {
     return (
-        <PageContainer title="Männer- und Frauenabende">
+        <PageContainer
+            title="Männer- und Frauenabende"
+            themeColor="primary"
+            themeColorVariant="font"
+        >
             <Section paperProps={{ breakpoint: "small" }}>
                 <p>
                     Einmal im Monat kommen wir als Männer bzw. als Frauen

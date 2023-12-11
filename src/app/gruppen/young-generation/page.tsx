@@ -3,7 +3,11 @@ import Section from "@/components/containers/Section"
 
 export default function Page() {
     return (
-        <PageContainer title="Young Generation">
+        <PageContainer
+            title="Young Generation"
+            themeColor="primary"
+            themeColorVariant="font"
+        >
             <Section paperProps={{ breakpoint: "small" }}>
                 <p>
                     Als 'Young Generation' treffen sich Jugendliche und junge

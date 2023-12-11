@@ -3,8 +3,12 @@ import Section from "@/components/containers/Section"
 
 export default function Page() {
     return (
-        <PageContainer title="Gebetsabend">
-            <Section breakpoint="small" themeColor="primary">
+        <PageContainer
+            title="Gebetsabend"
+            themeColor="primary"
+            themeColorVariant="font"
+        >
+            <Section breakpoint="small">
                 <p>
                     <strong>Wann:</strong> Jeden Mittwoch um 19:00 Uhr
                 </p>

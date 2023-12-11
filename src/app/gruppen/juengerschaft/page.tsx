@@ -4,7 +4,11 @@ import BibleVerse from "@/components/data-display/BibleVerse"
 
 export default function Page() {
     return (
-        <PageContainer title="Jüngerschaft praktisch">
+        <PageContainer
+            title="Jüngerschaft praktisch"
+            themeColor="primary"
+            themeColorVariant="font"
+        >
             <Section paperProps={{ breakpoint: "small" }}>
                 <BibleVerse
                     book="Matthäus"

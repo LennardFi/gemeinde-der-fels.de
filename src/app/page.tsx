@@ -126,10 +126,17 @@ export default function Page() {
                 paperProps={{
                     className: styles.paper,
                 }}
+                themeColor="primary"
+                themeColorVariant="font"
             >
                 <h3>Aktuelle Predigt</h3>
-                <Paper breakpoint="normal" noBackgroundColor>
-                    <Skeleton height={200} width="100%" />
+                <Paper breakpoint="normal">
+                    <Skeleton
+                        themeColor="primary"
+                        themeColorVariant="font"
+                        height={200}
+                        width="100%"
+                    />
                 </Paper>
             </Section>
             <Divider variant="page" themeColor="transparent" />
@@ -171,9 +178,11 @@ export default function Page() {
                 paperProps={{
                     className: styles.paper,
                 }}
+                themeColor="primary"
+                themeColorVariant="font"
             >
                 <h3>Du hast noch Fragen?</h3>
-                <Paper breakpoint="small" noBackgroundColor>
+                <Paper breakpoint="small">
                     <ButtonLink
                         href="/kontakt"
                         themeColor="secondary"

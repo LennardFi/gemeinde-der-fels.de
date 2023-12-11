@@ -3,7 +3,11 @@ import Section from "@/components/containers/Section"
 
 export default function Page() {
     return (
-        <PageContainer title="Teenie Jünger Schule (TJS)">
+        <PageContainer
+            title="Teenie Jünger Schule (TJS)"
+            themeColor="primary"
+            themeColorVariant="font"
+        >
             <Section paperProps={{ breakpoint: "small" }}>
                 <p>
                     Hallo, du bist mindestens 12 oder 13 Jahre alt? Dann bist du

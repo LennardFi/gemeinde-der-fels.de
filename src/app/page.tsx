@@ -172,7 +172,7 @@ export default function Page() {
                     className: styles.paper,
                 }}
             >
-                <h3>Du hast mehr Fragen?</h3>
+                <h3>Du hast noch Fragen?</h3>
                 <Paper breakpoint="small" noBackgroundColor>
                     <ButtonLink
                         href="/kontakt"

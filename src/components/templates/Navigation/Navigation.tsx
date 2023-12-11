@@ -7,7 +7,7 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
 import { TfiMenu } from "react-icons/tfi"
-import Aufmacher from "../../../media/Aufmacher.jpg"
+import Logo from "../../../media/logo-temporary.png"
 import Website from "../../../typings"
 import styles from "./Navigation.module.scss"
 import NavigationDrawer from "./NavigationDrawer"
@@ -215,7 +215,7 @@ export default function Navigation({
                         alt="Profile Picture"
                         className={styles.logo}
                         height={64}
-                        src={Aufmacher}
+                        src={Logo}
                         priority
                     />
                 </Link>

@@ -137,6 +137,13 @@ export default function Page() {
                         height={200}
                         width="100%"
                     />
+                    <Flex
+                        direction="column"
+                        justify="flex-start"
+                        alignItems="center"
+                    >
+                        <p>Hier wird später die neuste Predigt angezeigt.</p>
+                    </Flex>
                 </Paper>
             </Section>
             <Divider variant="page" themeColor="transparent" />

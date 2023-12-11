@@ -1,6 +1,5 @@
 import Flex from "@/components/containers/Flex"
 import PageContainer from "@/components/containers/PageContainer"
-import BibleVerse from "@/components/data-display/BibleVerse"
 import Divider from "@/components/surfaces/Divider"
 import Paper from "@/components/surfaces/Paper"
 import Image from "next/image"
@@ -9,15 +8,22 @@ import styles from "./page.module.scss"
 
 export default function Page() {
     return (
-        <PageContainer title="Wer wir sind" breakpoint="large">
+        <PageContainer
+            title="Wer wir sind"
+            themeColor="primary"
+            themeColorVariant="font"
+            breakpoint="normal"
+        >
             <Paper breakpoint="normal">
-                <Image
-                    alt="Some placeholder picture"
-                    className={styles.bannerImg}
-                    src={Aufmacher}
-                    height={600}
-                    placeholder="blur"
-                />
+                <Flex justify="center">
+                    <Image
+                        alt="Some placeholder picture"
+                        className={styles.bannerImg}
+                        src={Aufmacher}
+                        height={500}
+                        placeholder="blur"
+                    />
+                </Flex>
             </Paper>
             <Flex
                 direction="column"
@@ -56,10 +62,12 @@ export default function Page() {
                     <p>
                         <b>
                             Denn Er kam auf diese Erde um „(die Menschen) zu
-                            suchen und zu retten“:
+                            suchen und zu retten“
+                            <br />
+                            (Lukas 19:10).
                         </b>
-                    </p>
-                    <BibleVerse
+                        <br />
+                        {/* <BibleVerse
                         book="Lukas"
                         chapter={19}
                         themeColor="secondary"
@@ -67,14 +75,13 @@ export default function Page() {
                         {[
                             "10 denn der Sohn des Menschen ist gekommen, um zu suchen und zu retten, was verloren ist.",
                         ]}
-                    </BibleVerse>
-                    <p>
+                    </BibleVerse> */}
                         <b>Er ist Weg, Wahrheit und Leben.</b>
                     </p>
                 </Paper>
             </Flex>
             <Divider variant="page" themeColor="transparent" />
-            <Paper breakpoint="normal" themeColor="accent">
+            <Paper themeColor="accent">
                 <p>
                     <b>Neugierig wer wir sind?</b>
                 </p>

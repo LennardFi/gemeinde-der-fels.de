@@ -73,6 +73,10 @@ export const navigationEntries: Website.Content.Navigation.NavigationEntry[] = [
         path: "/ueber-uns",
         subEntries: [
             {
+                label: "Wer wir sind",
+                path: "/ueber-uns/wer-wir-sind",
+            },
+            {
                 label: "Werte & Vision",
                 path: "/ueber-uns/werte-und-vision",
             },

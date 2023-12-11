@@ -25,49 +25,60 @@ export default function Page() {
                     />
                 </Flex>
             </Paper>
-            <Flex
-                direction="column"
-                breakpoint="normal"
-                justify="flex-start"
-                alignItems="flex-start"
-                columnGap={4}
-                normal={{
-                    direction: "row",
-                    justify: "space-around",
-                }}
-            >
-                <Paper breakpoint="tiny" className={styles.content} noPadding>
-                    <p>
-                        Wir sind eine kleine, bibeltreue Gemeinde im Herzen
-                        Dautphetals (ca. 20km von Marburg an der Lahn entfernt).
-                    </p>
-                    <p>
-                        Was uns verbindet ist der Wunsch, Gott zu begegnen und
-                        Seine Gegenwart in den Gottesdiensten zu erleben.
-                        Prägende Elemente sind die gemeinsame Zeit in Lobpreis
-                        und Anbetung, sowie die Verkündigung des Wortes Gottes.
-                        <br />
-                        Als Gemeinde möchten wir echte und verlässliche
-                        Beziehungen untereinander leben, und als Nachfolger Jesu
-                        lernen wir ein Leben zur Ehre Gottes zu führen.
-                    </p>
-                </Paper>
-                <Paper breakpoint="tiny" className={styles.content} noPadding>
-                    <p>
-                        Wir haben die Sehnsucht, die Menschen unserer Region zu
-                        segnen, indem wir für sie beten und sie mit Jesus
-                        Christus bekannt machen.
-                        <br />
-                    </p>
-                    <p>
-                        <b>
-                            Denn Er kam auf diese Erde um „(die Menschen) zu
-                            suchen und zu retten“
+            <Paper>
+                <Flex
+                    direction="column"
+                    breakpoint="normal"
+                    justify="flex-start"
+                    alignItems="flex-start"
+                    columnGap={4}
+                    normal={{
+                        direction: "row",
+                        justify: "space-around",
+                    }}
+                >
+                    <Paper
+                        breakpoint="tiny"
+                        className={styles.content}
+                        noPadding
+                    >
+                        <p>
+                            Wir sind eine kleine, bibeltreue Gemeinde im Herzen
+                            Dautphetals (ca. 20km von Marburg an der Lahn
+                            entfernt).
+                        </p>
+                        <p>
+                            Was uns verbindet ist der Wunsch, Gott zu begegnen
+                            und Seine Gegenwart in den Gottesdiensten zu
+                            erleben. Prägende Elemente sind die gemeinsame Zeit
+                            in Lobpreis und Anbetung, sowie die Verkündigung des
+                            Wortes Gottes.
                             <br />
-                            (Lukas 19:10).
-                        </b>
-                        <br />
-                        {/* <BibleVerse
+                            Als Gemeinde möchten wir echte und verlässliche
+                            Beziehungen untereinander leben, und als Nachfolger
+                            Jesu lernen wir ein Leben zur Ehre Gottes zu führen.
+                        </p>
+                    </Paper>
+                    <Paper
+                        breakpoint="tiny"
+                        className={styles.content}
+                        noPadding
+                    >
+                        <p>
+                            Wir haben die Sehnsucht, die Menschen unserer Region
+                            zu segnen, indem wir für sie beten und sie mit Jesus
+                            Christus bekannt machen.
+                            <br />
+                        </p>
+                        <p>
+                            <b>
+                                Denn Er kam auf diese Erde um „(die Menschen) zu
+                                suchen und zu retten“
+                                <br />
+                                (Lukas 19:10).
+                            </b>
+                            <br />
+                            {/* <BibleVerse
                         book="Lukas"
                         chapter={19}
                         themeColor="secondary"
@@ -76,10 +87,11 @@ export default function Page() {
                             "10 denn der Sohn des Menschen ist gekommen, um zu suchen und zu retten, was verloren ist.",
                         ]}
                     </BibleVerse> */}
-                        <b>Er ist Weg, Wahrheit und Leben.</b>
-                    </p>
-                </Paper>
-            </Flex>
+                            <b>Er ist Weg, Wahrheit und Leben.</b>
+                        </p>
+                    </Paper>
+                </Flex>
+            </Paper>
             <Divider variant="page" themeColor="transparent" />
             <Paper themeColor="accent">
                 <p>

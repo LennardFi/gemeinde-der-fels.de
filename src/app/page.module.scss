@@ -1,6 +1,7 @@
 @use "../styles/core.module.scss" as core;
 
 .paper {
+    font-size: core.$size-font-default;
     padding: core.getDimensionValue(6);
 
     h1,
@@ -16,14 +17,17 @@
 
     h2 {
         font-size: core.$size-font-header;
+        // margin-bottom: 0;
+        text-align: center;
     }
 
     h3 {
         font-size: core.$size-font-subheader;
+        text-align: center;
     }
 
     p {
-        font-size: core.$size-font-default;
+        font-size: inherit;
         max-width: core.$size-breakpoint-small;
     }
 }

@@ -1,9 +1,15 @@
 @use "../../../styles/core.module.scss" as core;
 
 .footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    row-gap: core.getDimensionValue(4);
     background: core.$color-primary;
+    color: core.$color-primary-font;
     padding: core.getDimensionValue(4) 0;
-    padding-bottom: core.getDimensionValue(6);
+    // padding-bottom: core.getDimensionValue(6);
     z-index: 10;
 
     .wrapper {
@@ -13,7 +19,6 @@
         gap: core.getDimensionValue(2);
         margin: 0 auto;
         max-width: core.$size-breakpoint-small;
-        color: core.$color-accent-font;
         transition: column-gap 500ms ease-in-out;
 
         .container {
@@ -33,17 +38,17 @@
                 padding: 0;
 
                 a {
-                    color: core.$color-accent-font;
+                    color: core.$color-primary-font;
                     text-decoration: none;
 
                     &:focus,
                     &:active {
-                        color: core.$color-accent-font-highlighted;
+                        color: core.$color-primary-font-highlighted;
                     }
 
                     @media (hover: hover) and (pointer: fine) {
                         &:hover {
-                            color: core.$color-accent-font-highlighted;
+                            color: core.$color-primary-font-highlighted;
                         }
                     }
                 }
@@ -51,7 +56,7 @@
         }
 
         @media (min-width: core.$size-breakpoint-tiny) {
-            column-gap: core.getDimensionValue(4);
+            column-gap: core.getDimensionValue(6);
             row-gap: core.getDimensionValue(4);
             grid-template: auto / auto auto;
         }
@@ -70,7 +75,7 @@
         }
 
         hr {
-            border-color: core.$color-accent-font;
+            border-color: core.$color-primary-font;
             border-right: 0px;
             border-style: solid;
         }
@@ -89,5 +94,9 @@
         //         font-size: core.$size-font-default * 2;
         //     }
         // }
+    }
+
+    .copyrightNotice {
+        text-align: center;
     }
 }

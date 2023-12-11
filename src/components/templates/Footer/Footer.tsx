@@ -64,6 +64,9 @@ export default function Footer() {
                     </div>
                 </RequiresFeatureFlag>
             </div>
+            <div className={styles.copyrightNotice}>
+                © 2023 Gemeinde Der Fels
+            </div>
         </footer>
     )
 }

@@ -14,14 +14,19 @@ export default function Window({
     className,
     pageContainer,
     pageContainerProps,
+    themeColor,
+    themeColorVariant,
     ...rest
 }: WindowProps) {
     if (pageContainer) {
         return (
             <PageContainer
-                className={`${styles.paper ?? ""} ${
+                className={`${styles.window ?? ""} ${
                     styles.pageContainer ?? ""
                 } ${pageContainerProps?.className ?? ""} ${className ?? ""}`}
+                noPadding
+                themeColor={themeColor ?? "primary"}
+                themeColorVariant={themeColorVariant ?? "font"}
                 {...rest}
             >
                 {children}
@@ -30,7 +35,10 @@ export default function Window({
     }
 
     return (
-        <Paper className={`${styles.paper ?? ""} ${className ?? ""}`} {...rest}>
+        <Paper
+            className={`${styles.window ?? ""} ${className ?? ""}`}
+            {...rest}
+        >
             {children}
         </Paper>
     )

@@ -1,8 +1,13 @@
+import PageContainer from "@/components/containers/PageContainer"
 import styles from "./page.module.scss"
 
 export default function Imprint() {
     return (
-        <div className={styles.imprint}>
+        <PageContainer
+            breakpoint="small"
+            className={styles.imprint}
+            title="Impressum"
+        >
             <h2>Angaben gemäß § 5 TMG</h2>
             <p>
                 Lennard Fickus <br />
@@ -78,7 +83,7 @@ export default function Imprint() {
                 Impressum vom{" "}
                 <a href="https://www.impressum-generator.de">
                     Impressum Generator
-                </a>
+                </a>{" "}
                 der{" "}
                 <a
                     href="https://www.kanzlei-hasselbach.de/standorte/frankfurt/"
@@ -87,6 +92,6 @@ export default function Imprint() {
                     Kanzlei Hasselbach, Frankfurt
                 </a>
             </p>
-        </div>
+        </PageContainer>
     )
 }

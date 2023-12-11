@@ -1,0 +1,88 @@
+@use "../../styles/core.module.scss" as core;
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    font-size: inherit;
+    border-left: solid core.getDimensionValue(.5);
+    padding: core.getDimensionValue(1);
+    padding-left: core.getDimensionValue(1);
+
+    .verseList {
+        font-size: inherit;
+
+        .verse {
+            color: inherit;
+            font-weight: normal;
+            font-size: inherit;
+            margin: 0;
+            display: inline;
+
+            .verseNumber {
+                font-weight: 500;
+                font-size: inherit;
+            }
+        }
+    }
+
+    .biblePassageLabel {
+        font-weight: 500;
+        font-size: inherit;
+        text-align: right;
+        align-self: flex-end;
+
+        .bibleTranslationLabel {
+            font-weight: 400;
+        }
+    }
+
+    &[data-theme="primary"] {
+        background-color: core.$color-primary-faded;
+        border-left-color: core.$color-primary;
+        color: core.$color-primary-font-faded;
+
+        .verseList {
+            .verseNumber {
+                color: core.$color-primary;
+            }
+        }
+
+        .biblePassageLabel {
+            color: core.$color-primary;
+        }
+    }
+
+    &[data-theme="secondary"] {
+        background-color: core.$color-secondary-faded;
+        border-left-color: core.$color-secondary;
+        color: core.$color-secondary-font-faded;
+
+        .verseList {
+            .verseNumber {
+                color: core.$color-secondary;
+            }
+        }
+
+        .biblePassageLabel {
+            color: core.$color-secondary;
+        }
+    }
+
+    &[data-theme="accent"] {
+        background-color: core.$color-accent-faded;
+        border-left-color: core.$color-accent;
+        color: core.$color-accent-font-faded;
+
+        .verseList {
+            .verseNumber {
+                color: core.$color-accent;
+            }
+        }
+
+        .biblePassageLabel {
+            color: core.$color-accent;
+        }
+    }
+}

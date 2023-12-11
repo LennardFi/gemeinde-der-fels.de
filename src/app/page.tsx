@@ -2,8 +2,10 @@
 
 import Flex from "@/components/containers/Flex"
 import Section from "@/components/containers/Section"
+import Skeleton from "@/components/feedback/Skeleton"
 import ButtonLink from "@/components/inputs/ButtonLink"
 import Divider from "@/components/surfaces/Divider"
+import Paper from "@/components/surfaces/Paper"
 import Card from "@/components/surfaces/card/Card"
 import CardContent from "@/components/surfaces/card/CardContent"
 import CardHeader from "@/components/surfaces/card/CardHeader"
@@ -11,6 +13,7 @@ import Navigation from "@/components/templates/Navigation/Navigation"
 import Image from "next/image"
 import Link from "next/link"
 import { FaAngleDoubleDown } from "react-icons/fa"
+import Brandung from "../media/brandung.jpg"
 import styles from "./page.module.scss"
 
 const navHtmlId = "nav"
@@ -41,23 +44,25 @@ export default function Page() {
             </div>
             <Navigation id={navHtmlId} sticky />
             <Image
-                alt="Some placeholder picture"
+                alt="Mountain"
                 className={styles.bannerImg}
-                src="https://picsum.photos/seed/asdasafgafvafa/1920/1080.jpg"
-                height={1080}
+                src={Brandung}
+                // height={1080}
                 width={1920}
                 placeholder="blur"
-                blurDataURL="https://picsum.photos/seed/asdasafgafvafa/192/108.jpg?grayscale"
+                // blurDataURL="https://picsum.photos/seed/asdasafgafvafa/192/108.jpg?grayscale"
                 priority
             />
             <Divider variant="page" themeColor="transparent" />
             <Section
-                fullWidth
                 paperProps={{
+                    breakpoint: "normal",
                     className: styles.paper,
                 }}
                 themeColor="primary"
             >
+                <h2>Willkommen in unserer Gemeinde!</h2>
+
                 <Flex
                     breakpoint="normal"
                     direction="column"
@@ -76,7 +81,7 @@ export default function Page() {
                 >
                     <ButtonLink
                         className={`${styles.quickLink}`}
-                        href="/ueber-uns"
+                        href="/ueber-uns/wer-wir-sind"
                         themeColor="primary"
                         fontColor
                         variant="text"
@@ -118,68 +123,18 @@ export default function Page() {
             </Section>
             <Divider variant="page" themeColor="transparent" />
             <Section
-                fullWidth
                 paperProps={{
                     className: styles.paper,
                 }}
             >
-                <Flex
-                    direction="column"
-                    breakpoint="large"
-                    justify="flex-start"
-                    alignItems="center"
-                    columnGap={4}
-                    rowGap={2}
-                    large={{
-                        direction: "row",
-                        justify: "space-around",
-                    }}
-                >
-                    <div>
-                        <h2>Willkommen in unserer Gemeinde!</h2>
-                        <p>
-                            Nisi duis do velit aute consequat tempor ad ipsum
-                            sit ullamco. Magna pariatur sit consequat id ut
-                            laborum minim et sint labore laboris id. Ut sit anim
-                            do do adipisicing nisi aliqua commodo proident
-                            veniam dolore elit.
-                        </p>
-                        <p>
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. At esse repudiandae voluptatem earum alias
-                            mollitia sint deleniti. Quos facere ab iusto
-                            excepturi doloribus, amet sed, ut doloremque placeat
-                            quis vel.
-                        </p>
-                        <p>
-                            <b>Laboris labore ad veniam ex eiusmod.</b>
-                        </p>
-                    </div>
-                    <Image
-                        alt="Some placeholder picture"
-                        className={styles.bannerImg}
-                        src="https://picsum.photos/seed/sdasxgwathad/1920/1080.jpg"
-                        height={300}
-                        width={600}
-                        placeholder="blur"
-                        blurDataURL="https://picsum.photos/seed/sdasxgwathad/192/108.jpg?grayscale"
-                    />
-                </Flex>
+                <h3>Aktuelle Predigt</h3>
+                <Paper breakpoint="normal" noBackgroundColor>
+                    <Skeleton height={200} width="100%" />
+                </Paper>
             </Section>
             <Divider variant="page" themeColor="transparent" />
-            <Image
-                alt="Some placeholder picture"
-                className={styles.bannerImg}
-                src="https://picsum.photos/seed/hsjarca/1920/1080.jpg"
-                height={1080}
-                width={1920}
-                placeholder="blur"
-                blurDataURL="https://picsum.photos/seed/hsjarca/192/108.jpg?grayscale"
-                priority
-            />
-            <Divider variant="page" themeColor="transparent" />
+            {/* <Divider variant="page" themeColor="transparent" /> */}
             <Section
-                fullWidth
                 paperProps={{
                     className: styles.paper,
                 }}
@@ -212,7 +167,24 @@ export default function Page() {
                 </Flex>
             </Section>
             <Divider variant="page" themeColor="transparent" />
-            <Image
+            <Section
+                paperProps={{
+                    className: styles.paper,
+                }}
+            >
+                <h3>Du hast mehr Fragen?</h3>
+                <Paper breakpoint="small" noBackgroundColor>
+                    <ButtonLink
+                        href="/kontakt"
+                        themeColor="secondary"
+                        variant="contained"
+                    >
+                        Zum Kontaktformular
+                    </ButtonLink>
+                </Paper>
+            </Section>
+            <Divider variant="page" themeColor="transparent" />
+            {/* <Image
                 alt="Some placeholder picture"
                 className={styles.bannerImg}
                 src="https://picsum.photos/seed/gioafouaiubf/1920/1080.jpg"
@@ -221,8 +193,8 @@ export default function Page() {
                 placeholder="blur"
                 blurDataURL="https://picsum.photos/seed/gioafouaiubf/192/108.jpg?grayscale"
                 // priority
-            />
-            <Divider variant="page" themeColor="transparent" />
+            /> */}
+            {/* <Divider variant="page" themeColor="transparent" /> */}
             {/* <NewsList /> */}
         </>
     )

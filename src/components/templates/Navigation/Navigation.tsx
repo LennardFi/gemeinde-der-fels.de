@@ -51,11 +51,15 @@ export const navigationEntries: Website.Content.Navigation.NavigationEntry[] = [
         subEntries: [
             {
                 label: "Gottesdienst",
-                path: "/veranstaltungen/gottesdienst",
+                path: "/veranstaltungen/godi",
             },
             {
                 label: "Gebetsabend",
                 path: "/veranstaltungen/gebetsabend",
+            },
+            {
+                label: "Männer- und Frauenkreise",
+                path: "/gruppen/maenner-frauen-abend",
             },
             {
                 label: "Termine",
@@ -84,7 +88,6 @@ export const navigationEntries: Website.Content.Navigation.NavigationEntry[] = [
     },
     {
         label: "Gruppen",
-        noLink: true,
         path: "/gruppen",
         subEntries: [
             {
@@ -92,12 +95,16 @@ export const navigationEntries: Website.Content.Navigation.NavigationEntry[] = [
                 path: "/gruppen/kigo",
             },
             {
-                label: "Teenie Jüngerschule",
+                label: "Teenie Jünger Schule",
                 path: "/gruppen/tjs",
             },
             {
                 label: "Young Generation",
                 path: "/gruppen/young-generation",
+            },
+            {
+                label: "Jüngerschaft praktisch",
+                path: "/gruppen/juengerschaft",
             },
             {
                 label: "Männer-/Frauen-Abend",

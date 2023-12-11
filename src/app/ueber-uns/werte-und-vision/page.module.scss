@@ -5,45 +5,48 @@
     font-weight: 600;
 }
 
-.mainValue {
+.valueSection {
+    min-height: core.$size-breakpoint-small;
 
-    summary {
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-start;
-        align-items: center;
-        gap: core.getDimensionValue(1);
-        cursor: pointer;
-        font-weight: 400;
-        list-style: none;
-        color: core.$color-primary-font;
-
-        &:hover {
-            color: core.$color-secondary-highlighted;
-            font-weight: 700;
-        }
-    }
-
-    &[open] {
+    .mainValue {
         summary {
-            color: core.$color-secondary;
-            font-weight: 700;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+            gap: core.getDimensionValue(1);
+            cursor: pointer;
+            font-weight: 400;
+            list-style: none;
+            color: core.$color-primary;
 
             &:hover {
                 color: core.$color-secondary-highlighted;
+                font-weight: 700;
             }
         }
-    }
 
-    * {
-        font-weight: initial;
-    }
+        &[open] {
+            summary {
+                color: core.$color-secondary;
+                font-weight: 700;
 
-    .mainValueIcon {
-        transition: rotate 250ms ease-in-out;
-    }
+                &:hover {
+                    color: core.$color-secondary-highlighted;
+                }
+            }
+        }
 
-    ul {
-        margin: 0;
+        * {
+            font-weight: initial;
+        }
+
+        .mainValueIcon {
+            transition: rotate 250ms ease-in-out;
+        }
+
+        ul {
+            margin: 0;
+        }
     }
 }

@@ -4,7 +4,7 @@
     color: core.$color-primary-font;
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     background-color: core.$color-primary;
     color: core.$color-primary-font;
@@ -72,7 +72,7 @@
         color: core.$color-primary-font;
         margin: 0;
         padding: 0;
-        padding-bottom: core.getDimensionValue(1);
+        // padding-bottom: core.getDimensionValue(1);
         position: absolute;
         top: 100%;
         right: 0;

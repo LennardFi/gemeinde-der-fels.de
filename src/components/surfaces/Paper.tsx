@@ -1,12 +1,13 @@
 import Website from "@/typings"
-import React, { HTMLProps } from "react"
+import { HTMLAttributes } from "react"
 import styles from "./Paper.module.scss"
 
-export interface PaperProps extends HTMLProps<HTMLDivElement> {
+export interface PaperProps extends HTMLAttributes<HTMLDivElement> {
     breakpoint?: Website.Base.Breakpoint
-    children?: React.ReactNode
     noBackgroundColor?: boolean
+    noPadding?: boolean
     themeColor?: Website.Design.ThemeColor
+    themeColorVariant?: Website.Design.ThemeColorVariant
 }
 
 export default function Paper({
@@ -14,34 +15,31 @@ export default function Paper({
     children,
     className,
     noBackgroundColor,
+    noPadding,
     themeColor,
+    themeColorVariant,
     ...rest
 }: PaperProps) {
     const breakpointClassName =
         breakpoint === "large"
             ? styles.large
             : breakpoint === "normal"
-            ? styles.normal
-            : breakpoint === "small"
-            ? styles.small
-            : ""
-
-    const themeColorClassName =
-        themeColor === "primary"
-            ? styles.primary
-            : themeColor === "secondary"
-            ? styles.secondary
-            : themeColor === "accent"
-            ? styles.accent
-            : ""
+              ? styles.normal
+              : breakpoint === "small"
+                ? styles.small
+                : breakpoint === "tiny"
+                  ? styles.tiny
+                  : ""
 
     return (
         <div
             className={`${styles.paper} ${breakpointClassName} ${
-                themeColorClassName ?? ""
+                noPadding ? styles.noPadding : ""
             } ${noBackgroundColor ? styles.noBackgroundColor : ""} ${
                 className ?? ""
             }`}
+            data-theme={themeColor}
+            data-theme-variant={themeColorVariant}
             {...rest}
         >
             {children}

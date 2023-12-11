@@ -2,10 +2,8 @@
 
 .container {
     margin: auto;
-    padding: core.getDimensionValue(1);
     font-size: core.$size-font-default;
     height: auto;
-    width: auto;
 
     >h1,
     >h2,
@@ -14,10 +12,6 @@
     >h5,
     >h6 {
         text-align: center;
-    }
-
-    &.noPadding {
-        padding: 0;
     }
 
     @media (min-width: core.$size-breakpoint-small) {

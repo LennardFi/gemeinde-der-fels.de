@@ -1,28 +1,41 @@
-import Website from "@/typings"
-import { HTMLAttributes } from "react"
 import Paper, { PaperProps } from "../surfaces/Paper"
 import styles from "./Section.module.scss"
 
-export interface SectionProps extends HTMLAttributes<HTMLDivElement> {
-    paperProps?: PaperProps
-    themeColor?: Website.Design.ThemeColor
-    fullWidth?: boolean
+export interface SectionProps extends PaperProps {
+    paperProps?: Omit<PaperProps, "themeColor">
 }
 
 export default function Section({
+    breakpoint,
     children,
     className,
-    fullWidth,
+    noBackgroundColor,
+    noPadding,
     paperProps,
     themeColor,
+    themeColorVariant,
     ...rest
 }: SectionProps) {
+    const breakpointClassName =
+        breakpoint === "large"
+            ? styles.large
+            : breakpoint === "normal"
+              ? styles.normal
+              : breakpoint === "small"
+                ? styles.small
+                : breakpoint === "tiny"
+                  ? styles.tiny
+                  : ""
+
     return (
         <div
-            className={`${styles.wrapper} ${
-                fullWidth ? styles.fullWidth : ""
-            } ${className ?? ""}`}
+            className={`${styles.wrapper} ${breakpointClassName} ${
+                noPadding ? styles.noPadding : ""
+            } ${noBackgroundColor ? styles.noBackgroundColor : ""} ${
+                className ?? ""
+            }`}
             data-theme={themeColor}
+            data-theme-variant={themeColorVariant}
             {...rest}
         >
             {/* <div className={`${styles.startAdornment}`}>
@@ -32,9 +45,9 @@ export default function Section({
             </div> */}
 
             <Paper
-                {...paperProps}
                 className={`${paperProps?.className ?? ""} ${styles.paper}`}
-                themeColor={paperProps?.themeColor ?? themeColor}
+                noPadding={noPadding}
+                {...paperProps}
             >
                 {children}
             </Paper>

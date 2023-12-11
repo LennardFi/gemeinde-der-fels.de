@@ -1,6 +1,128 @@
 @use "../../styles/core.module.scss" as core;
 
 .wrapper {
+    margin: 0 auto;
+    padding: core.getDimensionValue(2) 0;
+    width: 100%;
+
+    &.noPadding {
+        padding: 0;
+    }
+
+    &.tiny {
+        max-width: core.$size-breakpoint-tiny;
+        width: 100%;
+    }
+
+    &.small {
+        max-width: core.$size-breakpoint-small;
+        width: 100%;
+    }
+
+    &.normal {
+        max-width: core.$size-breakpoint-normal;
+        width: 100%;
+    }
+
+    &.large {
+        max-width: core.$size-breakpoint-large;
+        width: 100%;
+    }
+
+    &:not(.noBackgroundColor) {
+        background-color: core.$color-default;
+        color: core.$color-default-font;
+
+        &[data-theme="primary"] {
+            background-color: core.$color-primary;
+            color: core.$color-primary-font;
+
+            &[data-theme-variant="faded"] {
+                background-color: core.$color-primary-faded;
+                color: core.$color-primary-font-faded;
+            }
+
+            &[data-theme-variant="font"] {
+                background-color: core.$color-primary-font;
+                color: core.$color-primary;
+            }
+
+            &[data-theme-variant="fontFaded"] {
+                background-color: core.$color-primary-font-faded;
+                color: core.$color-primary-faded;
+            }
+
+            &[data-theme-variant="fontHighlighted"] {
+                background-color: core.$color-primary-font-highlighted;
+                color: core.$color-primary-highlighted;
+            }
+
+            &[data-theme-variant="highlighted"] {
+                background-color: core.$color-primary-highlighted;
+                color: core.$color-primary-font-highlighted;
+            }
+        }
+
+        &[data-theme="secondary"] {
+            background-color: core.$color-secondary;
+            color: core.$color-secondary-font;
+
+            &[data-theme-variant="faded"] {
+                background-color: core.$color-secondary-faded;
+                color: core.$color-secondary-font-faded;
+            }
+
+            &[data-theme-variant="font"] {
+                background-color: core.$color-secondary-font;
+                color: core.$color-secondary;
+            }
+
+            &[data-theme-variant="fontFaded"] {
+                background-color: core.$color-secondary-font-faded;
+                color: core.$color-secondary-faded;
+            }
+
+            &[data-theme-variant="fontHighlighted"] {
+                background-color: core.$color-secondary-font-highlighted;
+                color: core.$color-secondary-highlighted;
+            }
+
+            &[data-theme-variant="highlighted"] {
+                background-color: core.$color-secondary-highlighted;
+                color: core.$color-secondary-font-highlighted;
+            }
+        }
+
+        &[data-theme="accent"] {
+            background-color: core.$color-accent;
+            color: core.$color-accent-font;
+
+            &[data-theme-variant="faded"] {
+                background-color: core.$color-accent-faded;
+                color: core.$color-accent-font-faded;
+            }
+
+            &[data-theme-variant="font"] {
+                background-color: core.$color-accent-font;
+                color: core.$color-accent;
+            }
+
+            &[data-theme-variant="fontFaded"] {
+                background-color: core.$color-accent-font-faded;
+                color: core.$color-accent-faded;
+            }
+
+            &[data-theme-variant="fontHighlighted"] {
+                background-color: core.$color-accent-font-highlighted;
+                color: core.$color-accent-highlighted;
+            }
+
+            &[data-theme-variant="highlighted"] {
+                background-color: core.$color-accent-highlighted;
+                color: core.$color-accent-font-highlighted;
+            }
+        }
+    }
 
     .startAdornment {
         position: relative;
@@ -48,30 +170,7 @@
     }
 
     .paper {
-        z-index: 1;
-        position: relative;
-    }
-
-    &.fullWidth {
-        width: 100%;
-    }
-
-    &[data-theme="primary"] {
-        .paper {
-            // background: core.$color-primary;
-            // color: core.$color-primary-font;
-        }
-
-        .shade1 {
-            background: core.$color-secondary-faded;
-        }
-
-        .shade2 {
-            background: core.$color-secondary;
-        }
-
-        .shade3 {
-            background: core.$color-secondary-highlighted;
-        }
+        // z-index: 1;
+        // position: relative;
     }
 }

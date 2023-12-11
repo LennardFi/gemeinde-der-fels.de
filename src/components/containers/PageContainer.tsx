@@ -4,7 +4,6 @@ import Paper, { PaperProps } from "../surfaces/Paper"
 import styles from "./PageContainer.module.scss"
 
 export interface PageContainerProps extends PaperProps {
-    noPadding?: boolean
     title?: string
     titleProps?: HTMLAttributes<HTMLHeadingElement>
 }
@@ -12,7 +11,8 @@ export interface PageContainerProps extends PaperProps {
 export default function PageContainer({
     children,
     className,
-    noPadding,
+    themeColor,
+    themeColorVariant,
     title,
     titleProps,
     ...rest
@@ -21,9 +21,13 @@ export default function PageContainer({
         <>
             <Divider variant="page" themeColor="transparent" />
             <Paper
-                className={`${styles.container} ${
-                    noPadding ? styles.noPadding : ""
-                } ${className ?? ""}`}
+                className={`${styles.container} ${className ?? ""}`}
+                themeColor={themeColor ?? "primary"}
+                themeColorVariant={
+                    themeColor === undefined
+                        ? themeColorVariant ?? "font"
+                        : themeColorVariant
+                }
                 {...rest}
             >
                 {title ? (

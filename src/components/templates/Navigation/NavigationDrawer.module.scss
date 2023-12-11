@@ -55,8 +55,7 @@ $duration: 10000ms;
         }
 
         @media (min-width: core.$size-breakpoint-small) {
-            border-left: core.$size-border-default solid
-                core.$color-primary-highlighted;
+            border-left: core.$size-border-default solid core.$color-primary-highlighted;
         }
     }
 

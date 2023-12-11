@@ -47,25 +47,25 @@
     &.containedHover:hover {
         &[data-theme="primary"] {
             background-color: core.$color-primary;
-            border-color: core.$color-primary-font;
+            border-color: core.$color-primary;
             color: core.$color-primary-font;
 
             &:not(:disabled):hover,
             &:not(.noFocusColor):not(:disabled):focus {
                 background-color: core.$color-primary-highlighted;
-                border-color: core.$color-primary-font-highlighted;
+                border-color: core.$color-primary-highlighted;
                 color: core.$color-primary-font-highlighted;
             }
 
             &.fontColor {
                 background-color: core.$color-primary-font;
-                border-color: core.$color-primary;
+                border-color: core.$color-primary-font;
                 color: core.$color-primary;
 
                 &:not(:disabled):hover,
                 &:not(.noFocusColor):not(:disabled):focus {
                     background-color: core.$color-primary-font-highlighted;
-                    border-color: core.$color-primary-highlighted;
+                    border-color: core.$color-primary-font-highlighted;
                     color: core.$color-primary-highlighted;
                 }
             }
@@ -73,25 +73,25 @@
 
         &[data-theme="secondary"] {
             background-color: core.$color-secondary;
-            border-color: core.$color-secondary-font;
+            border-color: core.$color-secondary;
             color: core.$color-secondary-font;
 
             &:not(:disabled):hover,
             &:not(.noFocusColor):not(:disabled):focus {
                 background-color: core.$color-secondary-highlighted;
-                border-color: core.$color-secondary-font-highlighted;
+                border-color: core.$color-secondary-highlighted;
                 color: core.$color-secondary-font-highlighted;
             }
 
             &.fontColor {
                 background-color: core.$color-secondary-font;
-                border-color: core.$color-secondary;
+                border-color: core.$color-secondary-font;
                 color: core.$color-secondary;
 
                 &:not(:disabled):hover,
                 &:not(.noFocusColor):not(:disabled):focus {
                     background-color: core.$color-secondary-font-highlighted;
-                    border-color: core.$color-secondary-highlighted;
+                    border-color: core.$color-secondary-font-highlighted;
                     color: core.$color-secondary-highlighted;
                 }
             }
@@ -99,25 +99,25 @@
 
         &[data-theme="accent"] {
             background-color: core.$color-accent;
-            border-color: core.$color-accent-font;
+            border-color: core.$color-accent;
             color: core.$color-accent-font;
 
             &:not(:disabled):hover,
             &:not(.noFocusColor):not(:disabled):focus {
                 background-color: core.$color-accent-highlighted;
-                border-color: core.$color-accent-font-highlighted;
+                border-color: core.$color-accent-highlighted;
                 color: core.$color-accent-font-highlighted;
             }
 
             &.fontColor {
                 background-color: core.$color-accent-font;
-                border-color: core.$color-accent;
+                border-color: core.$color-accent-font;
                 color: core.$color-accent;
 
                 &:not(:disabled):hover,
                 &:not(.noFocusColor):not(:disabled):focus {
                     background-color: core.$color-accent-font-highlighted;
-                    border-color: core.$color-accent-highlighted;
+                    border-color: core.$color-accent-font-highlighted;
                     color: core.$color-accent-highlighted;
                 }
             }

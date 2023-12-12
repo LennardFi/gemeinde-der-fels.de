@@ -25,13 +25,13 @@ export default function Page() {
                     <Link href="/veranstaltungen/gebetsabend">
                         <Card hover>
                             <CardHeader>Gebetsabend</CardHeader>
-                            <CardContent>Sonntag um 10:00 Uhr</CardContent>
+                            <CardContent>Mittwoch um 19 Uhr</CardContent>
                         </Card>
                     </Link>
                     <Link href="/gruppen/maenner-frauen-abend">
                         <Card hover>
                             <CardHeader>Männer- und Frauenkreise</CardHeader>
-                            <CardContent>Sonntag um 10:00 Uhr</CardContent>
+                            <CardContent>Nach Absprache</CardContent>
                         </Card>
                     </Link>
                 </Flex>

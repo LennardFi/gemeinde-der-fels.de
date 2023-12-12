@@ -1,13 +1,8 @@
 import PageContainer from "@/components/containers/PageContainer"
-import styles from "./page.module.scss"
 
-export default function Imprint() {
+export default function Page() {
     return (
-        <PageContainer
-            breakpoint="normal"
-            className={styles.imprint}
-            title="Impressum"
-        >
+        <PageContainer breakpoint="normal" title="Impressum">
             In Arbeit
             {/* <h2>Angaben gemäß § 5 TMG</h2>
             <p>
@@ -80,7 +75,7 @@ export default function Imprint() {
                 entsprechenden Hinweis. Bei Bekanntwerden von Rechtsverletzungen
                 werden wir derartige Inhalte umgehend entfernen.
             </p>
-            <p className={styles.source}>
+            <p>
                 Impressum vom{" "}
                 <a href="https://www.impressum-generator.de">
                     Impressum Generator

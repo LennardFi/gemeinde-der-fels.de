@@ -5,7 +5,6 @@ import { SermonsListEntry } from "@/components/templates/SermonList/SermonList"
 import SermonsListContainer from "@/components/templates/SermonList/SermonListContainer"
 import { getClient } from "@/lib/backend/databaseHelpers"
 import { defaultListPageSize } from "@/lib/shared/apiHelpers"
-import styles from "./page.module.scss"
 
 export default async function Page() {
     const dbEntries = await getClient().sermon.findMany({
@@ -37,9 +36,10 @@ export default async function Page() {
     return (
         <PageContainer
             breakpoint="normal"
-            className={styles.container}
             noPadding
             title="Predigten"
+            themeColor="primary"
+            themeColorVariant="font"
         >
             <SermonsListContainer
                 initialSermons={initialSermons}

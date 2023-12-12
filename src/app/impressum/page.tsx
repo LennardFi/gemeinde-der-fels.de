@@ -4,11 +4,12 @@ import styles from "./page.module.scss"
 export default function Imprint() {
     return (
         <PageContainer
-            breakpoint="small"
+            breakpoint="normal"
             className={styles.imprint}
             title="Impressum"
         >
-            <h2>Angaben gemäß § 5 TMG</h2>
+            In Arbeit
+            {/* <h2>Angaben gemäß § 5 TMG</h2>
             <p>
                 Lennard Fickus <br />
                 Sudetenstraße 12
@@ -91,7 +92,7 @@ export default function Imprint() {
                 >
                     Kanzlei Hasselbach, Frankfurt
                 </a>
-            </p>
+            </p> */}
         </PageContainer>
     )
 }

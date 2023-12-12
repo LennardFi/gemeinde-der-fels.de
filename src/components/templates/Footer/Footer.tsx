@@ -33,20 +33,24 @@ export default function Footer() {
                         </li>
                     </ul>
                 </div>
-                <div className={styles.container}>
-                    <h3>Social Media</h3>
-                    <ul className={styles.links}>
-                        <li>
-                            <Link
-                                href="https://www.youtube.com/@gemeindederfels7523"
-                                rel="noreferrer noopener"
-                                target="_blank"
-                            >
-                                <FaYoutube style={{ height: 24, width: 24 }} />
-                            </Link>
-                        </li>
-                    </ul>
-                </div>
+                <RequiresFeatureFlag flags={["hopefulYouTubeChannel"]}>
+                    <div className={styles.container}>
+                        <h3>Social Media</h3>
+                        <ul className={styles.links}>
+                            <li>
+                                <Link
+                                    href="https://www.youtube.com/@gemeindederfels7523"
+                                    rel="noreferrer noopener"
+                                    target="_blank"
+                                >
+                                    <FaYoutube
+                                        style={{ height: 24, width: 24 }}
+                                    />
+                                </Link>
+                            </li>
+                        </ul>
+                    </div>
+                </RequiresFeatureFlag>
                 <RequiresFeatureFlag flags={["internArea"]}>
                     <div className={styles.container}>
                         <h3>Für Mitglieder</h3>

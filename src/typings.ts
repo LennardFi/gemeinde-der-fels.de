@@ -152,12 +152,14 @@ declare namespace Website {
 
     namespace Base {
         type DeviceSize = "tiny" | "small" | "normal" | "large"
+
         type Breakpoint = Exclude<DeviceSize, "x-large">
 
         type SelectOption<L extends string, V extends string> = {
             label: L
             value: V
         }
+
         type FeatureFlags =
             | "admin"
             | "calendar"
@@ -167,6 +169,7 @@ declare namespace Website {
             | "news"
             | "sendEmail"
     }
+
     namespace Bible {
         type BibleBook =
             | "1. Mose"

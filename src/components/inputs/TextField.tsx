@@ -18,6 +18,7 @@ export default function TextField({
     ...rest
 }: TextFieldProps) {
     const containerRef = useRef<HTMLDivElement | null>(null)
+    const inputRef = useRef<HTMLInputElement | null>(null)
     const id = useId()
     const [value, setValue] = useState(defaultValue ?? "")
     const [passwordVisible, setPasswordVisible] = useState(false)
@@ -25,6 +26,12 @@ export default function TextField({
     return (
         <div
             className={`${styles.container} ${error ? styles.error : ""}`}
+            onClick={() => {
+                inputRef.current?.focus()
+            }}
+            onFocus={() => {
+                inputRef.current?.focus()
+            }}
             ref={containerRef}
         >
             {name !== undefined ? (
@@ -40,6 +47,7 @@ export default function TextField({
                     placeholder={placeholder ?? "..."}
                     type={password && !passwordVisible ? "password" : "text"}
                     value={value}
+                    ref={inputRef}
                     {...rest}
                 />
                 {password && (

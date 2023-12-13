@@ -11,12 +11,14 @@ import { makeApiRequest } from "@/lib/frontend/makeApiRequest"
 import { WebsiteError } from "@/lib/shared/errors"
 import {
     fileNameParamName,
+    fileRoleParamName,
     requiresUserFlagParamName,
 } from "@/lib/shared/urlParams"
 import Website, { Maybe } from "@/typings"
 import useAuthZustand from "@/zustand/useAuthZustand"
 import useUserPreferencesZustand from "@/zustand/useUserPreferencesZustand"
-import { useEffect, useState } from "react"
+import { FileRole } from "@prisma/client"
+import { useEffect, useLayoutEffect, useState } from "react"
 import { FaCheck, FaCloudUploadAlt, FaCopy, FaInfoCircle } from "react-icons/fa"
 import { Temporal } from "temporal-polyfill"
 import styles from "./page.module.scss"
@@ -25,6 +27,7 @@ export default function Page() {
     const isMounted = useIsMounted()
     const [timeStamp, setTimeStamp] =
         useState<Maybe<Temporal.ZonedDateTime>>(undefined)
+    const [rootFontSize, setRootFontSize] = useState<Maybe<number>>(undefined)
     const [copied, setCopied] = useState(false)
     const [infoSent, setInfoSent] = useState(false)
     const [sendingDebugInfo, setSendingDebugInfo] = useState(false)
@@ -42,7 +45,7 @@ export default function Page() {
     const deviceSize = useDeviceSize()
 
     const debugInfo: Maybe<Website.Debug.ClientDebugInfo> =
-        timeStamp === undefined
+        timeStamp === undefined || rootFontSize === undefined
             ? undefined
             : {
                   timeStamp,
@@ -50,8 +53,12 @@ export default function Page() {
                       deviceSize,
                       height: window.innerHeight,
                       width: window.innerWidth,
+                      rootFontSize,
                   },
-                  auth,
+                  auth: {
+                      jwtSet: auth.jwtSet,
+                      user: auth.user,
+                  },
                   userPreferences,
               }
 
@@ -77,6 +84,7 @@ export default function Page() {
                     [fileNameParamName]: "debugInfo.json",
                     [requiresUserFlagParamName]:
                         "Admin" as keyof Website.Users.UserFlags,
+                    [fileRoleParamName]: "DebugInfo" as FileRole,
                 })}`,
                 "json",
                 {
@@ -109,6 +117,31 @@ export default function Page() {
             setUploadError("Unknown error")
         }
     }
+
+    useLayoutEffect(() => {
+        if (rootFontSize === undefined) {
+            const element = document.createElement("div")
+            element.style.width = "1rem"
+            element.style.display = "none"
+            document.body.append(element)
+
+            const widthMatch = window
+                .getComputedStyle(element)
+                .getPropertyValue("width")
+                .match(/\d+/)
+
+            element.remove()
+
+            if (!widthMatch || widthMatch.length < 1) {
+                return
+            }
+
+            const result = Number(widthMatch[0])
+            if (!isNaN(result)) {
+                setRootFontSize(result)
+            }
+        }
+    }, [rootFontSize])
 
     useEffect(() => {
         if (timeStamp === undefined) {

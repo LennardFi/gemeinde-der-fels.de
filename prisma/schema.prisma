@@ -15,6 +15,7 @@ model DatabaseMetadata {
 
 enum FileRole {
     SermonAudioFile
+    DebugInfo
 }
 
 model File {

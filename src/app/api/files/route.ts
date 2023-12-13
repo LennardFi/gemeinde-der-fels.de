@@ -2,13 +2,14 @@ import { buildApiRouteWithDatabase } from "@/lib/backend/apiRouteBuilders"
 import { storeFileToFolder } from "@/lib/backend/databaseHelpers"
 import { WebsiteError } from "@/lib/shared/errors"
 import { temporalInstanceToDate } from "@/lib/shared/helpers"
-import { userFlagNameSchema } from "@/lib/shared/schemes"
+import { fileRoleSchema, userFlagNameSchema } from "@/lib/shared/schemes"
 import {
     fileNameParamName,
+    fileRoleParamName,
     requiresUserFlagParamName,
 } from "@/lib/shared/urlParams"
 import Website, { Maybe } from "@/typings"
-import { UserFlags } from "@prisma/client"
+import { FileRole, UserFlags } from "@prisma/client"
 import mime from "mime"
 import path from "path"
 import { Temporal } from "temporal-polyfill"
@@ -39,6 +40,25 @@ export const POST =
                     internalMessage: `Header "ContentType" in request required`,
                     httpStatusCode: 400,
                 })
+            }
+
+            const rawFileRole = searchParams.get(fileRoleParamName) ?? undefined
+            let fileRole: Maybe<FileRole>
+
+            if (rawFileRole !== undefined) {
+                const result = fileRoleSchema.safeParse(rawFileRole)
+                if (!result.success) {
+                    throw new WebsiteError(
+                        "request",
+                        `Invalid ${fileRoleParamName} value`,
+                        {
+                            endpoint: req.url,
+                            internalMessage: `URL parameter "${fileRoleParamName}" contains invalid value`,
+                            httpStatusCode: 400,
+                        },
+                    )
+                }
+                fileRole = result.data
             }
 
             const rawRequiresUserFlag =
@@ -77,6 +97,7 @@ export const POST =
                             requiresUserFlag === undefined
                                 ? undefined
                                 : UserFlags[requiresUserFlag],
+                        role: fileRole,
                     },
                 })
 

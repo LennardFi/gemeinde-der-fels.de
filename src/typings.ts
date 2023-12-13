@@ -63,11 +63,6 @@ declare namespace Website {
                 endOfData: boolean
                 entries: Users.User[]
             }
-
-            interface DebugRequestBody
-                extends Omit<Debug.ClientDebugInfo, "timeStamp"> {
-                timeStamp: number
-            }
         }
 
         interface ApiError {
@@ -380,7 +375,6 @@ declare namespace Website {
         interface ClientDebugInfo {
             timeStamp: Temporal.ZonedDateTime
             auth: {
-                initialLoadDone: boolean
                 jwtSet: boolean
                 user?: Users.User
             }
@@ -388,6 +382,7 @@ declare namespace Website {
                 deviceSize: Base.DeviceSize
                 height: number
                 width: number
+                rootFontSize: number
             }
             userPreferences: UserPreferences.Preferences
         }

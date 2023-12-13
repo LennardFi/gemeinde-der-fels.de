@@ -18,14 +18,15 @@ enum FileRole {
 }
 
 model File {
-    id             Int       @id @unique @default(autoincrement())
-    fileId         String    @unique @default(uuid()) @db.Uuid
-    name           String
-    extension      String
-    mimeType       String
-    uploadDateTime DateTime
-    role           FileRole?
-    Sermon         Sermon[]
+    id               Int        @id @unique @default(autoincrement())
+    fileId           String     @unique @default(uuid()) @db.Uuid
+    name             String
+    extension        String
+    mimeType         String
+    uploadDateTime   DateTime
+    role             FileRole?
+    Sermon           Sermon[]
+    requiresUserFlag UserFlags?
 }
 
 model ErrorLog {
@@ -82,6 +83,15 @@ model SermonSeries {
     parts Sermon[]
 }
 
+enum UserFlags {
+    Admin
+    ManageCalendar
+    ManageNews
+    ManageSermons
+    ManageRooms
+    ManageUser
+}
+
 model User {
     id           Int     @id @unique @default(autoincrement())
     email        String  @unique
@@ -90,10 +100,10 @@ model User {
     disabled     Boolean @default(false)
 
     // Flags:
-    AdminFlag          Boolean @default(false) // Can promote users to admins
-    ManageCalendarFlag Boolean @default(false) // Can change calendar
-    ManageNewsFlag     Boolean @default(false) // Can change news
-    ManageSermonsFlag  Boolean @default(false) // Can change sermons
-    ManageRoomsFlag    Boolean @default(false) // Can change rooms
-    ManageUserFlag     Boolean @default(false) // Can create users
+    Flag_Admin          Boolean @default(false) // Can promote users to admins
+    Flag_ManageCalendar Boolean @default(false) // Can change calendar
+    Flag_ManageNews     Boolean @default(false) // Can change news
+    Flag_ManageSermons  Boolean @default(false) // Can change sermons
+    Flag_ManageRooms    Boolean @default(false) // Can change rooms
+    Flag_ManageUser     Boolean @default(false) // Can create users
 }

@@ -44,7 +44,7 @@ export const POST = buildApiRouteWithDatabase<Website.Users.User>(
             }
 
             loginRequestBody = parseResult.data
-        } catch (err: unknown) {
+        } catch (err) {
             if (err instanceof WebsiteError) {
                 throw err
             }
@@ -91,12 +91,12 @@ export const POST = buildApiRouteWithDatabase<Website.Users.User>(
                     disabled: user.disabled,
                     email: user.email,
                     flags: {
-                        Admin: user.AdminFlag,
-                        ManageCalendar: user.ManageCalendarFlag,
-                        ManageNews: user.ManageNewsFlag,
-                        ManageRooms: user.ManageRoomsFlag,
-                        ManageSermons: user.ManageSermonsFlag,
-                        ManageUser: user.ManageUserFlag,
+                        Admin: user.Flag_Admin,
+                        ManageCalendar: user.Flag_ManageCalendar,
+                        ManageNews: user.Flag_ManageNews,
+                        ManageRooms: user.Flag_ManageRooms,
+                        ManageSermons: user.Flag_ManageSermons,
+                        ManageUser: user.Flag_ManageUser,
                     },
                     id: user.id,
                     userName: user.userName,
@@ -106,12 +106,12 @@ export const POST = buildApiRouteWithDatabase<Website.Users.User>(
             jwtPayload: {
                 email: user.email,
                 userFlags: {
-                    Admin: user.AdminFlag,
-                    ManageCalendar: user.ManageCalendarFlag,
-                    ManageNews: user.ManageNewsFlag,
-                    ManageRooms: user.ManageRoomsFlag,
-                    ManageSermons: user.ManageSermonsFlag,
-                    ManageUser: user.ManageUserFlag,
+                    Admin: user.Flag_Admin,
+                    ManageCalendar: user.Flag_ManageCalendar,
+                    ManageNews: user.Flag_ManageNews,
+                    ManageRooms: user.Flag_ManageRooms,
+                    ManageSermons: user.Flag_ManageSermons,
+                    ManageUser: user.Flag_ManageUser,
                 },
                 userId: user.id,
                 userName: user.userName,

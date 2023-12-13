@@ -45,12 +45,12 @@ export async function setupUsers() {
                         userName: user.name,
                         passwordHash,
                         email: `${user.name}@example.com`,
-                        AdminFlag: user.flags.Admin,
-                        ManageCalendarFlag: user.flags.ManageCalendar,
-                        ManageNewsFlag: user.flags.ManageNews,
-                        ManageRoomsFlag: user.flags.ManageRooms,
-                        ManageSermonsFlag: user.flags.ManageSermons,
-                        ManageUserFlag: user.flags.ManageUser,
+                        Flag_Admin: user.flags.Admin,
+                        Flag_ManageCalendar: user.flags.ManageCalendar,
+                        Flag_ManageNews: user.flags.ManageNews,
+                        Flag_ManageRooms: user.flags.ManageRooms,
+                        Flag_ManageSermons: user.flags.ManageSermons,
+                        Flag_ManageUser: user.flags.ManageUser,
                     },
                 })
             }

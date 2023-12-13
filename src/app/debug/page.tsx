@@ -151,7 +151,7 @@ export default function Page() {
                         icon={<FaInfoCircle />}
                         label={
                             uploadError === undefined
-                                ? `Daten hochgeladen`
+                                ? `Daten hochgeladen: ${debugInfoId}`
                                 : uploadError
                         }
                         description={

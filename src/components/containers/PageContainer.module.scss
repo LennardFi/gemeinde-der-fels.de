@@ -5,16 +5,6 @@
     font-size: core.$size-font-default;
     height: auto;
 
-    @media (min-width: core.$size-breakpoint-small) {
-
-        padding: core.getDimensionValue(2);
-    }
-
-    @media (min-width: core.$size-breakpoint-normal) {
-
-        padding: core.getDimensionValue(3);
-    }
-
     .titlePaper {
 
         >h1,

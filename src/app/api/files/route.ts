@@ -2,8 +2,13 @@ import { buildApiRouteWithDatabase } from "@/lib/backend/apiRouteBuilders"
 import { storeFileToFolder } from "@/lib/backend/databaseHelpers"
 import { WebsiteError } from "@/lib/shared/errors"
 import { temporalInstanceToDate } from "@/lib/shared/helpers"
-import { fileNameParamName } from "@/lib/shared/urlParams"
-import Website from "@/typings"
+import { userFlagNameSchema } from "@/lib/shared/schemes"
+import {
+    fileNameParamName,
+    requiresUserFlagParamName,
+} from "@/lib/shared/urlParams"
+import Website, { Maybe } from "@/typings"
+import { UserFlags } from "@prisma/client"
 import mime from "mime"
 import path from "path"
 import { Temporal } from "temporal-polyfill"
@@ -15,11 +20,15 @@ export const POST =
             const fileName = searchParams.get(fileNameParamName)
 
             if (fileName === null) {
-                throw new WebsiteError("request", "fileName required", {
-                    endpoint: req.url,
-                    internalMessage: `URL parameter "${fileNameParamName}" in request required`,
-                    httpStatusCode: 400,
-                })
+                throw new WebsiteError(
+                    "request",
+                    `${fileNameParamName} required`,
+                    {
+                        endpoint: req.url,
+                        internalMessage: `URL parameter "${fileNameParamName}" in request required`,
+                        httpStatusCode: 400,
+                    },
+                )
             }
 
             const contentType = req.headers.get("Content-Type")
@@ -30,6 +39,26 @@ export const POST =
                     internalMessage: `Header "ContentType" in request required`,
                     httpStatusCode: 400,
                 })
+            }
+
+            const rawRequiresUserFlag =
+                searchParams.get(requiresUserFlagParamName) ?? undefined
+            let requiresUserFlag: Maybe<keyof Website.Users.UserFlags>
+
+            if (rawRequiresUserFlag !== undefined) {
+                const result = userFlagNameSchema.safeParse(rawRequiresUserFlag)
+                if (!result.success) {
+                    throw new WebsiteError(
+                        "request",
+                        `Invalid ${requiresUserFlagParamName} value`,
+                        {
+                            endpoint: req.url,
+                            internalMessage: `URL parameter "${requiresUserFlagParamName}" contains invalid value`,
+                            httpStatusCode: 400,
+                        },
+                    )
+                }
+                requiresUserFlag = result.data
             }
 
             const fileUploadTime = Temporal.Now.zonedDateTimeISO("UTC")
@@ -44,6 +73,10 @@ export const POST =
                             fileUploadTime,
                             new Date(),
                         ),
+                        requiresUserFlag:
+                            requiresUserFlag === undefined
+                                ? undefined
+                                : UserFlags[requiresUserFlag],
                     },
                 })
 
@@ -52,7 +85,7 @@ export const POST =
                 try {
                     await storeFileToFolder(
                         newFile.fileId,
-                        newFile.mimeType,
+                        newFile.extension,
                         fileBuffer,
                     )
                 } catch (e) {

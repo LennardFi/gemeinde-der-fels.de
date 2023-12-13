@@ -1,12 +1,31 @@
 import { z } from "zod"
 
+export const deviceSizeSchema = z.enum(["tiny", "small", "normal", "large"])
+
+export const userFlagNameSchema = z.enum([
+    "Admin",
+    "ManageCalendar",
+    "ManageNews",
+    "ManageRooms",
+    "ManageSermons",
+    "ManageUser",
+])
+
 export const userFlagsSchema = z.object({
-    Admin: z.boolean().nullish(),
-    ManageCalendar: z.boolean().nullish(),
-    ManageNews: z.boolean().nullish(),
-    ManageRooms: z.boolean().nullish(),
-    ManageSermons: z.boolean().nullish(),
-    ManageUser: z.boolean().nullish(),
+    Admin: z.boolean().optional(),
+    ManageCalendar: z.boolean().optional(),
+    ManageNews: z.boolean().optional(),
+    ManageRooms: z.boolean().optional(),
+    ManageSermons: z.boolean().optional(),
+    ManageUser: z.boolean().optional(),
+})
+
+export const userSchema = z.object({
+    disabled: z.boolean(),
+    email: z.string().email(),
+    flags: userFlagsSchema,
+    id: z.number().int(),
+    userName: z.string(),
 })
 
 export const postLoginApiRequestBodySchema = z.object({
@@ -50,4 +69,19 @@ export const audioPreferencesSchema = z.object({
 
 export const preferencesSchema = z.object({
     audio: audioPreferencesSchema,
+})
+
+export const postDebugApiRequestBodySchema = z.object({
+    auth: z.object({
+        initialLoadDone: z.boolean(),
+        jwtSet: z.boolean(),
+        user: userSchema,
+    }),
+    responsive: z.object({
+        deviceSize: deviceSizeSchema,
+        height: z.number(),
+        width: z.number(),
+    }),
+    timeStamp: z.number().int(),
+    userPreferences: preferencesSchema,
 })

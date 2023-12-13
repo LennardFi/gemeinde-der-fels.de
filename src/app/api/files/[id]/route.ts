@@ -30,6 +30,19 @@ export const GET = buildApiRouteWithDatabase<
         })
     }
 
+    if (
+        file.requiresUserFlag !== null &&
+        !session.user?.flags[file.requiresUserFlag]
+    ) {
+        throw new WebsiteError(
+            "request",
+            `Requires user flag ${file.requiresUserFlag}`,
+            {
+                httpStatusCode: 401,
+            },
+        )
+    }
+
     const fileContent = await readFileFromFolder(file.fileId, file.extension)
 
     // const fileContent = Buffer.concat(file.chunks.map((chunk) => chunk.content))

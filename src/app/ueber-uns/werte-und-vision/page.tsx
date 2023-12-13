@@ -290,7 +290,6 @@ export default function Page() {
                                         <li>Aufmerksam</li>
                                         <li>Sensibel</li>
                                         <li>Aushalten</li>
-                                        <li>Aushalten</li>
                                     </motion.ul>
                                 ) : null}
                             </AnimatePresence>

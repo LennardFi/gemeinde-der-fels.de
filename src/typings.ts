@@ -63,6 +63,11 @@ declare namespace Website {
                 endOfData: boolean
                 entries: Users.User[]
             }
+
+            interface DebugRequestBody
+                extends Omit<Debug.ClientDebugInfo, "timeStamp"> {
+                timeStamp: number
+            }
         }
 
         interface ApiError {
@@ -249,20 +254,6 @@ declare namespace Website {
         type BibleVerse = `${number} ${string}`
     }
 
-    namespace UserPreferences {
-        interface AudioPreferences {
-            muted: boolean
-            /**
-             * Value between 0 and 1
-             */
-            volume: number
-        }
-
-        interface Preferences {
-            audio: AudioPreferences
-        }
-    }
-
     namespace Config {
         interface MailingConfig {
             host: string
@@ -385,6 +376,23 @@ declare namespace Website {
         }
     }
 
+    namespace Debug {
+        interface ClientDebugInfo {
+            timeStamp: Temporal.ZonedDateTime
+            auth: {
+                initialLoadDone: boolean
+                jwtSet: boolean
+                user?: Users.User
+            }
+            responsive: {
+                deviceSize: Base.DeviceSize
+                height: number
+                width: number
+            }
+            userPreferences: UserPreferences.Preferences
+        }
+    }
+
     namespace Design {
         type Variant = "text" | "contained" | "outlined"
 
@@ -408,6 +416,20 @@ declare namespace Website {
         }
 
         type Theme = Record<ThemeColor | "background", ColorShade>
+    }
+
+    namespace UserPreferences {
+        interface AudioPreferences {
+            muted: boolean
+            /**
+             * Value between 0 and 1
+             */
+            volume: number
+        }
+
+        interface Preferences {
+            audio: AudioPreferences
+        }
     }
 
     namespace Users {

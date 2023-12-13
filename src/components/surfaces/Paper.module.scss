@@ -2,13 +2,21 @@
 
 .paper {
     margin: 0 auto;
-    padding: core.getDimensionValue(2);
     width: 100%;
     background-color: inherit;
     color: inherit;
 
-    &.noPadding {
-        padding: 0;
+    &:not(.noPadding) {
+        padding: core.getDimensionValue(.5);
+        transition: padding 250ms ease-in-out;
+
+        @media (min-width: core.$size-breakpoint-small) {
+            padding: core.getDimensionValue(1);
+        }
+
+        @media (min-width: core.$size-breakpoint-normal) {
+            padding: core.getDimensionValue(2);
+        }
     }
 
     &.tiny {

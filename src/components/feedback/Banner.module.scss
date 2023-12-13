@@ -2,7 +2,7 @@
 
 .banner {
     display: grid;
-    grid-template: auto auto / auto 1fr auto;
+    grid-template: auto / auto 1fr auto;
     padding: core.getDimensionValue(1);
     gap: core.getDimensionValue(1);
 

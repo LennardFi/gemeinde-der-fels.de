@@ -121,7 +121,7 @@ export function getRandomInt(min: number, max: number) {
 export function getIntegerSearchParameter(
     searchParams: URLSearchParams,
     key: string,
-): number | undefined
+): Maybe<number>
 export function getIntegerSearchParameter(
     searchParams: URLSearchParams,
     key: string,
@@ -131,7 +131,7 @@ export function getIntegerSearchParameter(
     searchParams: URLSearchParams,
     key: string,
     defaultValue?: number,
-): number | undefined {
+): Maybe<number> {
     const paramValue = searchParams.get(key)
 
     if (paramValue === null) {
@@ -152,4 +152,34 @@ export function getIntegerSearchParameter(
     }
 
     return parsed
+}
+
+export const booleanSearchParameterTrueValue = "true"
+export const booleanSearchParameterTrueValues = [
+    "true",
+    "",
+    "1",
+    "☑️",
+    "✅",
+    "✔️",
+]
+
+export const booleanSearchParameterFalseValue = "false"
+export const booleanSearchParameterFalseValues = ["false", "0", "❎", "❌"]
+
+export function getBooleanSearchParameter(
+    searchParams: URLSearchParams,
+    key: string,
+): Maybe<boolean> {
+    const value = searchParams.get(key)
+
+    if (value === null) {
+        return undefined
+    }
+
+    if (booleanSearchParameterTrueValues.includes(value)) {
+        return true
+    }
+
+    return false
 }

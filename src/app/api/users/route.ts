@@ -1,6 +1,9 @@
 import { buildApiRouteWithDatabase } from "@/lib/backend/apiRouteBuilders"
 import { WebsiteError } from "@/lib/shared/errors"
-import { getIntegerSearchParameter } from "@/lib/shared/helpers"
+import {
+    getBooleanSearchParameter,
+    getIntegerSearchParameter,
+} from "@/lib/shared/helpers"
 import {
     afterIdParamName,
     pageSizeParamName,
@@ -48,8 +51,10 @@ export const GET =
                 pageSize = maxPageSize
             }
 
-            const showDisabled =
-                searchParams.get(showDisabledParamName) === "true"
+            const showDisabled = getBooleanSearchParameter(
+                searchParams,
+                showDisabledParamName,
+            )
 
             const users = await client.user.findMany({
                 cursor:
@@ -69,7 +74,7 @@ export const GET =
                 skip: afterId !== undefined ? 1 : 0,
                 take: pageSize + 1,
                 where: {
-                    disabled: !showDisabled ? undefined : false,
+                    disabled: !showDisabled ? false : undefined,
                 },
             })
 

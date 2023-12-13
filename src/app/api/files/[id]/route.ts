@@ -1,6 +1,8 @@
 import { buildApiRouteWithDatabase } from "@/lib/backend/apiRouteBuilders"
 import { readFileFromFolder } from "@/lib/backend/databaseHelpers"
 import { WebsiteError } from "@/lib/shared/errors"
+import { getBooleanSearchParameter } from "@/lib/shared/helpers"
+import { downloadParamName } from "@/lib/shared/urlParams"
 
 export const GET = buildApiRouteWithDatabase<
     Buffer,
@@ -10,6 +12,7 @@ export const GET = buildApiRouteWithDatabase<
         }
     }
 >(async (req, client, session, options) => {
+    const { searchParams } = new URL(req.url)
     const parsedFileId = Number.parseInt(options.params.id)
     if (isNaN(parsedFileId)) {
         throw new WebsiteError("request", "File id is not a valid integer", {
@@ -43,6 +46,8 @@ export const GET = buildApiRouteWithDatabase<
         )
     }
 
+    const download = getBooleanSearchParameter(searchParams, downloadParamName)
+
     const fileContent = await readFileFromFolder(file.fileId, file.extension)
 
     // const fileContent = Buffer.concat(file.chunks.map((chunk) => chunk.content))
@@ -56,9 +61,9 @@ export const GET = buildApiRouteWithDatabase<
         headers: {
             "Accept-Ranges": "bytes",
             "Content-Length": fileContent.byteLength.toString(),
-            "Content-Disposition": `attachment; filename="${encodeURIComponent(
-                file.name,
-            )}"`,
+            "Content-Disposition": `${
+                download ? "attachment" : "inline"
+            }; filename="${encodeURIComponent(file.name)}"`,
         },
         status: 200,
         jwtPayload: session.jwtPayload,

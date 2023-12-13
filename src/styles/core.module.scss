@@ -35,9 +35,11 @@ $size-breakpoint-large: 1280px;
 
 $size-border-default: 1px;
 
-$size-font-label: 1rem;
-$size-font-default: 1.2rem;
-$size-font-action: 1.5rem;
-$size-font-subheader: 2rem;
-$size-font-header: 2.5rem;
-$size-font-title: 3rem;
+$size-font-label: var(--size-font-label);
+$size-font-default: var(--size-font-default);
+$size-font-action: var(--size-font-action);
+$size-font-subheader: var(--size-font-subheader);
+$size-font-header: var(--size-font-header);
+$size-font-title: var(--size-font-title);
+$size-font-hero: var(--size-font-hero);
+$size-font-hero-title: var(--size-font-hero-title);

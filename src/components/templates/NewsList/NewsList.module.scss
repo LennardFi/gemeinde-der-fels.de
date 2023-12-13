@@ -15,7 +15,7 @@
         background-color: core.$color-default;
         color: core.$color-default-font;
         list-style: none;
-        padding: 0.5rem;
+        padding: core.getDimensionValue(1);
 
         &.fullWidth {
             align-self: stretch;

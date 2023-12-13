@@ -16,13 +16,13 @@
     }
 
     h2 {
-        font-size: core.$size-font-header;
+        font-size: core.$size-font-title;
         // margin-bottom: 0;
         text-align: center;
     }
 
     h3 {
-        font-size: core.$size-font-subheader;
+        font-size: core.$size-font-header;
         text-align: center;
     }
 
@@ -53,7 +53,7 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        font-size: 2.5rem;
+        font-size: core.$size-font-hero;
         font-weight: 200;
         line-height: 2;
         text-align: center;
@@ -63,42 +63,18 @@
 
         .highlighted {
             color: core.$color-accent-font;
-            font-size: 3.5rem;
+            font-size: core.$size-font-hero-title;
             font-weight: bold;
             line-height: 1.2;
-        }
-
-        @media (min-width: core.$size-breakpoint-small) {
-            font-size: 3rem;
-
-            .highlighted {
-                font-size: 4rem;
-            }
-        }
-
-        @media (min-width: core.$size-breakpoint-normal) {
-            font-size: 4rem;
-
-            .highlighted {
-                font-size: 6rem;
-            }
-        }
-
-        @media (min-width: core.$size-breakpoint-large) {
-            font-size: 6rem;
-
-            .highlighted {
-                font-size: 8rem;
-            }
         }
     }
 
     .scrollDownButton {
         color: core.$color-accent-font;
         outline: none;
-        margin-top: 3rem;
-        height: 3rem;
-        width: 3rem;
+        margin-top: core.$size-font-hero;
+        height: core.$size-font-hero;
+        width: core.$size-font-hero;
         transition: color 250ms;
 
         svg {

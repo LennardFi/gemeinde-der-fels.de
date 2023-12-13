@@ -43,16 +43,21 @@ export default function Page() {
                 </Link>
             </div>
             <Navigation id={navHtmlId} sticky />
-            <Image
-                alt="Mountain"
-                className={styles.bannerImg}
-                src={Brandung}
-                // height={1080}
-                width={1920}
-                placeholder="blur"
-                // blurDataURL="https://picsum.photos/seed/asdasafgafvafa/192/108.jpg?grayscale"
-                priority
-            />
+            <Paper noPadding themeColor="primary" themeColorVariant="font">
+                <Flex justify="center">
+                    <Image
+                        alt="Mountain"
+                        className={styles.bannerImg}
+                        src={Brandung}
+                        // height={1080}
+                        width={1920}
+                        // width={800}
+                        placeholder="blur"
+                        // blurDataURL="https://picsum.photos/seed/asdasafgafvafa/192/108.jpg?grayscale"
+                        priority
+                    />
+                </Flex>
+            </Paper>
             <Divider variant="page" themeColor="transparent" />
             <Section
                 paperProps={{

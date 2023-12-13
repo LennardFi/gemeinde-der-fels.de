@@ -38,6 +38,43 @@ body {
     --color-secondary-font-highlighted: #{core.$color-secondary-font-highlighted};
     --color-secondary-font-faded: #{core.$color-secondary-font-faded};
 
+    --size-font-label: 1rem;
+    --size-font-default: 1.2rem;
+    --size-font-action: 1.5rem;
+    --size-font-subheader: 1.8rem;
+    --size-font-header: 2rem;
+    --size-font-title: 2.2rem;
+    --size-font-hero: 2.5rem;
+    --size-font-hero-title: 3.5rem;
+
+    @media (min-width: core.$size-breakpoint-small) {
+        --size-font-label: 1rem;
+        --size-font-default: 1.2rem;
+        --size-font-action: 1.5rem;
+        --size-font-subheader: 2rem;
+        --size-font-header: 2.2rem;
+        --size-font-title: 2.5rem;
+        --size-font-hero: 3rem;
+        --size-font-hero-title: 4rem;
+    }
+
+    @media (min-width: core.$size-breakpoint-normal) {
+        --size-font-label: 1rem;
+        --size-font-default: 1.2rem;
+        --size-font-action: 1.5rem;
+        --size-font-subheader: 2rem;
+        --size-font-header: 2.5rem;
+        --size-font-title: 2.8rem;
+        --size-font-hero: 4.5rem;
+        --size-font-hero-title: 6rem;
+    }
+
+    @media (min-width: core.$size-breakpoint-large) {
+        --size-font-title: 3rem;
+        --size-font-hero: 6rem;
+        --size-font-hero-title: 8rem;
+    }
+
     a {
         color: core.$color-primary;
         text-decoration: underline;
@@ -64,9 +101,38 @@ body {
         border: 0;
     }
 
-    @media (min-width: core.$size-breakpoint-normal) {
-        background-position-y: -200px;
+    h1 {
+        font-size: core.$size-font-title;
     }
+
+    h2 {
+        font-size: core.$size-font-header;
+    }
+
+    h3 {
+        font-size: core.$size-font-subheader;
+    }
+
+    h4 {
+        font-size: core.$size-font-action;
+        font-weight: normal;
+    }
+
+    h5 {
+        color: core.$color-primary-highlighted;
+        font-size: core.$size-font-default;
+        font-weight: normal;
+    }
+
+    h6 {
+        color: core.$color-primary-highlighted;
+        font-size: core.$size-font-label;
+        font-weight: normal;
+    }
+
+    // @media (min-width: core.$size-breakpoint-normal) {
+    //     background-position-y: -200px;
+    // }
 }
 
 body {

@@ -191,8 +191,10 @@ declare namespace Website {
             | "Esther"
             | "Hiob"
             | "Psalmen"
+            | "Psalm"
             | "Sprüche"
             | "Prediger"
+            | "Hohelied"
             | "Hohes Lied"
             | "Jesaja"
             | "Jeremia"
@@ -245,6 +247,7 @@ declare namespace Website {
             | "SCH2000" // Schlachter 2000
             | "Hfa" // Hoffnung für alle
             | "NGU" // Neue Genfer Übersetzung
+            | "NLB" // Neues Leben. Die Bibel
 
         type BibleVerse = `${number} ${string}`
     }

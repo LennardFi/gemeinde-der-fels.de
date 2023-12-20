@@ -65,4 +65,5 @@ export const bibleTranslationLabels: Record<
     Hfa: "Hoffnung für alle",
     NGU: "Neue Genfer Übersetzung",
     SCH2000: "Schlachter (2000)",
+    NLB: "Neues Leben Bibel",
 }

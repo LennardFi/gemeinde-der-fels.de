@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useId, useRef, useState } from "react"
 import { FaEye, FaEyeSlash } from "react-icons/fa"
 import IconButton from "./IconButton"

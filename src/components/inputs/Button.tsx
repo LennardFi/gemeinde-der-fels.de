@@ -1,3 +1,5 @@
+"use client"
+
 import Website from "@/typings"
 import React, { forwardRef, Ref } from "react"
 import Loader from "../feedback/Loader"

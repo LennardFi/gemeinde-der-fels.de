@@ -1,3 +1,5 @@
+"use client"
+
 import { InputHTMLAttributes, useId } from "react"
 import styles from "./Checkbox.module.scss"
 

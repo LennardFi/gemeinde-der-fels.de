@@ -1,3 +1,6 @@
+"use client"
+
+import { isDevMode } from "@/lib/shared/develop"
 import Link, { LinkProps } from "next/link"
 import Loader from "../feedback/Loader"
 import { ButtonRootProps } from "./Button"
@@ -19,6 +22,7 @@ export default function ButtonLink({
     className,
     containedHover,
     fontColor,
+    href,
     labelProps,
     leftSegment,
     loading,
@@ -26,6 +30,8 @@ export default function ButtonLink({
     noActiveAnimation,
     noFocusColor,
     onClick,
+    rel,
+    target,
     themeColor = "primary",
     type,
     variant,
@@ -33,6 +39,21 @@ export default function ButtonLink({
 }: ButtonLinkProps) {
     const variantOrDefault =
         variant ?? (type === "submit" ? "contained" : "text")
+
+    if (isDevMode) {
+        if (
+            (typeof href === "string" && href.match("^.*://.*")) ||
+            (href instanceof URL &&
+                (href.origin !== location.origin ||
+                    href.protocol !== location.protocol))
+        ) {
+            if (target !== "_blank" || rel !== "noreferrer") {
+                console.warn(
+                    `External link without target="_blank" and rel="noreferrer" found`,
+                )
+            }
+        }
+    }
 
     return (
         <Link
@@ -43,6 +64,9 @@ export default function ButtonLink({
             } ${noFocusColor ? styles.noFocusColor : ""} ${className}`}
             data-theme={themeColor}
             data-variant={variantOrDefault}
+            href={href}
+            rel={rel}
+            target={target}
             onClick={(e) => {
                 e.stopPropagation()
                 onClick?.(e)

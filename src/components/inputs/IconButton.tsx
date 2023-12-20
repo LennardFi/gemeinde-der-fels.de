@@ -1,3 +1,5 @@
+"use client"
+
 import { forwardRef, Ref } from "react"
 import Button, { ButtonProps } from "./Button"
 import styles from "./IconButton.module.scss"

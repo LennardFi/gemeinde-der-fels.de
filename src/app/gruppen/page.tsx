@@ -23,11 +23,10 @@ export default function Page() {
                     chapter={19}
                     themeColor="secondary"
                     translation="SCH2000"
-                >
-                    {[
+                    verses={[
                         "14 Doch Jesus sagte: 'Lasst die Kinder und hindert sie nicht, zu mir zu kommen! Denn Menschen wie ihnen gehört das Himmelreich.'",
                     ]}
-                </BibleVerse>
+                />
                 <p>
                     Während des Gottesdienstes wollen wir, als eine sehr
                     kinderreiche Gemeinde, unseren Kindern dienen. Unterteilt in
@@ -83,13 +82,12 @@ export default function Page() {
                     chapter={28}
                     themeColor="secondary"
                     translation="SCH2000"
-                >
-                    {[
+                    verses={[
                         "18 Und Jesus trat herzu, redete mit ihnen und sprach: Mir ist gegeben alle Macht im Himmel und auf Erden.",
                         "19 So geht nun hin und macht zu Jüngern alle Völker, und tauft sie auf den Namen des Vaters und des Sohnes und des Heiligen Geistes",
                         "20 und lehrt sie alles halten, was ich euch befohlen habe. Und siehe, ich bin bei euch alle Tage bis an das Ende der Weltzeit! Amen.",
                     ]}
-                </BibleVerse>
+                />
                 <p>
                     Wir wollen uns nicht nur sonntags im Gottesdienst treffen,
                     sondern uns auch untereinander ermutigen, ermahnen und unter

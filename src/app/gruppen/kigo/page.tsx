@@ -15,11 +15,10 @@ export default function Page() {
                     chapter={19}
                     themeColor="secondary"
                     translation="SCH2000"
-                >
-                    {[
+                    verses={[
                         "14 Doch Jesus sagte: 'Lasst die Kinder und hindert sie nicht, zu mir zu kommen! Denn Menschen wie ihnen gehört das Himmelreich.'",
                     ]}
-                </BibleVerse>
+                />
                 <p>
                     Während des Gottesdienstes wollen wir, als eine sehr
                     kinderreiche Gemeinde, unseren Kindern dienen. Unterteilt in

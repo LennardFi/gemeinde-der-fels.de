@@ -82,11 +82,10 @@ export default function Page() {
                         book="Lukas"
                         chapter={19}
                         themeColor="secondary"
-                    >
-                        {[
+                        verses={[
                             "10 denn der Sohn des Menschen ist gekommen, um zu suchen und zu retten, was verloren ist.",
                         ]}
-                    </BibleVerse> */}
+                    /> */}
                             <b>Er ist Weg, Wahrheit und Leben.</b>
                         </p>
                     </Paper>

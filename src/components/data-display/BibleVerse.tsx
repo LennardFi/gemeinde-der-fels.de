@@ -7,10 +7,11 @@ import Website from "@/typings"
 import { HTMLAttributes } from "react"
 import styles from "./BibleVerse.module.scss"
 
-export interface BibleVerseProps extends HTMLAttributes<HTMLParagraphElement> {
+export interface BibleVerseProps
+    extends Omit<HTMLAttributes<HTMLParagraphElement>, "children"> {
     book: Website.Bible.BibleBook
     chapter: number
-    children: Website.Bible.BibleVerse[]
+    verses: Website.Bible.BibleVerse[]
     themeColor?: Website.Design.ThemeColor
     translation?: Website.Bible.BibleTranslation
 }
@@ -18,16 +19,15 @@ export interface BibleVerseProps extends HTMLAttributes<HTMLParagraphElement> {
 export default function BibleVerse({
     book,
     chapter,
-    children,
     themeColor,
     translation,
+    verses,
 }: BibleVerseProps) {
-    const verses = typeof children === "string" ? [children] : children
     const biblePassageLabel = getBiblePassageLabel(book, chapter, verses)
 
     return (
-        <div className={styles.container} data-theme={themeColor}>
-            <div className={styles.verseList}>
+        <p className={styles.container} data-theme={themeColor}>
+            <span className={styles.verseList}>
                 {verses.map((verse, i) => {
                     const [verseNumber, verseText] = splitBibleVerse(verse)
                     return (
@@ -41,8 +41,8 @@ export default function BibleVerse({
                         </span>
                     )
                 })}
-            </div>
-            <div className={styles.biblePassageLabel}>
+            </span>
+            <span className={styles.biblePassageLabel}>
                 {biblePassageLabel}
                 {translation !== undefined ? (
                     <span className={styles.bibleTranslationLabel}>
@@ -50,7 +50,7 @@ export default function BibleVerse({
                         {bibleTranslationLabels[translation]}
                     </span>
                 ) : null}
-            </div>
-        </div>
+            </span>
+        </p>
     )
 }

@@ -1,6 +1,12 @@
+import Flex from "@/components/containers/Flex"
 import PageContainer from "@/components/containers/PageContainer"
 import BibleVerse from "@/components/data-display/BibleVerse"
+import ButtonLink from "@/components/inputs/ButtonLink"
 import Paper from "@/components/surfaces/Paper"
+import Image from "next/image"
+import Link from "next/link"
+import HopefulYt from "../../../media/hopeful-yt.jpg"
+import styles from "./page.module.scss"
 
 export default function Page() {
     return (
@@ -9,7 +15,50 @@ export default function Page() {
             breakpoint="normal"
             themeColor="primary"
             themeColorVariant="font"
+            noPadding
         >
+            <Paper breakpoint="small" noPadding>
+                <Flex justify="center">
+                    <Link
+                        href="https://www.youtube.com/@Hopeful-Gemeinde-der-Fels"
+                        target="_blank"
+                        rel="noreferrer"
+                    >
+                        <Image
+                            alt="Hopeful YouTube Kanalbild"
+                            className={styles.channelImage}
+                            src={HopefulYt}
+                            width={800}
+                        />
+                    </Link>
+                </Flex>
+                <Paper breakpoint="tiny" noPadding>
+                    <p>
+                        <ButtonLink
+                            href="https://www.youtube.com/@Hopeful-Gemeinde-der-Fels"
+                            target="_blank"
+                            rel="noreferrer"
+                            variant="contained"
+                        >
+                            Zum Kanal
+                        </ButtonLink>
+                    </p>
+                </Paper>
+            </Paper>
+            <Paper breakpoint="small">
+                <b>
+                    <p>
+                        Gott ist ein Gott der Hoffnung, im Überfluss. Durch
+                        diesen Kanal soll die Liebe und Schönheit Jesu Hoffnung
+                        in dein Leben bringen.
+                    </p>
+                    <p>
+                        Gerne möchte ich dich ermutigen u.a. mit eigenen
+                        Liedern, das Jesus dich liebt und all deinen Mangel
+                        ausfüllen möchte.
+                    </p>
+                </b>
+            </Paper>
             <Paper breakpoint="small">
                 <BibleVerse
                     book="Micha"
@@ -65,18 +114,6 @@ export default function Page() {
                     und Ehre gehören Ihm allein.
                 </p>
                 <p>Er macht mein Leben hoffnungsvoll und glücklich.</p>
-                <b>
-                    <p>
-                        Gott ist ein Gott der Hoffnung, im Überfluss. Durch
-                        diesen Kanal soll die Liebe und Schönheit Jesu Hoffnung
-                        in dein Leben bringen.
-                    </p>
-                    <p>
-                        Gerne möchte ich dich ermutigen u.a. mit eigenen
-                        Liedern, das Jesus dich liebt und all deinen Mangel
-                        ausfüllen möchte.
-                    </p>
-                </b>
             </Paper>
         </PageContainer>
     )

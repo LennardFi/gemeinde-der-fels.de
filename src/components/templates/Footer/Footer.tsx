@@ -33,7 +33,7 @@ export default function Footer() {
                         </li>
                     </ul>
                 </div>
-                <RequiresFeatureFlag flags={["hopefulYouTubeChannel"]}>
+                <RequiresFeatureFlag flags={["hopeful-yt"]}>
                     <div className={styles.container}>
                         <h3>Social Media</h3>
                         <ul className={styles.links}>

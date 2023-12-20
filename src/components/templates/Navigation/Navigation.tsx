@@ -36,7 +36,7 @@ export const navigationEntries: Website.Content.Navigation.NavigationEntry[] = [
             {
                 label: "Hopful auf YouTube",
                 path: "/medien/hopeful-yt",
-                requiresAllFeatureFlags: ["hopefulYouTubeChannel"],
+                requiresAllFeatureFlags: ["hopeful-yt"],
             },
             {
                 label: "Predigten",

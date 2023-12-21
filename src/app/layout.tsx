@@ -7,6 +7,7 @@ import WindowContent from "@/components/surfaces/window/WindowContent"
 import WindowHeader from "@/components/surfaces/window/WindowHeader"
 import Footer from "@/components/templates/Footer/Footer"
 import Navigation from "@/components/templates/Navigation/Navigation"
+import PrivacyConsentBar from "@/components/templates/PrivacyConsent/PrivacyConsentBar"
 import { Metadata } from "next"
 import { Montserrat } from "next/font/google"
 import React from "react"
@@ -55,6 +56,7 @@ export default function Layout({ children }: IndexLayoutProps) {
                 <div className={styles.wrapper}>
                     <Navigation inRootLayout />
                     <main>{children}</main>
+                    <PrivacyConsentBar inRootLayout />
                     <Footer />
                     <noscript>
                         <div className={styles.noScriptContainer}>

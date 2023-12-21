@@ -55,8 +55,9 @@
         align-items: center;
         font-size: core.$size-font-hero;
         font-weight: 200;
-        line-height: 2;
+        line-height: 1.5;
         text-align: center;
+        margin: core.$size-font-title;
         // background-image: url(../media/background.jpg);
         // background-repeat: no-repeat;
         // background-size: cover;
@@ -72,7 +73,7 @@
     .scrollDownButton {
         color: core.$color-accent-font;
         outline: none;
-        margin-top: core.$size-font-hero;
+        margin-top: core.$size-font-title;
         height: core.$size-font-hero;
         width: core.$size-font-hero;
         transition: color 250ms;

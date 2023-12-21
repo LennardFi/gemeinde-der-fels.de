@@ -7,6 +7,7 @@ import { create } from "zustand"
 export interface UserPreferencesZustand
     extends Website.UserPreferences.Preferences {
     loaded: boolean
+    loadPreferences(): void
     updatePreferences(
         preferences: DeepPartial<Website.UserPreferences.Preferences>,
     ): Promise<void>
@@ -14,18 +15,19 @@ export interface UserPreferencesZustand
 
 const preferencesLocalStorageName = "preferences"
 
-const initialPreferences: Website.UserPreferences.Preferences = {
-    audio: {
-        muted: false,
-        volume: 1,
-    },
-}
+const initialPreferences: Website.UserPreferences.Preferences = {}
 
 const useUserPreferencesZustand = create<UserPreferencesZustand>()((set) => {
     const storeSettingsToLocalStorage = (
         preferences: Website.UserPreferences.Preferences,
     ): boolean => {
         try {
+            if (
+                !preferences.privacy?.allowCookies ||
+                !preferences.privacy.enabledCookies?.preferences
+            ) {
+                return true
+            }
             const serializedPreferences = JSON.stringify(preferences)
             localStorage.setItem(
                 preferencesLocalStorageName,
@@ -95,6 +97,28 @@ const useUserPreferencesZustand = create<UserPreferencesZustand>()((set) => {
             }
         }
 
+    const loadPreferences: UserPreferencesZustand["loadPreferences"] = () => {
+        const loadedPreferences = loadPreferencesFromLocalStorage()
+
+        if (loadedPreferences === undefined) {
+            return
+        }
+
+        set((state) => ({
+            ...state,
+            ...loadedPreferences,
+            audio: {
+                ...state.audio,
+                ...loadedPreferences.audio,
+            },
+            privacy: {
+                ...state.privacy,
+                ...loadedPreferences.privacy,
+            },
+            loaded: true,
+        }))
+    }
+
     const updatePreferences: UserPreferencesZustand["updatePreferences"] =
         async (preferences) =>
             set((state) => {
@@ -111,8 +135,18 @@ const useUserPreferencesZustand = create<UserPreferencesZustand>()((set) => {
                     ...state,
                     ...preferences,
                     audio: {
+                        muted: false,
+                        volume: 1,
                         ...state.audio,
                         ...preferences.audio,
+                    },
+                    privacy: {
+                        ...state.privacy,
+                        ...preferences.privacy,
+                        enabledCookies: {
+                            ...state.privacy?.enabledCookies,
+                            ...preferences.privacy?.enabledCookies,
+                        },
                     },
                 }
 
@@ -123,19 +157,10 @@ const useUserPreferencesZustand = create<UserPreferencesZustand>()((set) => {
                 return newSettings
             })
 
-    const loadedSettings = loadPreferencesFromLocalStorage()
-
-    if (loadedSettings === undefined) {
-        return {
-            ...initialPreferences,
-            loaded: false,
-            updatePreferences,
-        }
-    }
-
     return {
-        ...loadedSettings,
-        loaded: true,
+        ...initialPreferences,
+        loaded: false,
+        loadPreferences,
         updatePreferences,
     }
 })

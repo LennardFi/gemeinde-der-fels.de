@@ -7,6 +7,7 @@ import styles from "./Flex.module.scss"
 
 export interface FlexOptions {
     alignItems?: React.CSSProperties["alignItems"]
+    autoResize?: boolean
     columnGap?: React.CSSProperties["columnGap"]
     direction?: React.CSSProperties["flexDirection"]
     gap?: React.CSSProperties["gap"]
@@ -29,6 +30,7 @@ export interface FlexProps
 
 export default function Flex({
     alignItems,
+    autoResize,
     breakpoint,
     children,
     className,
@@ -59,6 +61,7 @@ export default function Flex({
 
     const flexOptions: FlexOptions = {
         alignItems,
+        autoResize,
         columnGap,
         direction,
         gap,
@@ -85,8 +88,8 @@ export default function Flex({
     return (
         <div
             className={`${styles.flex} ${breakpointClassName} ${
-                transition ? styles.transition : ""
-            } ${className ?? ""}`}
+                autoResize ? styles.autoResize : ""
+            } ${transition ? styles.transition : ""} ${className ?? ""}`}
             style={{
                 alignItems: flexOptions.alignItems,
                 flexDirection: flexOptions.direction,

@@ -1,0 +1,59 @@
+@use "../../../styles/core.module.scss" as core;
+
+.consentBar {
+    padding: core.getDimensionValue(1);
+    box-shadow: 0rem 0rem 1rem #000a;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    z-index: 1000;
+    // overflow: clip;
+
+    &.sticky {
+        position: sticky;
+        // bottom: unset;
+        // top: 0;
+        // z-index: unset;
+    }
+
+    &[data-theme="primary"] {
+
+        a {
+            color: core.$color-primary-font;
+
+            &:focus,
+            &:hover {
+                color: core.$color-primary-font-highlighted;
+            }
+        }
+    }
+
+    &[data-theme="secondary"] {
+
+        a {
+            color: core.$color-secondary-font;
+
+            &:focus,
+            &:hover {
+                color: core.$color-secondary-font-highlighted;
+            }
+        }
+    }
+
+    &[data-theme="accent"] {
+
+        a {
+            color: core.$color-accent-font;
+
+            &:focus,
+            &:hover {
+                color: core.$color-accent-font-highlighted;
+            }
+        }
+    }
+
+    p {
+        margin: 0;
+    }
+}

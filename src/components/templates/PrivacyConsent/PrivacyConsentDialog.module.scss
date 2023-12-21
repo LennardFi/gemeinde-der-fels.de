@@ -1,0 +1,11 @@
+@use "../../../styles/core.module.scss" as core;
+
+.dialog {
+
+    .checkboxLabel {}
+
+    h4,
+    h5 {
+        margin: core.$size-font-default 0;
+    }
+}

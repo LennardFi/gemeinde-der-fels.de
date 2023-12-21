@@ -5,6 +5,7 @@ import Paper, { PaperProps } from "../Paper"
 import styles from "./Window.module.scss"
 
 export interface WindowProps extends PaperProps {
+    dialog?: boolean
     pageContainer?: boolean
     pageContainerProps?: Omit<PageContainerProps, "title">
 }
@@ -37,6 +38,9 @@ export default function Window({
     return (
         <Paper
             className={`${styles.window ?? ""} ${className ?? ""}`}
+            noPadding
+            themeColor={themeColor ?? "primary"}
+            themeColorVariant={themeColorVariant ?? "font"}
             {...rest}
         >
             {children}

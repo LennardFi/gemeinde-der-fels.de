@@ -69,8 +69,18 @@ export const audioPreferencesSchema = z.object({
     volume: z.number().max(1).min(0),
 })
 
+export const privacyPreferencesSchema = z.object({
+    acceptedPrivacyNotesOn: z.number().optional(),
+    allowCookies: z.boolean().optional(),
+    enabledCookies: z.object({
+        preferences: z.boolean().optional(),
+        session: z.boolean().optional(),
+    }),
+})
+
 export const preferencesSchema = z.object({
-    audio: audioPreferencesSchema,
+    audio: audioPreferencesSchema.optional(),
+    privacy: privacyPreferencesSchema.optional(),
 })
 
 export const postDebugApiRequestBodySchema = z.object({

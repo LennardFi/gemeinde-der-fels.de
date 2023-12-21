@@ -7,11 +7,11 @@
     color: inherit;
 
     &:not(.noPadding) {
-        padding: core.getDimensionValue(.5);
+        padding: core.getDimensionValue(2) core.getDimensionValue(.5);
         transition: padding 250ms ease-in-out;
 
         @media (min-width: core.$size-breakpoint-small) {
-            padding: core.getDimensionValue(1);
+            padding: core.getDimensionValue(2) core.getDimensionValue(1);
         }
 
         @media (min-width: core.$size-breakpoint-normal) {

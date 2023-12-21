@@ -1,17 +1,22 @@
 "use client"
 
-import { InputHTMLAttributes, useId } from "react"
+import { HTMLAttributes, InputHTMLAttributes, useId } from "react"
 import styles from "./Checkbox.module.scss"
 
 export interface CheckboxProps
     extends Omit<InputHTMLAttributes<HTMLInputElement>, "type"> {
     label?: string
+    labelProps?: Omit<HTMLAttributes<HTMLLabelElement>, "htmlFor">
+    description?: string
 }
 
 export default function Checkbox({
     className,
+    description,
+    disabled,
     id,
     label,
+    labelProps,
     onChange,
     readOnly,
     ...rest
@@ -31,17 +36,37 @@ export default function Checkbox({
         )
     }
 
+    const { className: labelClassName, ...labelPropsRest } = {
+        className: undefined,
+        ...labelProps,
+    }
+
     return (
-        <label className={styles.label} htmlFor={defaultId}>
+        <span
+            className={styles.checkboxContainer}
+            {...(disabled ? { "data-disabled": true } : undefined)}
+        >
             <input
                 className={`${styles.checkbox} ${className ?? ""}`}
+                disabled={disabled}
                 id={id ?? defaultId}
                 readOnly={readOnly ?? onChange === undefined ? true : undefined}
                 onChange={onChange}
                 type="checkbox"
                 {...rest}
             />
-            {label}
-        </label>
+            <label
+                className={`${styles.label} ${
+                    description !== undefined ? styles.boldLabel : ""
+                } ${labelClassName ?? ""}`}
+                htmlFor={id ?? defaultId}
+                {...labelPropsRest}
+            >
+                {label}
+            </label>
+            {description !== undefined ? (
+                <span className={styles.description}>{description}</span>
+            ) : null}
+        </span>
     )
 }

@@ -73,17 +73,23 @@ export default function MediaPlayer({
         }
     }, [])
 
-    // Set music player volume and muted state from
+    // Set music player volume and muted state from audio preferences
     useEffect(() => {
         if (!loaded) {
             return
         }
 
-        if (audioPlayerZustand.muted !== audioPreferences.muted) {
-            audioPlayerZustand.setMuted(audioPreferences.muted)
+        if (
+            audioPreferences !== undefined &&
+            audioPlayerZustand.muted !== audioPreferences.muted
+        ) {
+            audioPlayerZustand.setMuted(audioPreferences.muted ?? false)
         }
-        if (audioPlayerZustand.volume !== audioPreferences.volume) {
-            audioPlayerZustand.setVolume(audioPreferences.volume)
+        if (
+            audioPreferences !== undefined &&
+            audioPlayerZustand.volume !== audioPreferences.volume
+        ) {
+            audioPlayerZustand.setVolume(audioPreferences.volume ?? 1)
         }
     }, [loaded])
 
@@ -94,10 +100,16 @@ export default function MediaPlayer({
 
         let changedSettings = false
 
-        if (audioPlayerZustand.muted !== audioPreferences.muted) {
+        if (
+            audioPreferences === undefined ||
+            audioPlayerZustand.muted !== audioPreferences.muted
+        ) {
             changedSettings = true
         }
-        if (audioPlayerZustand.volume !== audioPreferences.volume) {
+        if (
+            audioPreferences === undefined ||
+            audioPlayerZustand.volume !== audioPreferences.volume
+        ) {
             changedSettings = true
         }
 

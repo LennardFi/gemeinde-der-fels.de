@@ -62,9 +62,9 @@ const Button = forwardRef(function Button(
                 containedHover ? styles.containedHover : ""
             } ${noActiveAnimation ? styles.noActiveAnimation : ""} ${
                 noFocusColor ? styles.noFocusColor : ""
-            } ${round ? styles.round : ""} ${className}`}
+            } ${round ? styles.round : ""} ${className ?? ""}`}
             data-theme={
-                themeColor ?? type !== "submit" ? "primary" : "secondary"
+                themeColor ?? (type !== "submit" ? "primary" : "secondary")
             }
             data-variant={variantOrDefault}
             disabled={disabled}

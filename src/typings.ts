@@ -418,15 +418,25 @@ declare namespace Website {
 
     namespace UserPreferences {
         interface AudioPreferences {
-            muted: boolean
+            muted?: boolean
             /**
              * Value between 0 and 1
              */
-            volume: number
+            volume?: number
+        }
+
+        type FunctionalCookieType = "preferences" | "session"
+        type CookieType = FunctionalCookieType
+
+        interface PrivacyPreferences {
+            acceptedPrivacyNotesOn?: number
+            allowCookies?: boolean
+            enabledCookies?: Partial<Record<CookieType, boolean>>
         }
 
         interface Preferences {
-            audio: AudioPreferences
+            audio?: AudioPreferences
+            privacy?: PrivacyPreferences
         }
     }
 

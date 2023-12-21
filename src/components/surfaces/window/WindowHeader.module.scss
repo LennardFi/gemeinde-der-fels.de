@@ -46,8 +46,8 @@
     }
 
     .action {
-        background-color: core.$color-primary-font;
-        color: core.$color-primary;
+        // background-color: core.$color-primary-font;
+        color: inherit;
         height: core.getDimensionValue(6);
         width: core.getDimensionValue(6);
     }

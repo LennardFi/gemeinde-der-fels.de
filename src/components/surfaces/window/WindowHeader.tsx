@@ -37,7 +37,7 @@ export default function WindowHeader({
                 </span>
             </div>
             {actionHandler !== undefined ? (
-                <IconButton className={styles.action}>
+                <IconButton className={styles.action} onClick={actionHandler}>
                     {action ?? <FaBars />}
                 </IconButton>
             ) : undefined}

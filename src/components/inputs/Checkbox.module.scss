@@ -1,13 +1,37 @@
 @use "../../styles/core.module.scss" as core;
 
-.checkbox {
-    color: core.$color-primary;
-}
+.checkboxContainer {
+    display: grid;
+    grid-template: auto / auto 1fr;
+    column-gap: core.getDimensionValue(1);
 
-.label {
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: flex-start;
-    align-items: center;
-    gap: core.getDimensionValue(1);
+    .checkbox {
+        color: core.$color-primary;
+        grid-column: 1 / 2;
+        grid-row: 1 / 2;
+    }
+
+    .label {
+        grid-column: 2 / 3;
+        grid-row: 1 / 2;
+
+        &.boldLabel {
+            font-weight: bold;
+        }
+    }
+
+    .description {
+        grid-column: 2 / 3;
+        grid-row: 2 / 3;
+    }
+
+    &[data-disabled="true"] {
+        .label {
+            color: core.$color-primary-faded;
+        }
+
+        .description {
+            color: core.$color-primary-faded;
+        }
+    }
 }

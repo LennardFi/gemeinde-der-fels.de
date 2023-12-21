@@ -1,6 +1,8 @@
 @use "../../../styles/core.module.scss" as core;
 
 .dialog {
+    overflow: auto;
+    max-height: 100%;
 
     .checkboxLabel {}
 

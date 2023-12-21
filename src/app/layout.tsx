@@ -44,47 +44,37 @@ export default function Layout({ children }: IndexLayoutProps) {
                     type="image/x-icon"
                 />
             </head>
-            <body
-                className={`${headerFont.className}`}
-                style={
-                    {
-                        // backgroundImage: `url("${backgroundImage.src}"`,
-                        // background: "white",
-                    }
-                }
-            >
-                <div className={styles.wrapper}>
-                    <Navigation inRootLayout />
-                    <main>{children}</main>
-                    <PrivacyConsentBar inRootLayout />
-                    <Footer />
-                    <noscript>
-                        <div className={styles.noScriptContainer}>
-                            <div className={styles.noScriptWrapper}>
-                                <Window
-                                    breakpoint="small"
-                                    className={styles.noScriptWindow}
-                                    pageContainer
-                                >
-                                    <WindowHeader
-                                        title="JavaScript nicht erlaubt"
-                                        icon={<FaExclamationTriangle />}
-                                    />
-                                    <WindowContent>
-                                        <p>
-                                            Aktuell wird die Ausführung von
-                                            JavaScript durch den Browser
-                                            verhindert. Diese Website braucht
-                                            jedoch JavaScript um korrekt
-                                            dargestellt zu werden. Schalte dies
-                                            deshalb im Browser bitte ein.
-                                        </p>
-                                    </WindowContent>
-                                </Window>
-                            </div>
+            <body className={`${styles.body} ${headerFont.className}`}>
+                <Navigation inRootLayout />
+                <main>{children}</main>
+                <PrivacyConsentBar inRootLayout />
+                <Footer />
+                <noscript>
+                    <div className={styles.noScriptContainer}>
+                        <div className={styles.noScriptWrapper}>
+                            <Window
+                                breakpoint="small"
+                                className={styles.noScriptWindow}
+                                pageContainer
+                            >
+                                <WindowHeader
+                                    title="JavaScript nicht erlaubt"
+                                    icon={<FaExclamationTriangle />}
+                                />
+                                <WindowContent>
+                                    <p>
+                                        Aktuell wird die Ausführung von
+                                        JavaScript durch den Browser verhindert.
+                                        Diese Website braucht jedoch JavaScript
+                                        um korrekt dargestellt zu werden.
+                                        Schalte dies deshalb im Browser bitte
+                                        ein.
+                                    </p>
+                                </WindowContent>
+                            </Window>
                         </div>
-                    </noscript>
-                </div>
+                    </div>
+                </noscript>
             </body>
         </html>
     )

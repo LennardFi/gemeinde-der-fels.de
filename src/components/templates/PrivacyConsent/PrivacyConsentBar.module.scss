@@ -3,7 +3,7 @@
 .consentBar {
     padding: core.getDimensionValue(1);
     box-shadow: 0rem 0rem 1rem #000a;
-    position: absolute;
+    position: fixed;
     bottom: 0;
     right: 0;
     left: 0;

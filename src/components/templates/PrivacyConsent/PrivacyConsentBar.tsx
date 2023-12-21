@@ -28,7 +28,7 @@ const disabledOnRoutes: string[] = ["/"]
 export default function PrivacyConsentBar({
     inRootLayout,
     sticky,
-    themeColor = "secondary",
+    themeColor = "primary",
     themeColorVariant,
 }: PrivacyConsentBarProps) {
     const [dialogOpen, setDialogOpen] = useState(false)
@@ -126,12 +126,16 @@ export default function PrivacyConsentBar({
                             zu. Außerdem verwenden wir Cookies.
                         </p>
                         <Flex
-                            autoResize
                             breakpoint="tiny"
-                            direction="row"
-                            justify="flex-end"
-                            alignItems="center"
+                            direction="column"
+                            justify="flex-start"
+                            alignItems="stretch"
                             columnGap={1}
+                            small={{
+                                direction: "row",
+                                justify: "flex-end",
+                                alignItems: "center",
+                            }}
                         >
                             <Button
                                 onClick={onAccept}

@@ -43,7 +43,7 @@ export default function Page() {
                     <FaAngleDoubleDown />
                 </Link>
             </div>
-            <PrivacyConsentBar themeColor="primary" />
+            <PrivacyConsentBar />
             <Navigation id={navHtmlId} sticky />
             <Paper noPadding themeColor="primary" themeColorVariant="font">
                 <Flex justify="center">

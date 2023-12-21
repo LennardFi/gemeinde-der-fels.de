@@ -96,11 +96,11 @@ export default function NavigationDrawerItem({
     return (
         <RequiresFeatureFlag flags={requiresAllDevFeatureFlag ?? []}>
             <li
-                className={`${styles.item} ${
-                    isLink || subEntries?.length ? styles.isButton : ""
-                } ${subEntries === undefined ? styles.noSubEntries : ""} ${
-                    needsAuth ? styles.needsAuth : ""
-                } ${currentPage ? styles.active : ""} ${className ?? ""}`}
+                className={`${styles.item} ${isLink ? styles.isButton : ""} ${
+                    subEntries === undefined ? styles.noSubEntries : ""
+                } ${needsAuth ? styles.needsAuth : ""} ${
+                    currentPage ? styles.active : ""
+                } ${className ?? ""}`}
                 onClick={
                     isLink
                         ? (e) => {

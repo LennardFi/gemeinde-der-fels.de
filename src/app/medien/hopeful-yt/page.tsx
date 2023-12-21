@@ -105,9 +105,9 @@ export default function Page() {
                     Knie fallen.
                 </p>
                 <p>
-                    Überglücklich bezeugen ich von ganzem Herzen:"Ich habe den
-                    gefunden, der meine Seele liebt. Ihn halte ich fest und
-                    lasse ich Ihn nicht mehr los."
+                    Überglücklich bezeuge ich von ganzem Herzen: "Ich habe den
+                    gefunden, den meine Seele liebt. Ihn halte ich fest und
+                    lasse Ihn nicht mehr los."
                 </p>
                 <p>
                     Ihn, Jesus, möchte ich mit meinem Leben anbeten. Aller Ruhm

@@ -6,7 +6,6 @@ import Paper from "@/components/surfaces/Paper"
 import Website from "@/typings"
 import useUserPreferencesZustand from "@/zustand/useUserPreferencesZustand"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
 import { useCallback, useEffect } from "react"
 import { Temporal } from "temporal-polyfill"
 import styles from "./PrivacyConsentBar.module.scss"
@@ -24,12 +23,10 @@ export const privacyLastUpdate = Temporal.Now.zonedDateTimeISO("UTC").subtract({
 }).epochMilliseconds
 
 export default function PrivacyConsentBar({
-    inRootLayout,
     sticky,
     themeColor = "primary",
     themeColorVariant,
 }: PrivacyConsentBarProps) {
-    const pathName = usePathname()
     const {
         loaded,
         loadPreferences,

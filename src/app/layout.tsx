@@ -2,6 +2,7 @@ import "../styles/normalize.css"
 
 import "../styles/globals.scss"
 
+import RequiresFeatureFlag from "@/components/dev/RequiresDevFeatureFlag"
 import Window from "@/components/surfaces/window/Window"
 import WindowContent from "@/components/surfaces/window/WindowContent"
 import WindowHeader from "@/components/surfaces/window/WindowHeader"
@@ -48,7 +49,9 @@ export default function Layout({ children }: IndexLayoutProps) {
                 <Navigation inRootLayout />
                 <main>{children}</main>
                 <Footer />
-                <PrivacyConsentBar inRootLayout />
+                <RequiresFeatureFlag flags={["privacy-consent"]}>
+                    <PrivacyConsentBar />
+                </RequiresFeatureFlag>
                 <noscript>
                     <div className={styles.noScriptContainer}>
                         <div className={styles.noScriptWrapper}>

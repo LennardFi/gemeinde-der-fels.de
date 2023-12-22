@@ -20,6 +20,7 @@ export function parseFeatureFlagEnvValue(
         internArea: undefined,
         mediaPlayer: undefined,
         news: undefined,
+        "privacy-consent": undefined,
         sendEmail: undefined,
     }
     return Object.entries(
@@ -31,8 +32,9 @@ export function parseFeatureFlagEnvValue(
                     featureFlagValue in initialFlags ||
                     (featureFlagValue.startsWith("!") &&
                         featureFlagValue.substring(1) in initialFlags) ||
-                    featureFlagValue === "*" ||
-                    featureFlagValue === "!*",
+                    (isDevMode &&
+                        (featureFlagValue === "*" ||
+                            featureFlagValue === "!*")),
             )
             .reduce((prevFlags, featureFlagValue) => {
                 let negated = false

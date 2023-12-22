@@ -167,6 +167,7 @@ declare namespace Website {
             | "internArea"
             | "mediaPlayer"
             | "news"
+            | "privacy-consent"
             | "sendEmail"
     }
 

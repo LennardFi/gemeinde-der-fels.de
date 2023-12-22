@@ -8,6 +8,8 @@ export interface UserPreferencesZustand
     extends Website.UserPreferences.Preferences {
     loaded: boolean
     loadPreferences(): void
+    setShowPreferencesDialog(show: boolean): void
+    showPreferencesDialog: boolean
     updatePreferences(
         preferences: DeepPartial<Website.UserPreferences.Preferences>,
     ): Promise<void>
@@ -23,12 +25,15 @@ const useUserPreferencesZustand = create<UserPreferencesZustand>()((set) => {
     ): boolean => {
         try {
             if (
-                !preferences.privacy?.allowCookies ||
-                !preferences.privacy.enabledCookies?.preferences
+                preferences.privacy?.acceptedPrivacyNotesOn === undefined ||
+                preferences.privacy?.acceptedPrivacyNotesOn === false
             ) {
+                localStorage.removeItem(preferencesLocalStorageName)
                 return true
             }
+
             const serializedPreferences = JSON.stringify(preferences)
+
             localStorage.setItem(
                 preferencesLocalStorageName,
                 serializedPreferences,
@@ -119,24 +124,19 @@ const useUserPreferencesZustand = create<UserPreferencesZustand>()((set) => {
         }))
     }
 
+    const setShowPreferencesDialog: UserPreferencesZustand["setShowPreferencesDialog"] =
+        (show) => {
+            set((state) => ({
+                showPreferencesDialog: show,
+            }))
+        }
+
     const updatePreferences: UserPreferencesZustand["updatePreferences"] =
         async (preferences) =>
             set((state) => {
-                if (
-                    preferences.audio !== undefined &&
-                    preferences.audio.volume !== undefined &&
-                    (preferences.audio.volume < 0 ||
-                        preferences.audio.volume > 1)
-                ) {
-                    return {}
-                }
-
                 const newSettings: Website.UserPreferences.Preferences = {
-                    ...state,
                     ...preferences,
                     audio: {
-                        muted: false,
-                        volume: 1,
                         ...state.audio,
                         ...preferences.audio,
                     },
@@ -150,6 +150,8 @@ const useUserPreferencesZustand = create<UserPreferencesZustand>()((set) => {
                     },
                 }
 
+                console.log({ newSettings })
+
                 if (!storeSettingsToLocalStorage(newSettings)) {
                     return {}
                 }
@@ -161,6 +163,8 @@ const useUserPreferencesZustand = create<UserPreferencesZustand>()((set) => {
         ...initialPreferences,
         loaded: false,
         loadPreferences,
+        setShowPreferencesDialog,
+        showPreferencesDialog: false,
         updatePreferences,
     }
 })

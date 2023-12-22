@@ -1,0 +1,131 @@
+@use "../../../styles/core.module.scss" as core;
+
+.accordion {
+    >summary {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        gap: core.getDimensionValue(2);
+        cursor: pointer;
+        font-weight: 400;
+        list-style: none;
+        padding: 0 core.getDimensionValue(1);
+        transition: font-weight 250ms ease-in-out;
+
+        &:hover {
+            // font-weight: 700;
+        }
+
+        .icon {
+            transition: rotate 250ms ease-in-out;
+        }
+    }
+
+    .detailsContent {
+        transition: padding 250ms ease-in-out;
+        padding: core.getDimensionValue(1);
+        overflow: clip;
+    }
+
+    &[open] {
+        summary {
+            font-weight: 700;
+
+            &:hover {}
+        }
+    }
+
+    summary,
+    & {
+        font-weight: initial;
+    }
+
+    &[data-theme="primary"] {
+        background: core.$color-primary;
+        color: core.$color-primary-font;
+
+        summary {
+            &:hover {
+                color: core.$color-primary-font-highlighted;
+            }
+        }
+
+        .detailsContent {
+            background: core.$color-primary-faded;
+            color: core.$color-primary-font-faded;
+        }
+
+        &[open] {
+            color: core.$color-primary-font-highlighted;
+        }
+    }
+
+    &[data-theme="secondary"] {
+        background: core.$color-secondary;
+        color: core.$color-secondary-font;
+
+        summary {
+            &:hover {
+                color: core.$color-secondary-font-highlighted;
+            }
+        }
+
+        .detailsContent {
+            background: core.$color-secondary-faded;
+            color: core.$color-secondary-font-faded;
+        }
+
+        &[open] {
+            color: core.$color-secondary-font-highlighted;
+        }
+    }
+
+    &[data-theme="accent"] {
+        background: core.$color-accent-faded;
+        color: core.$color-accent-font-faded;
+
+        summary {
+            background: core.$color-accent;
+            color: core.$color-accent-font;
+
+            &:hover {
+                color: core.$color-accent-font-highlighted;
+            }
+        }
+
+        .detailsContent {
+            background: core.$color-accent-faded;
+            color: core.$color-accent-font-faded;
+        }
+
+        &[open] {
+            color: core.$color-accent-font-highlighted;
+        }
+    }
+
+    @media (min-width: core.$size-breakpoint-tiny) {
+        .detailsContent {
+            padding: core.getDimensionValue(1);
+        }
+    }
+
+    @media (min-width: core.$size-breakpoint-small) {
+        .detailsContent {
+            padding: core.getDimensionValue(1);
+        }
+    }
+
+    @media (min-width: core.$size-breakpoint-normal) {
+        .detailsContent {
+            padding: core.getDimensionValue(2);
+        }
+    }
+
+    @media (min-width: core.$size-breakpoint-large) {
+        .detailsContent {
+            padding: core.getDimensionValue(2);
+        }
+    }
+
+}

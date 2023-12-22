@@ -425,12 +425,11 @@ declare namespace Website {
             volume?: number
         }
 
-        type FunctionalCookieType = "preferences" | "session"
+        type FunctionalCookieType = "session"
         type CookieType = FunctionalCookieType
 
         interface PrivacyPreferences {
-            acceptedPrivacyNotesOn?: number
-            allowCookies?: boolean
+            acceptedPrivacyNotesOn?: number | false
             enabledCookies?: Partial<Record<CookieType, boolean>>
         }
 

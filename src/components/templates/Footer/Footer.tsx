@@ -2,11 +2,17 @@
 
 import RequiresFeatureFlag from "@/components/dev/RequiresDevFeatureFlag"
 import useAuthZustand from "@/zustand/useAuthZustand"
+import useUserPreferencesZustand from "@/zustand/useUserPreferencesZustand"
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 import { FaYoutube } from "react-icons/fa"
 import styles from "./Footer.module.scss"
 
 export default function Footer() {
+    const pathName = usePathname()
+    const setShowPreferencesDialog = useUserPreferencesZustand(
+        (state) => state.setShowPreferencesDialog,
+    )
     const jwt = useAuthZustand((state) => state.jwt)
 
     return (
@@ -22,6 +28,19 @@ export default function Footer() {
                         </li>
                         <li>
                             <Link href="/impressum">Impressum</Link>
+                        </li>
+                        <li>
+                            <Link
+                                href="#"
+                                onClick={(e) => {
+                                    e.preventDefault()
+                                    e.stopPropagation()
+                                    setShowPreferencesDialog(true)
+                                    console.log("open dialog")
+                                }}
+                            >
+                                Präferenzen
+                            </Link>
                         </li>
                     </ul>
                 </div>

@@ -65,17 +65,19 @@ export const postSermonsSpeakerApiRequestBodySchema = z.object({
 })
 
 export const audioPreferencesSchema = z.object({
-    muted: z.boolean(),
-    volume: z.number().max(1).min(0),
+    muted: z.boolean().optional(),
+    volume: z.number().max(1).min(0).optional(),
 })
 
 export const privacyPreferencesSchema = z.object({
     acceptedPrivacyNotesOn: z.number().optional(),
     allowCookies: z.boolean().optional(),
-    enabledCookies: z.object({
-        preferences: z.boolean().optional(),
-        session: z.boolean().optional(),
-    }),
+    enabledCookies: z
+        .object({
+            preferences: z.boolean().optional(),
+            session: z.boolean().optional(),
+        })
+        .optional(),
 })
 
 export const preferencesSchema = z.object({

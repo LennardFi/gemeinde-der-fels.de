@@ -86,13 +86,13 @@ export default function Page() {
 
     return (
         <Window breakpoint="normal" className={styles.card} pageContainer>
-            <WindowHeader title="Verwaltung" />
+            <WindowHeader title="Einstellungen" />
             <WindowContent className={styles.container}>
                 <h2>Benutzer</h2>
                 <Checkbox
                     checked={showDisabled}
                     label="Deaktivierte anzeigen"
-                    onChange={(e) => setShowDisabled(e.target.checked)}
+                    onChange={(checked) => setShowDisabled(checked)}
                 />
                 <table>
                     <thead>

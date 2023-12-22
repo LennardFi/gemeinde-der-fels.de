@@ -1,6 +1,6 @@
 import PageContainer from "@/components/containers/PageContainer"
 
-export default function Privacy() {
+export default function Page() {
     return (
         <PageContainer
             breakpoint="normal"

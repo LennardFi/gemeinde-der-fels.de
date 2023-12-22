@@ -5,26 +5,17 @@ import PageContainer from "@/components/containers/PageContainer"
 import Section from "@/components/containers/Section"
 import Button from "@/components/inputs/Button"
 import Divider from "@/components/surfaces/Divider"
-import Paper from "@/components/surfaces/Paper"
-import useDebouncedValue from "@/hooks/useDebouncedValue"
-import useDeviceSize from "@/hooks/useDeviceSize"
-import { AnimatePresence, motion } from "framer-motion"
+import Accordion from "@/components/surfaces/accordion/Accordion"
 import { useState } from "react"
-import { FaAngleRight, FaDownload } from "react-icons/fa"
+import { FaDownload } from "react-icons/fa"
 import styles from "./page.module.scss"
-
-const animationTime = 0.25
 
 export default function Page() {
     const [expandedMainValue, setExpandedMainValue] = useState(0)
-    const debouncedExpandedMainValue = useDebouncedValue(
-        expandedMainValue,
-        animationTime * 1500,
-    )
-    const deviceSize = useDeviceSize("tiny")
 
-    const onToggleMainValue = (index: number) => () =>
-        setExpandedMainValue((prev) => (prev === index ? -1 : index))
+    const onOpenAccordion = (index: number) => (open: boolean) => {
+        setExpandedMainValue(open ? index : -1)
+    }
 
     return (
         <PageContainer
@@ -71,341 +62,141 @@ export default function Page() {
                     breakpoint="small"
                     direction="column"
                     justify="flex-start"
-                    alignItems="center"
-                    small={{
-                        direction: "row",
-                        alignItems: "stretch",
-                    }}
+                    alignItems="stretch"
                 >
-                    <Paper noPadding>
-                        <details
-                            className={styles.mainValue}
-                            onClick={(e) => {
-                                e.preventDefault()
-                                e.stopPropagation()
+                    <Accordion
+                        className={styles.mainValue}
+                        summary="Hingegeben"
+                        onOpen={onOpenAccordion(0)}
+                        open={expandedMainValue === 0}
+                    >
+                        <ul>
+                            <li>Gott hingegeben</li>
+                            <li>Gott abgegeben</li>
+                            <li>Herrschaft</li>
+                            <li>Herr-gegeben</li>
+                        </ul>
+                    </Accordion>
+                    <Accordion
+                        className={styles.mainValue}
+                        summary="Familiär"
+                        onOpen={onOpenAccordion(1)}
+                        open={expandedMainValue === 1}
+                    >
+                        <ul>
+                            <li>Heim kommen</li>
+                            <li>Angenommen</li>
+                            <li>Authentisch</li>
+                            <li>Zugehörig</li>
+                            <li>Füreinander da sein</li>
+                        </ul>
+                    </Accordion>
+                    <Accordion
+                        className={styles.mainValue}
+                        summary="In Jüngerschaft gehen"
+                        onOpen={onOpenAccordion(2)}
+                        open={expandedMainValue === 2}
+                    >
+                        <Flex
+                            direction="column"
+                            small={{
+                                direction: "row",
                             }}
-                            open={
-                                expandedMainValue === 0 ||
-                                debouncedExpandedMainValue === 0
-                            }
                         >
-                            <summary onClick={onToggleMainValue(0)}>
-                                <FaAngleRight
-                                    className={styles.mainValueIcon}
-                                    style={{
-                                        rotate:
-                                            expandedMainValue !== 0
-                                                ? "0deg"
-                                                : "90deg",
-                                    }}
-                                />{" "}
-                                Hingegeben
-                            </summary>
-                            <AnimatePresence>
-                                {expandedMainValue === 0 ? (
-                                    <motion.ul
-                                        initial={{ height: 0, opacity: 0 }}
-                                        animate={{
-                                            height: "auto",
-                                            opacity: 1,
-                                        }}
-                                        exit={{ height: 0, opacity: 0 }}
-                                        transition={{
-                                            type: "keyframes",
-                                            ease: "easeInOut",
-                                            duration: animationTime,
-                                        }}
-                                    >
-                                        <li>Gott hingegeben</li>
-                                        <li>Gott abgegeben</li>
-                                        <li>Herrschaft</li>
-                                        <li>Herr-gegeben</li>
-                                    </motion.ul>
-                                ) : null}
-                            </AnimatePresence>
-                        </details>
-                        <details
-                            className={styles.mainValue}
-                            onClick={(e) => {
-                                e.preventDefault()
-                                e.stopPropagation()
+                            <ul>
+                                <li>Anleiten</li>
+                                <li>unterordnen</li>
+                                <li>Identität</li>
+                                <li>Ermutigen</li>
+                                <li>Ermahnen</li>
+                                <li>Dienen</li>
+                            </ul>
+                            <ul>
+                                <li>Transparent</li>
+                                <li>Vertrauen</li>
+                                <li>Ermächtigt sein/Autorität</li>
+                                <li>Gelebtes</li>
+                                <li>Aussenden</li>
+                            </ul>
+                        </Flex>
+                    </Accordion>
+                    <Accordion
+                        className={styles.mainValue}
+                        summary="Wiederherstellend"
+                        onOpen={onOpenAccordion(3)}
+                        open={expandedMainValue === 3}
+                    >
+                        <Flex
+                            direction="column"
+                            small={{
+                                direction: "row",
                             }}
-                            open={
-                                expandedMainValue === 1 ||
-                                debouncedExpandedMainValue === 1
-                            }
                         >
-                            <summary onClick={onToggleMainValue(1)}>
-                                <FaAngleRight
-                                    className={styles.mainValueIcon}
-                                    style={{
-                                        rotate:
-                                            expandedMainValue !== 1
-                                                ? "0deg"
-                                                : "90deg",
-                                    }}
-                                />{" "}
-                                Familiär
-                            </summary>
-                            <AnimatePresence>
-                                {expandedMainValue === 1 ? (
-                                    <motion.ul
-                                        initial={{ height: 0, opacity: 0 }}
-                                        animate={{
-                                            height: "auto",
-                                            opacity: 1,
-                                        }}
-                                        exit={{ height: 0, opacity: 0 }}
-                                        transition={{
-                                            type: "keyframes",
-                                            ease: "easeInOut",
-                                            duration: animationTime,
-                                        }}
-                                        // onClick={(e) => {
-                                        //     e.preventDefault()
-                                        //     e.stopPropagation()
-                                        // }}
-                                    >
-                                        <li>Heim kommen</li>
-                                        <li>Angenommen</li>
-                                        <li>Authentisch</li>
-                                        <li>Zugehörig</li>
-                                        <li>Füreinander da sein</li>
-                                    </motion.ul>
-                                ) : null}
-                            </AnimatePresence>
-                        </details>
-                        <details
-                            className={styles.mainValue}
-                            onClick={(e) => {
-                                e.preventDefault()
-                                e.stopPropagation()
+                            <ul>
+                                <li>Sanftmütig</li>
+                                <li>Erbarmend</li>
+                                <li>Geduldig</li>
+                                <li>Hoffnungsvoll</li>
+                                <li>Erbauend</li>
+                                <li>Gebet</li>
+                                <li>Wertschätzend</li>
+                                <li>Heilbringend</li>
+                            </ul>
+                            <ul>
+                                <li>Vergebend</li>
+                                <li>Geistgeleitet</li>
+                                <li>Zuhörend</li>
+                                <li>Aufmerksam</li>
+                                <li>Sensibel</li>
+                                <li>Aushalten</li>
+                            </ul>
+                        </Flex>
+                    </Accordion>
+                    <Accordion
+                        className={styles.mainValue}
+                        summary="Dienend"
+                        onOpen={onOpenAccordion(4)}
+                        open={expandedMainValue === 4}
+                    >
+                        <ul>
+                            <li>Selbstlos</li>
+                            <li>Treu</li>
+                            <li>Höherachtend</li>
+                            <li>Zuverlässig</li>
+                            <li>Nächstenliebe</li>
+                            <li>Zeit</li>
+                            <li>Hingabe</li>
+                        </ul>
+                    </Accordion>
+                    <Accordion
+                        className={styles.mainValue}
+                        summary="In Leiterschaft bringen"
+                        onOpen={onOpenAccordion(5)}
+                        open={expandedMainValue === 5}
+                    >
+                        <Flex
+                            direction="column"
+                            small={{
+                                direction: "row",
                             }}
-                            open={
-                                expandedMainValue === 2 ||
-                                debouncedExpandedMainValue === 2
-                            }
                         >
-                            <summary onClick={onToggleMainValue(2)}>
-                                <FaAngleRight
-                                    className={styles.mainValueIcon}
-                                    style={{
-                                        rotate:
-                                            expandedMainValue !== 2
-                                                ? "0deg"
-                                                : "90deg",
-                                    }}
-                                />{" "}
-                                In Jüngerschaft gehen
-                            </summary>
-                            <AnimatePresence>
-                                {expandedMainValue === 2 ? (
-                                    <motion.ul
-                                        initial={{ height: 0, opacity: 0 }}
-                                        animate={{
-                                            height: "auto",
-                                            opacity: 1,
-                                        }}
-                                        exit={{ height: 0, opacity: 0 }}
-                                        transition={{
-                                            type: "keyframes",
-                                            ease: "easeInOut",
-                                            duration: animationTime,
-                                        }}
-                                        // onClick={(e) => {
-                                        //     e.preventDefault()
-                                        //     e.stopPropagation()
-                                        // }}
-                                    >
-                                        <li>Anleiten</li>
-                                        <li>unterordnen</li>
-                                        <li>Identität</li>
-                                        <li>Ermutigen</li>
-                                        <li>Ermahnen</li>
-                                        <li>Dienen</li>
-                                        <li>Transparent</li>
-                                        <li>Vertrauen</li>
-                                        <li>Ermächtigt sein/Autorität</li>
-                                        <li>Gelebtes</li>
-                                        <li>Aussenden</li>
-                                    </motion.ul>
-                                ) : null}
-                            </AnimatePresence>
-                        </details>
-                    </Paper>
-                    <Paper noPadding>
-                        <details
-                            className={styles.mainValue}
-                            onClick={(e) => {
-                                e.preventDefault()
-                                e.stopPropagation()
-                            }}
-                            open={
-                                expandedMainValue === 3 ||
-                                debouncedExpandedMainValue === 3
-                            }
-                        >
-                            <summary onClick={onToggleMainValue(3)}>
-                                <FaAngleRight
-                                    className={styles.mainValueIcon}
-                                    style={{
-                                        rotate:
-                                            expandedMainValue !== 3
-                                                ? "0deg"
-                                                : "90deg",
-                                    }}
-                                />{" "}
-                                Wiederherstellend
-                            </summary>
-                            <AnimatePresence>
-                                {expandedMainValue === 3 ? (
-                                    <motion.ul
-                                        initial={{ height: 0, opacity: 0 }}
-                                        animate={{
-                                            height: "auto",
-                                            opacity: 1,
-                                        }}
-                                        exit={{ height: 0, opacity: 0 }}
-                                        transition={{
-                                            type: "keyframes",
-                                            ease: "easeInOut",
-                                            duration: animationTime,
-                                        }}
-                                        // onClick={(e) => {
-                                        //     e.preventDefault()
-                                        //     e.stopPropagation()
-                                        // }}
-                                    >
-                                        <li>Sanftmütig</li>
-                                        <li>Erbarmend</li>
-                                        <li>Geduldig</li>
-                                        <li>Hoffnungsvoll</li>
-                                        <li>Erbauend</li>
-                                        <li>Gebet</li>
-                                        <li>Wertschätzend</li>
-                                        <li>Heilbringend</li>
-                                        <li>Vergebend</li>
-                                        <li>Geistgeleitet</li>
-                                        <li>Zuhörend</li>
-                                        <li>Aufmerksam</li>
-                                        <li>Sensibel</li>
-                                        <li>Aushalten</li>
-                                    </motion.ul>
-                                ) : null}
-                            </AnimatePresence>
-                        </details>
-                        <details
-                            className={styles.mainValue}
-                            onClick={(e) => {
-                                e.preventDefault()
-                                e.stopPropagation()
-                            }}
-                            open={
-                                expandedMainValue === 4 ||
-                                debouncedExpandedMainValue === 4
-                            }
-                        >
-                            <summary onClick={onToggleMainValue(4)}>
-                                <FaAngleRight
-                                    className={styles.mainValueIcon}
-                                    style={{
-                                        rotate:
-                                            expandedMainValue !== 4
-                                                ? "0deg"
-                                                : "90deg",
-                                    }}
-                                />{" "}
-                                Dienend
-                            </summary>
-                            <AnimatePresence>
-                                {expandedMainValue === 4 ? (
-                                    <motion.ul
-                                        initial={{ height: 0, opacity: 0 }}
-                                        animate={{
-                                            height: "auto",
-                                            opacity: 1,
-                                        }}
-                                        exit={{ height: 0, opacity: 0 }}
-                                        transition={{
-                                            type: "keyframes",
-                                            ease: "easeInOut",
-                                            duration: animationTime,
-                                        }}
-                                        // onClick={(e) => {
-                                        //     e.preventDefault()
-                                        //     e.stopPropagation()
-                                        // }}
-                                    >
-                                        <li>Selbstlos</li>
-                                        <li>Treu</li>
-                                        <li>Höherachtend</li>
-                                        <li>Zuverlässig</li>
-                                        <li>Nächstenliebe</li>
-                                        <li>Zeit</li>
-                                        <li>Hingabe</li>
-                                    </motion.ul>
-                                ) : null}
-                            </AnimatePresence>
-                        </details>
-                        <details
-                            className={styles.mainValue}
-                            onClick={(e) => {
-                                e.preventDefault()
-                                e.stopPropagation()
-                            }}
-                            open={
-                                expandedMainValue === 5 ||
-                                debouncedExpandedMainValue === 5
-                            }
-                        >
-                            <summary onClick={onToggleMainValue(5)}>
-                                <FaAngleRight
-                                    className={styles.mainValueIcon}
-                                    style={{
-                                        rotate:
-                                            expandedMainValue !== 5
-                                                ? "0deg"
-                                                : "90deg",
-                                    }}
-                                />{" "}
-                                In Leiterschaft bringen
-                            </summary>
-                            <AnimatePresence>
-                                {expandedMainValue === 5 ? (
-                                    <motion.ul
-                                        initial={{ height: 0, opacity: 0 }}
-                                        animate={{
-                                            height: "auto",
-                                            opacity: 1,
-                                        }}
-                                        exit={{ height: 0, opacity: 0 }}
-                                        transition={{
-                                            type: "keyframes",
-                                            ease: "easeInOut",
-                                            duration: animationTime,
-                                        }}
-                                        // onClick={(e) => {
-                                        //     e.preventDefault()
-                                        //     e.stopPropagation()
-                                        // }}
-                                    >
-                                        <li>Richtungsweisend</li>
-                                        <li>Vorbildliches Leben</li>
-                                        <li>Geisterfüllt, geistgeleitet</li>
-                                        <li>Dienend</li>
-                                        <li>Autorität</li>
-                                        <li>Geistliche Reife</li>
-                                        <li>Nächste Generation fördernd</li>
-                                        <li>Belehrbar</li>
-                                        <li>
-                                            Wird geleitet von Geschwistern,
-                                            Jüngerschaft
-                                        </li>
-                                    </motion.ul>
-                                ) : null}
-                            </AnimatePresence>
-                        </details>
-                    </Paper>
+                            <ul>
+                                <li>Richtungsweisend</li>
+                                <li>Vorbildliches Leben</li>
+                                <li>Geisterfüllt, geistgeleitet</li>
+                                <li>Dienend</li>
+                                <li>Autorität</li>
+                            </ul>
+                            <ul>
+                                <li>Geistliche Reife</li>
+                                <li>Nächste Generation fördernd</li>
+                                <li>Belehrbar</li>
+                                <li>
+                                    Wird geleitet von Geschwistern, Jüngerschaft
+                                </li>
+                            </ul>
+                        </Flex>
+                    </Accordion>
                 </Flex>
             </Section>
             <Divider variant="page" themeColor="transparent" />

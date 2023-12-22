@@ -3,12 +3,24 @@
 .checkboxContainer {
     display: grid;
     grid-template: auto / auto 1fr;
+    align-items: center;
     column-gap: core.getDimensionValue(1);
 
+    &.noLabel {
+        grid-template: auto / auto;
+    }
+
+    .input {
+        display: none;
+    }
+
     .checkbox {
-        color: core.$color-primary;
         grid-column: 1 / 2;
         grid-row: 1 / 2;
+
+        // &[data-indeterminate="true"] {
+        //     background-color: core.$color-primary;
+        // }
     }
 
     .label {
@@ -20,18 +32,102 @@
         }
     }
 
-    .description {
-        grid-column: 2 / 3;
-        grid-row: 2 / 3;
-    }
-
-    &[data-disabled="true"] {
-        .label {
-            color: core.$color-primary-faded;
+    &[data-theme="primary"] {
+        .checkbox {
+            color: core.$color-primary;
         }
 
-        .description {
-            color: core.$color-primary-faded;
+        &[data-disabled="true"] {
+            .checkbox {
+                color: core.$color-primary-faded;
+            }
+
+            .label {
+                color: core.$color-primary-faded;
+            }
+        }
+
+        &.fontColor {
+            .checkbox {
+                color: core.$color-primary-font;
+            }
+
+            &[data-disabled="true"] {
+                .checkbox {
+                    color: core.$color-primary-font-faded;
+                }
+
+                .label {
+                    color: core.$color-primary-font-faded;
+                }
+            }
+
+        }
+    }
+
+    &[data-theme="secondary"] {
+        .checkbox {
+            color: core.$color-secondary;
+        }
+
+        &[data-disabled="true"] {
+            .checkbox {
+                color: core.$color-secondary-faded;
+            }
+
+            .label {
+                color: core.$color-secondary-faded;
+            }
+        }
+
+        &.fontColor {
+            .checkbox {
+                color: core.$color-secondary-font;
+            }
+
+            &[data-disabled="true"] {
+                .checkbox {
+                    color: core.$color-secondary-font-faded;
+                }
+
+                .label {
+                    color: core.$color-secondary-font-faded;
+                }
+            }
+
+        }
+    }
+
+    &[data-theme="accent"] {
+        .checkbox {
+            color: core.$color-accent;
+        }
+
+        &[data-disabled="true"] {
+            .checkbox {
+                color: core.$color-accent-faded;
+            }
+
+            .label {
+                color: core.$color-accent-faded;
+            }
+        }
+
+        &.fontColor {
+            .checkbox {
+                color: core.$color-accent-font;
+            }
+
+            &[data-disabled="true"] {
+                .checkbox {
+                    color: core.$color-accent-font-faded;
+                }
+
+                .label {
+                    color: core.$color-accent-font-faded;
+                }
+            }
+
         }
     }
 }

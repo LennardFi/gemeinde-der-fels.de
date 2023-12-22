@@ -10,43 +10,10 @@
     min-height: core.$size-breakpoint-tiny;
 
     .mainValue {
-        summary {
-            display: flex;
-            flex-direction: row;
-            justify-content: flex-start;
-            align-items: center;
-            gap: core.getDimensionValue(1);
-            cursor: pointer;
-            font-weight: 400;
-            list-style: none;
-            color: core.$color-primary;
-
-            &:hover {
-                color: core.$color-secondary-highlighted;
-                font-weight: 700;
-            }
-        }
-
-        &[open] {
-            summary {
-                color: core.$color-secondary;
-                font-weight: 700;
-
-                &:hover {
-                    color: core.$color-secondary-highlighted;
-                }
-            }
-        }
-
-        * {
-            font-weight: initial;
-        }
-
-        .mainValueIcon {
-            transition: rotate 250ms ease-in-out;
-        }
 
         ul {
+            padding-left: core.getDimensionValue(3);
+            width: 50%;
             margin: 0;
         }
     }

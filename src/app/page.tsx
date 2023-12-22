@@ -10,7 +10,6 @@ import Card from "@/components/surfaces/card/Card"
 import CardContent from "@/components/surfaces/card/CardContent"
 import CardHeader from "@/components/surfaces/card/CardHeader"
 import Navigation from "@/components/templates/Navigation/Navigation"
-import PrivacyConsentBar from "@/components/templates/PrivacyConsent/PrivacyConsentBar"
 import Image from "next/image"
 import Link from "next/link"
 import { FaAngleDoubleDown } from "react-icons/fa"
@@ -43,7 +42,6 @@ export default function Page() {
                     <FaAngleDoubleDown />
                 </Link>
             </div>
-            <PrivacyConsentBar />
             <Navigation id={navHtmlId} sticky />
             <Paper noPadding themeColor="primary" themeColorVariant="font">
                 <Flex justify="center">

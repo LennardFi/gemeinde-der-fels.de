@@ -47,8 +47,8 @@ export default function Layout({ children }: IndexLayoutProps) {
             <body className={`${styles.body} ${headerFont.className}`}>
                 <Navigation inRootLayout />
                 <main>{children}</main>
-                <PrivacyConsentBar inRootLayout />
                 <Footer />
+                <PrivacyConsentBar inRootLayout />
                 <noscript>
                     <div className={styles.noScriptContainer}>
                         <div className={styles.noScriptWrapper}>

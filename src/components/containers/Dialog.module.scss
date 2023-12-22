@@ -1,0 +1,25 @@
+@use "../../styles/core.module.scss" as core;
+
+.background {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: linear-gradient(core.$color-accent, core.$color-accent-faded);
+    overflow: clip;
+    height: 100lvh;
+
+    .container {
+        height: 100dvh;
+
+        .dialog {
+            overflow: auto;
+            // max-height: 100svh;
+            height: auto;
+
+            .dialogContent {
+                overflow: auto;
+                height: auto;
+            }
+        }
+    }
+}

@@ -1,14 +1,15 @@
 "use client"
 
+import Dialog, { DialogProps } from "@/components/containers/Dialog"
 import Flex from "@/components/containers/Flex"
 import Button from "@/components/inputs/Button"
 import ButtonLink from "@/components/inputs/ButtonLink"
 import Checkbox from "@/components/inputs/Checkbox"
 import Paper from "@/components/surfaces/Paper"
-import Dialog, { DialogProps } from "@/components/surfaces/dialog/Dialog"
 import Website, { Maybe } from "@/typings"
 import useUserPreferencesZustand from "@/zustand/useUserPreferencesZustand"
-import { useEffect, useState } from "react"
+import { usePathname } from "next/navigation"
+import { useCallback, useEffect, useRef, useState } from "react"
 import { Temporal } from "temporal-polyfill"
 import styles from "./PrivacyConsentDialog.module.scss"
 
@@ -18,13 +19,21 @@ export default function PrivacyConsentDialog({
     onClose,
     ...rest
 }: PrivacyConsentDialogProps) {
-    const { loaded, loadPreferences, privacy, updatePreferences } =
-        useUserPreferencesZustand((state) => ({
-            loaded: state.loaded,
-            loadPreferences: state.loadPreferences,
-            privacy: state.privacy,
-            updatePreferences: state.updatePreferences,
-        }))
+    const pathName = usePathname()
+    const initialPathNameRef = useRef(pathName)
+    const {
+        loaded,
+        loadPreferences,
+        privacy,
+        setShowPreferencesDialog,
+        updatePreferences,
+    } = useUserPreferencesZustand((state) => ({
+        loaded: state.loaded,
+        loadPreferences: state.loadPreferences,
+        privacy: state.privacy,
+        setShowPreferencesDialog: state.setShowPreferencesDialog,
+        updatePreferences: state.updatePreferences,
+    }))
     const [newPrivacyPreferences, setNewPrivacyPreferences] =
         useState<Maybe<Website.UserPreferences.PrivacyPreferences>>(privacy)
 
@@ -37,53 +46,64 @@ export default function PrivacyConsentDialog({
         setNewPrivacyPreferences(privacy)
     }, [loaded])
 
+    useEffect(() => {
+        if (initialPathNameRef.current !== pathName) {
+            setShowPreferencesDialog(false)
+        }
+    }, [pathName])
+
     if (!loaded) {
         return null
     }
 
-    const onReset = () => {
-        setNewPrivacyPreferences(privacy)
-    }
+    const onAllowAll = useCallback(
+        () =>
+            setNewPrivacyPreferences((prev) => ({
+                ...prev,
+                acceptedPrivacyNotesOn:
+                    Temporal.Now.zonedDateTimeISO("UTC").epochMilliseconds,
+                allowCookies: true,
+                enabledCookies: {
+                    preferences: true,
+                    session: true,
+                },
+            })),
+        [],
+    )
 
-    const onSave = () => {
+    const onDisallowAll = useCallback(
+        () =>
+            setNewPrivacyPreferences((prev) => ({
+                ...prev,
+                acceptedPrivacyNotesOn: undefined,
+                allowCookies: false,
+                enabledCookies: {
+                    preferences: false,
+                    session: false,
+                },
+            })),
+        [],
+    )
+
+    const onReset = useCallback(() => {
+        setNewPrivacyPreferences(privacy)
+    }, [])
+
+    const onSave = useCallback(() => {
         updatePreferences({
             privacy: {
                 acceptedPrivacyNotesOn:
                     newPrivacyPreferences?.acceptedPrivacyNotesOn,
-                allowCookies: newPrivacyPreferences?.allowCookies,
-                enabledCookies: !newPrivacyPreferences?.allowCookies
-                    ? {
-                          preferences: false,
-                          session: false,
-                      }
-                    : newPrivacyPreferences.enabledCookies,
+                enabledCookies:
+                    newPrivacyPreferences?.acceptedPrivacyNotesOn === undefined
+                        ? {
+                              session: false,
+                          }
+                        : newPrivacyPreferences.enabledCookies,
             },
         })
         onClose?.()
-    }
-
-    const onAllowAll = () =>
-        setNewPrivacyPreferences((prev) => ({
-            ...prev,
-            acceptedPrivacyNotesOn:
-                Temporal.Now.zonedDateTimeISO("UTC").epochMilliseconds,
-            allowCookies: true,
-            enabledCookies: {
-                preferences: true,
-                session: true,
-            },
-        }))
-
-    const onDisallowAll = () =>
-        setNewPrivacyPreferences((prev) => ({
-            ...prev,
-            acceptedPrivacyNotesOn: undefined,
-            allowCookies: false,
-            enabledCookies: {
-                preferences: false,
-                session: false,
-            },
-        }))
+    }, [])
 
     return (
         <Dialog
@@ -116,7 +136,38 @@ export default function PrivacyConsentDialog({
                         Alle verbieten
                     </Button>
                 </Flex>
-                <h4>Datenschutzerklärung</h4>
+                <h4>Erforderliche Zwecke</h4>
+                <fieldset>
+                    <Paper noPadding>
+                        <Checkbox
+                            checked={
+                                newPrivacyPreferences?.acceptedPrivacyNotesOn !==
+                                undefined
+                            }
+                            className={styles.checkboxLabel}
+                            label="Erforderliche Zwecke"
+                            onChange={(checked) => {
+                                setNewPrivacyPreferences((prev) => ({
+                                    ...prev,
+                                    acceptedPrivacyNotesOn: checked
+                                        ? Temporal.Now.zonedDateTimeISO("UTC")
+                                              .epochMilliseconds
+                                        : undefined,
+                                }))
+                            }}
+                        />
+                        <Paper>
+                            <Flex justify="flex-start">
+                                <ButtonLink
+                                    href="/datenschutz"
+                                    variant="contained"
+                                >
+                                    Datenschutzerklärung anzeigen
+                                </ButtonLink>
+                            </Flex>
+                        </Paper>
+                    </Paper>
+                </fieldset>
                 <fieldset>
                     <Paper noPadding>
                         <Checkbox
@@ -127,10 +178,10 @@ export default function PrivacyConsentDialog({
                             className={styles.checkboxLabel}
                             label="Datenschutzbestimmung erlauben"
                             description="Erlaubt der Website Cookies auf dem Gerät zu speichern."
-                            onChange={(e) => {
+                            onChange={(checked) => {
                                 setNewPrivacyPreferences((prev) => ({
                                     ...prev,
-                                    acceptedPrivacyNotesOn: e.target.checked
+                                    acceptedPrivacyNotesOn: checked
                                         ? Temporal.Now.zonedDateTimeISO("UTC")
                                               .epochMilliseconds
                                         : undefined,
@@ -157,38 +208,16 @@ export default function PrivacyConsentDialog({
                         <Paper noPadding>
                             <Checkbox
                                 checked={
-                                    newPrivacyPreferences?.allowCookies ?? false
+                                    typeof newPrivacyPreferences?.acceptedPrivacyNotesOn ===
+                                    "number"
                                 }
                                 className={styles.checkboxLabel}
                                 label="Cookies erlauben"
                                 description="Erlaubt der Website Cookies auf dem Gerät zu speichern."
-                                onChange={(e) => {
+                                onChange={(checked) => {
                                     setNewPrivacyPreferences((prev) => ({
                                         ...prev,
-                                        allowCookies: e.target.checked,
-                                    }))
-                                }}
-                            />
-                        </Paper>
-                    </fieldset>
-                    <fieldset>
-                        <Paper>
-                            <Checkbox
-                                checked={
-                                    newPrivacyPreferences?.enabledCookies
-                                        ?.preferences ?? false
-                                }
-                                className={styles.checkboxLabel}
-                                disabled={!newPrivacyPreferences?.allowCookies}
-                                label="Einstellungen"
-                                description="Erlaubt der Website Benutzereinstellungen auf dem Gerät zu speichern."
-                                onChange={(e) => {
-                                    setNewPrivacyPreferences((prev) => ({
-                                        ...prev,
-                                        enabledCookies: {
-                                            ...prev?.enabledCookies,
-                                            preferences: e.target.checked,
-                                        },
+                                        allowCookies: checked,
                                     }))
                                 }}
                             />
@@ -202,15 +231,18 @@ export default function PrivacyConsentDialog({
                                         ?.session ?? false
                                 }
                                 className={styles.checkboxLabel}
-                                disabled={!newPrivacyPreferences?.allowCookies}
+                                disabled={
+                                    !newPrivacyPreferences?.enabledCookies
+                                        ?.session ?? false
+                                }
                                 label="Sitzung"
                                 description="Sitzungsdaten für angemeldete Benutzer speichern."
-                                onChange={(e) => {
+                                onChange={(checked) => {
                                     setNewPrivacyPreferences((prev) => ({
                                         ...prev,
                                         enabledCookies: {
                                             ...prev?.enabledCookies,
-                                            session: e.target.checked,
+                                            session: checked,
                                         },
                                     }))
                                 }}

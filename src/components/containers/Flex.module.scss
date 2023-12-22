@@ -3,6 +3,10 @@
 .flex {
     display: flex;
 
+    &.grid {
+        display: grid;
+    }
+
     &.autoResize {
         flex: 1 1 auto;
     }

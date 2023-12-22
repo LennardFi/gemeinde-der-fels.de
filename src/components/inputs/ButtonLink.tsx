@@ -61,7 +61,7 @@ export default function ButtonLink({
                 linkStyles.button
             } ${containedHover ? styles.containedHover : ""} ${
                 noActiveAnimation ? styles.noActiveAnimation : ""
-            } ${noFocusColor ? styles.noFocusColor : ""} ${className}`}
+            } ${noFocusColor ? styles.noFocusColor : ""} ${className ?? ""}`}
             data-theme={themeColor}
             data-variant={variantOrDefault}
             href={href}

@@ -3,7 +3,8 @@ import Divider from "../surfaces/Divider"
 import Paper, { PaperProps } from "../surfaces/Paper"
 import styles from "./PageContainer.module.scss"
 
-export interface PageContainerProps extends PaperProps {
+export interface PageContainerProps extends Omit<PaperProps, "max"> {
+    autoWidth?: boolean
     title?: string
     titleLeftAligned?: boolean
     titlePaperProps?: PaperProps
@@ -11,8 +12,10 @@ export interface PageContainerProps extends PaperProps {
 }
 
 export default function PageContainer({
+    autoWidth,
     children,
     className,
+    noPadding,
     title,
     titleLeftAligned,
     titlePaperProps,
@@ -28,7 +31,11 @@ export default function PageContainer({
         <>
             <Divider variant="page" themeColor="transparent" />
             <Paper
-                className={`${styles.container} ${className ?? ""}`}
+                className={`${styles.container} ${
+                    noPadding ? styles.noPadding : ""
+                } ${className ?? ""}`}
+                max={!autoWidth}
+                noPadding={noPadding}
                 {...rest}
             >
                 {title ? (
@@ -36,7 +43,7 @@ export default function PageContainer({
                         className={`${styles.titlePaper} ${
                             titlePaperClassName ?? ""
                         }`}
-                        noPadding={titlePaperNoPadding}
+                        noPadding={true}
                         {...titlePaperPropsRest}
                     >
                         <h1
@@ -44,7 +51,7 @@ export default function PageContainer({
                             className={`${
                                 titleLeftAligned ? styles.titleLeftAligned : ""
                             } ${
-                                titlePaperNoPadding ? styles.titleNoMargin : ""
+                                titlePaperNoPadding ? styles.titleNoPadding : ""
                             } ${titleProps?.className ?? ""}`}
                         >
                             {title}

@@ -21,21 +21,25 @@
 
     &.tiny {
         max-width: core.$size-breakpoint-tiny;
-        width: 100%;
+        width: auto;
     }
 
     &.small {
         max-width: core.$size-breakpoint-small;
-        width: 100%;
+        width: auto;
     }
 
     &.normal {
         max-width: core.$size-breakpoint-normal;
-        width: 100%;
+        width: auto;
     }
 
     &.large {
         max-width: core.$size-breakpoint-large;
+        width: auto;
+    }
+
+    &.max {
         width: 100%;
     }
 

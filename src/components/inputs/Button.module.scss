@@ -11,8 +11,13 @@
     cursor: pointer;
     font-weight: 600;
     padding: core.getDimensionValue(1);
-    transition: border 250ms ease-in-out, background-color 250ms ease-in-out,
-        color 250ms ease-in-out, transform 100ms ease-in-out;
+    transition:
+        border 250ms ease-in-out,
+        border-color 250ms ease-in-out,
+        border-width 250ms ease-in-out,
+        background-color 250ms ease-in-out,
+        color 250ms ease-in-out,
+        transform 100ms ease-in-out;
 
     .segment {
         display: flex;

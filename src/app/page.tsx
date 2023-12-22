@@ -2,29 +2,37 @@
 
 import Flex from "@/components/containers/Flex"
 import Section from "@/components/containers/Section"
+import RequiresDevMode from "@/components/dev/RequiresDevMode"
 import Skeleton from "@/components/feedback/Skeleton"
 import ButtonLink from "@/components/inputs/ButtonLink"
+import Checkbox from "@/components/inputs/Checkbox"
 import Divider from "@/components/surfaces/Divider"
 import Paper from "@/components/surfaces/Paper"
+import Accordion from "@/components/surfaces/accordion/Accordion"
 import Card from "@/components/surfaces/card/Card"
 import CardContent from "@/components/surfaces/card/CardContent"
 import CardHeader from "@/components/surfaces/card/CardHeader"
 import Navigation from "@/components/templates/Navigation/Navigation"
 import Image from "next/image"
 import Link from "next/link"
-import { FaAngleDoubleDown } from "react-icons/fa"
+import { useCallback, useId, useState } from "react"
+import { FaAngleDoubleDown, FaFolder, FaFolderOpen } from "react-icons/fa"
 import Brandung from "../media/brandung.jpg"
 import styles from "./page.module.scss"
 
-const navHtmlId = "nav"
-
 export default function Page() {
-    const scrollToNav = (e: React.MouseEvent<HTMLAnchorElement>) => {
-        e.preventDefault()
-        document.getElementById(navHtmlId)?.scrollIntoView({
-            behavior: "smooth",
-        })
-    }
+    const navHtmlId = useId()
+    const [folderOpen, setFolderOpen] = useState(false)
+
+    const scrollToNav = useCallback(
+        (e: React.MouseEvent<HTMLAnchorElement>) => {
+            e.preventDefault()
+            document.getElementById(navHtmlId)?.scrollIntoView({
+                behavior: "smooth",
+            })
+        },
+        [],
+    )
 
     return (
         <>
@@ -43,6 +51,62 @@ export default function Page() {
                 </Link>
             </div>
             <Navigation id={navHtmlId} sticky />
+            <RequiresDevMode>
+                <Divider variant="page" themeColor="transparent" />
+                <Section
+                    paperProps={{
+                        className: styles.paper,
+                    }}
+                    themeColor="primary"
+                    themeColorVariant="font"
+                >
+                    <h3>Test</h3>
+                    <Paper breakpoint="normal">
+                        <Accordion
+                            onClick={() => console.log("clicked 1")}
+                            summary="Test 1"
+                        >
+                            <p>
+                                Exercitation commodo velit est eiusmod occaecat
+                                anim proident. Ea aute id voluptate laboris
+                                laboris officia consectetur sint consectetur
+                                aute dolor ipsum pariatur. Sit eiusmod ullamco
+                                dolor cupidatat dolor.
+                            </p>
+                        </Accordion>
+                        <Accordion
+                            icon={<Checkbox disabled />}
+                            onClick={() => console.log("clicked 2")}
+                            summary="Test 2"
+                            // themeColor="secondary"
+                        >
+                            <p>
+                                Exercitation commodo velit est eiusmod occaecat
+                                anim proident. Ea aute id voluptate laboris
+                                laboris officia consectetur sint consectetur
+                                aute dolor ipsum pariatur. Sit eiusmod ullamco
+                                dolor cupidatat dolor.
+                            </p>
+                        </Accordion>
+                        <Accordion
+                            icon={folderOpen ? <FaFolderOpen /> : <FaFolder />}
+                            onClick={() => console.log("clicked 3")}
+                            summary="Test 3"
+                            open={folderOpen}
+                            onOpen={(open) => setFolderOpen(open)}
+                            // themeColor="secondary"
+                        >
+                            <p>
+                                Exercitation commodo velit est eiusmod occaecat
+                                anim proident. Ea aute id voluptate laboris
+                                laboris officia consectetur sint consectetur
+                                aute dolor ipsum pariatur. Sit eiusmod ullamco
+                                dolor cupidatat dolor.
+                            </p>
+                        </Accordion>
+                    </Paper>
+                </Section>
+            </RequiresDevMode>
             <Paper noPadding themeColor="primary" themeColorVariant="font">
                 <Flex justify="center">
                     <Image

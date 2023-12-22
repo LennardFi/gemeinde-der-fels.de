@@ -1,21 +1,23 @@
 "use client"
 
-import Checkbox from "@/components/inputs/Checkbox"
 import useDebouncedValue from "@/hooks/useDebouncedValue"
 import Website from "@/typings"
 import { AnimatePresence, motion } from "framer-motion"
-import React, { HTMLAttributes, useCallback, useEffect, useState } from "react"
+import React, {
+    HTMLAttributes,
+    useCallback,
+    useEffect,
+    useRef,
+    useState,
+} from "react"
 import { FaAngleRight } from "react-icons/fa"
 import styles from "./Accordion.module.scss"
 
 export interface AccordionProps
     extends Omit<HTMLAttributes<HTMLDetailsElement>, "onChange"> {
-    checkbox?: boolean
-    checked?: boolean
-    indeterminate?: boolean[]
+    icon?: React.ReactNode
     summary?: React.ReactNode
     open?: boolean
-    onChange?: (checked: boolean) => void
     onOpen?: (open: boolean) => void
     themeColor?: Website.Design.ThemeColor
 }
@@ -23,27 +25,25 @@ export interface AccordionProps
 const animationTime = 0.25
 
 export default function Accordion({
-    checkbox,
-    checked,
     children,
     className,
-    id,
-    indeterminate,
+    icon,
     onClick,
     open,
-    onChange,
     onOpen,
     summary,
     themeColor = "primary",
     ...rest
 }: AccordionProps) {
     const [innerOpen, setInnerOpen] = useState(open ?? false)
+    const initialOpenState = useRef(true)
     const debouncedOpen = useDebouncedValue(
         open ?? innerOpen,
         animationTime * 1500,
     )
 
     const onToggleAccordionHandler = useCallback(() => {
+        initialOpenState.current = false
         if (onOpen === undefined) {
             setInnerOpen(!innerOpen)
             return
@@ -65,7 +65,6 @@ export default function Accordion({
         <details
             className={`${styles.accordion} ${className ?? ""}`}
             data-theme={themeColor}
-            id={checkbox ? undefined : id}
             onClick={(e) => {
                 onClick?.(e)
             }}
@@ -75,44 +74,32 @@ export default function Accordion({
             <summary
                 onClick={(e) => {
                     e.preventDefault()
-                    e.stopPropagation()
                     onToggleAccordionHandler()
                 }}
             >
-                {typeof summary === "string" ||
-                typeof summary === "number" ||
-                typeof summary === "boolean" ||
-                summary === null ||
-                summary === undefined ? (
-                    <>
-                        {checkbox ? (
-                            <Checkbox
-                                checked={checked}
-                                className={styles.icon}
-                                fontColor
-                                id={id}
-                                indeterminate={indeterminate}
-                                onChange={onChange}
-                                themeColor={themeColor}
-                            />
-                        ) : (
-                            <FaAngleRight
-                                className={styles.icon}
-                                style={{
-                                    rotate:
-                                        open ?? innerOpen ? "90deg" : "0deg",
-                                }}
-                            />
-                        )}
-                        {summary}
-                    </>
-                ) : null}
+                <span className={styles.icon}>
+                    {icon !== undefined ? (
+                        icon
+                    ) : (
+                        <FaAngleRight
+                            style={{
+                                transition: "rotate 250ms ease-in-out",
+                                rotate: open ?? innerOpen ? "90deg" : "0deg",
+                            }}
+                        />
+                    )}
+                </span>
+                {summary}
             </summary>
             <AnimatePresence>
                 {open ?? innerOpen ? (
                     <motion.div
                         className={`${styles.detailsContent}`}
-                        initial={{ height: 0 }}
+                        initial={
+                            initialOpenState.current && (open ?? innerOpen)
+                                ? false
+                                : { height: 0 }
+                        }
                         animate={{
                             height: "auto",
                         }}

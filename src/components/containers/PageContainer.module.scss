@@ -13,12 +13,29 @@
         >h4,
         >h5,
         >h6 {
+            margin: 0;
+            padding-bottom: core.getDimensionValue(2);
+
             &:not(.titleLeftAligned) {
                 text-align: center;
             }
 
-            &.titleNoMargin {
-                margin: 0;
+            &.titleNoPadding {
+                padding-bottom: 0;
+            }
+        }
+    }
+
+    &.noPadding {
+        .titlePaper {
+
+            >h1,
+            >h2,
+            >h3,
+            >h4,
+            >h5,
+            >h6 {
+                padding: core.getDimensionValue(2) 0;
             }
         }
     }

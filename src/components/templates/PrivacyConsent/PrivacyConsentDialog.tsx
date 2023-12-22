@@ -3,11 +3,12 @@
 import Dialog, { DialogProps } from "@/components/containers/Dialog"
 import Flex from "@/components/containers/Flex"
 import Button from "@/components/inputs/Button"
-import ButtonLink from "@/components/inputs/ButtonLink"
 import Checkbox from "@/components/inputs/Checkbox"
 import Paper from "@/components/surfaces/Paper"
+import Accordion from "@/components/surfaces/accordion/Accordion"
 import Website, { Maybe } from "@/typings"
 import useUserPreferencesZustand from "@/zustand/useUserPreferencesZustand"
+import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useCallback, useEffect, useRef, useState } from "react"
 import { Temporal } from "temporal-polyfill"
@@ -19,6 +20,7 @@ export default function PrivacyConsentDialog({
     onClose,
     ...rest
 }: PrivacyConsentDialogProps) {
+    const [openedAccordion, setOpenedAccordion] = useState(0)
     const pathName = usePathname()
     const initialPathNameRef = useRef(pathName)
     const {
@@ -124,132 +126,25 @@ export default function PrivacyConsentDialog({
                     onSave()
                 }}
             >
-                <Flex>
-                    <Button fontColor onClick={onAllowAll} variant="contained">
-                        Alle erlauben
-                    </Button>
-                    <Button
-                        fontColor
-                        onClick={onDisallowAll}
-                        variant="contained"
+                <Paper>
+                    <Accordion
+                        icon={<Checkbox checked disabled />}
+                        open={openedAccordion === 0}
+                        onOpen={(open) => setOpenedAccordion(open ? 0 : -1)}
+                        summary="Erforderliche Zwecke"
                     >
-                        Alle verbieten
-                    </Button>
-                </Flex>
-                <h4>Erforderliche Zwecke</h4>
-                <fieldset>
-                    <Paper noPadding>
-                        <Checkbox
-                            checked={
-                                newPrivacyPreferences?.acceptedPrivacyNotesOn !==
-                                undefined
-                            }
-                            className={styles.checkboxLabel}
-                            label="Erforderliche Zwecke"
-                            onChange={(checked) => {
-                                setNewPrivacyPreferences((prev) => ({
-                                    ...prev,
-                                    acceptedPrivacyNotesOn: checked
-                                        ? Temporal.Now.zonedDateTimeISO("UTC")
-                                              .epochMilliseconds
-                                        : undefined,
-                                }))
-                            }}
-                        />
-                        <Paper>
-                            <Flex justify="flex-start">
-                                <ButtonLink
-                                    href="/datenschutz"
-                                    variant="contained"
-                                >
-                                    Datenschutzerklärung anzeigen
-                                </ButtonLink>
-                            </Flex>
-                        </Paper>
-                    </Paper>
-                </fieldset>
-                <fieldset>
-                    <Paper noPadding>
-                        <Checkbox
-                            checked={
-                                newPrivacyPreferences?.acceptedPrivacyNotesOn !==
-                                undefined
-                            }
-                            className={styles.checkboxLabel}
-                            label="Datenschutzbestimmung erlauben"
-                            description="Erlaubt der Website Cookies auf dem Gerät zu speichern."
-                            onChange={(checked) => {
-                                setNewPrivacyPreferences((prev) => ({
-                                    ...prev,
-                                    acceptedPrivacyNotesOn: checked
-                                        ? Temporal.Now.zonedDateTimeISO("UTC")
-                                              .epochMilliseconds
-                                        : undefined,
-                                }))
-                            }}
-                        />
-                        <Paper>
-                            <Flex justify="flex-start">
-                                <ButtonLink
-                                    href="/datenschutz"
-                                    variant="contained"
-                                >
-                                    Datenschutzerklärung anzeigen
-                                </ButtonLink>
-                            </Flex>
-                        </Paper>
-                    </Paper>
-                </fieldset>
-                {/* <Divider variant="container" themeColor="transparent" /> */}
-                <h4>Cookies</h4>
-                <h5>Erforderliche Cookies</h5>
-                <Flex direction="column">
-                    <fieldset>
-                        <Paper noPadding>
-                            <Checkbox
-                                checked={
-                                    typeof newPrivacyPreferences?.acceptedPrivacyNotesOn ===
-                                    "number"
-                                }
-                                className={styles.checkboxLabel}
-                                label="Cookies erlauben"
-                                description="Erlaubt der Website Cookies auf dem Gerät zu speichern."
-                                onChange={(checked) => {
-                                    setNewPrivacyPreferences((prev) => ({
-                                        ...prev,
-                                        allowCookies: checked,
-                                    }))
-                                }}
-                            />
-                        </Paper>
-                    </fieldset>
-                    <fieldset>
-                        <Paper>
-                            <Checkbox
-                                checked={
-                                    newPrivacyPreferences?.enabledCookies
-                                        ?.session ?? false
-                                }
-                                className={styles.checkboxLabel}
-                                disabled={
-                                    !newPrivacyPreferences?.enabledCookies
-                                        ?.session ?? false
-                                }
-                                label="Sitzung"
-                                description="Sitzungsdaten für angemeldete Benutzer speichern."
-                                onChange={(checked) => {
-                                    setNewPrivacyPreferences((prev) => ({
-                                        ...prev,
-                                        enabledCookies: {
-                                            ...prev?.enabledCookies,
-                                            session: checked,
-                                        },
-                                    }))
-                                }}
-                            />
-                        </Paper>
-                    </fieldset>
-                </Flex>
+                        <p>
+                            Verwendet Cookies und speichert Daten auf dem
+                            Server, die für die Funktionalität der Website
+                            notwendig sind. Welche Cookies und Daten dabei
+                            gespeichert werden können Sie in unserer{" "}
+                            <Link href="/datenschutz">
+                                Datenschutzerklärung
+                            </Link>{" "}
+                            nachlesen.
+                        </p>
+                    </Accordion>
+                </Paper>
                 <Flex justify="flex-end" columnGap={1}>
                     <Button onClick={onClose} variant="text">
                         Abbrechen

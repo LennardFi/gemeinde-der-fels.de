@@ -4,6 +4,7 @@ import styles from "./Paper.module.scss"
 
 export interface PaperProps extends HTMLAttributes<HTMLDivElement> {
     breakpoint?: Website.Base.Breakpoint
+    max?: boolean
     noPadding?: boolean
     themeColor?: Website.Design.ThemeColor
     themeColorVariant?: Website.Design.ThemeColorVariant
@@ -13,6 +14,7 @@ export default function Paper({
     breakpoint,
     children,
     className,
+    max,
     noPadding,
     themeColor,
     themeColorVariant,
@@ -33,7 +35,7 @@ export default function Paper({
         <div
             className={`${styles.paper} ${breakpointClassName} ${
                 noPadding ? styles.noPadding : ""
-            } ${className ?? ""}`}
+            } ${max ? styles.max : ""} ${className ?? ""}`}
             data-theme={themeColor}
             data-theme-variant={themeColorVariant}
             {...rest}

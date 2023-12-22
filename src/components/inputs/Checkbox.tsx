@@ -70,7 +70,7 @@ export default function Checkbox({
         >
             <input
                 checked={checked ?? innerChecked}
-                className={`${styles.input} ${className ?? ""}`}
+                className={`${styles.input}`}
                 disabled={disabled}
                 id={id ?? defaultId}
                 {...(indeterminate?.includes(true)

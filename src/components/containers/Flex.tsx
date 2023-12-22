@@ -8,6 +8,7 @@ import styles from "./Flex.module.scss"
 export interface FlexOptions {
     alignItems?: React.CSSProperties["alignItems"]
     autoResize?: boolean
+    breakpoint?: Website.Base.Breakpoint
     columnGap?: React.CSSProperties["columnGap"]
     direction?: React.CSSProperties["flexDirection"]
     gap?: React.CSSProperties["gap"]
@@ -24,7 +25,7 @@ export interface FlexProps
     extends FlexOptions,
         ResponsiveFlexOptions,
         HTMLAttributes<HTMLDivElement> {
-    breakpoint?: Website.Base.Breakpoint
+    max?: boolean
     transition?: boolean
 }
 
@@ -39,6 +40,7 @@ export default function Flex({
     gap,
     justify,
     large,
+    max,
     normal,
     rowGap,
     small,
@@ -50,18 +52,10 @@ export default function Flex({
 }: FlexProps) {
     const deviceSize = useDeviceSize()
 
-    const breakpointClassName =
-        breakpoint === "large"
-            ? styles.large
-            : breakpoint === "normal"
-              ? styles.normal
-              : breakpoint === "small"
-                ? styles.small
-                : ""
-
     const flexOptions: FlexOptions = {
         alignItems,
         autoResize,
+        breakpoint,
         columnGap,
         direction,
         gap,
@@ -85,11 +79,24 @@ export default function Flex({
         ...(deviceSize === "large" ? large : undefined),
     }
 
+    const breakpointClassName =
+        flexOptions.breakpoint === "large"
+            ? styles.large
+            : flexOptions.breakpoint === "normal"
+              ? styles.normal
+              : flexOptions.breakpoint === "small"
+                ? styles.small
+                : flexOptions.breakpoint === "tiny"
+                  ? styles.tiny
+                  : ""
+
     return (
         <div
             className={`${styles.flex} ${breakpointClassName} ${
                 autoResize ? styles.autoResize : ""
-            } ${transition ? styles.transition : ""} ${className ?? ""}`}
+            } ${max ? styles.max : ""} ${transition ? styles.transition : ""} ${
+                className ?? ""
+            }`}
             style={{
                 alignItems: flexOptions.alignItems,
                 flexDirection: flexOptions.direction,

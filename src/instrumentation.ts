@@ -1,8 +1,14 @@
-import { isDevMode } from "./lib/shared/develop"
+import { configuredFeatureFlags, isDevMode } from "./lib/shared/develop"
 import { WebsiteError } from "./lib/shared/errors"
 
 export async function register() {
     try {
+        console.log(
+            `Configured feature flags:\n${configuredFeatureFlags
+                .map((flag) => `\t- ${flag}`)
+                .join("\n")}`,
+        )
+
         if (isDevMode) {
             if (process.env.NEXT_RUNTIME === "nodejs") {
                 const { setupTestEnv } = await import("../test/setupTestEnv")

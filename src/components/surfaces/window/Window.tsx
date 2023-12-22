@@ -1,20 +1,15 @@
-import PageContainer, {
-    PageContainerProps,
-} from "@/components/containers/PageContainer"
+import PageContainer from "@/components/containers/PageContainer"
 import Paper, { PaperProps } from "../Paper"
 import styles from "./Window.module.scss"
 
 export interface WindowProps extends PaperProps {
-    dialog?: boolean
     pageContainer?: boolean
-    pageContainerProps?: Omit<PageContainerProps, "title">
 }
 
 export default function Window({
     children,
     className,
     pageContainer,
-    pageContainerProps,
     themeColor,
     themeColorVariant,
     ...rest
@@ -24,7 +19,7 @@ export default function Window({
             <PageContainer
                 className={`${styles.window ?? ""} ${
                     styles.pageContainer ?? ""
-                } ${pageContainerProps?.className ?? ""} ${className ?? ""}`}
+                } ${className ?? ""}`}
                 noPadding
                 themeColor={themeColor ?? "primary"}
                 themeColorVariant={themeColorVariant ?? "font"}

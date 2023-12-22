@@ -1,5 +1,5 @@
 import PageContainer from "@/components/containers/PageContainer"
-import Section from "@/components/containers/Section"
+import Paper from "@/components/surfaces/Paper"
 
 export default function Page() {
     return (
@@ -8,7 +8,7 @@ export default function Page() {
             themeColor="primary"
             themeColorVariant="font"
         >
-            <Section breakpoint="small">
+            <Paper breakpoint="small">
                 <p>
                     <strong>Wann:</strong> Jeden Mittwoch um 19:00 Uhr
                 </p>
@@ -18,7 +18,7 @@ export default function Page() {
                     Gott zu suchen und gemeinsam für wichtige Themen und
                     Ereignisse einzustehen.
                 </p>
-            </Section>
+            </Paper>
         </PageContainer>
     )
 }

@@ -10,7 +10,7 @@
         cursor: pointer;
         font-weight: 400;
         list-style: none;
-        padding: 0 core.getDimensionValue(1);
+        padding: core.getDimensionValue(1);
         transition: font-weight 250ms ease-in-out;
 
         &:hover {
@@ -18,7 +18,8 @@
         }
 
         .icon {
-            transition: rotate 250ms ease-in-out;
+            display: flex;
+            justify-content: center;
         }
     }
 
@@ -26,6 +27,10 @@
         transition: padding 250ms ease-in-out;
         padding: core.getDimensionValue(1);
         overflow: clip;
+
+        * {
+            margin: 0;
+        }
     }
 
     &[open] {

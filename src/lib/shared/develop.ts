@@ -20,6 +20,7 @@ export function parseFeatureFlagEnvValue(
         internArea: undefined,
         mediaPlayer: undefined,
         news: undefined,
+        "optional-cookies": undefined,
         "privacy-consent": undefined,
         sendEmail: undefined,
     }
@@ -27,15 +28,16 @@ export function parseFeatureFlagEnvValue(
         featureFlagEnvValue
             .split(",")
             .map((featureFlag) => featureFlag.trim())
-            .filter(
-                (featureFlagValue) =>
+            .filter((featureFlagValue) => {
+                featureFlagValue = featureFlagValue.toLowerCase()
+                return (
                     featureFlagValue in initialFlags ||
                     (featureFlagValue.startsWith("!") &&
                         featureFlagValue.substring(1) in initialFlags) ||
                     (isDevMode &&
-                        (featureFlagValue === "*" ||
-                            featureFlagValue === "!*")),
-            )
+                        (featureFlagValue === "*" || featureFlagValue === "!*"))
+                )
+            })
             .reduce((prevFlags, featureFlagValue) => {
                 let negated = false
 
@@ -84,18 +86,17 @@ const featureFlagEnvValue =
     (isDevMode ? process.env.NEXT_PUBLIC_GDF_DEV_FEATURE_FLAGS : undefined) ??
     process.env.NEXT_PUBLIC_GDF_FEATURE_FLAGS
 
+export const configuredFeatureFlags =
+    featureFlagEnvValue === undefined
+        ? []
+        : parseFeatureFlagEnvValue(featureFlagEnvValue)
+
 export function validateFeatureFlag(
     ...flags: Website.Base.FeatureFlags[]
 ): boolean {
     if (flags.length === 0) {
         return true
     }
-
-    if (featureFlagEnvValue === undefined) {
-        return false
-    }
-
-    const configuredFeatureFlags = parseFeatureFlagEnvValue(featureFlagEnvValue)
 
     if (flags.some((flag) => !configuredFeatureFlags.includes(flag))) {
         return false

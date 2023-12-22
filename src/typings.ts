@@ -153,7 +153,7 @@ declare namespace Website {
     namespace Base {
         type DeviceSize = "tiny" | "small" | "normal" | "large"
 
-        type Breakpoint = Exclude<DeviceSize, "x-large">
+        type Breakpoint = DeviceSize
 
         type SelectOption<L extends string, V extends string> = {
             label: L
@@ -167,6 +167,7 @@ declare namespace Website {
             | "internArea"
             | "mediaPlayer"
             | "news"
+            | "optional-cookies"
             | "privacy-consent"
             | "sendEmail"
     }

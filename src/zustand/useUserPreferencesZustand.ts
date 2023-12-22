@@ -150,8 +150,6 @@ const useUserPreferencesZustand = create<UserPreferencesZustand>()((set) => {
                     },
                 }
 
-                console.log({ newSettings })
-
                 if (!storeSettingsToLocalStorage(newSettings)) {
                     return {}
                 }

@@ -42,7 +42,7 @@ export default function Section({
             </div> */}
 
             <Paper
-                className={`${paperProps?.className ?? ""} ${styles.paper}`}
+                className={`${paperProps?.className ?? ""}`}
                 noPadding={noPadding}
                 {...paperProps}
             >

@@ -1,6 +1,7 @@
 "use client"
 
 import Flex from "@/components/containers/Flex"
+import RequiresFeatureFlag from "@/components/dev/RequiresDevFeatureFlag"
 import Button from "@/components/inputs/Button"
 import Paper from "@/components/surfaces/Paper"
 import Website from "@/typings"
@@ -106,16 +107,22 @@ export default function PrivacyConsentBar({
         >
             <Paper breakpoint="normal" noPadding>
                 <Flex
+                    breakpoint="small"
                     direction="column"
                     justify="space-between"
                     gap={1}
                     normal={{
+                        breakpoint: undefined,
                         direction: "row",
                     }}
                 >
                     <p>
                         Wenn Sie unsere Website besuchen, stimmen Sie unserer{" "}
-                        <Link href="/datenschutz">Datenschutzerklärung</Link>{" "}
+                        <Link href="/datenschutz">
+                            Datenschutz-
+                            <wbr />
+                            Erklärung
+                        </Link>{" "}
                         zu. Außerdem verwenden wir Cookies.
                     </p>
                     <Flex
@@ -130,34 +137,53 @@ export default function PrivacyConsentBar({
                             alignItems: "center",
                         }}
                     >
-                        <Button
-                            onClick={onAccept}
-                            themeColor={
-                                themeColor === "primary"
-                                    ? "secondary"
-                                    : themeColor === "secondary"
-                                      ? "primary"
-                                      : "accent"
+                        <RequiresFeatureFlag
+                            flags={["optional-cookies"]}
+                            fallback={
+                                <Button
+                                    onClick={onAccept}
+                                    themeColor={
+                                        themeColor === "primary"
+                                            ? "secondary"
+                                            : themeColor === "secondary"
+                                              ? "primary"
+                                              : "accent"
+                                    }
+                                    type="submit"
+                                >
+                                    Ok
+                                </Button>
                             }
-                            // variant="contained"
-                            type="submit"
                         >
-                            Zustimmen
-                        </Button>
-                        <Button
-                            onClick={onOpenDialog}
-                            themeColor={themeColor}
-                            variant="contained"
-                        >
-                            Einstellungen
-                        </Button>
-                        <Button
-                            onClick={onDecline}
-                            themeColor={themeColor}
-                            variant="contained"
-                        >
-                            Ablehnen
-                        </Button>
+                            <Button
+                                onClick={onAccept}
+                                themeColor={
+                                    themeColor === "primary"
+                                        ? "secondary"
+                                        : themeColor === "secondary"
+                                          ? "primary"
+                                          : "accent"
+                                }
+                                // variant="contained"
+                                type="submit"
+                            >
+                                Alle&nbsp;akzeptieren
+                            </Button>
+                            <Button
+                                onClick={onOpenDialog}
+                                themeColor={themeColor}
+                                variant="contained"
+                            >
+                                Konfigurieren
+                            </Button>
+                            <Button
+                                onClick={onDecline}
+                                themeColor={themeColor}
+                                variant="contained"
+                            >
+                                Ablehnen
+                            </Button>
+                        </RequiresFeatureFlag>
                     </Flex>
                 </Flex>
             </Paper>

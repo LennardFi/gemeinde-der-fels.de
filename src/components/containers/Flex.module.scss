@@ -21,21 +21,31 @@
         }
     }
 
+    &.tiny {
+        max-width: core.$size-breakpoint-tiny;
+        width: auto;
+        margin: 0 auto;
+    }
+
     &.small {
         max-width: core.$size-breakpoint-small;
-        width: 100%;
+        width: auto;
         margin: 0 auto;
     }
 
     &.normal {
         max-width: core.$size-breakpoint-normal;
-        width: 100%;
+        width: auto;
         margin: 0 auto;
     }
 
     &.large {
         max-width: core.$size-breakpoint-large;
-        width: 100%;
+        width: auto;
         margin: 0 auto;
+    }
+
+    &.max {
+        width: 100%;
     }
 }

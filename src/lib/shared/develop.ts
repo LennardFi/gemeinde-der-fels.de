@@ -29,11 +29,16 @@ export function parseFeatureFlagEnvValue(
             .split(",")
             .map((featureFlag) => featureFlag.trim())
             .filter((featureFlagValue) => {
+                const possibleFlags = Object.keys(initialFlags).map((flag) =>
+                    flag.toLowerCase(),
+                )
                 featureFlagValue = featureFlagValue.toLowerCase()
                 return (
-                    featureFlagValue in initialFlags ||
+                    possibleFlags.includes(featureFlagValue) ||
                     (featureFlagValue.startsWith("!") &&
-                        featureFlagValue.substring(1) in initialFlags) ||
+                        possibleFlags.includes(
+                            featureFlagValue.substring(1),
+                        )) ||
                     (isDevMode &&
                         (featureFlagValue === "*" || featureFlagValue === "!*"))
                 )
@@ -67,7 +72,11 @@ export function parseFeatureFlagEnvValue(
                     }, prevFlags)
                 }
 
-                if (Object.keys(prevFlags).includes(featureFlagValue)) {
+                const possibleFlags = Object.keys(initialFlags).map((flag) =>
+                    flag.toLowerCase(),
+                )
+
+                if (possibleFlags.includes(featureFlagValue.toLowerCase())) {
                     return {
                         ...prevFlags,
                         [featureFlagValue as Website.Base.FeatureFlags]:

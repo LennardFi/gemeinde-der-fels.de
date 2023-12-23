@@ -46,8 +46,12 @@
     }
 
     &.active {
+        --gradient-degree: 20deg;
+
+        background: linear-gradient(20deg, core.$color-secondary-highlighted, core.$color-secondary, core.$color-secondary-highlighted);
+        background: linear-gradient(var(--gradient-degree), core.$color-secondary-highlighted, core.$color-secondary, core.$color-secondary-highlighted);
         color: core.$color-secondary-font;
-        background-color: core.$color-secondary;
+        transition: --gradient-degree core.$gradient-static-transition-time ease-in-out;
 
         &:focus,
         &:active,
@@ -55,11 +59,12 @@
             color: core.$color-secondary-font;
         }
 
-        @media (hover: hover) and (pointer: fine) {
-            &:hover {
-                color: core.$color-secondary-font;
-                background-color: core.$color-secondary-highlighted;
-            }
+        &:hover {
+            --gradient-degree: 170deg;
+
+            background: linear-gradient(170deg, core.$color-secondary-highlighted, core.$color-secondary, core.$color-secondary-highlighted);
+            background: linear-gradient(var(--gradient-degree), core.$color-secondary-highlighted, core.$color-secondary, core.$color-secondary-highlighted);
+            color: core.$color-secondary-font;
         }
     }
 

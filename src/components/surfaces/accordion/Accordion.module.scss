@@ -52,6 +52,7 @@
 
         summary {
             &:hover {
+                background: core.$color-primary-highlighted;
                 color: core.$color-primary-font-highlighted;
             }
         }
@@ -67,11 +68,19 @@
     }
 
     &[data-theme="secondary"] {
-        background: core.$color-secondary;
-        color: core.$color-secondary-font;
-
         summary {
+            --gradient-degree: 45deg;
+
+            background: linear-gradient(45deg, core.$color-secondary-highlighted, core.$color-secondary, core.$color-secondary-highlighted);
+            background: linear-gradient(var(--gradient-degree), core.$color-secondary-highlighted, core.$color-secondary, core.$color-secondary-highlighted);
+            color: core.$color-secondary-font;
+            transition: --gradient-degree core.$gradient-static-transition-time ease-in-out;
+
             &:hover {
+                --gradient-degree: 170deg;
+
+                background: linear-gradient(170deg, core.$color-secondary-highlighted, core.$color-secondary, core.$color-secondary-highlighted);
+                background: linear-gradient(var(--gradient-degree), core.$color-secondary-highlighted, core.$color-secondary, core.$color-secondary-highlighted);
                 color: core.$color-secondary-font-highlighted;
             }
         }
@@ -91,10 +100,8 @@
         color: core.$color-accent-font-faded;
 
         summary {
-            background: core.$color-accent;
-            color: core.$color-accent-font;
-
             &:hover {
+                background: core.$color-accent-highlighted;
                 color: core.$color-accent-font-highlighted;
             }
         }

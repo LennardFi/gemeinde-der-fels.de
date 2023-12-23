@@ -40,6 +40,12 @@
         transform: translateY(core.getDimensionValue(0.125));
     }
 
+    &.inline {
+        display: inline-flex;
+    }
+
+    &.fullWidth {}
+
     &.round {
         border-radius: 64px;
     }
@@ -77,27 +83,44 @@
         }
 
         &[data-theme="secondary"] {
-            background-color: core.$color-secondary;
-            border-color: core.$color-secondary;
+            --gradient-degree: 20deg;
+
+            background: linear-gradient(20deg, core.$color-secondary-highlighted, core.$color-secondary, core.$color-secondary-highlighted);
+            background: linear-gradient(var(--gradient-degree), core.$color-secondary-highlighted, core.$color-secondary, core.$color-secondary-highlighted);
+            border-color: transparent;
             color: core.$color-secondary-font;
+            transition: --gradient-degree core.$gradient-static-transition-time ease-in-out;
 
             &:not(:disabled):hover,
             &:not(.noFocusColor):not(:disabled):focus {
-                background-color: core.$color-secondary-highlighted;
-                border-color: core.$color-secondary-highlighted;
+                --gradient-degree: 170deg;
+
+                background: linear-gradient(170deg, core.$color-secondary-highlighted, core.$color-secondary, core.$color-secondary-highlighted);
+                background: linear-gradient(var(--gradient-degree), core.$color-secondary-highlighted, core.$color-secondary, core.$color-secondary-highlighted);
+                border-color: transparent;
                 color: core.$color-secondary-font-highlighted;
             }
 
             &.fontColor {
-                background-color: core.$color-secondary-font;
-                border-color: core.$color-secondary-font;
+                background: core.$color-secondary-font;
+                border-color: core.$color-secondary;
                 color: core.$color-secondary;
+
+                .label {
+                    transition: text-shadow 250ms ease-in-out;
+                    text-shadow: core.$color-secondary-highlighted 0.05rem 0.05rem;
+                }
 
                 &:not(:disabled):hover,
                 &:not(.noFocusColor):not(:disabled):focus {
-                    background-color: core.$color-secondary-font-highlighted;
-                    border-color: core.$color-secondary-font-highlighted;
+                    animation: none;
+                    background: core.$color-secondary-font-highlighted;
+                    border-color: core.$color-secondary-highlighted;
                     color: core.$color-secondary-highlighted;
+
+                    .label {
+                        text-shadow: core.$color-secondary 0.05rem 0.05rem;
+                    }
                 }
             }
         }

@@ -17,6 +17,7 @@
     .checkbox {
         grid-column: 1 / 2;
         grid-row: 1 / 2;
+        user-select: none;
 
         // &[data-indeterminate="true"] {
         //     background-color: core.$color-primary;
@@ -68,6 +69,13 @@
     &[data-theme="secondary"] {
         .checkbox {
             color: core.$color-secondary;
+            transition: color 250ms ease-in-out;
+        }
+
+        &:hover {
+            .checkbox {
+                color: core.$color-secondary-highlighted;
+            }
         }
 
         &[data-disabled="true"] {

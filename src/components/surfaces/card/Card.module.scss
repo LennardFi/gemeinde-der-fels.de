@@ -1,20 +1,14 @@
 @use "../../../styles/core.module.scss" as core;
 
-@property --degree {
-    syntax: '<angle>';
-    initial-value: 45deg;
-    inherits: false;
-}
-
 .card {
-    --degree: 45deg;
+    --gradient-degree: 120deg;
 
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
-    background: linear-gradient(45deg, core.$color-secondary-highlighted, core.$color-secondary, core.$color-secondary-highlighted);
-    background: linear-gradient(var(--degree), core.$color-secondary-highlighted, core.$color-secondary, core.$color-secondary-highlighted);
+    background: linear-gradient(120deg, core.$color-secondary-highlighted, core.$color-secondary, core.$color-secondary-highlighted);
+    background: linear-gradient(var(--gradient-degree), core.$color-secondary-highlighted, core.$color-secondary, core.$color-secondary-highlighted);
     color: core.$color-primary-font;
     padding: core.getDimensionValue(1);
     margin: 0;
@@ -23,16 +17,17 @@
     font-size: 100%;
     text-decoration: none;
     transition: transform 250ms ease-in-out,
-        --degree 500ms ease-in-out;
+        --gradient-degree 250ms linear;
 
     &.hover:not(:disabled) {
         &:hover {
-            --degree: 135deg;
+            --gradient-degree: 120deg;
 
             cursor: pointer;
-            transform: scale(1.02);
-            transform-origin: center;
-            background: linear-gradient(var(--degree), core.$color-secondary-highlighted, core.$color-secondary, core.$color-secondary-highlighted);
+            // transform: scale(1.02);
+            // transform-origin: center;
+            animation: core.$secondary-background-color-shimmer 3s 0s infinite linear;
+            background: linear-gradient(var(--gradient-degree), core.$color-secondary-highlighted, core.$color-secondary, core.$color-secondary-highlighted);
         }
     }
 

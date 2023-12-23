@@ -65,6 +65,7 @@ export default function Page() {
                         <Accordion
                             onClick={() => console.log("clicked 1")}
                             summary="Test 1"
+                            themeColor="secondary"
                         >
                             <p>
                                 Exercitation commodo velit est eiusmod occaecat
@@ -78,7 +79,7 @@ export default function Page() {
                             icon={<Checkbox disabled />}
                             onClick={() => console.log("clicked 2")}
                             summary="Test 2"
-                            // themeColor="secondary"
+                            themeColor="secondary"
                         >
                             <p>
                                 Exercitation commodo velit est eiusmod occaecat
@@ -94,7 +95,7 @@ export default function Page() {
                             summary="Test 3"
                             open={folderOpen}
                             onOpen={(open) => setFolderOpen(open)}
-                            // themeColor="secondary"
+                            themeColor="secondary"
                         >
                             <p>
                                 Exercitation commodo velit est eiusmod occaecat

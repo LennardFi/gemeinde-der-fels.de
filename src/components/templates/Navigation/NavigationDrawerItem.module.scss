@@ -1,7 +1,7 @@
 @use "../../../styles/core.module.scss" as core;
 
 .item {
-    color: core.$color-primary-font;
+    // color: core.$color-primary-font;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -88,8 +88,13 @@
         border-top: core.$size-border-default solid core.$color-primary-highlighted;
 
         >.label {
+            --gradient-degree: 20deg;
+
             color: core.$color-secondary-font;
-            background-color: core.$color-secondary;
+            // background-color: core.$color-secondary;
+            background: linear-gradient(20deg, core.$color-secondary-highlighted, core.$color-secondary, core.$color-secondary-highlighted);
+            background: linear-gradient(var(--gradient-degree), core.$color-secondary-highlighted, core.$color-secondary, core.$color-secondary-highlighted);
+            transition: --gradient-degree core.$gradient-static-transition-time ease-in-out;
 
             &:focus,
             &:active,
@@ -99,8 +104,11 @@
         }
 
         &.isButton>.label:hover {
+            --gradient-degree: 170deg;
+
+            background: linear-gradient(170deg, core.$color-secondary-highlighted, core.$color-secondary, core.$color-secondary-highlighted);
+            background: linear-gradient(var(--gradient-degree), core.$color-secondary-highlighted, core.$color-secondary, core.$color-secondary-highlighted);
             color: core.$color-secondary-font-highlighted;
-            background: core.$color-secondary-highlighted;
         }
     }
 

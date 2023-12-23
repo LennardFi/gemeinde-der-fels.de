@@ -7,21 +7,21 @@ $color-primary: hsl(0, 0%, 20%);
 $color-primary-highlighted: hsl(0, 0%, 30%);
 $color-primary-faded: hsl(0, 0%, 80%);
 $color-primary-font: hsl(0, 0%, 95%);
-$color-primary-font-highlighted: hsl(0, 0%, 85%);
+$color-primary-font-highlighted: hsl(0, 0%, 100%);
 $color-primary-font-faded: hsl(0, 0%, 20%);
 
-$color-secondary: hsl(23, 36%, 52%);
-$color-secondary-highlighted: hsl(13, 49%, 37%);
-$color-secondary-faded: hsl(23, 26%, 80%);
+$color-secondary: hsl(23, 44%, 52%);
+$color-secondary-highlighted: hsl(13, 58%, 37%);
+$color-secondary-faded: hsl(23, 44%, 64%);
 $color-secondary-font: hsl(0, 0%, 95%);
-$color-secondary-font-highlighted: hsl(0, 0%, 85%);
+$color-secondary-font-highlighted: hsl(0, 0%, 100%);
 $color-secondary-font-faded: hsl(0, 0%, 20%);
 
-$color-accent: hsl(201deg 37% 38%);
+$color-accent: #3d6c85;
 $color-accent-highlighted: hsl(201deg 37% 46%);
 $color-accent-faded: hsl(185deg 19% 63%);
 $color-accent-font: hsl(0, 0%, 95%);
-$color-accent-font-highlighted: hsl(0, 0%, 85%);
+$color-accent-font-highlighted: hsl(0, 0%, 100%);
 $color-accent-font-faded: hsl(0, 0%, 20%);
 
 @function getDimensionValue($baseValue) {
@@ -43,3 +43,35 @@ $size-font-header: var(--size-font-header);
 $size-font-title: var(--size-font-title);
 $size-font-hero: var(--size-font-hero);
 $size-font-hero-title: var(--size-font-hero-title);
+
+$gradient-static-transition-time: 500ms;
+
+@property --gradient-degree {
+    syntax: '<angle>';
+    initial-value: 120deg;
+    inherits: false;
+}
+
+@keyframes secondary-background-color-shimmer {
+    0% {
+        --gradient-degree: 120deg;
+        background-color: linear-gradient(var(--gradient-degree), $color-secondary-highlighted, $color-secondary, $color-secondary-highlighted);
+    }
+
+    33% {
+        --gradient-degree: 240deg;
+        background-color: linear-gradient(var(--gradient-degree), $color-secondary-highlighted, $color-secondary, $color-secondary-highlighted);
+    }
+
+    66% {
+        --gradient-degree: 360deg;
+        background-color: linear-gradient(var(--gradient-degree), $color-secondary-highlighted, $color-secondary, $color-secondary-highlighted);
+    }
+
+    100% {
+        --gradient-degree: 480deg;
+        background-color: linear-gradient(var(--gradient-degree), $color-secondary-highlighted, $color-secondary, $color-secondary-highlighted);
+    }
+}
+
+$secondary-background-color-shimmer: secondary-background-color-shimmer

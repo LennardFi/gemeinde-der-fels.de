@@ -8,6 +8,8 @@ import styles from "./Button.module.scss"
 export interface ButtonRootProps {
     containedHover?: boolean
     fontColor?: boolean
+    fullWidth?: boolean
+    inline?: boolean
     labelProps?: React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLSpanElement>,
         HTMLSpanElement
@@ -32,6 +34,8 @@ const Button = forwardRef(function Button(
         containedHover,
         disabled,
         fontColor,
+        fullWidth,
+        inline,
         labelProps,
         leftSegment,
         loading,
@@ -62,7 +66,9 @@ const Button = forwardRef(function Button(
                 containedHover ? styles.containedHover : ""
             } ${noActiveAnimation ? styles.noActiveAnimation : ""} ${
                 noFocusColor ? styles.noFocusColor : ""
-            } ${round ? styles.round : ""} ${className ?? ""}`}
+            } ${fullWidth ? styles.fullWidth : ""} ${
+                round ? styles.round : ""
+            } ${inline ? styles.inline : ""} ${className ?? ""}`}
             data-theme={
                 themeColor ?? (type !== "submit" ? "primary" : "secondary")
             }

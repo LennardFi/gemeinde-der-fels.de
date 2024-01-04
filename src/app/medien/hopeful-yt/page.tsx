@@ -51,8 +51,7 @@ export default function Page() {
                         Gott ist ein Gott der Hoffnung, im Überfluss. Durch
                         diesen Kanal soll die Liebe und Schönheit Jesu Hoffnung
                         in dein Leben bringen.
-                    </p>
-                    <p>
+                        <br />
                         Gerne möchte ich dich ermutigen u.a. mit eigenen
                         Liedern, das Jesus dich liebt und all deinen Mangel
                         ausfüllen möchte.

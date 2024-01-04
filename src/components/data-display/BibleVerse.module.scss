@@ -6,12 +6,13 @@
     justify-content: flex-start;
     align-items: stretch;
     font-size: inherit;
-    border-left: solid core.getDimensionValue(.5);
+    border-left: solid core.getDimensionValue(1);
     padding: core.getDimensionValue(1);
     padding-left: core.getDimensionValue(1);
 
     .verseList {
         font-size: inherit;
+        margin-bottom: core.getDimensionValue(1);
 
         .verse {
             color: inherit;
@@ -32,10 +33,13 @@
         font-size: inherit;
         text-align: right;
         align-self: flex-end;
+    }
 
-        .bibleTranslationLabel {
-            font-weight: 400;
-        }
+    .bibleTranslationLabel {
+        align-self: flex-end;
+        font-weight: 400;
+        font-size: 80%;
+        line-height: 80%;
     }
 
     &[data-theme="primary"] {
@@ -61,12 +65,12 @@
 
         .verseList {
             .verseNumber {
-                color: core.$color-secondary;
+                color: core.$color-secondary-font-faded;
             }
         }
 
         .biblePassageLabel {
-            color: core.$color-secondary;
+            color: core.$color-secondary-font-faded;
         }
     }
 
@@ -77,12 +81,12 @@
 
         .verseList {
             .verseNumber {
-                color: core.$color-accent;
+                color: core.$color-accent-font-faded;
             }
         }
 
         .biblePassageLabel {
-            color: core.$color-accent;
+            color: core.$color-accent-font-faded;
         }
     }
 }

@@ -44,13 +44,12 @@ export default function BibleVerse({
             </span>
             <span className={styles.biblePassageLabel}>
                 {biblePassageLabel}
-                {translation !== undefined ? (
-                    <span className={styles.bibleTranslationLabel}>
-                        {" - "}
-                        {bibleTranslationLabels[translation]}
-                    </span>
-                ) : null}
             </span>
+            {translation !== undefined ? (
+                <span className={styles.bibleTranslationLabel}>
+                    {bibleTranslationLabels[translation]}
+                </span>
+            ) : null}
         </p>
     )
 }

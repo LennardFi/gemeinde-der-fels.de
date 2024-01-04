@@ -7,8 +7,8 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
-    background: linear-gradient(120deg, core.$color-secondary-highlighted, core.$color-secondary, core.$color-secondary-highlighted);
-    background: linear-gradient(var(--gradient-degree), core.$color-secondary-highlighted, core.$color-secondary, core.$color-secondary-highlighted);
+    background: linear-gradient(120deg, core.$color-secondary, core.$color-secondary-highlighted, core.$color-secondary);
+    background: linear-gradient(var(--gradient-degree), core.$color-secondary, core.$color-secondary-highlighted, core.$color-secondary);
     color: core.$color-primary-font;
     padding: core.getDimensionValue(1);
     margin: 0;
@@ -27,7 +27,7 @@
             // transform: scale(1.02);
             // transform-origin: center;
             animation: core.$secondary-background-color-shimmer 3s 0s infinite linear;
-            background: linear-gradient(var(--gradient-degree), core.$color-secondary-highlighted, core.$color-secondary, core.$color-secondary-highlighted);
+            background: linear-gradient(var(--gradient-degree), core.$color-secondary, core.$color-secondary-highlighted, core.$color-secondary);
         }
     }
 

@@ -77,7 +77,7 @@ export default function Page() {
                             </p>
                         </Accordion>
                         <Accordion
-                            icon={<Checkbox disabled />}
+                            icon={<Checkbox fontColor />}
                             onClick={() => console.log("clicked 2")}
                             summary="Test 2"
                             themeColor="secondary"

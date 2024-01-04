@@ -85,8 +85,8 @@
         &[data-theme="secondary"] {
             --gradient-degree: 20deg;
 
-            background: linear-gradient(20deg, core.$color-secondary-highlighted, core.$color-secondary, core.$color-secondary-highlighted);
-            background: linear-gradient(var(--gradient-degree), core.$color-secondary-highlighted, core.$color-secondary, core.$color-secondary-highlighted);
+            background: linear-gradient(20deg, core.$color-secondary, core.$color-secondary-highlighted, core.$color-secondary);
+            background: linear-gradient(var(--gradient-degree), core.$color-secondary, core.$color-secondary-highlighted, core.$color-secondary);
             border-color: transparent;
             color: core.$color-secondary-font;
             transition: --gradient-degree core.$gradient-static-transition-time ease-in-out;
@@ -95,10 +95,10 @@
             &:not(.noFocusColor):not(:disabled):focus {
                 --gradient-degree: 170deg;
 
-                background: linear-gradient(170deg, core.$color-secondary-highlighted, core.$color-secondary, core.$color-secondary-highlighted);
-                background: linear-gradient(var(--gradient-degree), core.$color-secondary-highlighted, core.$color-secondary, core.$color-secondary-highlighted);
+                background: linear-gradient(170deg, core.$color-secondary, core.$color-secondary-highlighted, core.$color-secondary);
+                background: linear-gradient(var(--gradient-degree), core.$color-secondary, core.$color-secondary-highlighted, core.$color-secondary);
                 border-color: transparent;
-                color: core.$color-secondary-font-highlighted;
+                color: core.$color-secondary-font;
             }
 
             &.fontColor {

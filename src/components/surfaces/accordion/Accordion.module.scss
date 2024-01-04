@@ -71,16 +71,16 @@
         summary {
             --gradient-degree: 45deg;
 
-            background: linear-gradient(45deg, core.$color-secondary-highlighted, core.$color-secondary, core.$color-secondary-highlighted);
-            background: linear-gradient(var(--gradient-degree), core.$color-secondary-highlighted, core.$color-secondary, core.$color-secondary-highlighted);
+            background: linear-gradient(45deg, core.$color-secondary, core.$color-secondary-highlighted, core.$color-secondary);
+            background: linear-gradient(var(--gradient-degree), core.$color-secondary, core.$color-secondary-highlighted, core.$color-secondary);
             color: core.$color-secondary-font;
             transition: --gradient-degree core.$gradient-static-transition-time ease-in-out;
 
             &:hover {
                 --gradient-degree: 170deg;
 
-                background: linear-gradient(170deg, core.$color-secondary-highlighted, core.$color-secondary, core.$color-secondary-highlighted);
-                background: linear-gradient(var(--gradient-degree), core.$color-secondary-highlighted, core.$color-secondary, core.$color-secondary-highlighted);
+                background: linear-gradient(170deg, core.$color-secondary, core.$color-secondary-highlighted, core.$color-secondary);
+                background: linear-gradient(var(--gradient-degree), core.$color-secondary, core.$color-secondary-highlighted, core.$color-secondary);
                 color: core.$color-secondary-font-highlighted;
             }
         }

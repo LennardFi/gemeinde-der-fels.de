@@ -51,6 +51,11 @@ export default function Checkbox({
     const inputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         e.preventDefault()
         e.stopPropagation()
+
+        if (disabled) {
+            return
+        }
+
         setInnerChecked(e.target.checked)
         onChange?.(e.target.checked)
     }
@@ -87,6 +92,11 @@ export default function Checkbox({
                     onClick={(e) => {
                         e.preventDefault()
                         e.stopPropagation()
+
+                        if (disabled) {
+                            return
+                        }
+
                         setInnerChecked(!innerChecked)
                         onChange?.(!innerChecked)
                     }}
@@ -97,6 +107,11 @@ export default function Checkbox({
                     onClick={(e) => {
                         e.preventDefault()
                         e.stopPropagation()
+
+                        if (disabled) {
+                            return
+                        }
+
                         setInnerChecked(!innerChecked)
                         onChange?.(!innerChecked)
                     }}
@@ -107,6 +122,11 @@ export default function Checkbox({
                     onClick={(e) => {
                         e.preventDefault()
                         e.stopPropagation()
+
+                        if (disabled) {
+                            return
+                        }
+
                         setInnerChecked(!innerChecked)
                         onChange?.(!innerChecked)
                     }}

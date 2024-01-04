@@ -92,8 +92,8 @@
 
             color: core.$color-secondary-font;
             // background-color: core.$color-secondary;
-            background: linear-gradient(20deg, core.$color-secondary-highlighted, core.$color-secondary, core.$color-secondary-highlighted);
-            background: linear-gradient(var(--gradient-degree), core.$color-secondary-highlighted, core.$color-secondary, core.$color-secondary-highlighted);
+            background: linear-gradient(20deg, core.$color-secondary, core.$color-secondary-highlighted, core.$color-secondary);
+            background: linear-gradient(var(--gradient-degree), core.$color-secondary, core.$color-secondary-highlighted, core.$color-secondary);
             transition: --gradient-degree core.$gradient-static-transition-time ease-in-out;
 
             &:focus,
@@ -106,9 +106,9 @@
         &.isButton>.label:hover {
             --gradient-degree: 170deg;
 
-            background: linear-gradient(170deg, core.$color-secondary-highlighted, core.$color-secondary, core.$color-secondary-highlighted);
-            background: linear-gradient(var(--gradient-degree), core.$color-secondary-highlighted, core.$color-secondary, core.$color-secondary-highlighted);
-            color: core.$color-secondary-font-highlighted;
+            background: linear-gradient(170deg, core.$color-secondary, core.$color-secondary-highlighted, core.$color-secondary);
+            background: linear-gradient(var(--gradient-degree), core.$color-secondary, core.$color-secondary-highlighted, core.$color-secondary);
+            color: core.$color-secondary-font;
         }
     }
 

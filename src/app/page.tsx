@@ -18,6 +18,7 @@ import Link from "next/link"
 import { useCallback, useId, useState } from "react"
 import { FaAngleDoubleDown, FaFolder, FaFolderOpen } from "react-icons/fa"
 import Brandung from "../media/brandung.jpg"
+import NewsInvitationIsraelEvening from "../media/news-2024-01-25-israel-abend-einladung.png"
 import styles from "./page.module.scss"
 
 export default function Page() {
@@ -189,6 +190,41 @@ export default function Page() {
                     >
                         Kontakt
                     </ButtonLink>
+                </Flex>
+            </Section>
+            <Divider variant="page" themeColor="transparent" />
+            <Section
+                paperProps={{
+                    breakpoint: "normal",
+                    className: styles.paper,
+                }}
+                themeColor="primary"
+                themeColorVariant="font"
+            >
+                <h2>Nächste Events</h2>
+
+                <Flex
+                    breakpoint="normal"
+                    direction="column"
+                    justify="flex-start"
+                    alignItems="center"
+                    gap={1}
+                    transition
+                >
+                    <Link
+                        href={NewsInvitationIsraelEvening.src}
+                        target="_blank"
+                        rel="noreferrer"
+                    >
+                        <Image
+                            alt="Einladung Israel-Abend"
+                            className={styles.newsImg}
+                            height={720}
+                            placeholder="blur"
+                            priority
+                            src={NewsInvitationIsraelEvening}
+                        />
+                    </Link>
                 </Flex>
             </Section>
             <Divider variant="page" themeColor="transparent" />

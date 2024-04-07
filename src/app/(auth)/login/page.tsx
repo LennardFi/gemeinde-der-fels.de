@@ -2,6 +2,7 @@
 
 import RequiresFeatureFlag from "@/components/dev/RequiresDevFeatureFlag"
 import Banner from "@/components/feedback/Banner"
+import Skeleton from "@/components/feedback/Skeleton"
 import Button from "@/components/inputs/Button"
 import ButtonLink from "@/components/inputs/ButtonLink"
 import TextField from "@/components/inputs/TextField"
@@ -13,11 +14,11 @@ import { returnToPathParamName } from "@/lib/shared/urlParams"
 import { Maybe } from "@/typings"
 import useAuthZustand from "@/zustand/useAuthZustand"
 import { useRouter, useSearchParams } from "next/navigation"
-import { FormEvent, useEffect, useState } from "react"
+import { FormEvent, Suspense, useEffect, useState } from "react"
 import { FaAngleRight, FaKey, FaTimesCircle } from "react-icons/fa"
 import styles from "./page.module.scss"
 
-export default function Page() {
+function ClientSideContent() {
     const searchParams = useSearchParams()
     const returnToParam = searchParams.get(returnToPathParamName)
 
@@ -143,5 +144,13 @@ export default function Page() {
                 </WindowContent>
             </Window>
         </RequiresFeatureFlag>
+    )
+}
+
+export default function Page() {
+    return (
+        <Suspense fallback={<Skeleton />}>
+            <ClientSideContent />
+        </Suspense>
     )
 }

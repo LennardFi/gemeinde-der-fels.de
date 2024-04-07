@@ -1,23 +1,42 @@
-FROM node:lts
+# Builder
+FROM node:lts as Builder
 
 WORKDIR /app
 
-COPY package*.json ./
-
-RUN npm ci
+RUN npm install -g pnpm
 
 COPY . .
 
-ENV POSTGRES_URL="postgresql://postgres:postgres@localhost:5432/gemeinde-der-fels-de?schema=public"
-ENV GDF_JWT_SIGNING_SECRET="BiGpC28DyjcsEkaBBaSEK6oTifTHx2E8"
-ENV GDF_FILES_FOLDER="./test-files"
-ENV GDF_DEV_DATABASE_REPLACE_EXISTING_DATA="0"
-ENV NEXT_PUBLIC_GDF_DEV_FEATURE_FLAGS="*"
+ARG POSTGRES_URL="${POSTGRES_URL:-postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@${POSTGRES_HOST:-localhost}:${POSTGRES_PORT:-5432}/${POSTGRES_DB:-gemeinde-der-fels-de}?schema=public}"
+ARG GDF_FILES_FOLDER="${GDF_FILES_FOLDER:-./test-files}"
+ARG GDF_DEV_DATABASE_REPLACE_EXISTING_DATA="0"
+ARG NEXT_PUBLIC_GDF_DEV_FEATURE_FLAGS="${NEXT_PUBLIC_GDF_DEV_FEATURE_FLAGS}"
+ARG NEXT_PUBLIC_GDF_FEATURE_FLAGS="${NEXT_PUBLIC_GDF_FEATURE_FLAGS}"
+
+ENV GDF_JWT_SIGNING_SECRET="PLEASE CHANGE"
+
+RUN echo "POSTGRES_URL is: $POSTGRES_URL"
+
+RUN pnpm i --frozen-lockfile
+
+ENV NEXT_TELEMETRY_DISABLED 1
+
+CMD [ "pnpm", "run", "ci:setup" ]
+
+# RUN pnpx prisma db push
+
+# RUN pnpm run build
+
+# Runner
+FROM node:lts as Runner
+
+WORKDIR /app
+
+COPY --from=builder /app/next.config.js ./
+COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/node_modules ./node_modules
 
 EXPOSE 3000
-
-RUN npx prisma db push
-
-RUN npm run build
 
 CMD [ "npm", "run", "start" ]

@@ -12,41 +12,15 @@ services:
             - 5432:5432
         healthcheck:
             test:
-                [
-                    "CMD-SHELL",
-                    "pg_isready -U postgres -d gemeinde-der-fels-de",
-                ]
+                ["CMD-SHELL", "pg_isready -U postgres -d gemeinde-der-fels-de"]
             interval: 10s
             timeout: 10s
             retries: 10
-    web_builder:
+
+    web:
         build:
             context: ./
             dockerfile: Dockerfile
-            target: Builder
-            args:
-                POSTGRES_URL: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:${POSTGRES_PORT}/${POSTGRES_DB}?schema=public"
-        restart: "on-failure"
-
-        environment:
-            POSTGRES_HOSTNAME: postgres
-            POSTGRES_PASSWORD: postgres
-            POSTGRES_USER: postgres
-            POSTGRES_DB: gemeinde-der-fels-de
-            POSTGRES_PORT: 5432
-            POSTGRES_URL: "postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@postgres:$POSTGRES_PORT/gemeinde-der-fels-de?schema=public"
-
-        depends_on:
-            postgres:
-                condition: service_healthy
-                required: true
-                restart: true
-
-    web_runner:
-        build:
-            context: ./
-            dockerfile: Dockerfile
-            target: Runner
             args:
                 POSTGRES_URL: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:${POSTGRES_PORT}/${POSTGRES_DB}?schema=public"
         restart: "on-failure"
@@ -54,6 +28,11 @@ services:
             - 3000:3000
 
         environment:
+            GDF_DEV_DATABASE_REPLACE_EXISTING_DATA: "0"
+            GDF_FILES_FOLDER: "${GDF_FILES_FOLDER:-./test-files}"
+            GDF_JWT_SIGNING_SECRET: "${GDF_JWT_SIGNING_SECRET}"
+            NEXT_PUBLIC_GDF_FEATURE_FLAGS: "${NEXT_PUBLIC_GDF_FEATURE_FLAGS}"
+            NEXT_PUBLIC_GDF_DEV_FEATURE_FLAGS: "${NEXT_PUBLIC_GDF_DEV_FEATURE_FLAGS}"
             POSTGRES_HOSTNAME: postgres
             POSTGRES_PASSWORD: postgres
             POSTGRES_USER: postgres
@@ -66,13 +45,9 @@ services:
                 condition: service_healthy
                 required: true
                 restart: true
-            web_builder:
-                condition: service_completed_successfully
-                required: true
-                restart: true
 
         healthcheck:
             test: ["CMD", "curl", "-f", "http://localhost:3000"]
             interval: 30s
             timeout: 10s
-            retries: 5
+            retries: 10

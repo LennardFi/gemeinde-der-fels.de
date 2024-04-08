@@ -19,6 +19,10 @@
         height: core.getDimensionValue(1);
     }
 
+    &.section {
+        height: core.getDimensionValue(5);
+    }
+
     &.transparent {
 
         &.half {

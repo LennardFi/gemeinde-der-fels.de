@@ -1,0 +1,13 @@
+@use "../../styles/core.module.scss" as core;
+
+.bannerImg {
+    max-width: 100%;
+    height: auto;
+    width: auto;
+}
+
+.content {
+    p {
+        margin-bottom: 0;
+    }
+}

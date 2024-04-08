@@ -133,3 +133,19 @@
         gap: core.getDimensionValue(8);
     }
 }
+
+.contactBanner {
+    a {
+        color: core.$color-primary-font;
+        text-decoration: underline;
+
+        &:visited {
+            color: core.$color-primary-font;
+        }
+
+        &:focus,
+        &:active {
+            color: core.$color-primary-font-highlighted;
+        }
+    }
+}

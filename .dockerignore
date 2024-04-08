@@ -1,1 +1,6 @@
+.git
+.vscode
+.next
 node_modules
+/prj
+/template

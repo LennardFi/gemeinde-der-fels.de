@@ -16,6 +16,7 @@ export function parseFeatureFlagEnvValue(
     } = {
         admin: undefined,
         calendar: undefined,
+        events: undefined,
         "hopeful-yt": undefined,
         internArea: undefined,
         mediaPlayer: undefined,

@@ -59,10 +59,6 @@ export const navigationEntries: Website.Content.Navigation.NavigationEntry[] = [
                 path: "/veranstaltungen/gebetsabend",
             },
             {
-                label: "Männer- und Frauenkreise",
-                path: "/gruppen/maenner-frauen-abend",
-            },
-            {
                 label: "Termine",
                 path: "/veranstaltungen/termine",
                 requiresAllFeatureFlags: ["calendar"],
@@ -73,10 +69,10 @@ export const navigationEntries: Website.Content.Navigation.NavigationEntry[] = [
         label: <>Über&nbsp;uns</>,
         path: "/ueber-uns",
         subEntries: [
-            {
-                label: "Wer wir sind",
-                path: "/ueber-uns/wer-wir-sind",
-            },
+            // {
+            //     label: "Wer wir sind",
+            //     path: "/ueber-uns/wer-wir-sind",
+            // },
             {
                 label: "Werte & Vision",
                 path: "/ueber-uns/werte-und-vision",
@@ -85,10 +81,10 @@ export const navigationEntries: Website.Content.Navigation.NavigationEntry[] = [
                 label: "Gemeindeleitung",
                 path: "/ueber-uns/gemeindeleitung",
             },
-            {
-                label: "Gemeindeleben",
-                path: "/ueber-uns/gemeindeleben",
-            },
+            // {
+            //     label: "Gemeindeleben",
+            //     path: "/ueber-uns/gemeindeleben",
+            // },
         ],
     },
     {

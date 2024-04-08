@@ -2,7 +2,7 @@ import Website from "@/typings"
 import { HTMLAttributes } from "react"
 import styles from "./Divider.module.scss"
 
-export type DividerVariant = "container" | "page"
+export type DividerVariant = "container" | "page" | "section"
 
 export type TransparentThemeVariant = "full" | "half"
 
@@ -28,16 +28,21 @@ export default function Divider<
     variant,
     ...rest
 }: DividerProps<C>) {
-    const variantClassName = variant === "page" ? styles.page : styles.container
+    const variantClassName =
+        variant === "page"
+            ? styles.page
+            : variant === "section"
+              ? styles.section
+              : styles.container
 
     const themeColorClassName =
         themeColor === "transparent"
             ? styles.transparent
             : themeColor === "primary"
-            ? styles.primary
-            : themeColor === "secondary"
-            ? styles.secondary
-            : styles.accent
+              ? styles.primary
+              : themeColor === "secondary"
+                ? styles.secondary
+                : styles.accent
 
     const themeColorVariantClassName =
         themeColor === "transparent"
@@ -45,16 +50,16 @@ export default function Divider<
                 ? styles.half
                 : styles.full
             : themeColorVariant === "faded"
-            ? styles.faded
-            : themeColorVariant === "font"
-            ? styles.font
-            : themeColorVariant === "font-faded"
-            ? styles.fontFaded
-            : themeColorVariant === "font-highlighted"
-            ? styles.fontHighlighted
-            : themeColorVariant === "highlighted"
-            ? styles.highlighted
-            : styles.default
+              ? styles.faded
+              : themeColorVariant === "font"
+                ? styles.font
+                : themeColorVariant === "font-faded"
+                  ? styles.fontFaded
+                  : themeColorVariant === "font-highlighted"
+                    ? styles.fontHighlighted
+                    : themeColorVariant === "highlighted"
+                      ? styles.highlighted
+                      : styles.default
 
     return (
         <hr

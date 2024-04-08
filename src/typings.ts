@@ -163,6 +163,7 @@ declare namespace Website {
         type FeatureFlags =
             | "admin"
             | "calendar"
+            | "events"
             | "hopeful-yt"
             | "internArea"
             | "mediaPlayer"

@@ -2,8 +2,8 @@
 
 import Flex from "@/components/containers/Flex"
 import Section from "@/components/containers/Section"
+import RequiresFeatureFlag from "@/components/dev/RequiresDevFeatureFlag"
 import RequiresDevMode from "@/components/dev/RequiresDevMode"
-import Skeleton from "@/components/feedback/Skeleton"
 import ButtonLink from "@/components/inputs/ButtonLink"
 import Checkbox from "@/components/inputs/Checkbox"
 import Divider from "@/components/surfaces/Divider"
@@ -12,6 +12,7 @@ import Accordion from "@/components/surfaces/accordion/Accordion"
 import Card from "@/components/surfaces/card/Card"
 import CardContent from "@/components/surfaces/card/CardContent"
 import CardHeader from "@/components/surfaces/card/CardHeader"
+import { ContactBanner } from "@/components/templates/ContactBanner/ContactBanner"
 import Navigation from "@/components/templates/Navigation/Navigation"
 import Image from "next/image"
 import Link from "next/link"
@@ -152,7 +153,7 @@ export default function Page() {
                 >
                     <ButtonLink
                         className={`${styles.quickLink}`}
-                        href="/ueber-uns/wer-wir-sind"
+                        href="/ueber-uns"
                         themeColor="primary"
                         fontColor
                         variant="text"
@@ -193,41 +194,43 @@ export default function Page() {
                 </Flex>
             </Section>
             <Divider variant="page" themeColor="transparent" />
-            <Section
-                paperProps={{
-                    breakpoint: "normal",
-                    className: styles.paper,
-                }}
-                themeColor="primary"
-                themeColorVariant="font"
-            >
-                <h2>Nächste Events</h2>
-
-                <Flex
-                    breakpoint="normal"
-                    direction="column"
-                    justify="flex-start"
-                    alignItems="center"
-                    gap={1}
-                    transition
+            <RequiresFeatureFlag flags={["events"]}>
+                <Section
+                    paperProps={{
+                        breakpoint: "normal",
+                        className: styles.paper,
+                    }}
+                    themeColor="primary"
+                    themeColorVariant="font"
                 >
-                    <Link
-                        href={NewsInvitationIsraelEvening.src}
-                        target="_blank"
-                        rel="noreferrer"
+                    <h2>Nächste Events</h2>
+
+                    <Flex
+                        breakpoint="normal"
+                        direction="column"
+                        justify="flex-start"
+                        alignItems="center"
+                        gap={1}
+                        transition
                     >
-                        <Image
-                            alt="Einladung Israel-Abend"
-                            className={styles.newsImg}
-                            height={720}
-                            placeholder="blur"
-                            priority
-                            src={NewsInvitationIsraelEvening}
-                        />
-                    </Link>
-                </Flex>
-            </Section>
-            <Divider variant="page" themeColor="transparent" />
+                        <Link
+                            href={NewsInvitationIsraelEvening.src}
+                            target="_blank"
+                            rel="noreferrer"
+                        >
+                            <Image
+                                alt="Einladung Israel-Abend"
+                                className={styles.newsImg}
+                                height={720}
+                                placeholder="blur"
+                                priority
+                                src={NewsInvitationIsraelEvening}
+                            />
+                        </Link>
+                    </Flex>
+                </Section>
+                <Divider variant="page" themeColor="transparent" />
+            </RequiresFeatureFlag>
             <Section
                 paperProps={{
                     className: styles.paper,
@@ -235,19 +238,20 @@ export default function Page() {
                 themeColor="primary"
                 themeColorVariant="font"
             >
-                <h3>Aktuelle Predigt</h3>
+                <h2>Aktuelle Predigt</h2>
                 <Paper breakpoint="normal">
-                    <Skeleton
+                    {/* <Skeleton
                         themeColor="primary"
                         themeColorVariant="font"
                         height={200}
                         width="100%"
-                    />
+                    /> */}
                     <Flex
                         direction="column"
                         justify="flex-start"
                         alignItems="center"
                     >
+                        <p>🚧 Aktuell noch in Arbeit. 🚧</p>
                         <p>Hier wird später die neuste Predigt angezeigt.</p>
                     </Flex>
                 </Paper>
@@ -260,12 +264,12 @@ export default function Page() {
                 }}
                 themeColor="primary"
             >
+                <h2>Termine</h2>
                 <Flex
                     direction="column"
                     justify="flex-start"
                     alignItems="center"
                 >
-                    <h2>Termine</h2>
                     <ul className={styles.cardList}>
                         <li>
                             <Link href="/veranstaltungen/gottesdienst">
@@ -290,20 +294,27 @@ export default function Page() {
             <Section
                 paperProps={{
                     className: styles.paper,
+                    breakpoint: "small",
                 }}
                 themeColor="primary"
                 themeColorVariant="font"
             >
-                <h3>Du hast noch Fragen?</h3>
-                <Paper breakpoint="small">
-                    <ButtonLink
-                        href="/kontakt"
-                        themeColor="secondary"
-                        variant="contained"
-                    >
-                        Zum Kontaktformular
-                    </ButtonLink>
-                </Paper>
+                <h2>Du hast noch Fragen?</h2>
+                <p style={{ textAlign: "center" }}>
+                    Wir sind über folgende Kanäle erreichbar:
+                </p>
+                <Divider variant="section" themeColor="transparent" />
+                <ContactBanner
+                // className={styles.contactBanner}
+                />
+                <Divider variant="section" themeColor="transparent" />
+                <ButtonLink
+                    href="/kontakt"
+                    themeColor="secondary"
+                    variant="contained"
+                >
+                    Zum Kontaktformular
+                </ButtonLink>
             </Section>
             <Divider variant="page" themeColor="transparent" />
             {/* <Image

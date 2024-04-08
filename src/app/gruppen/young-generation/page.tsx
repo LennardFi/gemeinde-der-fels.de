@@ -1,5 +1,6 @@
 import PageContainer from "@/components/containers/PageContainer"
 import Section from "@/components/containers/Section"
+import ObfuscatedLabel from "@/components/data-display/ObfuscatedLabel"
 
 export default function Page() {
     return (
@@ -10,16 +11,21 @@ export default function Page() {
         >
             <Section paperProps={{ breakpoint: "small" }}>
                 <p>
-                    Als 'Young Generation' treffen sich Jugendliche und junge
-                    Erwachsene im Alter von ungefähr 16 Jahren bis 28 Jahren, um
-                    gemeinsam Gott zu anbeten und ihn als auch sich
-                    untereinander besser kennenzulernen. Unsere 'Junge
-                    Generation' macht sich so zusammen auf den Weg, Gottes Plan
-                    für ihre Leben zu entdecken.
+                    Wir Young Generation möchten eine betende Jugend werden. Die
+                    für andere und gegenseitig im Gebet einstehen. Mit
+                    praktischen Übungen, Zeit im Lobpreis, Gemeinschaft,
+                    Gesprächen und vor allem mit viel Freude und lachen.
                 </p>
                 <p>
-                    Solltest du Interesse haben, kannst du dich gerne bei der
-                    Leitung vor oder nach einem Gottesdienst melden.
+                    Wenn du dich angesprochen fühlst, freuen wir uns, wenn du
+                    mit dabei bist. Hast du noch Fragen, kannst du dich unter{" "}
+                    <ObfuscatedLabel
+                        type="mail"
+                        encryptedInfo={Buffer.from(
+                            "salomehaus@outlook.de",
+                        ).toString("base64")}
+                    />{" "}
+                    melden.
                 </p>
             </Section>
         </PageContainer>

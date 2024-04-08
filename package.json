@@ -8,7 +8,7 @@
         "build": "next build",
         "start": "next start",
         "lint": "next lint",
-        "ci:setup": "pnpx prisma generate && pnpx prisma db push && pnpm run build",
+        "ci:start": "pnpx prisma generate && pnpx prisma db push && pnpm run build && pnpm run start",
         "test:e2e": "playwright test"
     },
     "dependencies": {
@@ -64,5 +64,6 @@
     },
     "quokka": {
         "autoLog": false
-    }
+    },
+    "packageManager": "pnpm@8.15.6+sha1.8105075ad0aa306138be128c017e9c41e28ecffa"
 }

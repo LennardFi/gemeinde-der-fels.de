@@ -15,9 +15,6 @@ export default function NotFound() {
             <WindowContent>
                 <p>Die gesuchte Seite wurde nicht gefunden.</p>
                 <div className={styles.searchedPageContainer}>
-                    <h3 className={styles.searchedPageTitle}>
-                        Gesuchte Seite:
-                    </h3>
                     <pre className={styles.pathName}>
                         <code>{pathName}</code>
                     </pre>

@@ -24,6 +24,7 @@ export function parseFeatureFlagEnvValue(
         "optional-cookies": undefined,
         "privacy-consent": undefined,
         sendEmail: undefined,
+        sermons: undefined,
     }
     return Object.entries(
         featureFlagEnvValue

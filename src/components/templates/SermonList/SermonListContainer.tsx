@@ -122,7 +122,7 @@ export default function SermonsListContainer({
     }, [pageWindow, pageSize, isLoading, endOfData])
 
     return (
-        <RequiresDevFeatureFlag flags={["mediaPlayer"]} fallback>
+        <RequiresDevFeatureFlag flags={["mediaPlayer", "sermons"]} fallback>
             <div className={`${styles.container} ${className ?? ""}`} {...rest}>
                 {/* {showFilter ?? (
                 <SermonsFilter filter={filter} setFilter={setFilter} />

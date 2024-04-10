@@ -42,7 +42,7 @@ export const navigationEntries: Website.Content.Navigation.NavigationEntry[] = [
             {
                 label: "Predigten",
                 path: "/medien/predigten",
-                requiresAllFeatureFlags: ["mediaPlayer"],
+                requiresAllFeatureFlags: ["mediaPlayer", "sermons"],
             },
         ],
     },
@@ -61,7 +61,7 @@ export const navigationEntries: Website.Content.Navigation.NavigationEntry[] = [
             {
                 label: "Termine",
                 path: "/veranstaltungen/termine",
-                requiresAllFeatureFlags: ["calendar"],
+                requiresAllFeatureFlags: ["calendar", "events"],
             },
         ],
     },
@@ -138,13 +138,13 @@ export const navigationEntries: Website.Content.Navigation.NavigationEntry[] = [
             {
                 label: "News",
                 path: "/admin/inhalte/news",
-                requiresAllFeatureFlags: ["admin", "internArea"],
+                requiresAllFeatureFlags: ["admin", "internArea", "news"],
                 requireOneUserFlag: ["ManageNews"],
             },
             {
                 label: "Predigten",
                 path: "/admin/inhalte/predigten",
-                requiresAllFeatureFlags: ["admin", "internArea"],
+                requiresAllFeatureFlags: ["admin", "internArea", "sermons"],
                 requireOneUserFlag: ["ManageSermons"],
             },
             {
@@ -174,6 +174,11 @@ export const navigationEntries: Website.Content.Navigation.NavigationEntry[] = [
     },
 ]
 
+/**
+ * The Navigation component on the root level will not be rendered on this
+ * routes. For example to allow a sticky Navigation component on specific items
+ * somewhere on a route.
+ */
 const disabledOnRoutes: string[] = ["/"]
 
 export default function Navigation({

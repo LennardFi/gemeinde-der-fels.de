@@ -171,6 +171,7 @@ declare namespace Website {
             | "optional-cookies"
             | "privacy-consent"
             | "sendEmail"
+            | "sermons"
     }
 
     namespace Bible {

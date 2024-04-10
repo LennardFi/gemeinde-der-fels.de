@@ -1,3 +1,4 @@
+import RequiresFeatureFlag from "@/components/dev/RequiresDevFeatureFlag"
 import Window from "@/components/surfaces/window/Window"
 import WindowContent from "@/components/surfaces/window/WindowContent"
 import WindowHeader from "@/components/surfaces/window/WindowHeader"
@@ -19,12 +20,20 @@ export default function Page() {
                 </ul>
                 <h2>Inhalte</h2>
                 <ul>
-                    <li>
-                        <Link href="/admin/inhalte/news">News</Link>
-                    </li>
-                    <li>
-                        <Link href="/admin/inhalte/predigten">Predigten</Link>
-                    </li>
+                    <RequiresFeatureFlag flags={["admin", "news"]}>
+                        <li>
+                            <Link href="/admin/inhalte/news">News</Link>
+                        </li>
+                    </RequiresFeatureFlag>
+                    <RequiresFeatureFlag
+                        flags={["admin", "sermons", "mediaPlayer"]}
+                    >
+                        <li>
+                            <Link href="/admin/inhalte/predigten">
+                                Predigten
+                            </Link>
+                        </li>
+                    </RequiresFeatureFlag>
                 </ul>
             </WindowContent>
         </Window>

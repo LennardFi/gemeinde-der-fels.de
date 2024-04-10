@@ -18,7 +18,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { useCallback, useId, useState } from "react"
 import { FaAngleDoubleDown, FaFolder, FaFolderOpen } from "react-icons/fa"
-import Brandung from "../media/brandung.jpg"
+import Brandung from "../media/brandung-schmal.jpg"
 import NewsInvitationIsraelEvening from "../media/news-2024-01-25-israel-abend-einladung.png"
 import styles from "./page.module.scss"
 
@@ -113,7 +113,7 @@ export default function Page() {
             <Paper noPadding themeColor="primary" themeColorVariant="font">
                 <Flex justify="center">
                     <Image
-                        alt="Mountain"
+                        alt="Brandung"
                         className={styles.bannerImg}
                         src={Brandung}
                         // height={1080}

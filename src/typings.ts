@@ -244,8 +244,6 @@ declare namespace Website {
             | "Judas"
             | "Offenbarung"
 
-        type BiblePassage = number | number[] | { from: number; to: number }
-
         type BibleTranslation =
             | "SCH2000" // Schlachter 2000
             | "Hfa" // Hoffnung für alle

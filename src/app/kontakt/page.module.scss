@@ -10,30 +10,19 @@
     // grid-template: auto auto auto auto auto auto auto auto auto / auto auto auto;
     width: 100%;
 
-    input,
-    textarea {
-        padding: core.getDimensionValue(0.5);
-        margin-bottom: core.getDimensionValue(2);
-    }
-
-    label {
-        align-self: flex-start;
-        margin-bottom: core.getDimensionValue(0.5);
-    }
-
-    .descriptionInput {
-        font-size: core.getDimensionValue(2);
-        resize: vertical;
-        width: 100%;
+    // This style is for the honeypot text field
+    .newPasswordTextField {
+        opacity: 0;
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 0;
+        width: 0;
+        z-index: -1;
     }
 
     .send {
         align-self: center;
-        font-family: "Fira Code", -apple-system, BlinkMacSystemFont, Segoe UI,
-            Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
-            Helvetica Neue, sans-serif;
-        font-size: core.getDimensionValue(2);
-        padding: core.getDimensionValue(0.5);
     }
 
     .responseMsg {

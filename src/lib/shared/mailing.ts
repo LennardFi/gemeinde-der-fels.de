@@ -1,33 +1,18 @@
-import { readFile } from "fs/promises"
 import nodemailer from "nodemailer"
 import SMTPTransport from "nodemailer/lib/smtp-transport"
-import Website from "../../typings"
+import { isDevMode } from "./develop"
+import { readRequiredEnvValueSafely } from "./env"
 
-/**
- * The name of the configuration file
- */
-const configFile = "mailing-config.json"
-
-export const readMailConfig =
-    async (): Promise<Website.Config.MailingConfig> => {
-        const file = await readFile(`./${configFile}`, {
-            encoding: "utf8",
-        })
-
-        const config = JSON.parse(file) as Website.Config.MailingConfig
-
-        return config
-    }
-
-export const createClient = (config: Website.Config.MailingConfig) => {
+export const createClient = () => {
     const smtpTransport = new SMTPTransport({
-        host: config.host,
-        port: config.port,
+        host: readRequiredEnvValueSafely("MAILING_HOST", "string"),
+        port: readRequiredEnvValueSafely("MAILING_PORT", "number", true),
         auth: {
             type: "login",
-            user: config.user,
-            pass: config.password,
+            user: readRequiredEnvValueSafely("MAILING_USER", "string"),
+            pass: readRequiredEnvValueSafely("MAILING_PASSWORD", "string"),
         },
+        requireTLS: true,
         secure: true,
         logger: true,
     })
@@ -40,29 +25,33 @@ export const sendMail = async (
     contactPhone: string,
     contactDescription: string,
 ): Promise<void> => {
-    const config = await readMailConfig()
-    const client = createClient(config)
+    return new Promise((resolve, reject) => {
+        const client = createClient()
 
-    client.sendMail(
-        {
-            to: config.toMailAddress,
-            cc: contactMail,
-            from: {
-                address: config.fromMailAddress,
-                name: "Website Kontaktformular",
-            },
-            subject: config.dev
-                ? `Test-Mail`
-                : `Foto-Anfrage per Mail von ${contactName}`,
-            html: `
+        client.sendMail(
+            {
+                to: readRequiredEnvValueSafely(
+                    "MAILING_TO_MAIL_ADDRESS",
+                    "string",
+                ),
+                // cc: contactMail,
+                from: {
+                    address: readRequiredEnvValueSafely(
+                        "MAILING_FROM_MAIL_ADDRESS",
+                        "string",
+                    ),
+                    name: "Website Kontaktformular",
+                },
+                subject: `Kontakt-Anfrage per Mail von ${contactName}`,
+                html: `
 <style>
 * {
     font-family: Raleway, "Open Sans", "Fira Code", "Fira Code VF", -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 </style>
 <h1>Neue ${
-                config.dev ? "Test-" : ""
-            }Kontaktaufnahme über das Kontaktformular:<h1>
+                    isDevMode ? "Test-" : ""
+                }Kontaktaufnahme über das Kontaktformular:<h1>
 <h2>Name</h2>
 <p>${contactName}</p>
 <h2>Mail</h2>
@@ -72,12 +61,15 @@ export const sendMail = async (
 <h2>Beschreibung</h2>
 <p>${contactDescription}</p>
 `,
-        },
-        (err) => {
-            if (err === null || err === undefined) {
-                console.error("Error while sending e-mail:", err)
-            }
-            client.close()
-        },
-    )
+            },
+            (err) => {
+                if (err !== null && err !== undefined) {
+                    console.error("Error while sending e-mail:", err)
+                    reject(err)
+                }
+                client.close()
+                resolve()
+            },
+        )
+    })
 }

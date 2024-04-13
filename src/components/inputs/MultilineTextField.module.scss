@@ -19,42 +19,28 @@
         }
     }
 
-    .inputContainer {
+    .textAreaContainer {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
         flex: 1 1 auto;
-        height: core.getDimensionValue(4);
+        min-height: core.getDimensionValue(4);
 
-        .input {
+        .textArea {
             border-radius: 0%;
             border: none;
             flex: 1 1 auto;
             font-size: core.$size-font-default;
             padding: core.getDimensionValue(0.5) core.getDimensionValue(1);
-            height: 100%;
+            overflow: auto;
+            resize: none;
 
             &:hover,
             &:active,
             &:focus {
                 border: none;
                 outline: none;
-            }
-        }
-
-        .passwordVisibilityToggleButton {
-            margin: 0 core.getDimensionValue(0.5);
-            padding: core.getDimensionValue(1);
-            height: core.getDimensionValue(3.5);
-            width: core.getDimensionValue(3.5);
-
-            .passwordVisibilityToggleButtonLabel {
-                svg {
-                    height: core.getDimensionValue(2);
-                    width: core.getDimensionValue(2);
-                    object-fit: contain;
-                }
             }
         }
     }
@@ -67,8 +53,8 @@
             color: core.$color-secondary-font;
         }
 
-        .inputContainer {
-            .input {
+        .textAreaContainer {
+            .textArea {
                 background-color: core.$color-secondary-font;
                 color: core.$color-secondary;
             }

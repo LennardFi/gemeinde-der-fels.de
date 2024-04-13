@@ -27,7 +27,7 @@ export const GET =
             if (!session.user.flags.ManageUser) {
                 throw new WebsiteError(
                     "request",
-                    "User not authorized to change user",
+                    "User not authorized to see user",
                     {
                         endpoint: req.url,
                         httpStatusCode: 403,

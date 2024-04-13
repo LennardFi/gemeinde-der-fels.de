@@ -11,7 +11,7 @@ export const getClient = (): PrismaClient => {
         try {
             _client = new PrismaClient()
             _client.$connect()
-            console.log("Connected to database client...")
+            console.log("Connected database client...")
             return _client
         } catch (err) {
             throw new WebsiteError(

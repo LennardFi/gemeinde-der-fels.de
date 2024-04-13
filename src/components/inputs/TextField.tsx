@@ -7,11 +7,14 @@ import styles from "./TextField.module.scss"
 
 interface TextFieldProps
     extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "type"> {
+    containerProps?: Partial<React.HTMLAttributes<HTMLDivElement>>
     error?: boolean
     password?: boolean
 }
 
 export default function TextField({
+    className,
+    containerProps,
     defaultValue,
     error,
     name,
@@ -27,11 +30,13 @@ export default function TextField({
 
     return (
         <div
-            className={`${styles.container} ${error ? styles.error : ""}`}
-            onClick={() => {
+            className={`${styles.container} ${error ? styles.error : ""} ${containerProps?.className ?? ""}`}
+            onClick={(e) => {
+                containerProps?.onClick?.(e)
                 inputRef.current?.focus()
             }}
-            onFocus={() => {
+            onFocus={(e) => {
+                containerProps?.onFocus?.(e)
                 inputRef.current?.focus()
             }}
             ref={containerRef}
@@ -43,7 +48,7 @@ export default function TextField({
             ) : undefined}
             <div className={styles.inputContainer}>
                 <input
-                    className={styles.input}
+                    className={`${styles.input} ${className ?? ""} ${containerProps?.className ?? ""}`}
                     name={name}
                     onChange={(e) => setValue(e.target.value)}
                     placeholder={placeholder ?? "..."}

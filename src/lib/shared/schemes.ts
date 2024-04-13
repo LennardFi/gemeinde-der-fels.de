@@ -30,6 +30,15 @@ export const userSchema = z.object({
     userName: z.string(),
 })
 
+export const postContactApiRequestBodySchema = z.object({
+    description: z.string(),
+    name: z.string(),
+    mail: z.string().email(),
+    phone: z.string(),
+    // honeypot entry
+    newPassword: z.string().optional(),
+})
+
 export const postLoginApiRequestBodySchema = z.object({
     emailOrUsername: z.string(),
     password: z.string(),

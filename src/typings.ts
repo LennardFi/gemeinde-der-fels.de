@@ -38,6 +38,10 @@ declare namespace Website {
                 mail: string
                 phone: string
                 description: string
+                /**
+                 * honeypot entry
+                 */
+                newPassword?: string
             }
 
             interface SermonsListResponseBodyEntry

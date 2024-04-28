@@ -1,5 +1,6 @@
 import Website, { Maybe } from "@/typings"
 import { PrismaClient } from "@prisma/client"
+import { isRedirectError } from "next/dist/client/components/redirect"
 import { NextRequest, NextResponse } from "next/server"
 import { getCookieHeaderValueString } from "../shared/apiHelpers"
 import { isDevMode } from "../shared/develop"
@@ -148,6 +149,9 @@ export const buildApiRouteWithDatabase =
                 },
             )
         } catch (e) {
+            if (isRedirectError(e)) {
+                throw e
+            }
             if (e instanceof WebsiteError) {
                 if (forbiddenErrorScopes.includes(e.scope)) {
                     apiResponse = {
@@ -275,10 +279,7 @@ export const buildApiRouteWithDatabase =
             if (
                 apiResponse !== undefined &&
                 !apiResponse.body.success &&
-                (apiResponse.body.internalError !== undefined
-                    ? !apiResponse.body.internalError.options
-                          .databaseConnectionError
-                    : true)
+                !apiResponse.body.internalError?.options.databaseConnectionError
             ) {
                 try {
                     logResponseOnServer(apiResponse)

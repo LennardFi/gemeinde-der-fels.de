@@ -2,7 +2,12 @@ import { buildApiRouteWithDatabase } from "@/lib/backend/apiRouteBuilders"
 import { readFileFromFolder } from "@/lib/backend/databaseHelpers"
 import { WebsiteError } from "@/lib/shared/errors"
 import { getBooleanSearchParameter } from "@/lib/shared/helpers"
-import { downloadParamName } from "@/lib/shared/urlParams"
+import {
+    downloadParamName,
+    loginParamName,
+    returnToPathParamName,
+} from "@/lib/shared/urlParams"
+import { redirect } from "next/navigation"
 
 export const dynamic = "force-dynamic"
 
@@ -15,7 +20,7 @@ export const GET = buildApiRouteWithDatabase<
         }
     }
 >(async (req, client, session, options) => {
-    const { searchParams } = new URL(req.url)
+    const { searchParams, pathname } = new URL(req.url)
     const parsedFileId = Number.parseInt(options.params.id)
     if (isNaN(parsedFileId)) {
         throw new WebsiteError("request", "File id is not a valid integer", {
@@ -40,6 +45,14 @@ export const GET = buildApiRouteWithDatabase<
         file.requiresUserFlag !== null &&
         !session.user?.flags[file.requiresUserFlag]
     ) {
+        const login = searchParams.get(loginParamName)
+
+        if (login !== null && session.user === undefined) {
+            redirect(
+                `/login?${new URLSearchParams({ [returnToPathParamName]: pathname }).toString()}`,
+            )
+        }
+
         throw new WebsiteError(
             "request",
             `Requires user flag ${file.requiresUserFlag}`,

@@ -123,7 +123,11 @@ export default function PrivacyConsentBar({
                             <wbr />
                             Erklärung
                         </Link>{" "}
-                        zu. Außerdem verwenden wir Cookies.
+                        zu.
+                        <RequiresFeatureFlag flags={["optional-cookies"]}>
+                            {" "}
+                            Außerdem verwenden wir Cookies.
+                        </RequiresFeatureFlag>
                     </p>
                     <Flex
                         breakpoint="tiny"

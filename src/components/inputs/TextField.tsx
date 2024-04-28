@@ -18,13 +18,17 @@ export default function TextField({
     defaultValue,
     error,
     name,
+    onBlur,
+    onFocus,
     password,
     placeholder,
+    role,
     ...rest
 }: TextFieldProps) {
     const containerRef = useRef<HTMLDivElement | null>(null)
     const inputRef = useRef<HTMLInputElement | null>(null)
     const id = useId()
+    const [inFocus, setInFocus] = useState(false)
     const [value, setValue] = useState(defaultValue ?? "")
     const [passwordVisible, setPasswordVisible] = useState(false)
 
@@ -40,6 +44,7 @@ export default function TextField({
                 inputRef.current?.focus()
             }}
             ref={containerRef}
+            role={role ?? "textbox"}
         >
             {name !== undefined ? (
                 <label className={styles.label} htmlFor={id}>
@@ -50,8 +55,16 @@ export default function TextField({
                 <input
                     className={`${styles.input} ${className ?? ""} ${containerProps?.className ?? ""}`}
                     name={name}
+                    onBlur={(e) => {
+                        onBlur?.(e)
+                        setInFocus(false)
+                    }}
                     onChange={(e) => setValue(e.target.value)}
-                    placeholder={placeholder ?? "..."}
+                    onFocus={(e) => {
+                        onFocus?.(e)
+                        setInFocus(true)
+                    }}
+                    placeholder={inFocus ? "" : placeholder ?? "_"}
                     type={password && !passwordVisible ? "password" : "text"}
                     value={value}
                     ref={inputRef}

@@ -16,13 +16,17 @@ export default function MultilineTextField({
     defaultValue,
     error,
     name,
-    rows,
+    onBlur,
+    onFocus,
     placeholder,
+    role,
+    rows,
     ...rest
 }: MultilineTextFieldProps) {
     const containerRef = useRef<HTMLDivElement | null>(null)
     const textAreaRef = useRef<HTMLTextAreaElement | null>(null)
     const id = useId()
+    const [inFocus, setInFocus] = useState(false)
     const [value, setValue] = useState(defaultValue ?? "")
 
     return (
@@ -38,6 +42,7 @@ export default function MultilineTextField({
                 textAreaRef.current?.focus()
             }}
             ref={containerRef}
+            role={role ?? "textbox"}
         >
             {name !== undefined ? (
                 <label className={styles.label} htmlFor={id}>
@@ -48,8 +53,16 @@ export default function MultilineTextField({
                 <textarea
                     className={`${styles.textArea} ${className ?? ""}`}
                     name={name}
+                    onBlur={(e) => {
+                        onBlur?.(e)
+                        setInFocus(false)
+                    }}
                     onChange={(e) => setValue(e.target.value)}
-                    placeholder={placeholder ?? "..."}
+                    onFocus={(e) => {
+                        onFocus?.(e)
+                        setInFocus(true)
+                    }}
+                    placeholder={inFocus ? "" : placeholder ?? "_"}
                     value={value}
                     ref={textAreaRef}
                     rows={

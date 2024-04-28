@@ -1,9 +1,11 @@
 import PageContainer from "@/components/containers/PageContainer"
+import styles from "./page.module.scss"
 
 export default function Page() {
     return (
         <PageContainer
             breakpoint="normal"
+            className={styles.privacyContent}
             title="Datenschutzerklärung"
             themeColor="primary"
             themeColorVariant="font"

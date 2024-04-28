@@ -138,7 +138,12 @@ export default function PrivacyConsentDialog({
                             Server, die für die Funktionalität der Website
                             notwendig sind. Welche Cookies und Daten dabei
                             gespeichert werden können Sie in unserer{" "}
-                            <Link href="/datenschutz">
+                            <Link
+                                href="/datenschutz"
+                                onClick={() => {
+                                    setShowPreferencesDialog(false)
+                                }}
+                            >
                                 Datenschutzerklärung
                             </Link>{" "}
                             nachlesen.

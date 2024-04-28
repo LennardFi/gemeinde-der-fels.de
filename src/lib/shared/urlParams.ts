@@ -1,5 +1,6 @@
 export const returnToPathParamName = "returnTo"
 export const resetPasswordTokenParamName = "token"
+export const loginParamName = "login"
 export const fileNameParamName = "fileName"
 export const requiresUserFlagParamName = "requiresUserFlag"
 export const fileRoleParamName = "role"

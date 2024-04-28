@@ -135,8 +135,6 @@ export const POST =
                     )
                 }
 
-                console.log({ newFile })
-
                 return {
                     body: {
                         success: true,

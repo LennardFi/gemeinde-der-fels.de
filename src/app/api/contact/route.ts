@@ -4,6 +4,8 @@ import { sendMail } from "@/lib/shared/mailing"
 import { postContactApiRequestBodySchema } from "@/lib/shared/schemes"
 import Website from "@/typings"
 
+export const dynamic = "force-dynamic"
+
 export const POST = buildApiRouteWithDatabase<undefined>(
     async (req, client, session) => {
         let contactRequestBody: Website.Api.Endpoints.ContactRequestBody

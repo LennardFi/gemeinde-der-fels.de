@@ -14,6 +14,8 @@ import mime from "mime"
 import path from "path"
 import { Temporal } from "temporal-polyfill"
 
+export const dynamic = "force-dynamic"
+
 export const POST =
     buildApiRouteWithDatabase<Website.Content.Files.FileDetails>(
         async (req, client, session) => {

@@ -9,6 +9,8 @@ import { afterIdParamName, pageSizeParamName } from "@/lib/shared/urlParams"
 import Website from "@/typings"
 import { Temporal } from "temporal-polyfill"
 
+export const dynamic = "force-dynamic"
+
 const maxPageSize = 100
 const defaultPageSize = 20
 

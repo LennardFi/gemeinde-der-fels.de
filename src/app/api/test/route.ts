@@ -1,6 +1,8 @@
 import { buildApiRouteWithDatabase } from "@/lib/backend/apiRouteBuilders"
 import Website from "@/typings"
 
+export const dynamic = "force-dynamic"
+
 export const GET =
     buildApiRouteWithDatabase<Website.Api.Endpoints.TestResponseBody>(
         async (req, client, session) => {

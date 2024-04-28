@@ -2,6 +2,8 @@ import { buildApiRouteWithDatabase } from "@/lib/backend/apiRouteBuilders"
 import { JWT_Cookie_Name } from "@/lib/backend/auth"
 import { WebsiteError } from "@/lib/shared/errors"
 
+export const dynamic = "force-dynamic"
+
 export const POST = buildApiRouteWithDatabase<null>(async (req, _, session) => {
     if (session.jwtPayload === undefined) {
         throw new WebsiteError("request", "No JWT send within the request", {

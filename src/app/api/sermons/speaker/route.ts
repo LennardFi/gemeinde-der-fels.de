@@ -3,6 +3,8 @@ import { WebsiteError } from "@/lib/shared/errors"
 import { postSermonsSpeakerApiRequestBodySchema } from "@/lib/shared/schemes"
 import Website from "@/typings"
 
+export const dynamic = "force-dynamic"
+
 // export const GET = buildApiRouteWithDatabase<Website.Content.Sermons.Sermon[]>(
 //     async (req, client, session) => {
 //         if (session.user === undefined) {
@@ -33,64 +35,63 @@ import Website from "@/typings"
 //     },
 // )
 
-export const POST = buildApiRouteWithDatabase<Website.Content.Sermons.Speaker["id"]>(
-    async (req, client, session) => {
-        if (session.user === undefined) {
-            throw new WebsiteError("request", "Not authenticated", {
-                endpoint: req.url,
-                httpStatusCode: 401,
-            })
-        }
-
-        if (!session.user.flags.ManageSermons) {
-            throw new WebsiteError(
-                "request",
-                "The user does not have permission to do this",
-                {
-                    httpStatusCode: 403,
-                },
-            )
-        }
-
-        let body: unknown
-        try {
-            body = await req.json()
-        } catch (err) {
-            throw new WebsiteError("request", "Body not parsable", {
-                httpStatusCode: 400,
-                httpStatusText: "Body not parsable",
-            })
-        }
-
-        const parsedResult =
-            postSermonsSpeakerApiRequestBodySchema.safeParse(body)
-
-        if (!parsedResult.success) {
-            throw new WebsiteError("request", "Invalid request body", {
-                httpStatusCode: 400,
-                httpStatusText: "Invalid request body",
-            })
-        }
-
-        const speaker = await client.sermonSpeaker.create({
-            data: {
-                initials: parsedResult.data.initials,
-                name: parsedResult.data.name,
-            },
+export const POST = buildApiRouteWithDatabase<
+    Website.Content.Sermons.Speaker["id"]
+>(async (req, client, session) => {
+    if (session.user === undefined) {
+        throw new WebsiteError("request", "Not authenticated", {
+            endpoint: req.url,
+            httpStatusCode: 401,
         })
+    }
 
-        if (speaker === null) {
-            throw new WebsiteError("database", "Failed creating sermons")
-        }
-
-        return {
-            body: {
-                success: true,
-                data: speaker.id,
+    if (!session.user.flags.ManageSermons) {
+        throw new WebsiteError(
+            "request",
+            "The user does not have permission to do this",
+            {
+                httpStatusCode: 403,
             },
-            contentType: "application/json",
-            jwtPayload: session.jwtPayload,
-            status: 200,
-        }
-    },
-)
+        )
+    }
+
+    let body: unknown
+    try {
+        body = await req.json()
+    } catch (err) {
+        throw new WebsiteError("request", "Body not parsable", {
+            httpStatusCode: 400,
+            httpStatusText: "Body not parsable",
+        })
+    }
+
+    const parsedResult = postSermonsSpeakerApiRequestBodySchema.safeParse(body)
+
+    if (!parsedResult.success) {
+        throw new WebsiteError("request", "Invalid request body", {
+            httpStatusCode: 400,
+            httpStatusText: "Invalid request body",
+        })
+    }
+
+    const speaker = await client.sermonSpeaker.create({
+        data: {
+            initials: parsedResult.data.initials,
+            name: parsedResult.data.name,
+        },
+    })
+
+    if (speaker === null) {
+        throw new WebsiteError("database", "Failed creating sermons")
+    }
+
+    return {
+        body: {
+            success: true,
+            data: speaker.id,
+        },
+        contentType: "application/json",
+        jwtPayload: session.jwtPayload,
+        status: 200,
+    }
+})

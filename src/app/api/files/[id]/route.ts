@@ -4,6 +4,8 @@ import { WebsiteError } from "@/lib/shared/errors"
 import { getBooleanSearchParameter } from "@/lib/shared/helpers"
 import { downloadParamName } from "@/lib/shared/urlParams"
 
+export const dynamic = "force-dynamic"
+
 export const GET = buildApiRouteWithDatabase<
     Buffer,
     {

@@ -8,6 +8,8 @@ import { WebsiteError } from "@/lib/shared/errors"
 import { postResetPasswordApiRequestBodySchema } from "@/lib/shared/schemes"
 import Website, { Maybe } from "@/typings"
 
+export const dynamic = "force-dynamic"
+
 export const POST = buildApiRouteWithDatabase<null>(
     async (req, client, session) => {
         let jsonContent: Website.Api.Endpoints.Auth.ResetPasswordRequestBody

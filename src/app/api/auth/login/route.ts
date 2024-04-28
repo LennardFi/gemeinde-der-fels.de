@@ -4,6 +4,8 @@ import { WebsiteError } from "@/lib/shared/errors"
 import { postLoginApiRequestBodySchema } from "@/lib/shared/schemes"
 import Website from "@/typings"
 
+export const dynamic = "force-dynamic"
+
 export const POST = buildApiRouteWithDatabase<Website.Users.User>(
     async (req, client, session) => {
         if (session.jwtPayload !== undefined) {

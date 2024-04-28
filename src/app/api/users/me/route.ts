@@ -2,6 +2,8 @@ import { buildApiRouteWithDatabase } from "@/lib/backend/apiRouteBuilders"
 import { WebsiteError } from "@/lib/shared/errors"
 import Website from "@/typings"
 
+export const dynamic = "force-dynamic"
+
 export const GET = buildApiRouteWithDatabase<Website.Users.User>(
     async (req, _client, session) => {
         if (session.user === undefined) {

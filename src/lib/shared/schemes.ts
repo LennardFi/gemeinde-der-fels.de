@@ -11,7 +11,7 @@ export const userFlagNameSchema = z.enum([
     "ManageUser",
 ])
 
-export const fileRoleSchema = z.enum(["SermonAudioFile"])
+export const fileRoleSchema = z.enum(["DebugInfo", "SermonAudioFile"])
 
 export const userFlagsSchema = z.object({
     Admin: z.boolean().optional(),

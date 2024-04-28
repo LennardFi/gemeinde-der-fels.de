@@ -83,8 +83,8 @@ export default function Page() {
                 `/api/files?${new URLSearchParams({
                     [fileNameParamName]: "debugInfo.json",
                     [requiresUserFlagParamName]:
-                        "Admin" as keyof Website.Users.UserFlags,
-                    [fileRoleParamName]: "DebugInfo" as FileRole,
+                        "Admin" satisfies keyof Website.Users.UserFlags,
+                    [fileRoleParamName]: "DebugInfo" satisfies FileRole,
                 })}`,
                 "json",
                 {

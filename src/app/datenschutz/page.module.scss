@@ -1,0 +1,7 @@
+@use "../../styles/core.module.scss" as core;
+
+.privacyContent {
+    overflow: hidden;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}

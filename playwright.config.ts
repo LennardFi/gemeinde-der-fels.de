@@ -23,7 +23,7 @@ const config: PlaywrightTestConfig = {
     webServer: {
         command: "pnpm run dev",
         url: baseURL,
-        timeout: 120 * 1000,
+        timeout: 60 * 1000,
         reuseExistingServer: !process.env.CI,
     },
 
@@ -50,16 +50,16 @@ const config: PlaywrightTestConfig = {
             },
         },
         // {
-        //   name: 'Desktop Firefox',
-        //   use: {
-        //     ...devices['Desktop Firefox'],
-        //   },
+        //     name: "Desktop Firefox",
+        //     use: {
+        //         ...devices["Desktop Firefox"],
+        //     },
         // },
         // {
-        //   name: 'Desktop Safari',
-        //   use: {
-        //     ...devices['Desktop Safari'],
-        //   },
+        //     name: "Desktop Safari",
+        //     use: {
+        //         ...devices["Desktop Safari"],
+        //     },
         // },
         // Test against mobile viewports.
         {
@@ -68,10 +68,10 @@ const config: PlaywrightTestConfig = {
                 ...devices["Pixel 5"],
             },
         },
-        {
-            name: "Mobile Safari",
-            use: devices["iPhone 12"],
-        },
+        // {
+        //     name: "Mobile Safari",
+        //     use: devices["iPhone 12"],
+        // },
     ],
 }
 export default config

@@ -1,5 +1,4 @@
 import { buildApiRouteWithDatabase } from "@/lib/backend/apiRouteBuilders"
-import { storeFileToFolder } from "@/lib/backend/databaseHelpers"
 import { WebsiteError } from "@/lib/shared/errors"
 import { temporalInstanceToDate } from "@/lib/shared/helpers"
 import { fileRoleSchema, userFlagNameSchema } from "@/lib/shared/schemes"
@@ -86,6 +85,9 @@ export const POST =
             const fileUploadTime = Temporal.Now.zonedDateTimeISO("UTC")
 
             try {
+                const file = await req.blob()
+                const fileBuffer = Buffer.from(await file.arrayBuffer())
+
                 const newFile = await client.file.create({
                     data: {
                         name: fileName,
@@ -100,40 +102,13 @@ export const POST =
                                 ? undefined
                                 : UserFlags[requiresUserFlag],
                         role: fileRole,
+                        FileContent: {
+                            create: {
+                                content: fileBuffer,
+                            },
+                        },
                     },
                 })
-
-                const file = await req.blob()
-                const fileBuffer = Buffer.from(await file.arrayBuffer())
-                try {
-                    await storeFileToFolder(
-                        newFile.fileId,
-                        newFile.extension,
-                        fileBuffer,
-                    )
-                } catch (e) {
-                    await client.file.delete({
-                        where: {
-                            id: newFile.id,
-                        },
-                    })
-                    if (e instanceof WebsiteError) {
-                        throw e
-                    }
-
-                    throw new WebsiteError(
-                        "database",
-                        "Error appeared while storing file to file system",
-                        {
-                            httpStatusCode: 500,
-                            internalException:
-                                e instanceof Error ? e : undefined,
-                        },
-                        {
-                            e,
-                        },
-                    )
-                }
 
                 return {
                     body: {

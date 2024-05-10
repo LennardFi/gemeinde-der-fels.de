@@ -33,11 +33,17 @@ export const getClient = (): PrismaClient => {
 
 export const databaseVersion: DatabaseMetadata["version"] = 1
 
+/**
+ * @deprecated
+ */
 export const filesFolderPath = resolve(
     cwd(),
     process.env["GDF_FILES_FOLDER"] ?? "./files",
 )
 
+/**
+ * @deprecated
+ */
 export async function storeFileToFolder(
     fileId: string,
     fileExtension: string,
@@ -85,6 +91,9 @@ export async function storeFileToFolder(
     }
 }
 
+/**
+ * @deprecated
+ */
 export async function readFileFromFolder(
     fileId: string,
     fileExtension: string,

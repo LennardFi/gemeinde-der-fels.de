@@ -97,7 +97,7 @@ export async function setupProdEnvUsers() {
             email: initialAdminEmail,
             userName: adminUserName,
             passwordHash: await getPasswordHash(initialAdminPassword),
-            resetRequired: true,
+            resetPasswordRequired: true,
         },
         update: {},
         where: {

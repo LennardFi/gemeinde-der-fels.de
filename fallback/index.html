@@ -31,6 +31,17 @@
             .card {
                 display: flex;
                 flex-direction: column;
+                border: 2px solid hsl(0, 0%, 20%);
+            }
+
+            .cardHeader {
+                background-color: hsl(0, 0%, 20%);
+                color: hsl(0, 0%, 95%);
+                padding: 8px;
+            }
+
+            .cardContent {
+                padding: 8px;
             }
 
             .success-state {
@@ -44,6 +55,15 @@
                     background-color: hsl(0, 0%, 20%);
                     color: hsl(0, 0%, 95%);
                 }
+
+                .card {
+                    border: 2px solid hsl(0, 0%, 95%);
+                }
+
+                .cardHeader {
+                    background-color: hsl(0, 0%, 95%);
+                    color: hsl(0, 0%, 20%);
+                }
             }
         </style>
         <script>
@@ -55,6 +75,8 @@
 
                     if (res.ok) {
                         const infoCard = document.getElementById("info")
+                        const line = document.createElement("hr")
+                        infoCard.appendChild(line)
                         const statusNode = document.createElement("p")
                         statusNode.classList.add("success-state")
                         statusNode.innerText =
@@ -74,18 +96,23 @@
         </script>
     </head>
     <body>
-        <div id="info" class="card">
-            <h1>Diese Website wird derzeit bearbeitet</h1>
-
-            <p>
-                Aktuell wird der Inhalt der Website aktualisiert. Deshalb ist
-                sie für ein paar Minuten nicht erreichbar.
-            </p>
-
-            <p>
-                Sie werden automatisch zur Website weitergeleitet, sobald diese
-                wieder online ist.
-            </p>
+        <div class="card">
+            <div class="cardHeader">
+                <h1>Diese Website wird überarbeitet</h1>
+            </div>
+            <div id="info" class="cardContent">
+                <p>
+                    Aktuell wird der Inhalt der Website aktualisiert.<br />
+                    Deshalb ist sie voraussichtlich für ein paar Minuten nicht
+                    erreichbar.
+                </p>
+                <p>
+                    <b>
+                        Sie werden automatisch zur Website weitergeleitet,
+                        sobald diese wieder online ist.
+                    </b>
+                </p>
+            </div>
         </div>
     </body>
 </html>

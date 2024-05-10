@@ -55,7 +55,6 @@ declare namespace Website {
             }
 
             interface TestResponseBody {
-                client: boolean
                 database: boolean
                 session: {
                     jwt: boolean

@@ -211,7 +211,7 @@ export default function Page() {
                 >
                     <ul className={styles.cardList}>
                         <li>
-                            <Link href="/veranstaltungen/gottesdienst">
+                            <Link href="/veranstaltungen/godi">
                                 <Card hover>
                                     <CardHeader>Gottesdienst</CardHeader>
                                     <CardContent>Sonntags, 10 Uhr</CardContent>

@@ -89,7 +89,8 @@ const useAuthZustand = create<AuthZustand>()((set, get) => {
             })
         },
         updateUser: async () => {
-            if (get().user === undefined) {
+            const authState = get()
+            if (authState.user === undefined && authState.jwt !== undefined) {
                 const { response: user } =
                     await makeApiRequest<Website.Users.User>(
                         "/api/users/me",

@@ -161,10 +161,6 @@ export async function makeApiRequest<T>(
     }
 }
 
-const foo = async () => {
-    const x = await makeApiRequest<string>("/api/foo", "json")
-}
-
 export async function makeFileApiRequest(
     fileId: string,
     responseType: "arrayBuffer",

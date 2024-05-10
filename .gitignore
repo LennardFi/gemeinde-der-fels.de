@@ -3,4 +3,4 @@ node_modules
 mailing-config.json
 *.env*
 !*.env.sample
-test-files/
+file-storage/

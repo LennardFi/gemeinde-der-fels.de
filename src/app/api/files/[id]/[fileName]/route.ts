@@ -1,5 +1,4 @@
 import { buildApiRouteWithDatabase } from "@/lib/backend/apiRouteBuilders"
-import { readFileFromFolder } from "@/lib/backend/databaseHelpers"
 import { WebsiteError } from "@/lib/shared/errors"
 import { getBooleanSearchParameter } from "@/lib/shared/helpers"
 import {
@@ -31,6 +30,9 @@ export const GET = buildApiRouteWithDatabase<
     const file = await client.file.findUnique({
         where: {
             id: parsedFileId,
+        },
+        include: {
+            FileContent: true,
         },
     })
 
@@ -64,17 +66,17 @@ export const GET = buildApiRouteWithDatabase<
 
     const download = getBooleanSearchParameter(searchParams, downloadParamName)
 
-    const fileContent = await readFileFromFolder(file.fileId, file.extension)
-
     return {
         body: {
             success: true,
-            data: fileContent,
+            data: file.FileContent?.content ?? Buffer.from([]),
         },
         contentType: file.mimeType,
         headers: {
             "Accept-Ranges": "bytes",
-            "Content-Length": fileContent.byteLength.toString(),
+            "Content-Length": (
+                file.FileContent?.content?.byteLength ?? 0
+            ).toString(),
             "Content-Disposition": `${
                 download ? "attachment" : "inline"
             }; filename="${encodeURIComponent(options.params.fileName)}"`,

@@ -227,6 +227,7 @@ export default function Navigation({
                 </Link>
 
                 <Button
+                    aria-label="Navigationsmenü öffnen"
                     className={styles.menuSwitch}
                     noActiveAnimation
                     onClick={() => setNavDrawerOpened((prev) => !prev)}

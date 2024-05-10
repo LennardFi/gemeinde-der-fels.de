@@ -18,9 +18,15 @@ enum FileRole {
     DebugInfo
 }
 
+model FileContent {
+    fileId  String @unique @default(uuid()) @db.Uuid
+    content Bytes
+    File    File   @relation(fields: [fileId], references: [fileId])
+}
+
 model File {
-    id               Int        @id @unique @default(autoincrement())
-    fileId           String     @unique @default(uuid()) @db.Uuid
+    id               Int          @id @unique @default(autoincrement())
+    fileId           String       @unique @default(uuid()) @db.Uuid
     name             String
     extension        String
     mimeType         String
@@ -28,6 +34,7 @@ model File {
     role             FileRole?
     Sermon           Sermon[]
     requiresUserFlag UserFlags?
+    FileContent      FileContent?
 }
 
 model ErrorLog {

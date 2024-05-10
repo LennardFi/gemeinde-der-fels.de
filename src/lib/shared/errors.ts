@@ -3,12 +3,12 @@ import { Temporal } from "temporal-polyfill"
 import { v4 as uuid } from "uuid"
 
 export type ErrorScope =
-    | "api"
-    | "build"
-    | "client"
-    | "database"
-    | "request"
-    | "server"
+    | "api" // REST-API related error
+    | "client" // error coming from the frontend
+    | "database" // error related to the database
+    | "request" // error coming from failed requests
+    | "server" // error in the backend code
+    | "setup" // error related to the setup like missing env variables or missing database setup. Should be fixed to run the website without any errors.
 
 export type MetaData = Record<string, unknown>
 

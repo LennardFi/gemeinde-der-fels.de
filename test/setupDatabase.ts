@@ -1,3 +1,6 @@
+import { asyncSleep } from "@/lib/shared/develop"
+import { readRequiredEnvValueSafely } from "@/lib/shared/env"
+import { WebsiteError } from "@/lib/shared/errors"
 import { getRandomInt } from "@/lib/shared/helpers"
 import { readFile, rm } from "fs/promises"
 import { join } from "path"
@@ -32,12 +35,12 @@ export async function resetTables() {
     }
 }
 
-export async function setupUsers() {
+export async function setupTestEnvUsers() {
     await getClient().user.deleteMany()
     await getClient().$transaction(
         async (transaction) => {
             for await (const user of users) {
-                console.log(`Uploading user "${user.name}"`)
+                console.log(`Creating user "${user.name}"`)
 
                 const passwordHash = await getPasswordHash(user.password)
                 await transaction.user.create({
@@ -62,9 +65,50 @@ export async function setupUsers() {
     )
 }
 
+export async function setupProdEnvUsers() {
+    const adminUserName = "admin"
+
+    const initialAdminEmail = readRequiredEnvValueSafely(
+        "GDF_INITIAL_PRODUCTION_ADMIN_SET_EMAIL",
+        "string",
+    )
+    if (initialAdminEmail === "") {
+        throw new WebsiteError(
+            "setup",
+            `Environment variable "GDF_INITIAL_PRODUCTION_ADMIN_SET_EMAIL" contains empty string`,
+        )
+    }
+
+    const initialAdminPassword = readRequiredEnvValueSafely(
+        "GDF_INITIAL_PRODUCTION_ADMIN_SET_PASSWORD",
+        "string",
+    )
+    if (initialAdminPassword === "") {
+        throw new WebsiteError(
+            "setup",
+            `Environment variable "GDF_INITIAL_PRODUCTION_ADMIN_SET_PASSWORD" contains empty string`,
+        )
+    }
+
+    console.log(`Creating user "${adminUserName}"`)
+
+    await getClient().user.upsert({
+        create: {
+            email: initialAdminEmail,
+            userName: adminUserName,
+            passwordHash: await getPasswordHash(initialAdminPassword),
+            resetRequired: true,
+        },
+        update: {},
+        where: {
+            userName: "admin",
+        },
+    })
+}
+
 const sermonCopies = 10
 
-export async function setupSermons() {
+export async function setupTestEnvSermons() {
     await getClient().$transaction(
         async (transaction) => {
             for await (const sermon of sermons) {
@@ -178,6 +222,8 @@ export async function setupSermons() {
 }
 
 export async function setupTestEnv(reset?: boolean) {
+    console.log("Setting up test database")
+
     if (reset) {
         await resetTables()
     }
@@ -189,10 +235,32 @@ export async function setupTestEnv(reset?: boolean) {
         },
     })
 
-    await setupUsers()
-    await setupSermons()
+    await setupTestEnvUsers()
+    await setupTestEnvSermons()
 
     console.log("Finished")
 }
 
-// setupTestEnv(true)
+export async function setupProdEnv(
+    reset?: boolean,
+    really?: boolean,
+    iMeanReally?: boolean,
+) {
+    console.log("Setting up production database")
+
+    if (reset && really && iMeanReally) {
+        console.log(
+            "######################################################################\n" +
+                "#### PRODUCTION DATABASE IS ABOUT TO BE DELETED IN 10 SECONDS !!! ####\n" +
+                "######################################################################",
+        )
+
+        await asyncSleep(10_000)
+
+        await resetTables()
+    }
+
+    await setupProdEnvUsers()
+
+    console.log("Finished")
+}

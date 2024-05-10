@@ -29,9 +29,11 @@ export async function register() {
                 databaseInitialized = true
             }
 
-            if (isDevMode) {
-                const { setupTestEnv } = await import("../test/setupTestEnv")
+            const { setupTestEnv, setupProdEnv } = await import(
+                "../test/setupDatabase"
+            )
 
+            if (isDevMode) {
                 if (
                     !databaseInitialized ||
                     (isDevMode &&
@@ -42,6 +44,10 @@ export async function register() {
                 ) {
                     setupTestEnv(true)
                 }
+            } else {
+                if (!databaseInitialized) {
+                    setupProdEnv()
+                }
             }
         } catch (e) {
             if (e instanceof WebsiteError) {
@@ -51,7 +57,7 @@ export async function register() {
 
             console.error(
                 new WebsiteError(
-                    "build",
+                    "server",
                     "Unknown error while running instrumentation hook",
                     {
                         internalException: e instanceof Error ? e : undefined,

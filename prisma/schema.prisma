@@ -94,11 +94,12 @@ enum UserFlags {
 }
 
 model User {
-    id           Int     @id @unique @default(autoincrement())
-    email        String  @unique
-    userName     String  @unique
-    passwordHash String
-    disabled     Boolean @default(false)
+    id                    Int     @id @unique @default(autoincrement())
+    email                 String  @unique
+    userName              String  @unique
+    passwordHash          String
+    disabled              Boolean @default(false)
+    resetPasswordRequired Boolean @default(false) // Require the user to set a new password, when he logs in again.
 
     // Flags:
     Flag_Admin          Boolean @default(false) // Can promote users to admins

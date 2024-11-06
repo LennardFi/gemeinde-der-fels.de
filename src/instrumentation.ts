@@ -36,7 +36,7 @@ export async function register() {
             if (isDevMode) {
                 if (
                     !databaseInitialized ||
-                    (isDevMode &&
+                    (dbMetadata.isDevData &&
                         readEnvValueSafely(
                             "GDF_DEV_DATABASE_REPLACE_EXISTING_DATA",
                             "boolean",

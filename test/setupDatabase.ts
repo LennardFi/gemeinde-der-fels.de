@@ -10,7 +10,6 @@ import {
     databaseVersion,
     filesFolderPath,
     getClient,
-    storeFileToFolder,
 } from "../src/lib/backend/databaseHelpers"
 import { sermons } from "./sermons"
 import { users } from "./users"
@@ -109,15 +108,14 @@ export async function setupProdEnvUsers() {
 const sermonCopies = 10
 
 export async function setupTestEnvSermons() {
-    await getClient().$transaction(
-        async (transaction) => {
-            for await (const sermon of sermons) {
-                const millisecondsInADay = 1000 * 60 * 60 * 24
-                const date = new Date(
-                    Date.now() -
-                        millisecondsInADay * getRandomInt(365, 365 * 3),
-                )
-                for (let copyIndex = 0; copyIndex < sermonCopies; copyIndex++) {
+    for await (const sermon of sermons) {
+        const millisecondsInADay = 1000 * 60 * 60 * 24
+        const date = new Date(
+            Date.now() - millisecondsInADay * getRandomInt(365, 365 * 3),
+        )
+        for (let copyIndex = 0; copyIndex < sermonCopies; copyIndex++) {
+            await getClient().$transaction(
+                async (tx) => {
                     const s = {
                         ...sermon,
                         title: `${sermon.title} - Teil ${copyIndex + 1}`,
@@ -133,47 +131,40 @@ export async function setupTestEnvSermons() {
 
                     console.log(`Uploading sermon audio file "${s.title}"`)
 
-                    const file = await transaction.file.create({
+                    const fileBuffer = await readFile(
+                        join(cwd(), "test", "audio", s.fileName),
+                    )
+
+                    const file = await tx.file.create({
                         data: {
                             name: s.fileName,
                             extension: "mp3",
                             mimeType: "audio/mpeg",
                             role: "SermonAudioFile",
                             uploadDateTime: creationDate,
+                            FileContent: {
+                                create: {
+                                    content: fileBuffer,
+                                },
+                            },
+                        },
+                        include: {
+                            FileContent: true,
                         },
                     })
-
-                    const fileBuffer = await readFile(
-                        join(cwd(), "test", "audio", s.fileName),
-                    )
-
-                    try {
-                        await storeFileToFolder(
-                            file.fileId,
-                            file.extension,
-                            fileBuffer,
-                        )
-                    } catch (e) {
-                        await transaction.file.delete({
-                            where: {
-                                id: file.id,
-                            },
-                        })
-                        throw e
-                    }
 
                     const sermonSeries =
                         s.series === undefined
                             ? undefined
-                            : (await transaction.sermonSeries.findFirst({
+                            : (await tx.sermonSeries.findFirst({
                                   where: {
                                       title: s.series.title,
                                   },
                               })) ?? undefined
 
-                    console.log(`Uploading sermon "${s.title}"`)
+                    console.log(`Creating sermon "${s.title}"`)
 
-                    await transaction.sermon.create({
+                    await tx.sermon.create({
                         data: {
                             date: creationDate,
                             title: s.title,
@@ -210,15 +201,15 @@ export async function setupTestEnvSermons() {
                         },
                     })
 
-                    console.log(`Finished uploading sermon "${s.title}"`)
-                }
-            }
-        },
-        {
-            isolationLevel: "Serializable",
-            timeout: 20_000,
-        },
-    )
+                    console.log(`Finished creating sermon "${s.title}"`)
+                },
+                {
+                    isolationLevel: "Serializable",
+                    timeout: 10_000,
+                },
+            )
+        }
+    }
 }
 
 export async function setupTestEnv(reset?: boolean) {

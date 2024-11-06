@@ -50,9 +50,9 @@
         "@types/node": "^20.17.6",
         "@types/react": "^18.0.14",
         "@types/react-dom": "^18.0.6",
-        "@typescript-eslint/eslint-plugin": "^6.21.0",
-        "@typescript-eslint/parser": "^6.21.0",
-        "eslint": "^8.57.1",
+        "@typescript-eslint/eslint-plugin": "^8.13.0",
+        "@typescript-eslint/parser": "^8.13.0",
+        "eslint": "^9.14.0",
         "eslint-plugin-react": "^7.37.2",
         "jest": "^29.7.0",
         "prettier": "^3.3.3",
@@ -65,5 +65,5 @@
     "quokka": {
         "autoLog": false
     },
-    "packageManager": "pnpm@8.15.7+sha256.50783dd0fa303852de2dd1557cd4b9f07cb5b018154a6e76d0f40635d6cee019"
+    "packageManager": "pnpm@9.1.0+sha256.22e36fba7f4880ecf749a5ca128b8435da085ecd49575e7fb9e64d6bf4fad394"
 }

@@ -119,6 +119,7 @@ export default function NavigationDrawer({
                         }}
                     >
                         <Button
+                            aria-label="Navigationsmenü schließen"
                             className={styles.closeButton}
                             noActiveAnimation
                             onClick={onClose}

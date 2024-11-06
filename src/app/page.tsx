@@ -41,6 +41,7 @@ export default function Page() {
                     <span className={styles.highlighted}>der Fels</span>
                 </h1>
                 <Link
+                    aria-label="Weiter scrollen"
                     className={styles.scrollDownButton}
                     href={`#${navHtmlId}`}
                     onClick={scrollToNav}

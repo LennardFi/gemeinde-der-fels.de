@@ -1,6 +1,6 @@
 import { devices, PlaywrightTestConfig } from "@playwright/test"
 
-// Use process.env.PORT by default and fallback to port 3000
+// Use process.env.WEB_SERVER_PORT by default and fallback to port 3000
 const PORT = process.env.WEB_SERVER_PORT || 3000
 
 // Set webServer.url and use.baseURL with the location of the WebServer respecting the correct set port

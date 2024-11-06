@@ -156,11 +156,11 @@ export async function setupTestEnvSermons() {
                     const sermonSeries =
                         s.series === undefined
                             ? undefined
-                            : (await tx.sermonSeries.findFirst({
+                            : ((await tx.sermonSeries.findFirst({
                                   where: {
                                       title: s.series.title,
                                   },
-                              })) ?? undefined
+                              })) ?? undefined)
 
                     console.log(`Creating sermon "${s.title}"`)
 

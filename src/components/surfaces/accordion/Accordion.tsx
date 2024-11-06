@@ -2,14 +2,8 @@
 
 import useDebouncedValue from "@/hooks/useDebouncedValue"
 import Website from "@/typings"
-import { AnimatePresence, motion } from "framer-motion"
-import React, {
-    HTMLAttributes,
-    useCallback,
-    useEffect,
-    useRef,
-    useState,
-} from "react"
+import { motion } from "framer-motion"
+import React, { HTMLAttributes, useCallback, useEffect, useState } from "react"
 import { FaAngleRight } from "react-icons/fa"
 import styles from "./Accordion.module.scss"
 
@@ -36,19 +30,18 @@ export default function Accordion({
     ...rest
 }: AccordionProps) {
     const [innerOpen, setInnerOpen] = useState(open ?? false)
-    const initialOpenState = useRef(true)
     const debouncedOpen = useDebouncedValue(
         open ?? innerOpen,
-        animationTime * 1500,
+        animationTime * 1000,
     )
 
     const onToggleAccordionHandler = useCallback(() => {
-        initialOpenState.current = false
         if (onOpen === undefined) {
             setInnerOpen(!innerOpen)
             return
         }
-        onOpen?.(!open)
+        onOpen(!open)
+        setInnerOpen(!open)
     }, [open, innerOpen, setInnerOpen, onOpen])
 
     useEffect(() => {
@@ -84,36 +77,37 @@ export default function Accordion({
                         <FaAngleRight
                             style={{
                                 transition: "rotate 250ms ease-in-out",
-                                rotate: open ?? innerOpen ? "90deg" : "0deg",
+                                rotate: (open ?? innerOpen) ? "90deg" : "0deg",
                             }}
                         />
                     )}
                 </span>
                 {summary}
             </summary>
-            <AnimatePresence>
-                {open ?? innerOpen ? (
-                    <motion.div
-                        className={`${styles.detailsContent}`}
-                        initial={
-                            initialOpenState.current && (open ?? innerOpen)
-                                ? false
-                                : { height: 0 }
-                        }
-                        animate={{
-                            height: "auto",
-                        }}
-                        exit={{ height: 0 }}
-                        transition={{
-                            type: "keyframes",
-                            ease: "easeInOut",
-                            duration: animationTime,
-                        }}
-                    >
-                        {children}
-                    </motion.div>
-                ) : null}
-            </AnimatePresence>
+            {/* <AnimatePresence initial={false}>
+                {(open ?? innerOpen) ? ( */}
+            <motion.div
+                key="content"
+                className={`${styles.detailsContent}`}
+                animate={(open ?? innerOpen) ? "open" : "collapsed"}
+                transition={{
+                    type: "keyframes",
+                    ease: "easeInOut",
+                    duration: animationTime,
+                }}
+                variants={{
+                    collapsed: {
+                        height: 0,
+                    },
+                    open: {
+                        height: "auto",
+                    },
+                }}
+            >
+                {children}
+            </motion.div>
+            {/* ) : null}
+            </AnimatePresence> */}
         </details>
     )
 }

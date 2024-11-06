@@ -13,10 +13,6 @@
         padding: core.getDimensionValue(1);
         transition: font-weight 250ms ease-in-out;
 
-        &:hover {
-            // font-weight: 700;
-        }
-
         .icon {
             display: flex;
             justify-content: center;
@@ -24,8 +20,6 @@
     }
 
     .detailsContent {
-        transition: padding 250ms ease-in-out;
-        padding: core.getDimensionValue(1);
         overflow: clip;
 
         * {
@@ -36,8 +30,6 @@
     &[open] {
         summary {
             font-weight: 700;
-
-            &:hover {}
         }
     }
 
@@ -115,29 +107,4 @@
             color: core.$color-accent-font-highlighted;
         }
     }
-
-    @media (min-width: core.$size-breakpoint-tiny) {
-        .detailsContent {
-            padding: core.getDimensionValue(1);
-        }
-    }
-
-    @media (min-width: core.$size-breakpoint-small) {
-        .detailsContent {
-            padding: core.getDimensionValue(1);
-        }
-    }
-
-    @media (min-width: core.$size-breakpoint-normal) {
-        .detailsContent {
-            padding: core.getDimensionValue(2);
-        }
-    }
-
-    @media (min-width: core.$size-breakpoint-large) {
-        .detailsContent {
-            padding: core.getDimensionValue(2);
-        }
-    }
-
 }

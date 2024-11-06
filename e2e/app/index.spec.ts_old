@@ -1,0 +1,13 @@
+// import { expect, test } from "@playwright/test"
+
+// test(`PAGE: /`, async ({ page }) => {
+//     await page.goto("/")
+
+//     // Page should have "Portfolio" navigation entry selected
+//     await expect(
+//         page.locator(".page_heroTitle__IItbV"),
+//         "Contains hero title",
+//     ).toContainText("Wir sind\nGemeinde\nder Fels", {
+//         useInnerText: true,
+//     })
+// })

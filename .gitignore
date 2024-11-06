@@ -4,3 +4,4 @@ mailing-config.json
 *.env*
 !*.env.sample
 file-storage/
+test-results/

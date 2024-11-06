@@ -2,6 +2,8 @@ import Website from "@/typings"
 import ReactSlider, { ReactSliderProps } from "react-slider"
 import styles from "./Slider.module.scss"
 
+import type { JSX } from "react";
+
 export interface SliderProps<T extends number | readonly number[] = number>
     extends ReactSliderProps<T> {
     formatLabel?: (value: number) => JSX.Element

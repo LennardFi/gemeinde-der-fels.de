@@ -5,7 +5,7 @@ import useAuthZustand from "@/zustand/useAuthZustand"
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { TfiMenu } from "react-icons/tfi"
 import Logo from "../../../media/logo-temporary.png"
 import Website from "../../../typings"
@@ -206,6 +206,8 @@ export default function Navigation({
         setNavDrawerOpened(false)
     }, [pathName])
 
+    const onCloseDrawer = useCallback(() => setNavDrawerOpened(false), [])
+
     if (inRootLayout && disabledOnRoutes.includes(pathName)) {
         return null
     }
@@ -260,7 +262,7 @@ export default function Navigation({
             </header>
             <NavigationDrawer
                 opened={navDrawerOpened}
-                onClose={() => setNavDrawerOpened(false)}
+                onClose={onCloseDrawer}
             />
         </>
     )

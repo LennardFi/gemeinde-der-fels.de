@@ -19,9 +19,6 @@ const nextConfig = {
             },
         ],
     },
-    experimental: {
-        instrumentationHook: true,
-    },
     async headers() {
         return [
             {
@@ -35,6 +32,10 @@ const nextConfig = {
                 ],
             },
         ]
+    },
+    sassOptions: {
+        silenceDeprecations: ["legacy-js-api"],
+        implementation: "sass-embedded",
     },
 }
 

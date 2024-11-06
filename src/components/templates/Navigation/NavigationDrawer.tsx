@@ -49,9 +49,11 @@ export default function NavigationDrawer({
         }
     }, [opened])
 
-    if (typeof document !== "undefined" && opened && isBigScreen) {
-        onClose()
-    }
+    useEffect(() => {
+        if (typeof document !== "undefined" && opened && isBigScreen) {
+            onClose()
+        }
+    }, [opened, isBigScreen])
 
     const clickOutsideHandler: MouseEventHandler<HTMLDivElement> = (e) => {
         if (e.target === containerRef.current) {

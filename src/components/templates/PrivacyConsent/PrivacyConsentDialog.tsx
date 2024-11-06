@@ -112,6 +112,7 @@ export default function PrivacyConsentDialog({
             className={`${styles.dialog}`}
             onClose={onClose}
             title="Datenschutz-Einstellungen"
+            max
             {...rest}
         >
             <form
@@ -128,6 +129,7 @@ export default function PrivacyConsentDialog({
             >
                 <Paper>
                     <Accordion
+                        className={`${styles.accordion}`}
                         icon={<Checkbox checked disabled />}
                         open={openedAccordion === 0}
                         onOpen={(open) => setOpenedAccordion(open ? 0 : -1)}

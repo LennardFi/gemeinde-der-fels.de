@@ -6,11 +6,14 @@ import Section from "@/components/containers/Section"
 import Button from "@/components/inputs/Button"
 import Divider from "@/components/surfaces/Divider"
 import Accordion from "@/components/surfaces/accordion/Accordion"
+import useDeviceSize from "@/hooks/useDeviceSize"
+import { getDimensionValue } from "@/lib/shared/helpers"
 import { useState } from "react"
 import { FaDownload } from "react-icons/fa"
 import styles from "./page.module.scss"
 
 export default function Page() {
+    const deviceSize = useDeviceSize()
     const [expandedMainValue, setExpandedMainValue] = useState(0)
 
     const onOpenAccordion = (index: number) => (open: boolean) => {
@@ -70,12 +73,24 @@ export default function Page() {
                         onOpen={onOpenAccordion(0)}
                         open={expandedMainValue === 0}
                     >
-                        <ul>
-                            <li>Gott hingegeben</li>
-                            <li>Gott abgegeben</li>
-                            <li>Herrschaft</li>
-                            <li>Herr-gegeben</li>
-                        </ul>
+                        <Flex
+                            direction="column"
+                            style={{
+                                padding: getDimensionValue(
+                                    deviceSize === "normal" ||
+                                        deviceSize === "large"
+                                        ? 2
+                                        : 1,
+                                ),
+                            }}
+                        >
+                            <ul>
+                                <li>Gott hingegeben</li>
+                                <li>Gott abgegeben</li>
+                                <li>Herrschaft</li>
+                                <li>Herr-gegeben</li>
+                            </ul>
+                        </Flex>
                     </Accordion>
                     <Accordion
                         className={styles.mainValue}
@@ -83,13 +98,25 @@ export default function Page() {
                         onOpen={onOpenAccordion(1)}
                         open={expandedMainValue === 1}
                     >
-                        <ul>
-                            <li>Heim kommen</li>
-                            <li>Angenommen</li>
-                            <li>Authentisch</li>
-                            <li>Zugehörig</li>
-                            <li>Füreinander da sein</li>
-                        </ul>
+                        <Flex
+                            direction="column"
+                            style={{
+                                padding: getDimensionValue(
+                                    deviceSize === "normal" ||
+                                        deviceSize === "large"
+                                        ? 2
+                                        : 1,
+                                ),
+                            }}
+                        >
+                            <ul>
+                                <li>Heim kommen</li>
+                                <li>Angenommen</li>
+                                <li>Authentisch</li>
+                                <li>Zugehörig</li>
+                                <li>Füreinander da sein</li>
+                            </ul>
+                        </Flex>
                     </Accordion>
                     <Accordion
                         className={styles.mainValue}
@@ -101,6 +128,14 @@ export default function Page() {
                             direction="column"
                             small={{
                                 direction: "row",
+                            }}
+                            style={{
+                                padding: getDimensionValue(
+                                    deviceSize === "normal" ||
+                                        deviceSize === "large"
+                                        ? 2
+                                        : 1,
+                                ),
                             }}
                         >
                             <ul>
@@ -131,6 +166,14 @@ export default function Page() {
                             small={{
                                 direction: "row",
                             }}
+                            style={{
+                                padding: getDimensionValue(
+                                    deviceSize === "normal" ||
+                                        deviceSize === "large"
+                                        ? 2
+                                        : 1,
+                                ),
+                            }}
                         >
                             <ul>
                                 <li>Sanftmütig</li>
@@ -158,15 +201,27 @@ export default function Page() {
                         onOpen={onOpenAccordion(4)}
                         open={expandedMainValue === 4}
                     >
-                        <ul>
-                            <li>Selbstlos</li>
-                            <li>Treu</li>
-                            <li>Höherachtend</li>
-                            <li>Zuverlässig</li>
-                            <li>Nächstenliebe</li>
-                            <li>Zeit</li>
-                            <li>Hingabe</li>
-                        </ul>
+                        <Flex
+                            direction="column"
+                            style={{
+                                padding: getDimensionValue(
+                                    deviceSize === "normal" ||
+                                        deviceSize === "large"
+                                        ? 2
+                                        : 1,
+                                ),
+                            }}
+                        >
+                            <ul>
+                                <li>Selbstlos</li>
+                                <li>Treu</li>
+                                <li>Höherachtend</li>
+                                <li>Zuverlässig</li>
+                                <li>Nächstenliebe</li>
+                                <li>Zeit</li>
+                                <li>Hingabe</li>
+                            </ul>
+                        </Flex>
                     </Accordion>
                     <Accordion
                         className={styles.mainValue}
@@ -178,6 +233,14 @@ export default function Page() {
                             direction="column"
                             small={{
                                 direction: "row",
+                            }}
+                            style={{
+                                padding: getDimensionValue(
+                                    deviceSize === "normal" ||
+                                        deviceSize === "large"
+                                        ? 2
+                                        : 1,
+                                ),
                             }}
                         >
                             <ul>

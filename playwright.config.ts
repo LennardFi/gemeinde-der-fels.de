@@ -1,6 +1,6 @@
 import { devices, PlaywrightTestConfig } from "@playwright/test"
 
-// Use process.env.PORT by default and fallback to port 3000
+// Use process.env.WEB_SERVER_PORT by default and fallback to port 3000
 const PORT = process.env.WEB_SERVER_PORT || 3000
 
 // Set webServer.url and use.baseURL with the location of the WebServer respecting the correct set port
@@ -23,7 +23,7 @@ const config: PlaywrightTestConfig = {
     webServer: {
         command: "pnpm run dev",
         url: baseURL,
-        timeout: 120 * 1000,
+        timeout: 60 * 1000,
         reuseExistingServer: !process.env.CI,
     },
 
@@ -49,18 +49,18 @@ const config: PlaywrightTestConfig = {
                 ...devices["Desktop Chrome"],
             },
         },
-        // {
-        //   name: 'Desktop Firefox',
-        //   use: {
-        //     ...devices['Desktop Firefox'],
-        //   },
-        // },
-        // {
-        //   name: 'Desktop Safari',
-        //   use: {
-        //     ...devices['Desktop Safari'],
-        //   },
-        // },
+        {
+            name: "Desktop Firefox",
+            use: {
+                ...devices["Desktop Firefox"],
+            },
+        },
+        {
+            name: "Desktop Safari",
+            use: {
+                ...devices["Desktop Safari"],
+            },
+        },
         // Test against mobile viewports.
         {
             name: "Mobile Chrome",

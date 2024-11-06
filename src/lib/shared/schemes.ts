@@ -30,6 +30,53 @@ export const userSchema = z.object({
     userName: z.string(),
 })
 
+export const websiteErrorOptionsSchema = z.object({
+    databaseConnectionError: z.boolean().optional(),
+    httpStatusCode: z.number().optional(),
+    httpStatusText: z.string().optional(),
+    endpoint: z.string().optional(),
+    internalException: z.unknown().optional(),
+    internalMessage: z.string().optional(),
+    level: z.enum(["critical", "illegalAction", "error", "warning"]).optional(),
+    timestamp: z.unknown().optional(),
+})
+
+export const websiteErrorSchema = z.object({
+    errorId: z.string(),
+    scope: z.enum(["api", "build", "client", "database", "request", "server"]),
+    message: z.string(),
+    options: websiteErrorOptionsSchema,
+    metaData: z.object({}).passthrough(),
+})
+
+export const apiErrorSchema = z.object({
+    scope: z.enum(["client", "request", "api", "server-internal"]),
+    id: z.string(),
+    message: z.string(),
+    internalMessage: z.string().optional(),
+})
+
+export const apiResponseBodySchema = z.union([
+    z.object({
+        success: z.literal(false),
+        error: apiErrorSchema,
+        internalError: websiteErrorSchema,
+    }),
+    z.object({
+        success: z.literal(true),
+        data: z.unknown(),
+    }),
+])
+
+export const getTestApiResponseBodySchema = z.object({
+    client: z.boolean(),
+    database: z.boolean(),
+    session: z.object({
+        jwt: z.boolean(),
+        user: z.boolean(),
+    }),
+})
+
 export const postContactApiRequestBodySchema = z.object({
     description: z.string(),
     name: z.string(),

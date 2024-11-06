@@ -1,0 +1,29 @@
+// import { apiResponseBodySchema, getTestApiResponseBodySchema } from "@/lib/shared/schemes"
+// import { expect, test } from "@playwright/test"
+
+// test(`API: GET /api/test`, async ({ request }) => {
+//     const res = await request.get("/api/test")
+
+//     expect(res.ok()).toBeTruthy()
+
+//     const content = await res.json()
+
+//     const apiResponseResult = apiResponseBodySchema.safeParse(content)
+
+//     expect(apiResponseResult.success, "Is API response body").toBeTruthy()
+
+//     if (apiResponseResult.success) {
+//         if (apiResponseResult.data.success) {
+//             const testEndpointResponseResult =
+//                 getTestApiResponseBodySchema.safeParse(
+//                     apiResponseResult.data.data
+//                 )
+
+//         }
+
+//         console.log(JSON.stringify(content))
+
+//     }
+
+//     expect(schemaResult.success, "Is expected API response body").toBeTruthy()
+// })

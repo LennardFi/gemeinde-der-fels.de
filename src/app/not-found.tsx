@@ -9,6 +9,7 @@ import styles from "./not-found.module.scss"
 
 export default function NotFound() {
     const pathName = usePathname()
+
     return (
         <Window breakpoint="small" pageContainer>
             <WindowHeader icon={<FaTimesCircle />} title="Nicht gefunden" />

@@ -13,10 +13,10 @@ export default function Page() {
                     <strong>Wann:</strong> Jeden Sonntag um 10:00 Uhr
                 </p>
                 <p>
-                    Komm und verbringe Sonntags eine wundervolle Zeit mit uns,
-                    in der wir gemeinsam Gott loben, dienen und Gemeinschaft
-                    haben. Wir feiern auch einmal im Monat einen speziellen
-                    Familiengottesdienst für und mit unseren Kindern.
+                    Wir laden dich ein jeden Sonntag mit uns Gott zu loben, zu
+                    dienen und Gemeinschaft mit uns zu haben. Wir Feiern auch
+                    einmal im Monat einen Familiengottesdienst für und mit
+                    unseren Kindern.
                 </p>
             </Section>
         </PageContainer>

@@ -10,18 +10,12 @@ export default function Page() {
         >
             <Section paperProps={{ breakpoint: "small" }}>
                 <p>
-                    Einmal im Monat kommen wir als Männer bzw. als Frauen
-                    zusammen, um uns untereinander in unseren Rollen als
-                    Männer/Frauen zu helfen.
-                    <br />
-                    Gemeinsam rufen wir in den vertrauten Kreisen Gott an und
-                    sprechen über empfindliche Themen.
-                </p>
-
-                <p>
-                    Diese Treffen sind zwar nicht öffentlich, solltest du aber
-                    Interesse haben und wir uns bereits ein bisschen kennen,
-                    zögere nicht mal nachzufragen.
+                    Gemeinschaft ist für uns ein sehr wichtiges Thema, deshalb
+                    treffen wir uns einmal im Monat zu Männer bzw. Frauenkreisen
+                    um intensiver, gemeinsam ins Wort zu gehen und sich
+                    auszutauschen über die Belange und Schwierigkeiten des
+                    Alltags. Ziel ist es gemeinsam zu Wachsen und festgefahrene
+                    Muster und Gedanken zu Überwinden.
                 </p>
             </Section>
         </PageContainer>

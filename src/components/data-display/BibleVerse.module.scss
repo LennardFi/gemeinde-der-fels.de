@@ -10,7 +10,7 @@
     padding: core.getDimensionValue(1);
     padding-left: core.getDimensionValue(1);
 
-    .verseList {
+    .verseContainer {
         font-size: inherit;
         margin-bottom: core.getDimensionValue(1);
 
@@ -29,10 +29,10 @@
     }
 
     .biblePassageLabel {
+        align-self: flex-end;
         font-weight: 500;
         font-size: inherit;
         text-align: right;
-        align-self: flex-end;
     }
 
     .bibleTranslationLabel {
@@ -42,12 +42,43 @@
         line-height: 80%;
     }
 
+    &.condensed {
+        display: grid;
+        grid-template-columns: 1fr auto auto;
+        grid-template-rows: 1fr auto;
+        column-gap: core.getDimensionValue(1);
+        align-items: baseline;
+        border-left: solid core.getDimensionValue(1);
+        padding: core.getDimensionValue(.5) core.getDimensionValue(1);
+
+        .verseContainer {
+            grid-column: 1 / 4;
+            grid-row: 1 / 2;
+            margin-bottom: 0;
+        }
+
+        .biblePassageLabel {
+            align-self: unset;
+            grid-column: 3 / 4;
+            grid-row: 2 / 3;
+            font-size: 80%;
+        }
+
+        .bibleTranslationLabel {
+            align-self: unset;
+            grid-column: 2 / 3;
+            grid-row: 2 / 3;
+            font-size: 60%;
+        }
+
+    }
+
     &[data-theme="primary"] {
         background-color: core.$color-primary-faded;
         border-left-color: core.$color-primary;
         color: core.$color-primary-font-faded;
 
-        .verseList {
+        .verseContainer {
             .verseNumber {
                 color: core.$color-primary;
             }
@@ -63,7 +94,7 @@
         border-left-color: core.$color-secondary;
         color: core.$color-secondary-font-faded;
 
-        .verseList {
+        .verseContainer {
             .verseNumber {
                 color: core.$color-secondary-font-faded;
             }
@@ -79,7 +110,7 @@
         border-left-color: core.$color-accent;
         color: core.$color-accent-font-faded;
 
-        .verseList {
+        .verseContainer {
             .verseNumber {
                 color: core.$color-accent-font-faded;
             }

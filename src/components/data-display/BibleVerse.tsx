@@ -7,11 +7,12 @@ import Website from "@/typings"
 import { HTMLAttributes } from "react"
 import styles from "./BibleVerse.module.scss"
 
-export interface BibleVerseProps
-    extends Omit<HTMLAttributes<HTMLParagraphElement>, "children"> {
+export interface BibleVerseProps {
     book: Website.Bible.BibleBook
     chapter: number
-    verses: Website.Bible.BibleVerse[]
+    verses: Website.Bible.BibleVerseString[]
+    condensed?: boolean
+    containerProps?: Omit<HTMLAttributes<HTMLParagraphElement>, "children">
     themeColor?: Website.Design.ThemeColor
     translation?: Website.Bible.BibleTranslation
 }
@@ -19,15 +20,21 @@ export interface BibleVerseProps
 export default function BibleVerse({
     book,
     chapter,
-    themeColor,
-    translation,
     verses,
+    condensed,
+    containerProps,
+    themeColor = "primary",
+    translation,
 }: BibleVerseProps) {
     const biblePassageLabel = getBiblePassageLabel(book, chapter, verses)
 
     return (
-        <p className={styles.container} data-theme={themeColor}>
-            <span className={styles.verseList}>
+        <p
+            {...containerProps}
+            className={`${containerProps?.className ?? ""} ${styles.container} ${condensed ? styles.condensed : ""}`}
+            data-theme={themeColor}
+        >
+            <span className={styles.verseContainer}>
                 {verses.map((verse, i) => {
                     const [verseNumber, verseText] = splitBibleVerse(verse)
                     return (

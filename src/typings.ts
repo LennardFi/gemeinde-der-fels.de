@@ -253,8 +253,13 @@ declare namespace Website {
             | "Hfa" // Hoffnung für alle
             | "NGU" // Neue Genfer Übersetzung
             | "NLB" // Neues Leben. Die Bibel
+            | "LUT" // Lutherbibel
 
-        type BibleVerse = `${number} ${string}`
+        type BibleVerseString = `${number} ${string}`
+
+        type SplittedBibleVerse = [number, string]
+
+        type BibleVerse = BibleVerseString | SplittedBibleVerse
     }
 
     namespace Config {

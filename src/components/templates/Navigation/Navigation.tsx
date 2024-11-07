@@ -104,7 +104,7 @@ export const navigationEntries: Website.Content.Navigation.NavigationEntry[] = [
                 path: "/gruppen/young-generation",
             },
             {
-                label: "Jüngerschaft praktisch",
+                label: "Jüngerschaft",
                 path: "/gruppen/juengerschaft",
             },
             {

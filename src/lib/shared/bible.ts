@@ -1,8 +1,8 @@
 import Website from "@/typings"
 
 export function splitBibleVerse(
-    verse: Website.Bible.BibleVerse,
-): [number, string] {
+    verse: Website.Bible.BibleVerseString,
+): Website.Bible.SplittedBibleVerse {
     const [verseNumber] = verse.split(" ", 1) as [string]
     const verseText = verse.slice(verseNumber.length + 1)
 
@@ -10,46 +10,71 @@ export function splitBibleVerse(
 }
 
 export function getBibleVerseListLabel(
-    bibleVerses: Website.Bible.BibleVerse[],
+    bibleVerses: Website.Bible.BibleVerseString[],
 ): string {
-    const [firstVerse, ...verseNumberRest] = bibleVerses.reduce(
-        (verseList, verse) => {
-            return [...verseList, splitBibleVerse(verse)[0]]
-        },
-        [] as number[],
-    )
-
-    if (firstVerse === undefined) {
+    if (bibleVerses.length === 0) {
         return ""
     }
 
-    if (verseNumberRest.length === 0) {
-        return firstVerse.toString()
-    }
+    return bibleVerses
+        .map(splitBibleVerse)
+        .sort(bibleVersesSortFunction)
+        .reduce(
+            (prev, bibleVerse: Website.Bible.SplittedBibleVerse, i) => {
+                const currentVerseNumber = bibleVerse[0]
+                const lastEntry = prev.at(-1)
 
-    const isRange = verseNumberRest.reduce((isRange, nextVerseNumber, i) => {
-        if (!isRange) {
-            return isRange
-        }
+                console.log({ i, lastEntryVerseNumber: lastEntry })
 
-        if (firstVerse + i + 1 !== nextVerseNumber) {
-            return false
-        }
+                if (lastEntry === undefined) {
+                    return [bibleVerse]
+                }
 
-        return true
-    }, true as boolean)
+                if (typeof lastEntry[0] === "number") {
+                    // Verse is next verse
+                    if (currentVerseNumber === lastEntry[0] + 1) {
+                        return prev.with(-1, [lastEntry, bibleVerse])
+                    }
 
-    if (isRange) {
-        return `${firstVerse}-${verseNumberRest.at(-1)}`
-    }
+                    return [...prev, bibleVerse]
+                }
 
-    return `${firstVerse} + ${verseNumberRest.join(" + ")}`
+                // Verse is next verse
+                if (currentVerseNumber === lastEntry[1][0] + 1) {
+                    return prev.with(-1, [lastEntry[0], bibleVerse])
+                }
+
+                return [...prev, bibleVerse]
+            },
+            [] as (
+                | Website.Bible.SplittedBibleVerse
+                | [
+                      Website.Bible.SplittedBibleVerse,
+                      Website.Bible.SplittedBibleVerse,
+                  ]
+            )[],
+        )
+        .reduce((prev, item) => {
+            if (typeof item[0] === "number") {
+                if (prev === "") {
+                    return `${item[0]}`
+                }
+
+                return `${prev} + ${item[0]}`
+            }
+
+            if (prev === "") {
+                return `${item[0][0]} - ${item[1][0]}`
+            }
+
+            return `${prev} + ${item[0][0]} - ${item[1][0]}`
+        }, "")
 }
 
 export function getBiblePassageLabel(
     book: Website.Bible.BibleBook,
     chapter: number,
-    verses: Website.Bible.BibleVerse[],
+    verses: Website.Bible.BibleVerseString[],
 ): string {
     let label = `${book} ${chapter}`
 
@@ -66,4 +91,41 @@ export const bibleTranslationLabels: Record<
     NGU: "Neue Genfer Übersetzung",
     SCH2000: "Schlachter (2000)",
     NLB: "Neues Leben Bibel",
+    LUT: "Lutherbibel",
+}
+
+export function bibleVersesSortFunction(
+    verseNumberA: Website.Bible.BibleVerse,
+    verseNumberB: Website.Bible.BibleVerse,
+): number
+export function bibleVersesSortFunction(
+    verseNumberA: number,
+    verseNumberB: number,
+): number
+export function bibleVersesSortFunction(
+    verseA: Website.Bible.BibleVerse | number,
+    verseB: Website.Bible.BibleVerse | number,
+): number {
+    const verseNumberA =
+        typeof verseA === "number"
+            ? verseA
+            : typeof verseA === "string"
+              ? splitBibleVerse(verseA)[0]
+              : verseA[0]
+    const verseNumberB =
+        typeof verseB === "number"
+            ? verseB
+            : typeof verseB === "string"
+              ? splitBibleVerse(verseB)[0]
+              : verseB[0]
+
+    if (verseNumberA < verseNumberB) {
+        return -1
+    }
+
+    if (verseNumberA > verseNumberB) {
+        return 1
+    }
+
+    return 0
 }

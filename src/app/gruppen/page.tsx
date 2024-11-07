@@ -76,38 +76,17 @@ export default function Page() {
                 </p>
             </Section>
             <Section paperProps={{ breakpoint: "small" }} themeColor="primary">
-                <h2>Jüngerschaft praktisch</h2>
-                <BibleVerse
-                    book="Matthäus"
-                    chapter={28}
-                    themeColor="secondary"
-                    translation="SCH2000"
-                    verses={[
-                        "18 Und Jesus trat herzu, redete mit ihnen und sprach: Mir ist gegeben alle Macht im Himmel und auf Erden.",
-                        "19 So geht nun hin und macht zu Jüngern alle Völker, und tauft sie auf den Namen des Vaters und des Sohnes und des Heiligen Geistes",
-                        "20 und lehrt sie alles halten, was ich euch befohlen habe. Und siehe, ich bin bei euch alle Tage bis an das Ende der Weltzeit! Amen.",
-                    ]}
-                />
+                <h2>Jüngerschaft</h2>
                 <p>
                     Wir wollen uns nicht nur sonntags im Gottesdienst treffen,
                     sondern uns auch untereinander ermutigen, ermahnen und unter
                     die Arme greifen. Es ist schwierig, den Weg alleine zu
-                    beschreiten, deshalb leben wir aktiv Jüngerschaft, um von
-                    den Erfahrungen des Anderen bzw. Älteren zu lernen.
+                    beschreiten, deshalb ermutigen wir aktiv Jüngerschaft zu
+                    Leben.
                 </p>
                 <p>
-                    Praktisch erleben wir es, dass sich zwei Personen mithilfe
-                    des Heiligen Geistes und durch Gebet finden und in
-                    regelmäßigen Treffen der Ältere dem Jüngeren ins Leben
-                    sprechen darf und ihn in alltäglichen Dingen berät, bis
-                    dieser schließlich soweit ist, seine Erfahrungen an den
-                    Nächsten weiterzugeben.
-                </p>
-                <p>
-                    In einer Zweierschaft legen wir uns gegenseitig Rechenschaft
-                    ab und sprechen dem jeweils Anderen ins Leben. Schließlich
-                    sandte Jesus seine Jünger nicht alleine aus, sondern
-                    mindestens zu Zweit!
+                    Jesus hat seine Jünger nicht alleine auf den Weg geschickt,
+                    sondern mindestens zu Zweit!
                 </p>
             </Section>
             <Section
@@ -117,18 +96,12 @@ export default function Page() {
             >
                 <h2>Männer- und Frauenabende</h2>
                 <p>
-                    Einmal im Monat kommen wir als Männer bzw. als Frauen
-                    zusammen, um uns untereinander in unseren Rollen als
-                    Männer/Frauen zu helfen.
-                    <br />
-                    Gemeinsam rufen wir in den vertrauten Kreisen Gott an und
-                    sprechen über empfindliche Themen.
-                </p>
-
-                <p>
-                    Diese Treffen sind zwar nicht öffentlich, solltest du aber
-                    Interesse haben und wir uns bereits ein bisschen kennen,
-                    zögere nicht mal nachzufragen.
+                    Gemeinschaft ist für uns ein sehr wichtiges Thema, deshalb
+                    treffen wir uns einmal im Monat zu Männer bzw. Frauenkreisen
+                    um intensiver, gemeinsam ins Wort zu gehen und sich
+                    auszutauschen über die Belange und Schwierigkeiten des
+                    Alltags. Ziel ist es gemeinsam zu Wachsen und festgefahrene
+                    Muster und Gedanken zu Überwinden.
                 </p>
             </Section>
         </PageContainer>

@@ -3,7 +3,9 @@ import styles from "./NextAppointmentsCalendar.module.scss"
 
 export interface NextAppointmentsCalendarProps {}
 
-export default function NextAppointmentsCalendar({}: NextAppointmentsCalendarProps) {
+export default function NextAppointmentsCalendar(
+    props: NextAppointmentsCalendarProps,
+) {
     return (
         <RequiresFeatureFlag flags={["calendar"]}>
             <div className={styles.container}>

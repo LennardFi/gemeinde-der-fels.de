@@ -326,7 +326,7 @@ declare namespace Website {
         }
 
         namespace Sermons {
-            interface SermonsMasterData {}
+            // interface SermonsMasterData {}
 
             interface Sermon {
                 audioFileFormat: string

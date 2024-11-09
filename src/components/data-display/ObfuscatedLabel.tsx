@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 
 interface ObfuscatedLabelBaseProps<T extends string> {
     encryptedInfo: string
-    type: T
+    actionType: T
 }
 
 type ObfuscatedLabelProps =
@@ -13,7 +13,7 @@ type ObfuscatedLabelProps =
 
 export default function ObfuscatedLabel({
     encryptedInfo,
-    type,
+    actionType,
 }: ObfuscatedLabelProps) {
     const [visible, setVisible] = useState(false)
 
@@ -26,11 +26,11 @@ export default function ObfuscatedLabel({
             "ascii",
         )
 
-        if (type === "mail") {
+        if (actionType === "mail") {
             return <a href={`mailto:${decryptedInfo}`}>{decryptedInfo}</a>
         }
 
-        if (type === "phone") {
+        if (actionType === "phone") {
             return (
                 <a href={`tel:${decryptedInfo.replaceAll(/\s|\//g, "")}`}>
                     {decryptedInfo}

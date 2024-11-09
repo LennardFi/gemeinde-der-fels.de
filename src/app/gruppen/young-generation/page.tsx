@@ -20,7 +20,7 @@ export default function Page() {
                     Wenn du dich angesprochen fühlst, freuen wir uns, wenn du
                     mit dabei bist. Hast du noch Fragen, kannst du dich unter{" "}
                     <ObfuscatedLabel
-                        type="mail"
+                        actionType="mail"
                         encryptedInfo={Buffer.from(
                             "salomehaus@outlook.de",
                         ).toString("base64")}

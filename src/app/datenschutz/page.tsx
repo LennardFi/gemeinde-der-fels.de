@@ -1,4 +1,5 @@
 import PageContainer from "@/components/containers/PageContainer"
+import ObfuscatedLabel from "@/components/data-display/ObfuscatedLabel"
 import styles from "./page.module.scss"
 
 export default function Page() {
@@ -144,7 +145,13 @@ export default function Page() {
             <p>
                 Telefon: 0 64 68 / 9 11 07 42
                 <br />
-                E-Mail: info@gemeinde-der-fels.de
+                E-Mail:{" "}
+                <ObfuscatedLabel
+                    actionType="mail"
+                    encryptedInfo={Buffer.from(
+                        "info@gemeinde-der-fels.de",
+                    ).toString("base64")}
+                />
             </p>
             <p>
                 Verantwortliche Stelle ist die nat&uuml;rliche oder juristische

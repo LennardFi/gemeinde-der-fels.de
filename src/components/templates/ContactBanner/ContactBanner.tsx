@@ -33,7 +33,7 @@ export function ContactBanner({ ...rest }: ContactBannerProps) {
                         Telefon:
                         <br />
                         <ObfuscatedLabel
-                            type="phone"
+                            actionType="phone"
                             encryptedInfo={Buffer.from(
                                 "06468 / 9110742",
                             ).toString("base64")}
@@ -43,7 +43,7 @@ export function ContactBanner({ ...rest }: ContactBannerProps) {
                         E-Mail:
                         <br />
                         <ObfuscatedLabel
-                            type="mail"
+                            actionType="mail"
                             encryptedInfo={Buffer.from(
                                 "info@gemeinde-der-fels.de",
                             ).toString("base64")}

@@ -1,4 +1,5 @@
 import PageContainer from "@/components/containers/PageContainer"
+import ObfuscatedLabel from "@/components/data-display/ObfuscatedLabel"
 
 export default function Page() {
     return (
@@ -29,9 +30,21 @@ export default function Page() {
 
             <h2>Kontakt</h2>
             <p>
-                Telefon: 06468 9110742
+                Telefon:{" "}
+                <ObfuscatedLabel
+                    actionType="phone"
+                    encryptedInfo={Buffer.from("06468 / 9110742").toString(
+                        "base64",
+                    )}
+                />
                 <br />
-                E-Mail: info@gemeinde-der-fels.de
+                E-Mail:{" "}
+                <ObfuscatedLabel
+                    actionType="mail"
+                    encryptedInfo={Buffer.from(
+                        "info@gemeinde-der-fels.de",
+                    ).toString("base64")}
+                />
             </p>
 
             <h2>Redaktionell verantwortlich</h2>

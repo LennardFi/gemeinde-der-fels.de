@@ -8,7 +8,7 @@
         "build": "next build",
         "start": "next start",
         "lint": "next lint",
-        "ci:start": "pnpx prisma generate && pnpx prisma db push && pnpm run build && pnpm run start",
+        "ci:start": "pnpx prisma migrate deploy && pnpm run build && pnpm run start",
         "test:e2e": "playwright test"
     },
     "dependencies": {

@@ -2,34 +2,36 @@ import { asyncSleep } from "@/lib/shared/develop"
 import { readRequiredEnvValueSafely } from "@/lib/shared/env"
 import { WebsiteError } from "@/lib/shared/errors"
 import { getRandomInt } from "@/lib/shared/helpers"
-import { readFile, rm } from "fs/promises"
+import { readFile } from "fs/promises"
 import { join } from "path"
 import { cwd } from "process"
 import { getPasswordHash } from "../src/lib/backend/auth"
-import {
-    databaseVersion,
-    filesFolderPath,
-    getClient,
-} from "../src/lib/backend/databaseHelpers"
+import { databaseVersion, getClient } from "../src/lib/backend/databaseHelpers"
 import { sermons } from "./sermons"
 import { users } from "./users"
 
 export async function resetTables() {
     try {
-        await getClient().responseLog.deleteMany()
-        await getClient().errorLog.deleteMany()
-        await getClient().newsPost.deleteMany()
-        await getClient().sermon.deleteMany()
-        await getClient().file.deleteMany()
-        await getClient().sermonSeries.deleteMany()
-        await getClient().sermonSpeaker.deleteMany()
-        await getClient().user.deleteMany()
-        await rm(filesFolderPath, {
-            force: true,
-            recursive: true,
-        })
+        console.log("Resetting database tables")
+
+        await getClient().$transaction([
+            getClient().responseLog.deleteMany(),
+            getClient().errorLog.deleteMany(),
+            getClient().newsPost.deleteMany(),
+            getClient().sermonSeries.deleteMany(),
+            getClient().sermon.deleteMany(),
+            getClient().sermonSpeaker.deleteMany(),
+            getClient().fileContent.deleteMany(),
+            getClient().file.deleteMany(),
+            getClient().user.deleteMany(),
+            getClient().databaseMetadata.deleteMany(),
+        ])
+        // await rm(filesFolderPath, {
+        //     force: true,
+        //     recursive: true,
+        // })
     } catch (e) {
-        console.log("error while resetting", e)
+        console.log("Error occurred while resetting database", e)
         throw e
     }
 }
@@ -232,24 +234,28 @@ export async function setupTestEnv(reset?: boolean) {
     console.log("Finished")
 }
 
-export async function setupProdEnv(
-    reset?: boolean,
-    really?: boolean,
-    iMeanReally?: boolean,
-) {
+export async function setupProdEnv(reset?: boolean) {
     console.log("Setting up production database")
 
-    if (reset && really && iMeanReally) {
+    if (reset) {
         console.log(
-            "######################################################################\n" +
-                "#### PRODUCTION DATABASE IS ABOUT TO BE DELETED IN 10 SECONDS !!! ####\n" +
-                "######################################################################",
+            "###########################################################################\n" +
+                "#### !!! PRODUCTION DATABASE IS ABOUT TO BE REPLACED IN 10 SECONDS !!! ####\n" +
+                "####       !!! ALL DATA IN THE DATABASE WILL BE LOST FOREVER !!!       ####\n" +
+                "###########################################################################",
         )
 
         await asyncSleep(10_000)
 
         await resetTables()
     }
+
+    await getClient().databaseMetadata.create({
+        data: {
+            isDevData: false,
+            version: databaseVersion,
+        },
+    })
 
     await setupProdEnvUsers()
 

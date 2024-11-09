@@ -1,24 +1,35 @@
 -- CreateEnum
-CREATE TYPE "FileRole" AS ENUM ('SermonAudioFile');
+CREATE TYPE "FileRole" AS ENUM ('SermonAudioFile', 'DebugInfo');
+
+-- CreateEnum
+CREATE TYPE "UserFlags" AS ENUM ('Admin', 'ManageCalendar', 'ManageNews', 'ManageSermons', 'ManageRooms', 'ManageUser');
 
 -- CreateTable
 CREATE TABLE "DatabaseMetadata" (
     "id" SERIAL NOT NULL,
     "version" INTEGER NOT NULL,
     "isDevData" BOOLEAN,
+    "prodDataDeleteToken" TEXT,
 
     CONSTRAINT "DatabaseMetadata_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
+CREATE TABLE "FileContent" (
+    "fileId" UUID NOT NULL,
+    "content" BYTEA NOT NULL
+);
+
+-- CreateTable
 CREATE TABLE "File" (
-    "id" UUID NOT NULL,
+    "id" SERIAL NOT NULL,
     "fileId" UUID NOT NULL,
     "name" TEXT NOT NULL,
     "extension" TEXT NOT NULL,
     "mimeType" TEXT NOT NULL,
     "uploadDateTime" TIMESTAMP(3) NOT NULL,
     "role" "FileRole",
+    "requiresUserFlag" "UserFlags",
 
     CONSTRAINT "File_pkey" PRIMARY KEY ("id")
 );
@@ -64,7 +75,7 @@ CREATE TABLE "Sermon" (
     "id" SERIAL NOT NULL,
     "title" TEXT NOT NULL,
     "date" TIMESTAMP(3) NOT NULL,
-    "audioFileId" UUID NOT NULL,
+    "audioFileId" INTEGER NOT NULL,
     "seriesId" INTEGER,
     "speakerId" INTEGER NOT NULL,
 
@@ -95,18 +106,22 @@ CREATE TABLE "User" (
     "userName" TEXT NOT NULL,
     "passwordHash" TEXT NOT NULL,
     "disabled" BOOLEAN NOT NULL DEFAULT false,
-    "AdminFlag" BOOLEAN NOT NULL DEFAULT false,
-    "ManageCalendarFlag" BOOLEAN NOT NULL DEFAULT false,
-    "ManageNewsFlag" BOOLEAN NOT NULL DEFAULT false,
-    "ManageSermonsFlag" BOOLEAN NOT NULL DEFAULT false,
-    "ManageRoomsFlag" BOOLEAN NOT NULL DEFAULT false,
-    "ManageUserFlag" BOOLEAN NOT NULL DEFAULT false,
+    "resetPasswordRequired" BOOLEAN NOT NULL DEFAULT false,
+    "Flag_Admin" BOOLEAN NOT NULL DEFAULT false,
+    "Flag_ManageCalendar" BOOLEAN NOT NULL DEFAULT false,
+    "Flag_ManageNews" BOOLEAN NOT NULL DEFAULT false,
+    "Flag_ManageSermons" BOOLEAN NOT NULL DEFAULT false,
+    "Flag_ManageRooms" BOOLEAN NOT NULL DEFAULT false,
+    "Flag_ManageUser" BOOLEAN NOT NULL DEFAULT false,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
 CREATE UNIQUE INDEX "DatabaseMetadata_id_key" ON "DatabaseMetadata"("id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "FileContent_fileId_key" ON "FileContent"("fileId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "File_id_key" ON "File"("id");
@@ -130,6 +145,9 @@ CREATE UNIQUE INDEX "NewsPost_id_key" ON "NewsPost"("id");
 CREATE UNIQUE INDEX "Sermon_id_key" ON "Sermon"("id");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "Sermon_audioFileId_key" ON "Sermon"("audioFileId");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "SermonSpeaker_id_key" ON "SermonSpeaker"("id");
 
 -- CreateIndex
@@ -149,6 +167,9 @@ CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_userName_key" ON "User"("userName");
+
+-- AddForeignKey
+ALTER TABLE "FileContent" ADD CONSTRAINT "FileContent_fileId_fkey" FOREIGN KEY ("fileId") REFERENCES "File"("fileId") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "ResponseLog" ADD CONSTRAINT "ResponseLog_errorLogEntryId_fkey" FOREIGN KEY ("errorLogEntryId") REFERENCES "ErrorLog"("id") ON DELETE SET NULL ON UPDATE CASCADE;

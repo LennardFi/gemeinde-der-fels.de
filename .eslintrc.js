@@ -31,9 +31,10 @@ module.exports = {
     plugins: ["@typescript-eslint", "@next/eslint-plugin-next"],
     rules: {
         "@typescript-eslint/explicit-member-accessibility": "warn",
+        "@typescript-eslint/no-deprecated": "error",
         "@typescript-eslint/no-empty-interface": "warn",
-        "react/react-in-jsx-scope": "off",
         "@typescript-eslint/no-unused-vars": "warn",
+        "react/react-in-jsx-scope": "off",
         curly: ["error", "all"],
     },
     settings: {

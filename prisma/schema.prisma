@@ -1,118 +1,119 @@
 datasource db {
-    provider = "postgresql"
-    url      = env("POSTGRES_URL")
+  provider = "postgresql"
+  url      = env("POSTGRES_URL")
 }
 
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 model DatabaseMetadata {
-    id        Int      @id @unique @default(autoincrement())
-    version   Int
-    isDevData Boolean?
+  id                  Int      @id @unique @default(autoincrement())
+  version             Int
+  isDevData           Boolean?
+  prodDataDeleteToken String?
 }
 
 enum FileRole {
-    SermonAudioFile
-    DebugInfo
+  SermonAudioFile
+  DebugInfo
 }
 
 model FileContent {
-    fileId  String @unique @default(uuid()) @db.Uuid
-    content Bytes
-    File    File   @relation(fields: [fileId], references: [fileId])
+  fileId  String @unique @default(uuid()) @db.Uuid
+  content Bytes
+  File    File   @relation(fields: [fileId], references: [fileId])
 }
 
 model File {
-    id               Int          @id @unique @default(autoincrement())
-    fileId           String       @unique @default(uuid()) @db.Uuid
-    name             String
-    extension        String
-    mimeType         String
-    uploadDateTime   DateTime
-    role             FileRole?
-    Sermon           Sermon[]
-    requiresUserFlag UserFlags?
-    FileContent      FileContent?
+  id               Int          @id @unique @default(autoincrement())
+  fileId           String       @unique @default(uuid()) @db.Uuid
+  name             String
+  extension        String
+  mimeType         String
+  uploadDateTime   DateTime
+  role             FileRole?
+  Sermon           Sermon?
+  requiresUserFlag UserFlags?
+  FileContent      FileContent?
 }
 
 model ErrorLog {
-    id            Int           @id @unique @default(autoincrement())
-    errorId       String        @unique
-    timestamp     DateTime
-    cause         String
-    message       String
-    internalError Json?
-    ResponseLog   ResponseLog[]
+  id            Int           @id @unique @default(autoincrement())
+  errorId       String        @unique
+  timestamp     DateTime
+  cause         String
+  message       String
+  internalError Json?
+  ResponseLog   ResponseLog[]
 }
 
 model ResponseLog {
-    id              Int       @id @unique @default(autoincrement())
-    timestamp       DateTime
-    status          String
-    success         Boolean
-    errorLogEntry   ErrorLog? @relation(fields: [errorLogEntryId], references: [id])
-    errorLogEntryId Int?
-    data            Bytes?
-    dataSize        Int?
-    statusText      String?
+  id              Int       @id @unique @default(autoincrement())
+  timestamp       DateTime
+  status          String
+  success         Boolean
+  errorLogEntry   ErrorLog? @relation(fields: [errorLogEntryId], references: [id])
+  errorLogEntryId Int?
+  data            Bytes?
+  dataSize        Int?
+  statusText      String?
 }
 
 model NewsPost {
-    id              Int      @id @unique @default(autoincrement())
-    publicationDate DateTime
-    title           String
-    description     String
+  id              Int      @id @unique @default(autoincrement())
+  publicationDate DateTime
+  title           String
+  description     String
 }
 
 model Sermon {
-    id          Int           @id @unique @default(autoincrement())
-    title       String
-    date        DateTime
-    audioFile   File          @relation(fields: [audioFileId], references: [id])
-    audioFileId Int           @db.Integer
-    series      SermonSeries? @relation(fields: [seriesId], references: [id])
-    seriesId    Int?
-    speaker     SermonSpeaker @relation(fields: [speakerId], references: [id])
-    speakerId   Int
+  id          Int           @id @unique @default(autoincrement())
+  title       String
+  date        DateTime
+  audioFile   File          @relation(fields: [audioFileId], references: [id])
+  audioFileId Int           @unique @db.Integer
+  series      SermonSeries? @relation(fields: [seriesId], references: [id])
+  seriesId    Int?
+  speaker     SermonSpeaker @relation(fields: [speakerId], references: [id])
+  speakerId   Int
 }
 
 model SermonSpeaker {
-    id       Int      @id @unique @default(autoincrement())
-    name     String   @unique
-    initials String   @unique
-    sermon   Sermon[]
+  id       Int      @id @unique @default(autoincrement())
+  name     String   @unique
+  initials String   @unique
+  sermon   Sermon[]
 }
 
 model SermonSeries {
-    id    Int      @id @unique @default(autoincrement())
-    title String
-    parts Sermon[]
+  id    Int      @id @unique @default(autoincrement())
+  title String
+  parts Sermon[]
 }
 
 enum UserFlags {
-    Admin
-    ManageCalendar
-    ManageNews
-    ManageSermons
-    ManageRooms
-    ManageUser
+  Admin
+  ManageCalendar
+  ManageNews
+  ManageSermons
+  ManageRooms
+  ManageUser
 }
 
 model User {
-    id                    Int     @id @unique @default(autoincrement())
-    email                 String  @unique
-    userName              String  @unique
-    passwordHash          String
-    disabled              Boolean @default(false)
-    resetPasswordRequired Boolean @default(false) // Require the user to set a new password, when he logs in again.
+  id                    Int     @id @unique @default(autoincrement())
+  email                 String  @unique
+  userName              String  @unique
+  passwordHash          String
+  disabled              Boolean @default(false)
+  resetPasswordRequired Boolean @default(false) // Require the user to set a new password, when he logs in again.
 
-    // Flags:
-    Flag_Admin          Boolean @default(false) // Can promote users to admins
-    Flag_ManageCalendar Boolean @default(false) // Can change calendar
-    Flag_ManageNews     Boolean @default(false) // Can change news
-    Flag_ManageSermons  Boolean @default(false) // Can change sermons
-    Flag_ManageRooms    Boolean @default(false) // Can change rooms
-    Flag_ManageUser     Boolean @default(false) // Can create users
+  // Flags:
+  Flag_Admin          Boolean @default(false) // Can promote users to admins
+  Flag_ManageCalendar Boolean @default(false) // Can change calendar
+  Flag_ManageNews     Boolean @default(false) // Can change news
+  Flag_ManageSermons  Boolean @default(false) // Can change sermons
+  Flag_ManageRooms    Boolean @default(false) // Can change rooms
+  Flag_ManageUser     Boolean @default(false) // Can create users
 }

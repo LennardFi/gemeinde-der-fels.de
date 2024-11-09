@@ -22,14 +22,18 @@ const useMediaQuery = (query: string): boolean => {
         handleChange()
 
         // Listen matchMedia
+        // eslint-disable-next-line @typescript-eslint/no-deprecated
         if (matchMedia.addListener) {
+            // eslint-disable-next-line @typescript-eslint/no-deprecated
             matchMedia.addListener(handleChange)
         } else {
             matchMedia.addEventListener("change", handleChange)
         }
 
         return () => {
+            // eslint-disable-next-line @typescript-eslint/no-deprecated
             if (matchMedia.removeListener) {
+                // eslint-disable-next-line @typescript-eslint/no-deprecated
                 matchMedia.removeListener(handleChange)
             } else {
                 matchMedia.removeEventListener("change", handleChange)

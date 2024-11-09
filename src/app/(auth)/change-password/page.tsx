@@ -72,22 +72,24 @@ function ClientSideContent() {
         setLocked(true)
 
         try {
-            resetPasswordToken
-                ? await changePassword(
-                      newPassword,
-                      confirmPassword,
-                      "token",
-                      resetPasswordToken,
-                  )
-                : await changePassword(
-                      newPassword,
-                      confirmPassword,
-                      "password",
-                      oldPassword,
-                  )
-            resetPasswordToken
-                ? router.push("/login")
-                : router.push(returnToPath ?? "/intern/mein-konto")
+            if (resetPasswordToken !== null) {
+                await changePassword(
+                    newPassword,
+                    confirmPassword,
+                    "token",
+                    resetPasswordToken,
+                )
+
+                router.push("/login")
+            } else {
+                await changePassword(
+                    newPassword,
+                    confirmPassword,
+                    "password",
+                    oldPassword,
+                )
+                router.push(returnToPath ?? "/intern/mein-konto")
+            }
         } catch (e) {
             setError("Unbekannter Fehler")
             setLocked(false)

@@ -22,22 +22,27 @@ const forbiddenErrorScopes: ErrorScope[] = ["setup", "database", "server"]
  *
  * Generics `<T, O>`:
  * - `T`: The success return value of this API route.
- * - `O`: Next.js may provide additional options for a route
+ * - `P`: Optional dynamic route segments
+ * - ***deprecated*** `O`: Next.js may provide additional options for a route
  *   (parameters from dynamic routes, etc.).
  *   This options object can be defined with `O`.
  * @param handler The route handler to process the API request with the database
  * client.
  */
 export const buildApiRouteWithDatabase =
-    <T = unknown, O = undefined>(
+    <T = unknown, P extends string = string>(
         handler: (
             req: NextRequest,
             client: PrismaClient,
             session: Website.Api.SessionOptions,
-            options: O,
+            params: Record<P, string>,
         ) => Promise<Website.Api.ApiResponse<T>>,
-    ): ((req: NextRequest, options: O) => Promise<NextResponse>) =>
-    async (req: NextRequest, options: O): Promise<NextResponse> => {
+    ): ((
+        req: NextRequest,
+        { params }: { params: Promise<Record<P, string>> },
+    ) => Promise<NextResponse>) =>
+    async (req: NextRequest, { params }): Promise<NextResponse> => {
+        const searchParams = await params
         let apiResponse: Maybe<Website.Api.ApiResponse<T>>
         try {
             const jwt = getJWTFromRequest(req)
@@ -103,7 +108,7 @@ export const buildApiRouteWithDatabase =
                 req,
                 getClient(),
                 sessionOptions,
-                options,
+                searchParams,
             )
 
             return new NextResponse(

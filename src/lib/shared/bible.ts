@@ -24,24 +24,29 @@ export function getBibleVerseListLabel(
                 const currentVerseNumber = bibleVerse[0]
                 const lastEntry = prev.at(-1)
 
-                console.log({ i, lastEntryVerseNumber: lastEntry })
-
                 if (lastEntry === undefined) {
                     return [bibleVerse]
                 }
 
                 if (typeof lastEntry[0] === "number") {
+                    const typedLastEntry =
+                        lastEntry as Website.Bible.SplittedBibleVerse
                     // Verse is next verse
-                    if (currentVerseNumber === lastEntry[0] + 1) {
-                        return prev.with(-1, [lastEntry, bibleVerse])
+                    if (currentVerseNumber === typedLastEntry[0] + 1) {
+                        return prev.with(-1, [typedLastEntry, bibleVerse])
                     }
 
                     return [...prev, bibleVerse]
                 }
 
+                const typedLastEntry = lastEntry as [
+                    Website.Bible.SplittedBibleVerse,
+                    Website.Bible.SplittedBibleVerse,
+                ]
+
                 // Verse is next verse
-                if (currentVerseNumber === lastEntry[1][0] + 1) {
-                    return prev.with(-1, [lastEntry[0], bibleVerse])
+                if (currentVerseNumber === typedLastEntry[1][0] + 1) {
+                    return prev.with(-1, [typedLastEntry[0], bibleVerse])
                 }
 
                 return [...prev, bibleVerse]

@@ -1,11 +1,13 @@
 import RequiresFeatureFlag from "@/components/dev/RequiresDevFeatureFlag"
 import styles from "./NextAppointmentsCalendar.module.scss"
 
-export interface NextAppointmentsCalendarProps {}
+export interface NextAppointmentsCalendarProps {
+    calendarData?: unknown
+}
 
-export default function NextAppointmentsCalendar(
-    props: NextAppointmentsCalendarProps,
-) {
+export default function NextAppointmentsCalendar({
+    calendarData,
+}: NextAppointmentsCalendarProps) {
     return (
         <RequiresFeatureFlag flags={["calendar"]}>
             <div className={styles.container}>

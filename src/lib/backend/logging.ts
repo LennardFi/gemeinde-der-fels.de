@@ -75,7 +75,8 @@ export async function logResponseOnServer<T>(
           ]
 
     try {
-        await client.responseLog.create({
+        const dbClient = await getClient()
+        await dbClient.responseLog.create({
             data: {
                 data: responseBody,
                 dataSize: responseBodyLength,

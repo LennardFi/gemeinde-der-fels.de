@@ -7,7 +7,8 @@ import { getClient } from "@/lib/backend/databaseHelpers"
 import { defaultListPageSize } from "@/lib/shared/apiHelpers"
 
 export default async function Page() {
-    const dbEntries = await getClient().sermon.findMany({
+    const dbClient = await getClient()
+    const dbEntries = await dbClient.sermon.findMany({
         include: {
             audioFile: true,
             series: true,

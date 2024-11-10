@@ -423,7 +423,7 @@ declare namespace Website {
             fadedFont: string
         }
 
-        type Theme = Record<ThemeColor | "background", ColorShade>
+        type Theme = Record<ThemeColor | "base", ColorShade>
     }
 
     namespace UserPreferences {

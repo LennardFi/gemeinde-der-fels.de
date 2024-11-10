@@ -12,7 +12,10 @@ export default function NotFound() {
 
     return (
         <Window breakpoint="small" pageContainer>
-            <WindowHeader icon={<FaTimesCircle />} title="Nicht gefunden" />
+            <WindowHeader
+                leftSegment={<FaTimesCircle />}
+                title="Nicht gefunden"
+            />
             <WindowContent>
                 <p>Die gesuchte Seite wurde nicht gefunden.</p>
                 <div className={styles.searchedPageContainer}>

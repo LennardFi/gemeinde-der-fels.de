@@ -1,5 +1,5 @@
 import Flex from "@/components/containers/Flex"
-import { FaCross } from "react-icons/fa"
+import { FaTimes } from "react-icons/fa"
 import Window, { WindowProps } from "../surfaces/window/Window"
 import WindowContent from "../surfaces/window/WindowContent"
 import WindowHeader from "../surfaces/window/WindowHeader"
@@ -35,8 +35,7 @@ export default function Dialog({
                 >
                     <WindowHeader
                         title={title ?? ""}
-                        action={<FaCross />}
-                        actionHandler={onClose}
+                        rightSegment={<FaTimes onClick={onClose} />}
                     />
                     <WindowContent className={styles.dialogContent}>
                         {children}

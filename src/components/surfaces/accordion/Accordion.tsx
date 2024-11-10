@@ -56,7 +56,7 @@ export default function Accordion({
 
     return (
         <details
-            className={`${styles.accordion} ${className ?? ""}`}
+            className={`${styles.accordion} ${className ?? ""} ${(open ?? innerOpen) ? styles.open : ""}`}
             data-theme={themeColor}
             onClick={(e) => {
                 onClick?.(e)

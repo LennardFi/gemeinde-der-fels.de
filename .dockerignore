@@ -1,6 +1,12 @@
-.git
-.vscode
-.next
-node_modules
+/.git
+/.next
+/.vscode
+/doc
+/e2e
+/fallback
+/hooks
+/node_modules
 /prj
 /template
+/test-results
+/*.env*.sample

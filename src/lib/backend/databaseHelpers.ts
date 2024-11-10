@@ -3,7 +3,7 @@ import { DatabaseMetadata, PrismaClient } from "@prisma/client"
 import { WebsiteError } from "../shared/errors"
 
 let _client: Maybe<PrismaClient>
-export const getClient = (): PrismaClient => {
+export const getClient = async (): Promise<PrismaClient> => {
     if (_client === undefined) {
         try {
             _client = new PrismaClient()

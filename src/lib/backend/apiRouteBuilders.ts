@@ -33,7 +33,7 @@ export const buildApiRouteWithDatabase =
     <T = unknown, P extends string = string>(
         handler: (
             req: NextRequest,
-            client: PrismaClient,
+            dbClient: PrismaClient,
             session: Website.Api.SessionOptions,
             params: Record<P, string>,
         ) => Promise<Website.Api.ApiResponse<T>>,
@@ -47,6 +47,7 @@ export const buildApiRouteWithDatabase =
         try {
             const jwt = getJWTFromRequest(req)
             let sessionOptions: Website.Api.SessionOptions = {}
+            const dbClient = await getClient()
 
             if (jwt !== undefined) {
                 let jwtPayload: Maybe<Website.Api.JWTPayload>
@@ -62,7 +63,7 @@ export const buildApiRouteWithDatabase =
                 }
 
                 if (jwtPayload !== undefined) {
-                    const user = await getClient().user.findUnique({
+                    const user = await dbClient.user.findUnique({
                         where: {
                             id: jwtPayload.userId,
                         },
@@ -106,7 +107,7 @@ export const buildApiRouteWithDatabase =
 
             apiResponse = await handler(
                 req,
-                getClient(),
+                dbClient,
                 sessionOptions,
                 searchParams,
             )

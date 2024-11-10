@@ -17,11 +17,13 @@ export async function register() {
 
             const { getClient } = await import("./lib/backend/databaseHelpers")
 
-            let dbMetadata = await getClient().databaseMetadata.findFirst()
+            const dbClient = await getClient()
+
+            let dbMetadata = await dbClient.databaseMetadata.findFirst()
             let databaseInitialized: boolean = false
 
             if (dbMetadata === null) {
-                dbMetadata = await getClient().databaseMetadata.create({
+                dbMetadata = await dbClient.databaseMetadata.create({
                     data: {
                         version: DB_DATABASE_VERSION,
                         isDevData: isDevMode,
@@ -107,6 +109,8 @@ export async function register() {
                 console.error(e.toLogOutput())
                 return
             }
+
+            console.error(e)
 
             console.error(
                 new WebsiteError(

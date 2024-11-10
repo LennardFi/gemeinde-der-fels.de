@@ -4,12 +4,10 @@ import RequiresFeatureFlag from "@/components/dev/RequiresDevFeatureFlag"
 import useAuthZustand from "@/zustand/useAuthZustand"
 import useUserPreferencesZustand from "@/zustand/useUserPreferencesZustand"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
-import { FaYoutube } from "react-icons/fa"
+import { FaYoutube } from "react-icons/fa6"
 import styles from "./Footer.module.scss"
 
 export default function Footer() {
-    const pathName = usePathname()
     const setShowPreferencesDialog = useUserPreferencesZustand(
         (state) => state.setShowPreferencesDialog,
     )

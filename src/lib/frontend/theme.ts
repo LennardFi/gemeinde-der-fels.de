@@ -1,37 +1,37 @@
 import Website from "@/typings"
 
 const theme: Website.Design.Theme = {
-    background: {
+    base: {
         default: "hsl(0, 0%, 98%)",
-        defaultFont: "hsl(0, 0%, 14%)",
         highlighted: "hsl(0, 0%, 86%)",
-        highlightedFont: "hsl(0, 0%, 6%)",
+        defaultFont: "hsl(0, 0%, 20%)",
+        highlightedFont: "hsl(0, 0%, 25%)",
         faded: "",
         fadedFont: "",
-    },
-    accent: {
-        default: "hsl(0, 0%, 20%)",
-        defaultFont: "hsl(0, 0%, 88%)",
-        highlighted: "hsl(0, 0%, 25%)",
-        highlightedFont: "hsl(0, 0%, 98%)",
-        faded: "hsl(0, 0%, 80%)",
-        fadedFont: "hsl(0, 0%, 8%)",
     },
     primary: {
-        default: "hsl(180, 100%, 25%)",
-        highlighted: "hsl(180, 100%, 30%)",
-        faded: "hsl(180, 33%, 70%)",
-        defaultFont: "hsl(0, 100%, 98%)",
-        highlightedFont: "hsl(0, 100%, 98%)",
-        fadedFont: "hsl(0, 0%, 8%)",
+        default: "hsl(0, 0%, 20%)",
+        highlighted: "hsl(0, 0%, 30%)",
+        faded: "hsl(0, 0%, 80%)",
+        defaultFont: "hsl(0, 0%, 95%)",
+        highlightedFont: "hsl(0, 0%, 100%)",
+        fadedFont: "hsl(0, 0%, 20%)",
     },
     secondary: {
-        default: "",
-        defaultFont: "",
-        faded: "",
-        fadedFont: "",
-        highlighted: "",
-        highlightedFont: "",
+        default: "hsl(11, 62%, 37%)",
+        highlighted: "hsl(23, 52%, 56%)",
+        faded: "hsl(23, 44%, 82%)",
+        defaultFont: "hsl(0, 0%, 95%)",
+        highlightedFont: "hsl(0, 0%, 100%)",
+        fadedFont: "hsl(0, 0%, 20%)",
+    },
+    accent: {
+        default: "hsl(201, 37%, 38%)",
+        highlighted: "hsl(201deg 37% 46%)",
+        faded: "hsl(201deg 37% 83%)",
+        defaultFont: "hsl(0, 0%, 95%)",
+        highlightedFont: "hsl(0, 0%, 100%)",
+        fadedFont: "hsl(0, 0%, 20%)",
     },
 }
 

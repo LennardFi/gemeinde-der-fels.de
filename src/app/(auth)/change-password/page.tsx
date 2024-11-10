@@ -99,7 +99,7 @@ function ClientSideContent() {
     return (
         <Window breakpoint="small" className={styles.card} pageContainer>
             <WindowHeader
-                icon={<FaKey />}
+                leftSegment={<FaKey />}
                 title={
                     !resetPasswordToken
                         ? "Passwort ändern"

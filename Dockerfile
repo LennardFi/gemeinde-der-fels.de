@@ -14,6 +14,7 @@ ENV NEXT_PUBLIC_GDF_DEV_FEATURE_FLAGS="${NEXT_PUBLIC_GDF_DEV_FEATURE_FLAGS}"
 COPY . .
 
 RUN pnpm i --frozen-lockfile
+RUN pnpx update-browserslist-db@latest
 
 ENV NEXT_TELEMETRY_DISABLED=1
 

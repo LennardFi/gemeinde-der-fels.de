@@ -4,12 +4,22 @@
     margin: auto 0;
 
     .flagTable {
+        border-collapse: collapse;
+        border: solid core.$size-border-table-outside core.$color-primary;
+
         th {
             text-align: left;
         }
 
-        td:nth-child(2) {
-            text-align: center;
+        td {
+            border-top: solid core.$size-border-default core.$color-primary;
+            border-bottom: solid core.$size-border-default core.$color-primary;
+            border-collapse: collapse;
+
+            &:nth-child(2) {
+                text-align: center;
+            }
         }
+
     }
 }

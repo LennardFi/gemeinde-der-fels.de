@@ -13,18 +13,19 @@ import { users } from "./users"
 export async function resetTables() {
     try {
         console.log("Resetting database tables")
+        const dbClient = await getClient()
 
-        await getClient().$transaction([
-            getClient().responseLog.deleteMany(),
-            getClient().errorLog.deleteMany(),
-            getClient().newsPost.deleteMany(),
-            getClient().sermonSeries.deleteMany(),
-            getClient().sermon.deleteMany(),
-            getClient().sermonSpeaker.deleteMany(),
-            getClient().fileContent.deleteMany(),
-            getClient().file.deleteMany(),
-            getClient().user.deleteMany(),
-            getClient().databaseMetadata.deleteMany(),
+        await dbClient.$transaction([
+            dbClient.responseLog.deleteMany(),
+            dbClient.errorLog.deleteMany(),
+            dbClient.newsPost.deleteMany(),
+            dbClient.sermonSeries.deleteMany(),
+            dbClient.sermon.deleteMany(),
+            dbClient.sermonSpeaker.deleteMany(),
+            dbClient.fileContent.deleteMany(),
+            dbClient.file.deleteMany(),
+            dbClient.user.deleteMany(),
+            dbClient.databaseMetadata.deleteMany(),
         ])
         // await rm(filesFolderPath, {
         //     force: true,
@@ -37,8 +38,9 @@ export async function resetTables() {
 }
 
 export async function setupTestEnvUsers() {
-    await getClient().user.deleteMany()
-    await getClient().$transaction(
+    const dbClient = await getClient()
+    await dbClient.user.deleteMany()
+    await dbClient.$transaction(
         async (transaction) => {
             for await (const user of users) {
                 console.log(`Creating user "${user.name}"`)
@@ -67,6 +69,7 @@ export async function setupTestEnvUsers() {
 }
 
 export async function setupProdEnvUsers() {
+    const dbClient = await getClient()
     const adminUserName = "admin"
 
     const initialAdminEmail = readRequiredEnvValueSafely(
@@ -93,12 +96,15 @@ export async function setupProdEnvUsers() {
 
     console.log(`Creating user "${adminUserName}"`)
 
-    await getClient().user.upsert({
+    await dbClient.user.upsert({
         create: {
             email: initialAdminEmail,
             userName: adminUserName,
             passwordHash: await getPasswordHash(initialAdminPassword),
             resetPasswordRequired: true,
+            Flag_Admin: true,
+            Flag_ManageSermons: true,
+            Flag_ManageUser: true,
         },
         update: {},
         where: {
@@ -116,7 +122,8 @@ export async function setupTestEnvSermons() {
             Date.now() - millisecondsInADay * getRandomInt(365, 365 * 3),
         )
         for (let copyIndex = 0; copyIndex < sermonCopies; copyIndex++) {
-            await getClient().$transaction(
+            const dbClient = await getClient()
+            await dbClient.$transaction(
                 async (tx) => {
                     const s = {
                         ...sermon,
@@ -220,8 +227,9 @@ export async function setupTestEnv(reset?: boolean) {
     if (reset) {
         await resetTables()
     }
+    const dbClient = await getClient()
 
-    await getClient().databaseMetadata.create({
+    await dbClient.databaseMetadata.create({
         data: {
             isDevData: true,
             version: databaseVersion,
@@ -249,8 +257,9 @@ export async function setupProdEnv(reset?: boolean) {
 
         await resetTables()
     }
+    const dbClient = await getClient()
 
-    await getClient().databaseMetadata.create({
+    await dbClient.databaseMetadata.create({
         data: {
             isDevData: false,
             version: databaseVersion,

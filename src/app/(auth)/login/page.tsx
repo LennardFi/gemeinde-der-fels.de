@@ -18,6 +18,8 @@ import { FormEvent, Suspense, useEffect, useState } from "react"
 import { FaAngleRight, FaKey, FaTimesCircle } from "react-icons/fa"
 import styles from "./page.module.scss"
 
+export const dynamic = "force-dynamic"
+
 function ClientSideContent() {
     const searchParams = useSearchParams()
     const returnToParam = searchParams.get(returnToPathParamName)
@@ -67,7 +69,7 @@ function ClientSideContent() {
     return (
         <RequiresFeatureFlag flags={["internArea"]} redirectTo="/">
             <Window breakpoint="small" className={styles.card} pageContainer>
-                <WindowHeader icon={<FaKey />} title="Anmelden" />
+                <WindowHeader leftSegment={<FaKey />} title="Anmelden" />
                 <WindowContent>
                     <form className={styles.form} onSubmit={onLogin}>
                         <fieldset className={styles.inputs}>

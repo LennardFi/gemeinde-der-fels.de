@@ -11,8 +11,13 @@ interface InternalLayoutProps {
 
 export default function Layout({ children }: InternalLayoutProps) {
     const pathName = usePathname()
+    const initialLoadDone = useAuthZustand((state) => state.initialLoadDone)
     const jwt = useAuthZustand((state) => state.jwt)
     const user = useAuthZustand((state) => state.user)
+
+    if (!initialLoadDone) {
+        return null
+    }
 
     if (jwt === undefined) {
         redirect(

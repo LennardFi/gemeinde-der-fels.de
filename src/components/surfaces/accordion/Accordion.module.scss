@@ -1,6 +1,8 @@
 @use "../../../styles/core.module.scss" as core;
 
 .accordion {
+    transition: margin-top 250ms ease-in-out, margin-bottom 250ms ease-in-out;
+
     >summary {
         display: flex;
         flex-direction: row;
@@ -25,6 +27,11 @@
         * {
             margin: 0;
         }
+    }
+
+    &.open {
+        margin-top: core.getDimensionValue(1);
+        margin-bottom: core.getDimensionValue(2);
     }
 
     &[open] {
@@ -104,7 +111,7 @@
         }
 
         &[open] {
-            color: core.$color-accent-font-highlighted;
+            color: core.$color-accent-highlighted;
         }
     }
 }

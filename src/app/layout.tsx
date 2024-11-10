@@ -62,7 +62,7 @@ export default function Layout({ children }: IndexLayoutProps) {
                             >
                                 <WindowHeader
                                     title="JavaScript nicht erlaubt"
-                                    icon={<FaExclamationTriangle />}
+                                    leftSegment={<FaExclamationTriangle />}
                                 />
                                 <WindowContent>
                                     <p>

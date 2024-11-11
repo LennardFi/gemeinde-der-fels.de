@@ -1,6 +1,8 @@
 import Website from "@/typings"
 import { Temporal } from "temporal-polyfill"
 import { v4 as uuid } from "uuid"
+import { isDevMode } from "./develop"
+import { readEnvValueSafely } from "./env"
 
 export type ErrorScope =
     | "api" // REST-API related error
@@ -43,10 +45,10 @@ export interface WebsiteErrorOptions {
      * @see ErrorLevel
      */
     level?: ErrorLevel
-    timestamp?: Temporal.ZonedDateTime
 }
 
 export class WebsiteError extends Error {
+    public readonly timestamp: Temporal.ZonedDateTime
     public readonly errorId: string
     public readonly scope: ErrorScope
     public readonly message: string
@@ -56,53 +58,89 @@ export class WebsiteError extends Error {
     public constructor(
         scope: ErrorScope,
         message: string,
-        options?: WebsiteErrorOptions,
+        options?: WebsiteErrorOptions & {
+            stack?: string
+        },
         metaData?: MetaData,
     ) {
-        super(message, {})
+        const errorId = uuid()
+        super(`[${errorId}] ${message}`)
 
-        this.errorId = uuid()
+        this.name = "WebsiteError"
+        this.timestamp = Temporal.Now.zonedDateTimeISO("UTC")
+        this.errorId = errorId
         this.scope = scope
         this.message = message ?? ""
         this.metaData = metaData ?? {}
+        if (options?.stack !== undefined) {
+            this.stack = options.stack
+            options.stack = undefined
+        }
         this.options = {
-            ...(options?.internalException !== undefined
-                ? options.internalException instanceof WebsiteError
-                    ? options.internalException.options
-                    : {}
+            ...(options?.internalException !== undefined &&
+            options.internalException instanceof WebsiteError
+                ? options.internalException.options
                 : {}),
             ...options,
             level: options?.level ?? "error",
-            timestamp:
-                options?.timestamp ?? Temporal.Now.zonedDateTimeISO("UTC"),
         }
     }
 
-    public toString() {
-        return JSON.stringify(null)
+    override toString() {
+        return this.toLogOutput()
     }
 
-    public toLogOutput() {
-        return `${this.errorId} [${this.scope}${
-            this.options.endpoint === undefined
-                ? ""
-                : `:${this.options.endpoint}`
-        }${
-            this.options.httpStatusCode === undefined
-                ? ""
-                : `:${this.options.httpStatusCode}`
-        }${
-            this.options.httpStatusText === undefined
-                ? ""
-                : `:${this.options.httpStatusText}`
-        }] ${this.message}`
+    public toLogOutput(): string {
+        let output = ""
+
+        if (isDevMode && this.stack === undefined) {
+            console.warn("Stack in error is missing")
+        }
+
+        output += this.errorId
+        output += "["
+        output += this.scope
+        if (this.options.endpoint !== undefined) {
+            output += `:${this.options.endpoint}`
+        }
+        if (this.options.httpStatusCode !== undefined) {
+            output += `:${this.options.httpStatusCode}`
+        }
+        if (this.options.httpStatusText !== undefined) {
+            output += `:${this.options.httpStatusText}`
+        }
+        output += "]"
+        output += this.message
+
+        if (this.options.databaseConnectionError) {
+            if (this.options.internalMessage !== undefined) {
+                output += `\nInternal message:\n>\t${this.options.internalMessage.replaceAll("\n", "\n>\t")}`
+            }
+            if (
+                this.options.internalException !== undefined &&
+                this.stack === undefined
+            ) {
+                output += `\nInternal exception:\n`
+                output += `\t[${this.options.internalException.name}] ${this.options.internalException.message}\n`
+                output += "\n"
+            } else if (this.options.internalException !== undefined) {
+                output += `Internal exception:\n`
+                output += `\t> ${this.options.internalException.stack?.replaceAll("\n", "\n\t> ")}`
+                output += "\n"
+            }
+        }
+
+        return output
     }
 
     public toJSON() {
         return {
             errorId: this.errorId,
             scope: this.scope,
+            name: this.name,
             message: this.message,
+            cause: this.cause,
+            stack: this.stack,
             options: this.options,
             metaData: this.metaData,
         }
@@ -122,5 +160,20 @@ export class WebsiteError extends Error {
             },
             metaData,
         )
+    }
+
+    public log() {
+        let logData
+        if (readEnvValueSafely("GDF_JSON_LOG", "boolean")) {
+            logData = this.toJSON()
+        } else {
+            logData = this.toLogOutput()
+        }
+
+        if (typeof logData !== "string") {
+            logData = JSON.stringify(logData, undefined, 2)
+        }
+
+        console.error("Error:", logData)
     }
 }

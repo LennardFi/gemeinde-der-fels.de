@@ -1,15 +1,16 @@
 name: gdf-website-services
 
 services:
-    postgres:
+    db:
         image: postgres:latest
-        restart: always
+        container_name: GDF-DB
         environment:
-            POSTGRES_PASSWORD: postgres
-            POSTGRES_USER: postgres
-            POSTGRES_DB: gemeinde-der-fels-de
-        ports:
-            - 5432:5432
+            POSTGRES_USER: "${POSTGRES_USER}"
+            POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+            POSTGRES_PORT: "${POSTGRES_PORT}"
+            POSTGRES_DB: "${POSTGRES_DB}"
+
+        restart: always
         healthcheck:
             test:
                 ["CMD-SHELL", "pg_isready -U postgres -d gemeinde-der-fels-de"]
@@ -21,33 +22,41 @@ services:
         build:
             context: ./
             dockerfile: Dockerfile
-            args:
-                POSTGRES_URL: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:${POSTGRES_PORT}/${POSTGRES_DB}?schema=public"
-        restart: "on-failure"
+        container_name: GDF-Web
         ports:
-            - 3000:3000
-
+            - "${GDF_WEB_EXPOSE_PORT}:3000"
         environment:
-            GDF_DEV_DATABASE_REPLACE_EXISTING_DATA: "0"
-            GDF_FILES_FOLDER: "${GDF_FILES_FOLDER:-./test-files}"
+            POSTGRES_URL: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:${POSTGRES_PORT}/${POSTGRES_DB}"
+
+            MAILING_HOST: "${MAILING_HOST}"
+            MAILING_PORT: "${MAILING_PORT}"
+            MAILING_USER: "${MAILING_USER}"
+            MAILING_PASSWORD: "${MAILING_PASSWORD}"
+            MAILING_FROM_MAIL_ADDRESS: "${MAILING_FROM_MAIL_ADDRESS}"
+
             GDF_JWT_SIGNING_SECRET: "${GDF_JWT_SIGNING_SECRET}"
+
+            GDF_WEB_EXPOSE_PORT: "${GDF_WEB_EXPOSE_PORT}"
+            GDF_WEB_HOSTNAME: "${GDF_WEB_HOSTNAME}"
+            GDF_JSON_LOG: "${GDF_JSON_LOG}"
+
             NEXT_PUBLIC_GDF_FEATURE_FLAGS: "${NEXT_PUBLIC_GDF_FEATURE_FLAGS}"
             NEXT_PUBLIC_GDF_DEV_FEATURE_FLAGS: "${NEXT_PUBLIC_GDF_DEV_FEATURE_FLAGS}"
-            POSTGRES_HOSTNAME: postgres
-            POSTGRES_PASSWORD: postgres
-            POSTGRES_USER: postgres
-            POSTGRES_DB: gemeinde-der-fels-de
-            POSTGRES_PORT: 5432
-            POSTGRES_URL: "postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@postgres:$POSTGRES_PORT/gemeinde-der-fels-de?schema=public"
+
+            GDF_DEV_DATABASE_REPLACE_EXISTING_DATA: "${GDF_DEV_DATABASE_REPLACE_EXISTING_DATA}"
+            GDF_PROD_DATABASE_REPLACE_EXISTING_DATA: "${GDF_PROD_DATABASE_REPLACE_EXISTING_DATA}"
+            GDF_PROD_DATABASE_REPLACE_EXISTING_DATA_TOKEN: "${GDF_PROD_DATABASE_REPLACE_EXISTING_DATA_TOKEN}"
 
         depends_on:
-            postgres:
+            db:
                 condition: service_healthy
                 required: true
                 restart: true
 
+        restart: "on-failure"
         healthcheck:
-            test: ["CMD", "curl", "-f", "http://localhost:3000"]
-            interval: 30s
+            test:
+                ["CMD", "curl", "-f", "http://localhost:${GDF_WEB_EXPOSE_PORT}"]
+            interval: 10s
             timeout: 10s
             retries: 10

@@ -156,21 +156,29 @@ export const navigationEntries: Website.Content.Navigation.NavigationEntry[] = [
         ],
     },
     {
-        label: "Mitglieder",
+        label: "Mein Konto",
         needsAuth: true,
-        path: "/intern",
+        path: "/intern/mein-konto",
         requiresAllFeatureFlags: ["internArea"],
-        subEntries: [
-            {
-                label: "Mein Konto",
-                path: "/intern/mein-konto",
-            },
-            {
-                label: "Abmelden",
-                addReturnToCurrentPath: true,
-                path: "/logout",
-            },
-        ],
+    },
+    // {
+    //     label: "Mitglieder",
+    //     needsAuth: true,
+    //     path: "/intern",
+    //     requiresAllFeatureFlags: ["internArea"],
+    //     subEntries: [
+    //         {
+    //             label: "Mein Konto",
+    //             path: "/intern/mein-konto",
+    //         },
+    //     ],
+    // },
+    {
+        label: "Abmelden",
+        needsAuth: true,
+        path: "/logout",
+        requiresAllFeatureFlags: ["internArea"],
+        addReturnToCurrentPath: true,
     },
 ]
 

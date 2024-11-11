@@ -40,6 +40,8 @@ export default function TextField({
                 inputRef.current?.focus()
             }}
             onFocus={(e) => {
+                e.preventDefault()
+                e.stopPropagation()
                 containerProps?.onFocus?.(e)
                 inputRef.current?.focus()
             }}
@@ -64,7 +66,7 @@ export default function TextField({
                         onFocus?.(e)
                         setInFocus(true)
                     }}
-                    placeholder={inFocus ? "" : placeholder ?? "_"}
+                    placeholder={inFocus ? "" : (placeholder ?? "_")}
                     type={password && !passwordVisible ? "password" : "text"}
                     value={value}
                     ref={inputRef}

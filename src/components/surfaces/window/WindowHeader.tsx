@@ -40,6 +40,8 @@ export default function WindowHeader({
                         className={styles.action}
                         data-tooltip-id={tooltipId}
                         data-tooltip-content={leftSegmentToolTip}
+                        noActiveAnimation
+                        disabled={leftSegmentAction === undefined}
                         onClick={leftSegmentAction}
                         variant="contained"
                     >
@@ -61,6 +63,8 @@ export default function WindowHeader({
                         className={styles.action}
                         data-tooltip-id={tooltipId}
                         data-tooltip-content={rightSegmentToolTip}
+                        noActiveAnimation
+                        disabled={rightSegmentAction === undefined}
                         onClick={rightSegmentAction}
                         variant="contained"
                     >

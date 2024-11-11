@@ -9,6 +9,7 @@ export const runtime = "nodejs"
 export async function register() {
     if (process.env.NEXT_RUNTIME === "nodejs") {
         try {
+            console.log("Starting webserver with instrumentation hook")
             console.log(
                 `Configured feature flags:\n${configuredFeatureFlags
                     .map((flag) => `\t- ${flag}`)
@@ -17,6 +18,7 @@ export async function register() {
 
             const { getClient } = await import("./lib/backend/databaseHelpers")
 
+            console.log("Check database state")
             const dbClient = await getClient()
 
             let dbMetadata = await dbClient.databaseMetadata.findFirst()
@@ -106,22 +108,23 @@ export async function register() {
             }
         } catch (e) {
             if (e instanceof WebsiteError) {
-                console.error(e.toLogOutput())
-                return
-            }
-
-            console.error(e)
-
-            console.error(
-                new WebsiteError(
+                // console.error(e.toLogOutput())
+                e.log()
+                process.exit(1)
+            } else {
+                const websiteError = new WebsiteError(
                     "server",
                     "Unknown error while running instrumentation hook",
                     {
                         internalException: e instanceof Error ? e : undefined,
-                        internalMessage: JSON.stringify(e),
+                        internalMessage:
+                            e instanceof Error ? e.message : JSON.stringify(e),
+                        stack: e instanceof Error ? e.stack : undefined,
                     },
-                ).toLogOutput(),
-            )
+                )
+                websiteError.log()
+                process.exit(1)
+            }
         }
     }
 }

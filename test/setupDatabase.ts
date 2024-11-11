@@ -1,11 +1,11 @@
 import { asyncSleep } from "@/lib/shared/develop"
 import { readRequiredEnvValueSafely } from "@/lib/shared/env"
-import { WebsiteError } from "@/lib/shared/errors"
 import { getRandomInt } from "@/lib/shared/helpers"
+import { resetPasswordTokenParamName } from "@/lib/shared/urlParams"
 import { readFile } from "fs/promises"
 import { join } from "path"
 import { cwd } from "process"
-import { getPasswordHash } from "../src/lib/backend/auth"
+import { getJWTFromPayload, getPasswordHash } from "../src/lib/backend/auth"
 import { databaseVersion, getClient } from "../src/lib/backend/databaseHelpers"
 import { sermons } from "./sermons"
 import { users } from "./users"
@@ -72,35 +72,13 @@ export async function setupProdEnvUsers() {
     const dbClient = await getClient()
     const adminUserName = "admin"
 
-    const initialAdminEmail = readRequiredEnvValueSafely(
-        "GDF_INITIAL_PRODUCTION_ADMIN_SET_EMAIL",
-        "string",
-    )
-    if (initialAdminEmail === "") {
-        throw new WebsiteError(
-            "setup",
-            `Environment variable "GDF_INITIAL_PRODUCTION_ADMIN_SET_EMAIL" contains empty string`,
-        )
-    }
-
-    const initialAdminPassword = readRequiredEnvValueSafely(
-        "GDF_INITIAL_PRODUCTION_ADMIN_SET_PASSWORD",
-        "string",
-    )
-    if (initialAdminPassword === "") {
-        throw new WebsiteError(
-            "setup",
-            `Environment variable "GDF_INITIAL_PRODUCTION_ADMIN_SET_PASSWORD" contains empty string`,
-        )
-    }
-
     console.log(`Creating user "${adminUserName}"`)
 
-    await dbClient.user.upsert({
+    const user = await dbClient.user.upsert({
         create: {
-            email: initialAdminEmail,
+            email: "",
             userName: adminUserName,
-            passwordHash: await getPasswordHash(initialAdminPassword),
+            passwordHash: "",
             resetPasswordRequired: true,
             Flag_Admin: true,
             Flag_ManageSermons: true,
@@ -109,8 +87,33 @@ export async function setupProdEnvUsers() {
         update: {},
         where: {
             userName: "admin",
+            Flag_Admin: true,
         },
     })
+
+    const jwt = await getJWTFromPayload({
+        email: user.email,
+        userFlags: {
+            Admin: true,
+            ManageCalendar: false,
+            ManageNews: false,
+            ManageRooms: false,
+            ManageSermons: false,
+            ManageUser: false,
+        },
+        userId: user.id,
+        userName: user.userName,
+        jwtFlags: {
+            resetPassword: true,
+        },
+    })
+
+    const hostname = readRequiredEnvValueSafely("GDF_WEB_HOSTNAME", "string")
+    const port = readRequiredEnvValueSafely("GDF_WEB_EXPOSE_PORT", "string")
+
+    console.log(
+        `To create the initial admin account visit this page: http://${hostname}:${port}/change-password?${resetPasswordTokenParamName}=${encodeURIComponent(jwt)}"`,
+    )
 }
 
 const sermonCopies = 10
@@ -257,6 +260,7 @@ export async function setupProdEnv(reset?: boolean) {
 
         await resetTables()
     }
+
     const dbClient = await getClient()
 
     await dbClient.databaseMetadata.create({

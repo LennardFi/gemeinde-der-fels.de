@@ -37,11 +37,10 @@ function ClientSideContent() {
     useEffect(() => {
         if (
             initialLoadDone &&
-            jwt === undefined &&
+            jwt !== undefined &&
             resetPasswordToken === null
         ) {
             router.replace("/login")
-            return
         }
     }, [initialLoadDone, jwt, resetPasswordToken])
 

@@ -9,7 +9,7 @@ export const jwtFlagsSchema = z.object({
 
 export const JWTPayloadSchema = z
     .object({
-        email: z.string().email(),
+        email: z.string().email().or(z.string().length(0)),
         userFlags: userFlagsSchema,
         userId: z.number(),
         userName: z.string(),

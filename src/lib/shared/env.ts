@@ -49,7 +49,7 @@ export function readEnvValueSafely(
             if (isNaN(parsed)) {
                 if (raiseError) {
                     throw new WebsiteError(
-                        "server",
+                        "setup",
                         "Internal setup error",
                         {
                             internalMessage: `Invalid environment variable value: Environment variable "${variable}" contains a wrong formatted numeric value.`,
@@ -97,24 +97,25 @@ export function readRequiredEnvValueSafely(
     type: "string" | "boolean" | "number",
     raiseError?: boolean,
 ): string | boolean | number {
-    const envVariableNotSetError = new WebsiteError(
-        "server",
-        "Internal setup error",
-        {
-            internalMessage: `Environment variable not set: ${variable}`,
-            level: "critical",
-            httpStatusCode: 500,
-        },
-        {
-            envVariable: variable,
-        },
-    )
+    const envVariableNotSetError = () =>
+        new WebsiteError(
+            "setup",
+            "Internal setup error",
+            {
+                internalMessage: `Environment variable not set: ${variable}`,
+                level: "critical",
+                httpStatusCode: 500,
+            },
+            {
+                envVariable: variable,
+            },
+        )
 
     switch (type) {
         case "boolean": {
             const value = readEnvValueSafely(variable, type)
             if (value === undefined) {
-                throw envVariableNotSetError
+                throw envVariableNotSetError()
             }
 
             return value
@@ -122,7 +123,7 @@ export function readRequiredEnvValueSafely(
         case "number": {
             const value = readEnvValueSafely(variable, type, raiseError)
             if (value === undefined) {
-                throw envVariableNotSetError
+                throw envVariableNotSetError()
             }
 
             return value
@@ -130,7 +131,7 @@ export function readRequiredEnvValueSafely(
         case "string": {
             const value = readEnvValueSafely(variable, type)
             if (value === undefined) {
-                throw envVariableNotSetError
+                throw envVariableNotSetError()
             }
 
             return value

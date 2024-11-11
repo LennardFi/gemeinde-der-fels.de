@@ -13,6 +13,7 @@
 pnpm run dev
 ```
 
-## Build website
+## Build and deploy website
 
-1. Run `docker compose build`
+1. Run `./script/deploy.sh` - This builds all dependencies and deploys the
+   website in multiple composed docker containers.

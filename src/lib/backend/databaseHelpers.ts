@@ -3,23 +3,29 @@ import { DatabaseMetadata, PrismaClient } from "@prisma/client"
 import { WebsiteError } from "../shared/errors"
 
 let _client: Maybe<PrismaClient>
+let initialConnection = true
 export const getClient = async (): Promise<PrismaClient> => {
     if (_client === undefined) {
+        const isInInitialConnection = initialConnection
         try {
             _client = new PrismaClient()
-            _client.$connect()
-            console.log("Connected database client...")
+            await _client.$connect()
+            if (initialConnection) {
+                initialConnection = false
+            }
+            console.log(`Connected database client...`)
             return _client
         } catch (err) {
             throw new WebsiteError(
-                "database",
+                isInInitialConnection ? "setup" : "database",
                 "Could not establish a database connection",
                 {
                     databaseConnectionError: true,
-                    httpStatusCode: 500,
+                    internalException: err instanceof Error ? err : undefined,
+                    stack: err instanceof Error ? err.stack : undefined,
                 },
                 {
-                    err,
+                    initialConnection,
                 },
             )
         }

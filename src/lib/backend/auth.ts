@@ -2,6 +2,7 @@ import Website, { Maybe } from "@/typings"
 import { JWTPayload, jwtVerify, SignJWT } from "jose"
 import { NextRequest } from "next/server"
 import { WebsiteError } from "../shared/errors"
+import { getClient } from "./databaseHelpers"
 import { JWTPayloadSchema } from "./schemes"
 
 export const JWT_Cookie_Name = "JWT-Session"
@@ -11,12 +12,39 @@ const key = new TextEncoder().encode(process.env.GDF_JWT_SIGNING_SECRET ?? "")
 export const getJWTFromPayload = async (
     jwtPayload: Website.Api.JWTPayload,
 ): Promise<string> => {
+    const dbClient = await getClient()
+    const user = await dbClient.user.findFirst({
+        where: {
+            id: jwtPayload.userId,
+        },
+    })
+
+    if (user === null) {
+        throw new WebsiteError(
+            "request",
+            "User from JWT payload not exists",
+            undefined,
+            {
+                userId: jwtPayload.userId,
+                userName: jwtPayload.userName,
+                userEmail: jwtPayload.email,
+            },
+        )
+    }
+
     const payload: Website.Api.JWTPayload & JWTPayload = {
-        email: jwtPayload.email,
+        email: user.email,
         jwtFlags: jwtPayload.jwtFlags,
-        userFlags: jwtPayload.userFlags,
-        userId: jwtPayload.userId,
-        userName: jwtPayload.userName,
+        userFlags: {
+            Admin: user.Flag_Admin,
+            ManageCalendar: user.Flag_ManageCalendar,
+            ManageNews: user.Flag_ManageNews,
+            ManageRooms: user.Flag_ManageRooms,
+            ManageSermons: user.Flag_ManageSermons,
+            ManageUser: user.Flag_ManageUser,
+        },
+        userId: user.id,
+        userName: user.userName,
     }
 
     const jwt = await new SignJWT(payload)

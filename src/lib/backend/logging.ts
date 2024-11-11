@@ -92,8 +92,7 @@ export async function logResponseOnServer<T>(
                                   errorId: internalError.errorId,
                                   message: internalError.message,
                                   timestamp: temporalInstanceToDate(
-                                      internalError.options.timestamp ??
-                                          timeStamp,
+                                      internalError.timestamp ?? timeStamp,
                                       new Date(),
                                   ),
                                   internalError: internalError,

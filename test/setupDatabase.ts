@@ -112,7 +112,7 @@ export async function setupProdEnvUsers() {
     const port = readRequiredEnvValueSafely("GDF_WEB_EXPOSE_PORT", "string")
 
     console.log(
-        `To create the initial admin account visit this page: http://${hostname}:${port}/change-password?${resetPasswordTokenParamName}=${encodeURIComponent(jwt)}"`,
+        `To create the initial admin account visit this page: http://${hostname}:${port}/change-password?${resetPasswordTokenParamName}=${encodeURIComponent(jwt)}`,
     )
 }
 

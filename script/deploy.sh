@@ -6,4 +6,4 @@ git pull
 
 # Build and start website
 echo Build and start website
-sudo docker compose up --build
+sudo docker compose up
